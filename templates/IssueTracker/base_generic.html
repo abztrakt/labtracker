@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.01 Strict//EN" "http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us" >
+    <head>
+        <title>
+            {% block title %}Issue Tracker{% endblock %}
+        </title>
+        <style type="text/css">
+            html, body {
+                font-family: verdana, sans-serif;
+                font-size: 10px;
+                margin: 0px; padding: 0px;
+            }
+
+            .clear { clear: both; }
+            br.clear { height: 0px; }
+
+            a { text-decoration: none; }
+            /* a:hover { font-style: italic; } */
+
+            #header {
+                height: 1em;
+                margin: 0px;
+                padding: 1em;
+                border-bottom: 1px gray dotted;
+            }
+
+            #nav {
+                list-style-type: none;
+                float: right;
+                padding: 0px;
+                margin: 0px 1em;
+            }
+
+            #nav li {
+                display: inline;
+                padding: 0.5em 4px;
+                margin: 0em;
+                height: 1.5em;
+                border-top: 1px grey solid;
+                border-bottom: 1px grey solid;
+            }
+
+            #nav li:hover {
+                background: #CCCCCC;
+            }
+
+            #userInfo {
+                float: left;
+            }
+
+            #content { padding: 2em; }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id='userInfo'>
+                Logged in as: {{ user.username }}
+            </div>
+            <ul id="nav">
+                <li>
+                    <a href="/issue/">Home</a>
+                </li>
+                <li>
+                    <a href="/issue/report/">Reports</a>
+                </li>
+                <li>
+                    <a href="/issue/new/">New</a>
+                </li>
+                {% if user.is_authenticated %}<li>
+                    <a href="/issue/pref/">Preferences</a>
+                </li>
+                <li>
+                    <a href="/issue/logout/">Logout</a>
+                </li>
+                {% else %}<li>
+                    <a href="/issue/login/">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+            <br class="clear" />
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+        <div id="footer">
+            {% block footer %}{% endblock %}
+        </div>
+    </body>
+</html>
