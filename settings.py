@@ -1,6 +1,6 @@
 # Django settings for labtracker project.
 
-DEBUG = True
+DEBUG = True 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -70,6 +70,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    '/var/www/django_apps/labtracker/templates',
 )
 
 INSTALLED_APPS = (
@@ -78,7 +79,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'django.contrib.databrowse',     # XXX
     'labtracker.LabtrackerCore',
-    'labtracker.Machines',
+    'labtracker.Machine',
     'labtracker.IssueTracker',
 )
+
+LOGIN_URL="/issue/login/"
+LOGIN_REDIRECT_URL="/issue/"
