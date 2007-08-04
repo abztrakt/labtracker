@@ -5,7 +5,10 @@
     <note priority="medium" time="1185490996">
         Figure a way to generate new classes
     </note>
-    <note priority="medium" time="1185491011">
+    <note priority="medium" time="1185491011" done="1186184021">
         Look at the dataviewer experimental module for django
+        <comment>
+            Added the experimental module, might help for some pregenereated views later. but will need to be extended to do more
+        </comment>
     </note>
 </todo>
