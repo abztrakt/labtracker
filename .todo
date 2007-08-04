@@ -1,0 +1,11 @@
+<todo version="0.1.19">
+    <note priority="medium" time="1185490919">
+        Need to create a way to add lots of machines at the same time
+    </note>
+    <note priority="medium" time="1185490996">
+        Figure a way to generate new classes
+    </note>
+    <note priority="medium" time="1185491011">
+        Look at the dataviewer experimental module for django
+    </note>
+</todo>
