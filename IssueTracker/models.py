@@ -37,7 +37,9 @@ class Issue(models.Model):
 
     reporter = models.ForeignKey(User, related_name='reporter')
     assignee = models.ForeignKey(User, related_name='assignee', null=True)
-
+    cc = models.ManyToManyField(User, related_name="cc_user", null=True, 
+            db_table="IssueTracker_email_cc")
+    problem_type = models.ManyToManyField(ProblemType, null=True)
     post_time = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True, null=True)
     resolve_time = models.DateTimeField(null=True)
@@ -45,13 +47,10 @@ class Issue(models.Model):
     title = models.CharField(maxlength=60)
     description = models.TextField()
 
-    problem_type = models.ManyToManyField(ProblemType, null=True)
-
     class Meta:
         permissions = (("can_modify_other", "Can modify anybody's posts"),
                     ("can_delete_other", "Can delete anybody's posts"),
-                    ("can_view", "Can view issues"),
-                )
+                    ("can_view", "Can view issues"),)
 
     class Admin:
         pass
