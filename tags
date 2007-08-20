@@ -1,0 +1,59 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+Admin	./IssueTracker/models.py	/^    class Admin:$/;"	c
+Admin	./LabtrackerCore/models.py	/^    class Admin:$/;"	c
+Admin	./Machine/models.py	/^    class Admin:$/;"	c
+Contact	./Machine/models.py	/^class Contact(models.Model):$/;"	c
+Group	./LabtrackerCore/models.py	/^class Group(models.Model):$/;"	c
+Group	./Machine/models.py	/^class Group(models.Model):$/;"	c
+History	./Machine/models.py	/^class History(models.Model):$/;"	c
+InventoryType	./LabtrackerCore/models.py	/^class InventoryType(models.Model):$/;"	c
+Issue	./IssueTracker/models.py	/^class Issue(models.Model):$/;"	c
+IssuePost	./IssueTracker/models.py	/^class IssuePost(models.Model):$/;"	c
+Item	./LabtrackerCore/models.py	/^class Item(models.Model):$/;"	c
+LabUser	./LabtrackerCore/models.py	/^class LabUser(models.Model):$/;"	c
+Location	./Machine/models.py	/^class Location(models.Model):$/;"	c
+Machine	./Machine/models.py	/^class Machine(models.Model):$/;"	c
+Meta	./IssueTracker/models.py	/^    class Meta:$/;"	c
+Meta	./Machine/models.py	/^    class Meta:$/;"	c
+Platform	./Machine/models.py	/^class Platform(models.Model):$/;"	c
+ProblemType	./IssueTracker/models.py	/^class ProblemType(models.Model):$/;"	c
+ResolveState	./IssueTracker/models.py	/^class ResolveState(models.Model):$/;"	c
+Status	./Machine/models.py	/^class Status(models.Model):$/;"	c
+Type	./Machine/models.py	/^class Type(models.Model):$/;"	c
+View	./LabtrackerCore/models.py	/^class View(models.Model):$/;"	c
+ViewType	./LabtrackerCore/models.py	/^class ViewType(models.Model):$/;"	c
+__str__	./IssueTracker/models.py	/^    def __str__(self):$/;"	m	class:Issue	file:
+__str__	./IssueTracker/models.py	/^    def __str__(self):$/;"	m	class:ProblemType	file:
+__str__	./IssueTracker/models.py	/^    def __str__(self):$/;"	m	class:ResolveState	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:Group	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:InventoryType	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:Item	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:LabUser	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:View	file:
+__str__	./LabtrackerCore/models.py	/^    def __str__(self):$/;"	m	class:ViewType	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Contact	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Group	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Location	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Machine	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Platform	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Status	file:
+__str__	./Machine/models.py	/^    def __str__(self):$/;"	m	class:Type	file:
+allIssues	./IssueTracker/views.py	/^def allIssues(request):$/;"	f
+create	./IssueTracker/views.py	/^def create(request):$/;"	f
+delete	./Machine/models.py	/^    def delete(self):$/;"	m	class:Group
+delete	./Machine/models.py	/^    def delete(self):$/;"	m	class:Machine
+getInventoryType	./Machine/models.py	/^def getInventoryType(self=None):$/;"	f
+index	./IssueTracker/views.py	/^def index(request):$/;"	f
+post	./IssueTracker/views.py	/^def post(request, issue_id):$/;"	f
+report	./IssueTracker/views.py	/^def report(request, report_id):$/;"	f
+reportList	./IssueTracker/views.py	/^def reportList(request):$/;"	f
+save	./Machine/models.py	/^    def save(self):$/;"	m	class:Group
+save	./Machine/models.py	/^    def save(self):$/;"	m	class:Machine
+setDefaultArgs	./IssueTracker/views.py	/^def setDefaultArgs(request):$/;"	f
+user	./IssueTracker/views.py	/^def user(request):$/;"	f
+view	./IssueTracker/views.py	/^def view(request, issue_id):$/;"	f

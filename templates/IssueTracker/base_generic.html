@@ -64,9 +64,9 @@
     </head>
     <body>
         <div id="header">
-            <div id='userInfo'>
+            {% if user.is_authenticated %}<div id='userInfo'>
                 Logged in as: {{ user.username }}
-            </div>
+            </div>{% endif %}
             <ul id="nav" class="inline struct">
                 <li>
                     <a href="/issue/">Home</a>
