@@ -5,19 +5,28 @@
 <table>
 <thead>
     <tr>
-        <th>
-        </th>
+        <th>Title </th>
+        <th>Issue ID</th>
+        <th>Inventory Type</th>
+        <th>Group</th>
+        <th>Item</th>
+        <th>Reporter</th>
+        <th>Assignee</th>
+        <th>Post Time</th>
+        <th>Last Modified</th>
     </tr>
 </thead>
 <tbody>
     {% for issue in issueList %}<tr>
-        <td>{{ issue.title }}</td>
+        <td><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
+        <td>{{ issue.issue_id }}</td>
         <td>{{ issue.it }}</td>
         <td>{{ issue.group }}</td>
         <td>{{ issue.item }}</td>
-        <td>{{ issue.item }}</td>
         <td>{{ issue.reporter }}</td>
         <td>{{ issue.assignee }}</td>
+        <td>{{ issue.post_time }}</td>
+        <td>{{ issue.last_modified }}</td>
     </tr>{% endfor %}
 </tbody>
 </table>
