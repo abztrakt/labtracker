@@ -48,15 +48,14 @@ class Issue(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return str(self.issue_id)
+        return "%d - %s" % (self.issue_id, self.title)
 
     class Meta:
         permissions = (("can_modify_other", "Can modify anybody's posts"),
                     ("can_delete_other", "Can delete anybody's posts"),
                     ("can_view", "Can view issues"),)
-
     class Admin:
-        pass
+        list_display = ('title','description','issue_id','post_time')
 
 class IssuePost(models.Model):
     ip_id = models.AutoField(primary_key=True)

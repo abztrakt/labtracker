@@ -49,6 +49,8 @@ h4 {
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  {{ issue.item }}</li>
+            <li><h4>Assignee:</h4>  {{ issue.assignee }}</li>
+            <li><h4>State:</h4>  {{ issue.resolved_state }}</li>
         </ul>
         <br class="clear" />
     </div>
@@ -76,7 +78,7 @@ h4 {
 </div>
 {% endfor %}
 
-<form method='post'>
+<form method='post' action='/issue/{{ issue.issue_id}}/post/'>
 <fieldset>
 <!-- add_comment_form, update_issue_form -->
     <ul class="struct">
