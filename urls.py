@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     # Uncomment this for admin:
      (r'^admin/', include('django.contrib.admin.urls')),
      (r'^databrowse/(.*)', databrowse.site.root),
+     (r'^$', include('labtracker.IssueTracker.urls')),
      (r'^issue/', include('labtracker.IssueTracker.urls')),
 )
