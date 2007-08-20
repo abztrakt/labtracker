@@ -25,19 +25,29 @@
             }
 
             #nav {
-                list-style-type: none;
                 float: right;
-                padding: 0px;
                 margin: 0px 1em;
             }
 
             #nav li {
-                display: inline;
-                padding: 0.5em 4px;
-                margin: 0em;
                 height: 1.5em;
+                padding: 0.5em 4px;
                 border-top: 1px grey solid;
                 border-bottom: 1px grey solid;
+            }
+
+            ul.inline {
+                padding: 0px;
+            }
+
+            ul.struct {
+                list-style-type: none;
+            }
+
+            ul.inline li {
+                margin: 0em;
+                padding: 0px;
+                display: inline;
             }
 
             #nav li:hover {
@@ -49,6 +59,7 @@
             }
 
             #content { padding: 2em; }
+            {% block pageCSS %}{% endblock %}
         </style>
     </head>
     <body>
@@ -56,9 +67,12 @@
             <div id='userInfo'>
                 Logged in as: {{ user.username }}
             </div>
-            <ul id="nav">
+            <ul id="nav" class="inline struct">
                 <li>
                     <a href="/issue/">Home</a>
+                </li>
+                <li>
+                    <a href="/issue/all/">All Issues</a>
                 </li>
                 <li>
                     <a href="/issue/report/">Reports</a>
@@ -68,6 +82,9 @@
                 </li>
                 {% if user.is_authenticated %}<li>
                     <a href="/issue/pref/">Preferences</a>
+                </li>
+                <li>
+                    <a href="/admin/">Admin</a>
                 </li>
                 <li>
                     <a href="/issue/logout/">Logout</a>

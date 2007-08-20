@@ -1,5 +1,93 @@
 {% extends "IssueTracker/base_generic.html" %}
 
+{% block pageCSS %}
+#issue { max-width: 700px; }
+#title { }
+#description {
+    padding: 1em;
+    min-width: 600px;
+    min-height: 300px;
+    border: 1px #CCCCCC solid;
+}
+ul.floated { margin: 0em 1em; padding: 0px; }
+ul.floated li {
+    float: left;
+    margin: 0px 1em 2px;
+    padding: 0px;
+}
+#info {
+    padding: .5em 0em;
+    background: #FFFF99;
+    border: 1px #CCCCCC solid;
+}
+h4 {
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+}
+#problems {
+    padding: .5em;
+    background: #FFCCAA;
+    border: 1px #CCCCCC solid;
+    margin: 1em;
+}
+#problems h3 {
+    margin: 0px;
+    display: inline;
+}
+#problems ul { display: inline; }
+#problems ul li { margin: 0px 1em 2px; }
+
+{% endblock %}
+
 {% block content %}
-This is the view page
+<div id="issue">
+    <h2 id="title">{{ issue.title }}</h2>
+    <div id="info">
+        <ul class="floated struct">
+            <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
+            <li><h4>Time Posted:</h4>  {{ issue.post_time }}</li>
+            <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
+            <li><h4>Group:</h4>  {{ issue.group }}</li>
+            <li><h4>Item:</h4>  {{ issue.item }}</li>
+        </ul>
+        <br class="clear" />
+    </div>
+    <p id="description">{{ issue.description }}</p>
+    <div id="problems">
+        <h3>Problems: </h3>
+        {%  if issue.problem_type.all %}
+        <ul class="struct inline">
+            {% for issue in issue.problem_type.all %}
+                <li>{{ issue }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        No problem types defined
+        {% endif %}
+        <br class="clear" />
+    </div>
+</div>
+
+<form method='post'>
+<fieldset>
+<!-- add_comment_form, update_issue_form -->
+    <ul class="struct">
+        <li>
+            {{ update_issue_form.assignee.label }}
+            {{ update_issue_form.assignee }}
+        </li>
+        <li>
+            {{ update_issue_form.resolved_state.label }}
+            {{ update_issue_form.resolved_state }}
+        </li>
+    </ul>
+    <div>
+        <div>{{ add_comment_form.comment.label }}</div>
+        {{ add_comment_form.comment }}
+    </div>
+<br class="clear" />
+<input type="submit" name="submit" value="Submit" />
+</fieldset>
+</form>
 {% endblock %}

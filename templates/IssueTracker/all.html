@@ -1,0 +1,27 @@
+{% extends "IssueTracker/base_generic.html" %}
+
+{% block content %}
+{% if issueList %}
+<table>
+<thead>
+    <tr>
+        <th>
+        </th>
+    </tr>
+</thead>
+<tbody>
+    {% for issue in issueList %}<tr>
+        <td>{{ issue.title }}</td>
+        <td>{{ issue.it }}</td>
+        <td>{{ issue.group }}</td>
+        <td>{{ issue.item }}</td>
+        <td>{{ issue.item }}</td>
+        <td>{{ issue.reporter }}</td>
+        <td>{{ issue.assignee }}</td>
+    </tr>{% endfor %}
+</tbody>
+</table>
+{% else %}
+No issues
+{% endif %}
+{% endblock %}
