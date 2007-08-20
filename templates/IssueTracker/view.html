@@ -1,5 +1,4 @@
 {% extends "IssueTracker/base_generic.html" %}
-
 {% block pageCSS %}
 #issue { max-width: 700px; }
 #title { }
@@ -68,6 +67,14 @@ h4 {
         <br class="clear" />
     </div>
 </div>
+{% for post in comments %}
+<div id='post_{{ post.ip_id }}' class='comment'>
+    <div>{{ post.post_date }}</div>
+    <p>
+        {{ post.comment }}
+    </p>
+</div>
+{% endfor %}
 
 <form method='post'>
 <fieldset>

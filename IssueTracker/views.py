@@ -20,6 +20,7 @@ def index(request):
     return render_to_response('IssueTracker/index.html', args)
 
 def create(request):
+    # FIXME need to add the ability to choose Group and Item 
     setDefaultArgs(request)
     if request.method == 'POST':
         data = request.POST.copy()          # need to do this to set some defaults
@@ -43,7 +44,7 @@ def view(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     args['issue'] = issue
 
-    # TODO get the issue posts
+    args['comments'] = IssuePost.objects.filter(issue=issue)
 
     # get the forms
     args['add_comment_form'] = AddCommentForm()

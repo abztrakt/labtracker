@@ -1,7 +1,6 @@
 {% extends "IssueTracker/base_generic.html" %}
 
-{% block content %}
-{% if issueList %}
+{% block content %}{% if issueList %}
 <table>
 <thead>
     <tr>
@@ -16,8 +15,8 @@
         <th>Last Modified</th>
     </tr>
 </thead>
-<tbody>
-    {% for issue in issueList %}<tr>
+<tbody>{% for issue in issueList %}
+    <tr>
         <td><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
         <td>{{ issue.issue_id }}</td>
         <td>{{ issue.it }}</td>
@@ -29,8 +28,6 @@
         <td>{{ issue.last_modified }}</td>
     </tr>{% endfor %}
 </tbody>
-</table>
-{% else %}
+</table>{% else %}
 No issues
-{% endif %}
-{% endblock %}
+{% endif %}{% endblock %}
