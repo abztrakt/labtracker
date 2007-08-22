@@ -1,0 +1,62 @@
+#issue { max-width: 700px; }
+#title { }
+#description {
+    padding: 1em;
+    min-width: 600px;
+    min-height: 300px;
+    border: 1px #CCCCCC solid;
+}
+ul.floated { margin: 0em 1em; padding: 0px; }
+ul.floated li {
+    float: left;
+    margin: 0px 1em 2px;
+    padding: 0px;
+}
+#info {
+    padding: .5em 0em;
+    background: #FFFF99;
+    border: 1px #CCCCCC solid;
+}
+h4 {
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+}
+#problems {
+    padding: .5em;
+    background: #FFCCAA;
+    border: 1px #CCCCCC solid;
+    margin: 1em;
+}
+#problems h3 {
+    margin: 0px;
+    display: inline;
+}
+#problems ul { display: inline; }
+#problems ul li { margin: 0px 1em 2px; }
+
+div.comment {
+    max-width: 700px;
+    border: 1px dotted #DDD;
+    margin-bottom: 5px;
+}
+div.post_date { background: #DDD; }
+form#post_comment { width: 700px; }
+
+div#main_issue {
+    float: left;
+    width: 700px;
+}
+
+div#issue_side {
+    float: left;
+    width: 220px;
+    padding: 1em;
+    margin: 8em 0em 0em 1em;
+    border: 1px #66FF00 solid;
+    min-height: 300px;
+    background-color: #DDFFDD;
+}
+
+div.history ul { padding: 0px; margin: 0px; }
+div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
