@@ -45,9 +45,28 @@ div.comment {
 div.post_date { background: #DDD; }
 form#post_comment { width: 700px; }
 
+div#main_issue {
+    float: left;
+    width: 700px;
+}
+
+div#issue_side {
+    float: left;
+    width: 220px;
+    padding: 1em;
+    margin: 8em 0em 0em 1em;
+    border: 1px #66FF00 solid;
+    min-height: 300px;
+    background-color: #DDFFDD;
+}
+
+div.history ul { padding: 0px; margin: 0px; }
+div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
+
 {% endblock %}
 
 {% block content %}
+<div id="main_issue">
 <div id="issue">
     <h2 id="title">{{ issue.title }}</h2>
     <div id="info">
@@ -104,4 +123,16 @@ form#post_comment { width: 700px; }
 <input type="submit" name="submit" value="Submit" />
 </fieldset>
 </form>
+</div>
+<div id="issue_side">
+    {% for item in history %}
+    <div id='hist_{{ item.ih_id}}' class='history'>
+        <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
+        <ul class='struct'>
+            {{item.change}}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+<br class='clear' />
 {% endblock %}

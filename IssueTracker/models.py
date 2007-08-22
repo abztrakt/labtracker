@@ -57,6 +57,20 @@ class Issue(models.Model):
     class Admin:
         list_display = ('title','description','issue_id','post_time')
 
+class IssueHistory(models.Model):
+    """
+    Basically, keeps track of some of the changes made to a model outside of 
+    the IssuePost area
+    """
+    # FIXME the current way this work sucks, should keep track of individual 
+    # changes. eg: almost all the same fields as Issue, null for items that
+    # weren't changed.
+    ih_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User)
+    issue = models.ForeignKey(Issue)
+    time = models.DateTimeField(auto_now=True)
+    change = models.CharField(maxlength=100)
+
 class IssuePost(models.Model):
     ip_id = models.AutoField(primary_key=True)
     issue = models.ForeignKey(Issue)

@@ -9,6 +9,7 @@
                 font-family: verdana, sans-serif;
                 font-size: 10px;
                 margin: 0px; padding: 0px;
+                min-width: 1000px;
             }
 
             .clear { clear: both; }
@@ -24,11 +25,7 @@
                 border-bottom: 1px gray dotted;
             }
 
-            #nav {
-                float: right;
-                margin: 0px 1em;
-            }
-
+            #nav { float: right; margin: 0px 1em; }
             #nav li {
                 height: 1.5em;
                 padding: 0.5em 4px;
@@ -36,29 +33,17 @@
                 border-bottom: 1px grey solid;
             }
 
-            ul.inline {
-                padding: 0px;
-            }
+            ul.inline { padding: 0px; }
+            ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
+            ul.struct li { margin: 0em; padding: 0px; }
+            ul.inline li { margin: 0em; padding: 0px; display: inline; }
 
-            ul.struct {
-                list-style-type: none;
-            }
+            #nav li:hover { background: #CCCCCC; }
+            #userInfo { float: left; }
 
-            ul.inline li {
-                margin: 0em;
-                padding: 0px;
-                display: inline;
-            }
+            span.date { margin-left: 1em; font-weight: normal; }
 
-            #nav li:hover {
-                background: #CCCCCC;
-            }
-
-            #userInfo {
-                float: left;
-            }
-
-            #content { padding: 2em; }
+            #content { padding: 15px; }
             {% block pageCSS %}{% endblock %}
         </style>
     </head>

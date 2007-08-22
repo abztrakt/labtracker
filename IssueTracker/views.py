@@ -71,16 +71,18 @@ def view(request, issue_id):
         updateIssue = UpdateIssueForm(request.POST)
         updateIssue = updateIssue.save(commit=False)
         if not (curAssignee == updateIssue.assignee):
-            actionStr += "<strong>Changed assignee from %s to %s</strong><br />" % \
-                (curAssignee, updateIssue.assignee)
+            actionStr += "<li>Assigned to %s</li>" % (updateIssue.assignee)
         if not (curState == updateIssue.resolved_state):
-            actionStr += "<strong>Changed state from %s to %s</strong><br />" % \
-                (curState, updateIssue.resolved_state)
+            actionStr += "<li>Changed state to %s</li>" % (updateIssue.resolved_state)
+
         if (actionStr):
+            # TODO the current way this work sucks, should keep track at a mroe granular level
             updateIssue.save()
+            # also will need to create a new IssueHistory item
+            history = IssueHistory(user=request.user,change=actionStr,issue=issue)
+            history.save()
 
         data = request.POST.copy()
-        data['comment'] = actionStr + data['comment']
         if (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
             data['issue'] = issue_id
@@ -100,6 +102,7 @@ def view(request, issue_id):
         args['update_issue_form'] = UpdateIssueForm()
 
     args['issue'] = issue
+    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
 
     # TODO need to make sure that this is being sorted by date
     args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
