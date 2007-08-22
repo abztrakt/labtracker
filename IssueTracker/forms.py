@@ -11,4 +11,3 @@ UpdateIssueForm = forms.form_for_model(Issue,
 
 AddCommentForm = forms.form_for_model(IssuePost,
         fields=('issue', 'user','comment'))
-

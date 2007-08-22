@@ -2,8 +2,10 @@ from labtracker.IssueTracker.models import *
 from django.conf.urls.defaults import *
 from labtracker.IssueTracker.forms import *
 from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django import newforms as forms
+from django.newforms import form_for_model
 
 
 args = { 'loggedIn' : False, }
@@ -52,61 +54,58 @@ def view(request, issue_id):
     This is called when the issue requests a specific issue.
     Basically displays the requested issue and any related comments. Offers the
     user the ability to add comments to the issue.
+    If a post is given, will also post a comment
     """
     setDefaultArgs(request)
+
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
+    UpdateIssueForm = forms.form_for_instance(issue, 
+            fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
+                'last_modified'))
+
+    if request.method == 'POST':
+        actionStr = ""
+        curAssignee = issue.assignee
+        curState = issue.resolved_state
+        updateIssue = UpdateIssueForm(request.POST)
+        updateIssue = updateIssue.save(commit=False)
+        if not (curAssignee == updateIssue.assignee):
+            actionStr += "<strong>Changed assignee from %s to %s</strong><br />" % \
+                (curAssignee, updateIssue.assignee)
+        if not (curState == updateIssue.resolved_state):
+            actionStr += "<strong>Changed state from %s to %s</strong><br />" % \
+                (curState, updateIssue.resolved_state)
+        if (actionStr):
+            updateIssue.save()
+
+        data = request.POST.copy()
+        data['comment'] = actionStr + data['comment']
+        if (not (data['comment'] in ("", None))):
+            data['user'] = str(request.user.id)
+            data['issue'] = issue_id
+
+            # TODO will need to also strip all html at this point from the comment
+            print data['comment']
+            newComment = AddCommentForm(data)
+            if newComment.is_valid():
+                newComment = newComment.save()
+            else:
+                args['add_comment_form'] = newComment
+                print "Form not valid"
+                print newComment.errors
+                #args['comment_errors'] = newComment.errors
+    else:
+        args['add_comment_form'] = AddCommentForm()
+        args['update_issue_form'] = UpdateIssueForm()
+
     args['issue'] = issue
 
     # TODO need to make sure that this is being sorted by date
-    args['comments'] = IssuePost.objects.filter(issue=issue)
+    args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
 
-    # get the forms
-    args['add_comment_form'] = AddCommentForm()
-    args['update_issue_form'] = UpdateIssueForm()
     return render_to_response('IssueTracker/view.html', args)
 view = permission_required('IssueTracker.can_view')(view)
-
-def post(request, issue_id):
-    """
-    This is for the posting of comments to issues, it is also used to update
-    issues states and assignee
-    """
-    issue_id = int(issue_id)
-    print "post called with %d" % (issue_id)
-    setDefaultArgs(request)
-    if request.method == 'POST':
-        issue = get_object_or_404(Issue, pk=issue_id)
-        newComment = AddCommentForm(request.POST)
-        updateIssue = UpdateIssueForm(request.POST)
-
-        #fields=('issue_id','assignee','cc','resolve_time',
-                #'resolved_state', 'last_modified')
-        updateIssue = updateIssue.save(commit=False)
-        if (updateIssue.assignee is not None):
-            issue.assignee = updateIssue.assignee
-        if (updateIssue.resolved_state is not None):
-            issue.resolved_state = updateIssue.resolved_state
-        issue.save()
-
-        print type(newComment)
-        newComment = newComment.save(commit=False)
-        newComment.issue = issue
-        newComment.user = request.user
-        #newComment.save()
-
-        #if obj.is_valid():
-            #issue = obj.save()
-        #else:
-            #print form.errors
-            #print "Form was not valid"
-
-        return HttpResponseRedirect('/issue/%i/' % (issue_id))
-    else:
-        raise Http404
-
-    return render_to_response('IssueTracker/post.html', args)
-post = permission_required('IssueTracker.add_issuepost')(post)
 
 def allIssues(request):
     """

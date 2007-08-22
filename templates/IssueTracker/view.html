@@ -37,6 +37,14 @@ h4 {
 #problems ul { display: inline; }
 #problems ul li { margin: 0px 1em 2px; }
 
+div.comment {
+    max-width: 700px;
+    border: 1px dotted #DDD;
+    margin-bottom: 5px;
+}
+div.post_date { background: #DDD; }
+form#post_comment { width: 700px; }
+
 {% endblock %}
 
 {% block content %}
@@ -49,7 +57,7 @@ h4 {
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  {{ issue.item }}</li>
-            <li><h4>Assignee:</h4>  {{ issue.assignee }}</li>
+            <li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
             <li><h4>State:</h4>  {{ issue.resolved_state }}</li>
         </ul>
         <br class="clear" />
@@ -71,30 +79,27 @@ h4 {
 </div>
 {% for post in comments %}
 <div id='post_{{ post.ip_id }}' class='comment'>
-    <div>{{ post.post_date }}</div>
+    <div class='post_date'>{{ post.post_date }} by {{ post.user }}</div>
     <p>
         {{ post.comment }}
     </p>
 </div>
 {% endfor %}
 
-<form method='post' action='/issue/{{ issue.issue_id}}/post/'>
+<form id='post_comment' method='post' action='/issue/{{ issue.issue_id}}/'>
 <fieldset>
 <!-- add_comment_form, update_issue_form -->
     <ul class="struct">
-        <li>
-            {{ update_issue_form.assignee.label }}
-            {{ update_issue_form.assignee }}
-        </li>
-        <li>
-            {{ update_issue_form.resolved_state.label }}
-            {{ update_issue_form.resolved_state }}
-        </li>
+        <li><label for='assignee'>Assign To:</label> {{ update_issue_form.assignee }}</li>
+        <li><label for='resolved_state'>Resolve:</label> {{ update_issue_form.resolved_state }}</li>
     </ul>
     <div>
-        <div>{{ add_comment_form.comment.label }}</div>
+        <label for='comment' style='display: block;'>{{ add_comment_form.comment.label }}</label>
         {{ add_comment_form.comment }}
     </div>
+{% if comment_errors %}
+{{ comment_errors }}
+{% endif %}
 <br class="clear" />
 <input type="submit" name="submit" value="Submit" />
 </fieldset>
