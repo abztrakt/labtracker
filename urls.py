@@ -12,8 +12,10 @@ urlpatterns = patterns('',
     # (r'^labtracker/', include('labtracker.foo.urls')),
 
     # Uncomment this for admin:
-     (r'^admin/', include('django.contrib.admin.urls')),
-     (r'^databrowse/(.*)', databrowse.site.root),
-     (r'^$', include('labtracker.IssueTracker.urls')),
-     (r'^issue/', include('labtracker.IssueTracker.urls')),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
+        {'document_root': '/var/www/static/django/', 'show_indexes': True}),
+    (r'^admin/', include('django.contrib.admin.urls')),
+    (r'^databrowse/(.*)', databrowse.site.root),
+    (r'^$', include('labtracker.IssueTracker.urls')),
+    (r'^issue/', include('labtracker.IssueTracker.urls')),
 )

@@ -1,29 +1,6 @@
 {% extends "IssueTracker/base_generic.html" %}
 
-{% block pageCSS %}
-form { 
-    border: 1px grey dotted;
-    background: #BBFFBB;
-    width: 73em;
-    padding: 1em;
-}
-#text {
-    float: left;
-    width: 30em;
-    margin: 1em;
-    padding: 1em;
-    /* border: 1px #CCCCCC dotted; */
-    background: #BBFFBB;
-}
-#fields {
-    float: left;
-    width: 25em;
-    margin: 1em;
-    padding: 1em;
-    /* border: 1px #CCCCCC dotted; */
-    background: #BBFFBB;
-}
-{% endblock %}
+{% block pageCSS %}@import url('/static/css/create.css');{% endblock %}
 
 {% block content %}
 

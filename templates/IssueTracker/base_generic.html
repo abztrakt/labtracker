@@ -5,45 +5,7 @@
             {% block title %}Issue Tracker{% endblock %}
         </title>
         <style type="text/css">
-            html, body {
-                font-family: verdana, sans-serif;
-                font-size: 10px;
-                margin: 0px; padding: 0px;
-                min-width: 1000px;
-            }
-
-            .clear { clear: both; }
-            br.clear { height: 0px; }
-
-            a { text-decoration: none; }
-            /* a:hover { font-style: italic; } */
-
-            #header {
-                height: 1em;
-                margin: 0px;
-                padding: 1em;
-                border-bottom: 1px gray dotted;
-            }
-
-            #nav { float: right; margin: 0px 1em; }
-            #nav li {
-                height: 1.5em;
-                padding: 0.5em 4px;
-                border-top: 1px grey solid;
-                border-bottom: 1px grey solid;
-            }
-
-            ul.inline { padding: 0px; }
-            ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
-            ul.struct li { margin: 0em; padding: 0px; }
-            ul.inline li { margin: 0em; padding: 0px; display: inline; }
-
-            #nav li:hover { background: #CCCCCC; }
-            #userInfo { float: left; }
-
-            span.date { margin-left: 1em; font-weight: normal; }
-
-            #content { padding: 15px; }
+            @import url('/static/css/main.css');
             {% block pageCSS %}{% endblock %}
         </style>
     </head>

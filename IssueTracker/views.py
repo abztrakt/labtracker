@@ -1,11 +1,11 @@
-from labtracker.IssueTracker.models import *
 from django.conf.urls.defaults import *
-from labtracker.IssueTracker.forms import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django import newforms as forms
 from django.newforms import form_for_model
+from labtracker.IssueTracker.models import *
+from labtracker.IssueTracker.forms import *
 
 
 args = { 'loggedIn' : False, }
@@ -103,8 +103,6 @@ def view(request, issue_id):
 
     args['issue'] = issue
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
-
-    # TODO need to make sure that this is being sorted by date
     args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
 
     return render_to_response('IssueTracker/view.html', args)
