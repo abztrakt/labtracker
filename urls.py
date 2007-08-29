@@ -20,6 +20,6 @@ urlpatterns = patterns('',
         {'document_root': '/var/www/django_apps/labtracker/static/', 'show_indexes': True}),
     (r'^admin/', include('django.contrib.admin.urls')),
     (r'^databrowse/(.*)', databrowse.site.root),
-    (r'^$', include('labtracker.IssueTracker.urls')),
+    #(r'^$', include('labtracker.IssueTracker.urls')),
     (r'^issue/', include('labtracker.IssueTracker.urls')),
 )

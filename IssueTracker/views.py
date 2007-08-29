@@ -1,12 +1,13 @@
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response, get_object_or_404
 from django import newforms as forms
 from django.newforms import form_for_model
+from django.shortcuts import render_to_response, get_object_or_404
+
 from labtracker.IssueTracker.models import *
 from labtracker.IssueTracker.forms import *
-
 
 args = { 'loggedIn' : False, }
 
@@ -49,16 +50,7 @@ def create(request):
     return render_to_response('IssueTracker/create.html', args)
 create = permission_required('IssueTracker.add_issue')(create)
 
-def view(request, issue_id):
-    """
-    This is called when the issue requests a specific issue.
-    Basically displays the requested issue and any related comments. Offers the
-    user the ability to add comments to the issue.
-    If a post is given, will also post a comment
-    """
-    setDefaultArgs(request)
-
-    # get the issue
+def post(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     UpdateIssueForm = forms.form_for_instance(issue, 
             fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
@@ -98,8 +90,32 @@ def view(request, issue_id):
                 print newComment.errors
                 #args['comment_errors'] = newComment.errors
     else:
-        args['add_comment_form'] = AddCommentForm()
-        args['update_issue_form'] = UpdateIssueForm()
+        # FIXME should toss in an error message here
+        pass
+
+    return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+    #return HttpResponseRedirect(reverse('labtracker.IssueTracker.views.create',
+        #urlconf="labtracker.IssueTracker.urls"))
+    #return HttpResponseRedirect(reverse('labtracker.IssueTracker.views.view',
+        #args=[issue.id]))
+
+def view(request, issue_id):
+    """
+    This is called when the issue requests a specific issue.
+    Basically displays the requested issue and any related comments. Offers the
+    user the ability to add comments to the issue.
+    If a post is given, will also post a comment
+    """
+    setDefaultArgs(request)
+
+    # get the issue
+    issue = get_object_or_404(Issue, pk=issue_id)
+    UpdateIssueForm = forms.form_for_instance(issue, 
+            fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
+                'last_modified'))
+
+    args['add_comment_form'] = AddCommentForm()
+    args['update_issue_form'] = UpdateIssueForm()
 
     args['issue'] = issue
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
@@ -107,6 +123,7 @@ def view(request, issue_id):
 
     return render_to_response('IssueTracker/view.html', args)
 view = permission_required('IssueTracker.can_view')(view)
+
 
 def allIssues(request):
     """
