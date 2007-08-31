@@ -46,14 +46,17 @@ class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
     it = models.ForeignKey(InventoryType)
 
-    def __str__(self):
+    def __unicode__(self):
         cursor = connection.cursor()
         namespace = self.it.namespace
         query = "SELECT name FROM %s_group WHERE group_id=%%s" % (namespace)
         cursor.execute(query, [self.group_id,])
         row = cursor.fetchone()
-        return row[0]
 
+        return (row[0], "Unknown")[row == None]
+
+    class Admin:
+        pass
 
 class ViewType(models.Model):
     vt_id = models.AutoField(primary_key=True)

@@ -1,12 +1,18 @@
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django import newforms as forms
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 
+from django.core import serializers
+#from django.core.serializers import json
+
 from labtracker.IssueTracker.models import *
+import labtracker.LabtrackerCore.models as LabtrackerCore
+#from labtracker.LabtrackerCore.models import *
+#from labtracker.Machines.models import *
 from labtracker.IssueTracker.forms import *
 
 args = { 'loggedIn' : False, }
@@ -34,19 +40,20 @@ def create(request):
     # TODO improve the form validation here
     # FIXME need to add the ability to choose Group and Item 
     setDefaultArgs(request)
-    if request.method == 'POST':
-        data = request.POST.copy()          # need to do this to set some defaults
-        data['reporter'] = str(request.user.id)
-        form = CreateIssueForm(data)
-        if form.is_valid():
-            issue = form.save()
-        else:
-            print form.errors
-            print "Form was not valid"
-    else:
-        print "Not a post method"
-        form = CreateIssueForm()
-        args['form'] = form
+    #if request.method == 'POST':
+        #data = request.POST.copy()          # need to do this to set some defaults
+        #data['reporter'] = str(request.user.id)
+        #form = CreateIssueForm(data)
+        #if form.is_valid():
+            #issue = form.save()
+        #else:
+            #print form.errors
+            #print "Form was not valid"
+    #else:
+        #print "Not a post method"
+    form = CreateIssueForm()
+    #form = NewIssueForm()
+    args['form'] = form
     return render_to_response('IssueTracker/create.html', args)
 create = permission_required('IssueTracker.add_issue')(create)
 
@@ -94,10 +101,6 @@ def post(request, issue_id):
         pass
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
-    #return HttpResponseRedirect(reverse('labtracker.IssueTracker.views.create',
-        #urlconf="labtracker.IssueTracker.urls"))
-    #return HttpResponseRedirect(reverse('labtracker.IssueTracker.views.view',
-        #args=[issue.id]))
 
 def view(request, issue_id):
     """
@@ -124,18 +127,6 @@ def view(request, issue_id):
     return render_to_response('IssueTracker/view.html', args)
 view = permission_required('IssueTracker.can_view')(view)
 
-
-def allIssues(request):
-    """
-    Currently, all this does is grab a list of issues from the db and dumps it
-    to template
-    """
-    setDefaultArgs(request)
-    issueList = Issue.objects.all().order_by('-last_modified')
-    args['issueList'] = issueList
-    return render_to_response('IssueTracker/all.html', args)
-allIssues = permission_required('IssueTracker.can_view')(allIssues)
-
 def reportList(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/list.html', args)
@@ -150,3 +141,16 @@ def user(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/user.html', args)
 user = login_required(user)
+
+def getGroups(request, it_type):
+    """
+    Given an inventory type, will return a list of groups that belongs to that
+    inventory_type
+    """
+    import labtracker.Machine.models as Machine
+    query = Machine.Group.objects.filter(mg__it=it_type)
+
+    json_serializer = serializers.get_serializer("json")()
+    return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
+getGroups = permission_required('IssueTracker.add_issue')(getGroups)
+

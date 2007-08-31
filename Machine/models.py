@@ -107,7 +107,7 @@ class Machine(models.Model):
         list_filter = ['mt','ms','date_added']
 
 class Group(models.Model):
-    mg = models.OneToOneField(SGroup, editable=False, primary_key=True)
+    group = models.ForeignKey(SGroup, editable=False, unique=True)
     #group = models.OneToOneField(SGroup, editable=False, primary_key=True)
     #mg_id = models.AutoField(primary_key=True)
     name = models.CharField(maxlength=60, unique=True)
@@ -121,19 +121,18 @@ class Group(models.Model):
         return self.name
 
     def delete(self):
-        self.mg.delete()
+        self.group.delete()
         super(Group,self).delete()
 
     def save(self):
         try:
-           self.mg
+           self.group
         except:
-           self.mg = SGroup.objects.create(it = getInventoryType())
+           self.group = SGroup.objects.create(it = getInventoryType())
         super(Group,self).save()
 
     class Admin:
         list_display = ('name','is_lab','casting_server','gateway')
-
 
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)

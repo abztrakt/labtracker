@@ -1,9 +1,12 @@
 {% extends "IssueTracker/base_generic.html" %}
 
 {% block pageCSS %}@import url('/css/create.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript">
+$(document).ready(function() {
+});
+</script>{% endblock %}
 
 {% block content %}
-
 <form method='post'>
 <table id='text'>
     <tr>

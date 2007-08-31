@@ -8,15 +8,15 @@ urlpatterns = patterns('',
 
     # Uncomment this for admin:
      (r'^$', 'labtracker.IssueTracker.views.index'),
-     #(r'^all/$', 'labtracker.IssueTracker.views.allIssues'),
      (r'^all/$', 'django.views.generic.list_detail.object_list', 
          {'queryset': Issue.objects.all().order_by('-last_modified'),}),
      (r'^pref/$', 'labtracker.IssueTracker.views.user'),
-     url(r'^new/$', 'labtracker.IssueTracker.views.create', name='create'),
+     url(r'^new/$', 'labtracker.IssueTracker.views.create', name='createIssue'),
      (r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'IssueTracker/login.html'}),
      (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'IssueTracker/logout.html'}),
      url(r'^(?P<issue_id>\d+)/$', 'labtracker.IssueTracker.views.view', name="view"),
      (r'^(?P<issue_id>\d+)/post/$', 'labtracker.IssueTracker.views.post'),
      (r'^report/(?P<report_id>\d+)/$', 'labtracker.IssueTracker.views.report'),
      (r'^report/$', 'labtracker.IssueTracker.views.reportList'),
+     (r'^groups/(?P<it_type>\d+)/$', 'labtracker.IssueTracker.views.getGroups'),
 )
