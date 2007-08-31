@@ -15,7 +15,7 @@ class Status(models.Model):
     usable = models.BooleanField(default=True)
     broken = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Meta:
@@ -31,7 +31,7 @@ class Platform(models.Model):
     platform_id = models.AutoField(primary_key=True)
     name = models.CharField(maxlength=60, unique=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -47,7 +47,7 @@ class Type(models.Model):
     purchase_date = models.DateField(null=True)
     warranty_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -61,7 +61,7 @@ class Location(models.Model):
     room = models.CharField(maxlength=30, null=True)
     comment = models.CharField(maxlength=600)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -81,7 +81,7 @@ class Machine(models.Model):
     manu_tag = models.CharField(maxlength=200, verbose_name="Manufacturers tag")
     comment = models.CharField(maxlength=400, blank=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def delete(self):
@@ -117,7 +117,7 @@ class Group(models.Model):
     gateway = models.IPAddressField()
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def delete(self):
@@ -148,7 +148,7 @@ class Contact(models.Model):
     user = models.ForeignKey(User,core=True)
     is_primary = models.BooleanField(core=True,default=False)
 
-    def __str__(self):
+    def __unicode__(self):
         extra = ""
         if self.is_primary:
             extra = " (Primary)"

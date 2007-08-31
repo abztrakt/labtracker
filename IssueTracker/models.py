@@ -7,7 +7,7 @@ class ResolveState(models.Model):
     name = models.CharField(maxlength=60)
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -19,7 +19,7 @@ class ProblemType(models.Model):
     name = models.CharField(maxlength=60, unique=True)
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -47,7 +47,7 @@ class Issue(models.Model):
     title = models.CharField(maxlength=200)
     description = models.TextField()
 
-    def __str__(self):
+    def __unicode__(self):
         return "%d - %s" % (self.issue_id, self.title)
 
     class Meta:

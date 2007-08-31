@@ -30,33 +30,6 @@ def index(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/index.html', args)
 
-def create(request):
-    """
-    This is the view called when the user is creating a new issue, not for 
-    posting comments.
-    Currently takes a request, and sets the reporter to whoever is logged in and
-    then saves it.
-    """
-    # TODO improve the form validation here
-    # FIXME need to add the ability to choose Group and Item 
-    setDefaultArgs(request)
-    #if request.method == 'POST':
-        #data = request.POST.copy()          # need to do this to set some defaults
-        #data['reporter'] = str(request.user.id)
-        #form = CreateIssueForm(data)
-        #if form.is_valid():
-            #issue = form.save()
-        #else:
-            #print form.errors
-            #print "Form was not valid"
-    #else:
-        #print "Not a post method"
-    form = CreateIssueForm()
-    #form = NewIssueForm()
-    args['form'] = form
-    return render_to_response('IssueTracker/create.html', args)
-create = permission_required('IssueTracker.add_issue')(create)
-
 def post(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     UpdateIssueForm = forms.form_for_instance(issue, 
@@ -154,3 +127,29 @@ def getGroups(request, it_type):
     return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
 getGroups = permission_required('IssueTracker.add_issue')(getGroups)
 
+def create(request):
+    """
+    This is the view called when the user is creating a new issue, not for 
+    posting comments.
+    Currently takes a request, and sets the reporter to whoever is logged in and
+    then saves it.
+    """
+    # TODO improve the form validation here
+    # FIXME need to add the ability to choose Group and Item 
+    setDefaultArgs(request)
+    #if request.method == 'POST':
+        #data = request.POST.copy()          # need to do this to set some defaults
+        #data['reporter'] = str(request.user.id)
+        #form = CreateIssueForm(data)
+        #if form.is_valid():
+            #issue = form.save()
+        #else:
+            #print form.errors
+            #print "Form was not valid"
+    #else:
+        #print "Not a post method"
+    form = CreateIssueForm()
+    #form = NewIssueForm()
+    args['form'] = form
+    return render_to_response('IssueTracker/create.html', args)
+create = permission_required('IssueTracker.add_issue')(create)

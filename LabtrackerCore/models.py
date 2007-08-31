@@ -12,7 +12,7 @@ class LabUser(models.Model):
     # this will be a md5'd hash of actual user_name
     user_name = models.CharField(maxlength=32)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.user_name
 
 class InventoryType(models.Model):
@@ -21,7 +21,7 @@ class InventoryType(models.Model):
     namespace = models.CharField(maxlength=60, unique=True)
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -31,7 +31,7 @@ class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
     it = models.ForeignKey(InventoryType)
 
-    def __str__(self):
+    def __unicode__(self):
         """
         Will take the actual item name from whatever the Namespace_namespace
         """
@@ -63,7 +63,7 @@ class ViewType(models.Model):
     name = models.CharField(maxlength=60, unique=True)
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -76,7 +76,7 @@ class View(models.Model):
     url = models.URLField()
     description = models.CharField(maxlength=2616)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
