@@ -16,4 +16,22 @@ Requirements:
     a dev state, it will at somepoint run on mod_python and apache.
 
     - django > 0.96 (currently SVN)
-    -
+    - jQuery >= 1.1.4
+
+    - apache 2.x
+    - mod_python
+    - mysql >=  5.x 
+
+
+Core Components:
+    - LabtrackerCore
+        - all core components of labtracker
+    - IssueTracker
+        - items related to issue tracking for items/groups/types
+    - Machine (temporary, will be definable in the future)
+        - This is an example of a specific item, IssueTracker will track items such as
+        individual machines, groups of machines, or the entire Machine type.
+
+=== Components ===
+
+IssueTracker:
