@@ -115,19 +115,7 @@ def user(request):
     return render_to_response('IssueTracker/user.html', args)
 user = login_required(user)
 
-def getGroups(request, it_type):
-    """
-    Given an inventory type, will return a list of groups that belongs to that
-    inventory_type
-    """
-    import labtracker.Machine.models as Machine
-    query = Machine.Group.objects.filter(mg__it=it_type)
-
-    json_serializer = serializers.get_serializer("json")()
-    return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
-getGroups = permission_required('IssueTracker.add_issue')(getGroups)
-
-def create(request):
+def createIssue(request):
     """
     This is the view called when the user is creating a new issue, not for 
     posting comments.
@@ -137,19 +125,48 @@ def create(request):
     # TODO improve the form validation here
     # FIXME need to add the ability to choose Group and Item 
     setDefaultArgs(request)
-    #if request.method == 'POST':
-        #data = request.POST.copy()          # need to do this to set some defaults
-        #data['reporter'] = str(request.user.id)
-        #form = CreateIssueForm(data)
-        #if form.is_valid():
-            #issue = form.save()
-        #else:
-            #print form.errors
-            #print "Form was not valid"
-    #else:
-        #print "Not a post method"
+
+    if request.method == 'POST':
+        data = request.POST.copy()          # need to do this to set some defaults
+        data['reporter'] = str(request.user.id)
+        form = CreateIssueForm(data)
+        if form.is_valid():
+            issue = form.save()
+            return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+        else:
+            print form.errors
+            print "Form was not valid"
+
     form = CreateIssueForm()
-    #form = NewIssueForm()
     args['form'] = form
     return render_to_response('IssueTracker/create.html', args)
-create = permission_required('IssueTracker.add_issue')(create)
+createIssue = permission_required('IssueTracker.add_issue')(createIssue)
+
+
+###################
+# JSON Generators #
+
+def getGroups(request, it_type):
+    """
+    Given an inventory type, will return a list of groups that belongs to that
+    inventory_type
+    """
+    import labtracker.Machine.models as Machine
+    query = Machine.Group.objects.filter(group__it=it_type)
+
+    json_serializer = serializers.get_serializer("json")()
+    return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
+getGroups = permission_required('IssueTracker.add_issue')(getGroups)
+
+def getItems(request, group_id):
+    """
+    Given an inventory type, will return a list of groups that belongs to that
+    inventory_type
+    """
+    import labtracker.Machine.models as Machine
+    query = Machine.Group.objects.get(pk=group_id).machines.all() #.machine_set.all()
+    print query
+
+    json_serializer = serializers.get_serializer("json")()
+    return HttpResponse('{"items":%s}' % (json_serializer.serialize(query)))
+getItems = permission_required('IssueTracker.add_issue')(getItems)

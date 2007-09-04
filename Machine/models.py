@@ -108,8 +108,6 @@ class Machine(models.Model):
 
 class Group(models.Model):
     group = models.ForeignKey(SGroup, editable=False, unique=True)
-    #group = models.OneToOneField(SGroup, editable=False, primary_key=True)
-    #mg_id = models.AutoField(primary_key=True)
     name = models.CharField(maxlength=60, unique=True)
     machines = models.ManyToManyField(Machine, null=True)
     is_lab = models.BooleanField()
