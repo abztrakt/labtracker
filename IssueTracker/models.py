@@ -31,7 +31,8 @@ class Issue(models.Model):
     Therefore, item_id is null=True
     """
     issue_id = models.AutoField(primary_key=True)
-    it = models.ForeignKey(InventoryType, verbose_name="Inventory Type")
+    it = models.ForeignKey(InventoryType, verbose_name="Inventory Type", blank=True,
+            null=True)
     group = models.ForeignKey(Group, null=True, blank=True)
     item = models.ForeignKey(Item, null=True, blank=True)
 
