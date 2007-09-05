@@ -31,7 +31,6 @@ function reset() {
 function updateGroupList(it_id) {
     reset();
     if (it_id == "") return;
-    // var id_group = $("#id_group")[0]; # XXX
     $.getJSON(URL_BASE + "groups/" + it_id + "/",
         function (data) {
             var id_group = $("#id_group");
@@ -40,8 +39,6 @@ function updateGroupList(it_id) {
             // list
             $.each(data.groups, 
                 function (ii, val) { 
-                    console.log(ii);
-                    console.log(val);
                     id_group.append("<option value='" + val.pk + "'>" + val.fields.name +
                         "</option>");
                 }
