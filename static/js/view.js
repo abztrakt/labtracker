@@ -39,9 +39,15 @@ function dropCC(event) {
     });
 }
 
+/**
+ * Takes an event, stops default action. Request sent to create a new CC relation, if
+ * succesful, will append item to CC list on user side, otherwise appends some errors to
+ * local errorl.
+ *
+ * @param event     The event that triggered addCC
+ */
 function addCC(event) {
     event.preventDefault();
-    event.stopPropagation();
     btn = event.target;
     user = $("input#addCC_user")[0].value;
     
