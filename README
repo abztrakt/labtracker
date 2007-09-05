@@ -36,3 +36,6 @@ Core Components:
 === Components ===
 
 IssueTracker:
+	Issue Creation:
+		In the issue creation area, issues are given a title and description at minimum.
+		Optional components that can be given issues are inventory types, item group, and specific item.
