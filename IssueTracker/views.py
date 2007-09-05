@@ -29,6 +29,11 @@ def index(request):
     return render_to_response('IssueTracker/index.html', args)
 
 def post(request, issue_id):
+    """
+    This is for posting comments, and modifying some things for issues after they are
+    created.
+    Requires a post request, otherwise nothing is done.
+    """
     issue = get_object_or_404(Issue, pk=issue_id)
     UpdateIssueForm = forms.form_for_instance(issue, 
             fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
@@ -155,16 +160,26 @@ def view(request, issue_id):
 view = permission_required('IssueTracker.can_view')(view)
 
 def reportList(request):
+    """
+    Currently does nothing but will list out all the available queries to list available
+    reports
+    """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/list.html', args)
 reportList = permission_required('IssueTracker.can_view')(reportList)
 
 def report(request, report_id):
+    """
+    View a specific report
+    """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/report.html', args)
 report = permission_required('IssueTracker.can_view')(report)
 
 def user(request):
+    """
+    User preference pane, may be renamed later
+    """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/user.html', args)
 user = login_required(user)
