@@ -1,3 +1,27 @@
+ul.floated { margin: 0em 1em; padding: 0px; }
+ul.floated li {
+    float: left;
+    margin: 0px 1em 2px;
+    padding: 0px;
+}
+
+h4 {
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+}
+
+div.comment {
+    max-width: 700px;
+    border: 1px dotted #DDD;
+    margin-bottom: 5px;
+}
+
+div.post_date { background: #DDD; }
+
+div.history ul { padding: 0px; margin: 0px; }
+div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
+
 #issue { max-width: 700px; }
 #title { }
 #description {
@@ -6,21 +30,12 @@
     min-height: 300px;
     border: 1px #CCCCCC solid;
 }
-ul.floated { margin: 0em 1em; padding: 0px; }
-ul.floated li {
-    float: left;
-    margin: 0px 1em 2px;
-    padding: 0px;
-}
+
 #info {
     padding: .5em 0em;
+    margin-bottom: .5em;
     background: #FFFF99;
     border: 1px #CCCCCC solid;
-}
-h4 {
-    margin: 0px;
-    padding: 0px;
-    display: inline;
 }
 #problems {
     padding: .5em;
@@ -35,28 +50,42 @@ h4 {
 #problems ul { display: inline; }
 #problems ul li { margin: 0px 1em 2px; }
 
-div.comment {
-    max-width: 700px;
-    border: 1px dotted #DDD;
-    margin-bottom: 5px;
-}
-div.post_date { background: #DDD; }
 form#post_comment { width: 700px; }
 
-div#main_issue {
-    float: left;
-    width: 700px;
-}
+div#main_issue { float: left; width: 700px; }
 
-div#issue_side {
+div#right_side_bar {
     float: left;
     width: 220px;
+    margin: 0px; 
+    padding: 8em 0px 0px 0px;
+}
+
+div#right_side_bar > * {
     padding: 1em;
-    margin: 8em 0em 0em 1em;
+    margin: 0em 0em 1em 1em;
     border: 1px #66FF00 solid;
+}
+
+/* div#cc_box > h3 { margin: 0px; padding: 0px; } */
+ul#cc_list li { margin-left: 1em; }
+
+div#history_box {
     min-height: 300px;
     background-color: #DDFFDD;
 }
 
-div.history ul { padding: 0px; margin: 0px; }
-div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
+input#addCC_user {
+    width: 10em;
+    display: block;
+}
+
+input#addCC {
+}
+
+#description { margin-top: 0px; }
+
+#id_cc {
+    width: 14em;
+    height: 5em;
+}

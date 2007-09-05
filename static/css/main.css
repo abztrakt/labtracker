@@ -5,10 +5,13 @@ html, body {
     min-width: 1000px;
 }
 
-.clear { clear: both; }
 br.clear { height: 0px; }
 
+h3 { padding: 0px; margin: 0px; }
+
 a { text-decoration: none; }
+
+.clear { clear: both; }
 /* a:hover { font-style: italic; } */
 
 #header {
@@ -26,6 +29,9 @@ a { text-decoration: none; }
     border-bottom: 1px grey solid;
 }
 
+
+.error { color: red; }
+
 ul.inline { padding: 0px; }
 ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
 ul.struct li { margin: 0em; padding: 0px; }
@@ -37,4 +43,29 @@ ul.inline li { margin: 0em; padding: 0px; display: inline; }
 span.date { margin-left: 1em; font-weight: normal; }
 
 #content { padding: 15px; }
+
+.block_if_js, .inline_if_js {
+    display: none;
+}
+
+input.flat {
+    border: 0px;
+    background: none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 10px;
+}
+
+ul.errorl {
+    color: red;
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+ul.errorl li {
+    padding: 0px;
+    margin: 0px;
+}
+
 
