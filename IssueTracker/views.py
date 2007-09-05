@@ -7,14 +7,10 @@ from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 
 import simplejson
-
 from django.core import serializers
-#from django.core.serializers import json
 
 from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
-#from labtracker.LabtrackerCore.models import *
-#from labtracker.Machines.models import *
 from labtracker.IssueTracker.forms import *
 
 args = { 'loggedIn' : False, }
