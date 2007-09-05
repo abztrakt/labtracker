@@ -17,6 +17,7 @@ Requirements:
 
     - django > 0.96 (currently SVN)
     - jQuery >= 1.1.4
+	- simplejson 1.7.1 (?)
 
     - apache 2.x
     - mod_python
