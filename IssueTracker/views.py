@@ -6,6 +6,8 @@ from django import newforms as forms
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 
+import simplejson
+
 from django.core import serializers
 #from django.core.serializers import json
 
@@ -40,27 +42,46 @@ def post(request, issue_id):
         actionStr = ""
         curAssignee = issue.assignee
         curState = issue.resolved_state
-        updateIssue = UpdateIssueForm(request.POST)
+        data = request.POST.copy()
+
+        updateIssue = UpdateIssueForm(data)
         updateIssue = updateIssue.save(commit=False)
-        if not (curAssignee == updateIssue.assignee):
+
+        if (data.has_key('cc')):
+            # CC is special in that it only updates this area
+
+            newUsers = User.objects.extra(where= [ 'id IN (%s)' % \
+                    (", ".join(data.getlist('cc'))) ] ).order_by('id')
+            curUsers = issue.cc.all().order_by('id')
+
+            # find items that need to be removed
+            # FIXME this is terrible inefficient, would be better if the newUsers list is shortened
+            for curUser in curUsers:
+                if curUser not in newUsers:
+                    issue.cc.remove(curUser)
+
+            # now curUsers only contains the users that need not be modified
+            # add all newUsers not in curUser to cc list
+            for newUser in newUsers:
+                if newUser not in curUsers:
+                    issue.cc.add(newUser)
+
+        if data.has_key('assignee') and not (curAssignee == updateIssue.assignee):
             actionStr += "<li>Assigned to %s</li>" % (updateIssue.assignee)
-        if not (curState == updateIssue.resolved_state):
+        if data.has_key('resolved_state') and not (curState == updateIssue.resolved_state):
             actionStr += "<li>Changed state to %s</li>" % (updateIssue.resolved_state)
 
         if (actionStr):
-            # TODO the current way this work sucks, should keep track at a mroe granular level
             updateIssue.save()
             # also will need to create a new IssueHistory item
             history = IssueHistory(user=request.user,change=actionStr,issue=issue)
             history.save()
 
-        data = request.POST.copy()
-        if (not (data['comment'] in ("", None))):
+        if data.has_key('comment') and (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
             data['issue'] = issue_id
 
             # TODO will need to also strip all html at this point from the comment
-            print data['comment']
             newComment = AddCommentForm(data)
             if newComment.is_valid():
                 newComment = newComment.save()
@@ -74,6 +95,44 @@ def post(request, issue_id):
         pass
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+
+def modIssue(request, issue_id):
+    """
+    Can be accessed through post or get, will redirect immediately afterwards
+    """
+    issue = get_object_or_404(Issue, pk=issue_id)
+    postResp = {}
+
+    if request.method == "POST":
+        # POST means an ajax call and so will do a json response
+        data = request.POST.copy()
+    elif request.method == "GET":
+        # direct call, will need to redirect
+        data = request.GET.copy()
+
+    if data['action'] == "dropcc":
+        user = get_object_or_404(User, pk=int(data['user']))
+        issue.cc.remove(user)
+        postResp['status'] = 1
+    elif data['action'] == "addcc":
+        # TODO should not be able to add a user twice here
+        user = get_object_or_404(User, username=data['user'])
+        issue.cc.add(user)
+        postResp['username'] = user.username
+        postResp['userid'] = user.id
+        postResp['status'] = 1
+
+    # FIXME: Needs to deal with error handling here, what happens when user could not have
+    # been removed?
+
+    if request.method == "POST":
+        # POST means an ajax call and so will do a json response
+        return HttpResponse(simplejson.dumps(postResp))
+    elif request.method == "GET":
+        # direct call, will need to redirect
+        return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+
+modIssue = permission_required('IssueTracker.add_issue')(modIssue)
 
 def view(request, issue_id):
     """
@@ -90,12 +149,16 @@ def view(request, issue_id):
             fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
                 'last_modified'))
 
+
+    args['issue'] = issue
+
+    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
+    args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
+
     args['add_comment_form'] = AddCommentForm()
     args['update_issue_form'] = UpdateIssueForm()
 
-    args['issue'] = issue
-    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
-    args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
+    # TODO will also need an add to CC form here
 
     return render_to_response('IssueTracker/view.html', args)
 view = permission_required('IssueTracker.can_view')(view)
