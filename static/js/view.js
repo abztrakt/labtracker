@@ -29,7 +29,6 @@ function dropCC(event) {
                 'user': user_id, 
             },
         'error': function (req, err, e) {
-                // TODO will need to append some error messages somewhere
                 errorl.addErr("Was unable to remove user from CC list.");
             },
         'success': function (data) {
