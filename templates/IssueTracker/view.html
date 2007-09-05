@@ -1,5 +1,6 @@
 {% extends "IssueTracker/base_generic.html" %}
 {% block pageCSS %}@import url('/css/view.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="/js/view.js"></script>{% endblock %}
 
 {% block content %}
 <div id="main_issue">
@@ -17,6 +18,7 @@
         </ul>
         <br class="clear" />
     </div>
+	<h3>Description:</h3>
     <p id="description">{{ issue.description }}</p>
     <div id="problems">
         <h3>Problems: </h3>
@@ -41,7 +43,7 @@
 </div>
 {% endfor %}
 
-<form id='post_comment' method='post' action='/issue/{{ issue.issue_id }}/post/'>
+<form id='post_comment' method='post' action='post/'>
 <fieldset>
 <!-- add_comment_form, update_issue_form -->
     <ul class="struct">
@@ -60,15 +62,42 @@
 </fieldset>
 </form>
 </div>
-<div id="issue_side">
-    {% for item in history %}
-    <div id='hist_{{ item.ih_id}}' class='history'>
-        <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
-        <ul class='struct'>
-            {{item.change}}
-        </ul>
+
+<!-- Right side bar -->
+<div id="right_side_bar">
+	<!-- Stuff involving the CC list -->
+    <div id="cc_box">
+		<h3>CC List:</h3>
+		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
+		<div class="block_if_js">
+			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}
+				<li><a href="javascript: false;" class="dropCC" 
+						id="cc_{{cc.id}}" title="Remove {{cc}} from CC">x</a> <span>{{cc}}</span></li>{% endfor %}
+			</ul>
+			<form id="addCC" action="">
+				<input type="text" id="addCC_user" />
+				<input type="submit" value="Add" name="Add" id="addCC" class="flat" />
+			</form>
+			<ul class="errorl"></ul>
+		</div>
+		<form id='update_cc' class="none_if_js" method='post' action='post/'>
+			{{ update_issue_form.cc }} <br />
+			<input type="hidden" name="action" value="updateCC" />
+			<input type="submit" name="update" value="Update" class="flat" />
+		</form>
+	</div>
+
+    <div id="history_box">
+		<h3>History:</h3>
+        {% for item in history %}
+        <div id='hist_{{ item.ih_id }}' class='history'>
+            <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
+            <ul class='struct'>
+                {{item.change}}
+            </ul>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 <br class='clear' />
 {% endblock %}
