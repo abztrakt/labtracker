@@ -81,7 +81,6 @@ def post(request, issue_id):
             data['user'] = str(request.user.id)
             data['issue'] = issue_id
 
-            # TODO will need to also strip all html at this point from the comment
             newComment = AddCommentForm(data)
             if newComment.is_valid():
                 newComment = newComment.save()
@@ -91,8 +90,7 @@ def post(request, issue_id):
                 print newComment.errors
                 #args['comment_errors'] = newComment.errors
     else:
-        # FIXME should toss in an error message here
-        pass
+        return Http404()
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
@@ -115,7 +113,6 @@ def modIssue(request, issue_id):
         issue.cc.remove(user)
         postResp['status'] = 1
     elif data['action'] == "addcc":
-        # TODO should not be able to add a user twice here
         user = get_object_or_404(User, username=data['user'])
         issue.cc.add(user)
         postResp['username'] = user.username
@@ -158,8 +155,6 @@ def view(request, issue_id):
     args['add_comment_form'] = AddCommentForm()
     args['update_issue_form'] = UpdateIssueForm()
 
-    # TODO will also need an add to CC form here
-
     return render_to_response('IssueTracker/view.html', args)
 view = permission_required('IssueTracker.can_view')(view)
 
@@ -186,12 +181,12 @@ def createIssue(request):
     then saves it.
     """
     # TODO improve the form validation here
-    # FIXME need to add the ability to choose Group and Item 
     setDefaultArgs(request)
 
     if request.method == 'POST':
         data = request.POST.copy()          # need to do this to set some defaults
         data['reporter'] = str(request.user.id)
+
         form = CreateIssueForm(data)
         if form.is_valid():
             issue = form.save()

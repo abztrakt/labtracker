@@ -5,7 +5,7 @@
 {% block content %}
 <div id="main_issue">
 <div id="issue">
-    <h2 id="title">{{ issue.title }}</h2>
+    <h2 id="title">{{ issue.title|escape }}</h2>
     <div id="info">
         <ul class="floated struct">
             <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
@@ -19,7 +19,7 @@
         <br class="clear" />
     </div>
 	<h3>Description:</h3>
-    <p id="description">{{ issue.description }}</p>
+    <p id="description">{{ issue.description|escape }}</p>
     <div id="problems">
         <h3>Problems: </h3>
         {%  if issue.problem_type.all %}
@@ -38,7 +38,7 @@
 <div id='post_{{ post.ip_id }}' class='comment'>
     <div class='post_date'>{{ post.post_date }} by {{ post.user }}</div>
     <p>
-        {{ post.comment }}
+        {{ post.comment|escape }}
     </p>
 </div>
 {% endfor %}
