@@ -1,7 +1,17 @@
 {% extends "IssueTracker/base_generic.html" %}
 
 {% block content %}
-This is the index page
+<div>
+    <h3>Roadmap:</h3>
+    <pre>
+{{roadmap|escape}}
+    </pre>
+</div>
 
-There is no content for this page yet
+<div>
+    <h3>Readme:</h3>
+    <pre>
+{{readme|escape}}
+    </pre>
+</div>
 {% endblock %}

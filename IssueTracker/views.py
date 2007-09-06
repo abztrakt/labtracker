@@ -26,6 +26,16 @@ def index(request):
     Used for log in as well
     """
     setDefaultArgs(request)
+
+    # need to get app root somehow
+    roadmap = open('/var/www/django_apps/labtracker/DOCUMENTATION/roadmap')
+    args['roadmap'] = roadmap.read()
+    roadmap.close()
+
+    readme = open('/var/www/django_apps/labtracker/DOCUMENTATION/README')
+    args['readme'] = readme.read()
+    readme.close()
+
     return render_to_response('IssueTracker/index.html', args)
 
 def post(request, issue_id):
@@ -129,7 +139,6 @@ def modIssue(request, issue_id):
     elif request.method == "GET":
         # direct call, will need to redirect
         return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
-
 modIssue = permission_required('IssueTracker.add_issue')(modIssue)
 
 def view(request, issue_id):
@@ -149,7 +158,6 @@ def view(request, issue_id):
 
 
     args['issue'] = issue
-
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
     args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
 
