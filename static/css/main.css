@@ -30,7 +30,7 @@ a { text-decoration: none; }
 }
 #nav li:hover { background: #CCCCCC; }
 #userInfo { float: left; }
-#content { padding: 15px; }
+#content { padding: 0px 15px 15px 15px; }
 
 div#fast_search {
     float: right;
@@ -38,8 +38,6 @@ div#fast_search {
 }
 
 div#fast_search > form input#search_term {
-    font-size: 10px;
-    height: 12px;
     background: #FBDAAE;
 }
 
@@ -53,6 +51,10 @@ div#fast_search > form input.flat {
 /******************
  * utility styles *
  ******************/
+input.small_text {
+    font-size: 10px;
+    height: 12px;
+}
 
 br.clear { height: 0px; }
 .clear { clear: both; }

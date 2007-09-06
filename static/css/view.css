@@ -74,10 +74,7 @@ div#history_box {
     background-color: #DDFFDD;
 }
 
-input#addCC_user {
-    width: 10em;
-    display: block;
-}
+input#addCC_user { width: 10em; }
 
 input#addCC {
 }
