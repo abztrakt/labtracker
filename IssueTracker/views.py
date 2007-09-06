@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django import newforms as forms
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 
 import simplejson
 from django.core import serializers
@@ -218,6 +219,40 @@ def createIssue(request):
     args['form'] = form
     return render_to_response('IssueTracker/create.html', args)
 createIssue = permission_required('IssueTracker.add_issue')(createIssue)
+
+def search(request):
+    """
+    Takes a post, searches, and either redirects to a list of matching items (or no
+    items), or the specific issue
+    """
+    setDefaultArgs(request)
+
+    if request.method == 'POST':
+        # in this case, we get to process the stuff
+        data = request.POST.copy()
+        try:
+            issue_id = int(data['search_term'])
+        except ValueError, e:
+            # TODO will need to do a like title search here and redirect to listing page
+            pass
+        except Exception, e:
+            # other exceptions
+            pass
+
+        try:
+            issue = Issue.objects.get(pk=issue_id)
+            print issue
+            return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+        except ObjectDoesNotExist, e:
+            # TODO will need to go to the nothing found page
+            pass
+        except Exception, e:
+            # other exceptions
+            pass
+
+    else:
+        return HttpResponseRedirect(reverse('index'))
+search = permission_required('IssueTracker.can_view')(search)
 
 
 ###################

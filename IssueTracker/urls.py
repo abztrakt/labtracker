@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     # (r'^labtracker/', include('labtracker.foo.urls')),
 
     # Uncomment this for admin:
-     (r'^$', 'labtracker.IssueTracker.views.index'),
+     url(r'^$', 'labtracker.IssueTracker.views.index', name="index"),
+     (r'^search/$', 'labtracker.IssueTracker.views.search'),
      (r'^all/$', object_list, {'queryset': Issue.objects.all().order_by('-last_modified'),}),
      (r'^pref/$', 'labtracker.IssueTracker.views.user'),
      url(r'^new/$', 'labtracker.IssueTracker.views.createIssue', name='createIssue'),

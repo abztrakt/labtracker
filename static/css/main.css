@@ -1,26 +1,26 @@
+/********************** 
+ * global tag changes *
+ **********************/
 html, body {
     font-family: verdana, sans-serif;
     font-size: 10px;
     margin: 0px; padding: 0px;
     min-width: 1000px;
 }
-
-br.clear { height: 0px; }
-
 h3 { padding: 0px; margin: 0px; }
-
 a { text-decoration: none; }
 
-.clear { clear: both; }
-/* a:hover { font-style: italic; } */
 
+
+/************************
+ * base template styles *
+ ************************/
 #header {
     height: 1em;
     margin: 0px;
     padding: 1em;
     border-bottom: 1px gray dotted;
 }
-
 #nav { float: right; margin: 0px 1em; }
 #nav li {
     height: 1.5em;
@@ -28,8 +28,34 @@ a { text-decoration: none; }
     border-top: 1px grey solid;
     border-bottom: 1px grey solid;
 }
+#nav li:hover { background: #CCCCCC; }
+#userInfo { float: left; }
+#content { padding: 15px; }
+
+div#fast_search {
+    float: right;
+    margin-right: 1em;
+}
+
+div#fast_search > form input#search_term {
+    font-size: 10px;
+    height: 12px;
+    background: #FBDAAE;
+}
+
+div#fast_search > form input.flat {
+    padding: 1px;
+    background: #C8A77B;
+}
 
 
+
+/******************
+ * utility styles *
+ ******************/
+
+br.clear { height: 0px; }
+.clear { clear: both; }
 .error { color: red; }
 
 ul.inline { padding: 0px; }
@@ -37,12 +63,7 @@ ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
 ul.struct li { margin: 0em; padding: 0px; }
 ul.inline li { margin: 0em; padding: 0px; display: inline; }
 
-#nav li:hover { background: #CCCCCC; }
-#userInfo { float: left; }
-
 span.date { margin-left: 1em; font-weight: normal; }
-
-#content { padding: 15px; }
 
 .block_if_js, .inline_if_js {
     display: none;
@@ -72,3 +93,4 @@ select#id_cc {
     width: 10em;
     height: 5em;
 }
+

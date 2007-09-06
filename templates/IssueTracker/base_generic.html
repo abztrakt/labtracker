@@ -47,6 +47,13 @@
             </ul>
             <br class="clear" />
         </div>
+        <div id="fast_search">
+            <form method="POST" action="/issue/search/">
+                <input type="text" id="search_term" name="search_term" />
+                <input type="submit" name="search" value="Search" class="flat" />
+            </form>
+        </div>
+        <br class="clear" />
         <div id="content">
             {% block content %}{% endblock %}
         </div>

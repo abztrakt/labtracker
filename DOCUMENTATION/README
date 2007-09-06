@@ -16,8 +16,8 @@ Requirements:
     a dev state, it will at somepoint run on mod_python and apache.
 
     - django > 0.96 (currently SVN)
-    - jQuery >= 1.1.4
-	- simplejson 1.7.1 (?)
+    - jQuery >= 1.1.
+    - simplejson 1.7.1 (?)
 
     - apache 2.x
     - mod_python
@@ -36,6 +36,6 @@ Core Components:
 === Components ===
 
 IssueTracker:
-	Issue Creation:
-		In the issue creation area, issues are given a title and description at minimum.
-		Optional components that can be given issues are inventory types, item group, and specific item.
+    Issue Creation:
+        In the issue creation area, issues are given a title and description at minimum.
+        Optional components that can be given issues are inventory types, item group, and specific item.
