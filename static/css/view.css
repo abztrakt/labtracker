@@ -51,8 +51,8 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 #problems ul li { margin: 0px 1em 2px; }
 
 form#post_comment { width: 700px; }
-
 div#main_issue { float: left; width: 700px; }
+#description { margin-top: 0px; }
 
 div#right_side_bar {
     float: left;
@@ -67,7 +67,6 @@ div#right_side_bar > * {
     border: 1px #66FF00 solid;
 }
 
-/* div#cc_box > h3 { margin: 0px; padding: 0px; } */
 ul#cc_list li { margin-left: 1em; }
 
 div#history_box {
@@ -83,9 +82,3 @@ input#addCC_user {
 input#addCC {
 }
 
-#description { margin-top: 0px; }
-
-#id_cc {
-    width: 14em;
-    height: 5em;
-}
