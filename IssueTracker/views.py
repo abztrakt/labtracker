@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, \
+        HttpResponseServerError
 from django import newforms as forms
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
@@ -227,6 +228,7 @@ def search(request):
     items), or the specific issue
     """
     setDefaultArgs(request)
+    extra_context = {}
 
     if request.method == 'POST':
         # in this case, we get to process the stuff
@@ -236,21 +238,27 @@ def search(request):
         except ValueError, e:
             issues = Issue.objects.filter(title__contains=data['search_term'])
             print issues
-            return HttpResponse(object_list(request, issues))
+            return HttpResponse(object_list(request, queryset=issues, 
+                extra_context = extra_context, allow_empty=True))
         except Exception, e:
             # other exceptions
-            pass
+            return HttpResponseServerError
+
+        extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
+        extra_context['search_by_id'] = True
 
         try:
             issue = Issue.objects.get(pk=issue_id)
-            print issue
             return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
         except ObjectDoesNotExist, e:
-            # TODO will need to go to the nothing found page
-            pass
+            issues = Issue.objects.filter(title__contains=data['search_term'])
+            print issues
+
+            return HttpResponse(object_list(request, queryset=issues, 
+                extra_context = extra_context, allow_empty=True))
         except Exception, e:
             # other exceptions
-            pass
+            return HttpResponseServerError
 
     else:
         return HttpResponseRedirect(reverse('index'))

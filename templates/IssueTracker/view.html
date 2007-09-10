@@ -18,10 +18,10 @@
         </ul>
         <br class="clear" />
     </div>
-	<h3>Description:</h3>
+	<h3 class='label'>Description:</h3>
     <p id="description">{{ issue.description|escape }}</p>
     <div id="problems">
-        <h3>Problems: </h3>
+        <h3 class='label'>Problems: </h3>
         {%  if issue.problem_type.all %}
         <ul class="struct inline">
             {% for issue in issue.problem_type.all %}
@@ -67,7 +67,7 @@
 <div id="right_side_bar">
 	<!-- Stuff involving the CC list -->
     <div id="cc_box">
-		<h3>CC List:</h3>
+		<h3 class='label'>CC List:</h3>
 		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
 		<div class="block_if_js">
 			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}
@@ -88,7 +88,7 @@
 	</div>
 
     <div id="history_box">
-		<h3>History:</h3>
+		<h3 class='label'>History:</h3>
         {% for item in history %}
         <div id='hist_{{ item.ih_id }}' class='history'>
             <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
