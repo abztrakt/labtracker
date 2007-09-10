@@ -6,6 +6,7 @@ from django import newforms as forms
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic.list_detail import object_list
 
 import simplejson
 from django.core import serializers
@@ -233,8 +234,9 @@ def search(request):
         try:
             issue_id = int(data['search_term'])
         except ValueError, e:
-            # TODO will need to do a like title search here and redirect to listing page
-            pass
+            issues = Issue.objects.filter(title__contains=data['search_term'])
+            print issues
+            return HttpResponse(object_list(request, issues))
         except Exception, e:
             # other exceptions
             pass
