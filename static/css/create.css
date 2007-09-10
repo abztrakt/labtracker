@@ -1,4 +1,4 @@
-form { 
+form#create_issue { 
     border: 1px grey dotted;
     background: #BBFFBB;
     width: 73em;
