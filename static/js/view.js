@@ -57,12 +57,9 @@ function addCC(event) {
     errorl = $('div#cc_box > div.block_if_js > ul.errorl')[0];
     errorl.reset();
     if (findRes.length > 0) {
-        console.log("Found dupes, will not submit");
         errorl.addErr("User already in CC list");
         return false;
     }
-    console.log(findRes.length);
-    console.log("in addCC");
 
     $.ajax({
         'dataType':'json',

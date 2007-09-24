@@ -1,0 +1,9 @@
+div#query {
+    margin: 5px;
+    padding: 1em;
+    background-color: #DDFFDD;
+}
+
+div#query #query_add {
+    text-align: right;
+}
