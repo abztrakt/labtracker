@@ -8,6 +8,7 @@ from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.list_detail import object_list
+from django.contrib.auth.models import User
 
 import simplejson
 from django.core import serializers
@@ -15,6 +16,7 @@ from django.core import serializers
 from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
+import labtracker.IssueTracker.search as issueSearch
 
 args = { 'loggedIn' : False, }
 
@@ -31,6 +33,10 @@ def index(request):
     setDefaultArgs(request)
 
     # need to get app root somehow
+    todos = open('/var/www/django_apps/labtracker/DOCUMENTATION/TODO')
+    args['todos'] = todos.read()
+    todos.close()
+
     roadmap = open('/var/www/django_apps/labtracker/DOCUMENTATION/roadmap')
     args['roadmap'] = roadmap.read()
     roadmap.close()
@@ -258,16 +264,50 @@ def search(request):
                 extra_context = extra_context, allow_empty=True))
         except Exception, e:
             # other exceptions
-            return HttpResponseServerError
+            return HttpResponseServerError()
 
     else:
         return HttpResponseRedirect(reverse('index'))
 search = permission_required('IssueTracker.can_view')(search)
 
+def advSearch(request):
+    """ advSearch
+
+    Takes user to the advanced search form page
+    """
+    setDefaultArgs(request)
+
+    form = SearchForm()
+    form.fields['resolved_state'].choices = [
+            (state.pk, state.name) for state in ResolveState.objects.all()]
+    form.fields['problem_type'].choices = [
+            (type.pk, type.name) for type in ProblemType.objects.all()]
+    form.fields['inventory_type'].choices = [
+            (type.pk, type.name) for type in LabtrackerCore.InventoryType.objects.all()]
+
+    form.fields['assignee'].choices = [
+            (user.pk, user.username) for user in User.objects.all()]
+
+    print form.fields['assignee'].__hash__
+
+    # TODO item choices
+    # TODO group choices
+
+    print dir(form.fields['resolved_state'])
+    args['form'] = form
+    args['add_query'] = AddSearchForm()
+    return render_to_response('IssueTracker/adv_search.html', args)
+advSearch = permission_required('IssueTracker.can_view')(advSearch)
 
 ###################
-# JSON Generators #
+# ajax generators #
 
+def getSearchField(request, field_name):
+    field = issueSearch.searchFieldGen(field_name)
+    return HttpResponse("{'label': '%s', 'field': '%s', 'modes':%s}" % (field.label,
+        field.as_widget().replace("\n", ""), simplejson.dumps(field.modes)))
+getSearchField = permission_required('IssueTracker.add_issue')(getSearchField)
+    
 def getGroups(request, it_type):
     """
     Given an inventory type, will return a list of groups that belongs to that
@@ -292,3 +332,5 @@ def getItems(request, group_id):
     json_serializer = serializers.get_serializer("json")()
     return HttpResponse('{"items":%s}' % (json_serializer.serialize(query)))
 getItems = permission_required('IssueTracker.add_issue')(getItems)
+
+
