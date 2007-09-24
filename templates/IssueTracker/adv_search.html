@@ -1,0 +1,23 @@
+{% extends "IssueTracker/base_generic.html" %}
+{% block title %}Searching{% endblock %}
+{% block pageCSS %}@import url('/css/adv_search.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="/js/search.js"></script>{% endblock %}
+{% block content %}
+<div id="query">
+    <div id="query_items">
+        <form id="search" name="search" method="POST" action="">
+            <ul id='query_list' class='struct'>
+            </ul>
+            <input type='submit' name='query' value='Search' />
+            <div id='query_add'>
+                {{add_query.fields.label}} {{ add_query.fields }}
+                <input type="submit" class='query_add' name='add_item' value='+' />
+            </div>
+        </form>
+    </div>
+</div>
+{% for field in form %}
+{{ field.label }} {{ field }} <br />
+{% endfor %}
+{% endblock %}
+

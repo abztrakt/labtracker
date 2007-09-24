@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.01 Strict//EN" "http://www.w3.org/1999/xhtml">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us" >
     <head>
@@ -5,7 +6,7 @@
             {% block title %}Issue Tracker{% endblock %}
         </title>
         {# <script type="text/javascript" src="/js/mochikit/MochiKit.js"></script> #}
-        <script type="text/javascript" src="/js/jquery-1.1.4.js"></script>
+        <script type="text/javascript" src="/js/jquery-1.2.1.js"></script>
         <script type="text/javascript" src="/js/global.js"></script>
         {% block pageHead %}{% endblock %}
         <style type="text/css">
@@ -27,6 +28,9 @@
                 </li>
                 <li>
                     <a href="/issue/report/">Reports</a>
+                </li>
+                <li>
+                    <a href="/issue/search/detailed/">Search</a>
                 </li>
                 <li>
                     <a href="/issue/new/">New</a>
