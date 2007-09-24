@@ -4,11 +4,9 @@ Goals:
     - Functional issue tracker 
     - Inventory types must be manually constructed and then registered
     - Machines searchable through the issuetracker
+    - Simple search interface allowing search through title and through issue id
     - Search queries can be saved or trac like reports should be creatable
       for everybody or individual use.
-    - InventoryType automated creation process is not ready yet at this
-      stage.
-    - Views are not yet ready at this stage
 
 0.2 Thundercracker:
     - Assited InventoryType creation process
