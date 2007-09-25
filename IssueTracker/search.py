@@ -3,6 +3,7 @@
 
 import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
+import labtracker.Machine.models as Machine
 import django.newforms.fields as fieldTypes
 import django.newforms.widgets as widgets
 
@@ -29,6 +30,14 @@ def searchFieldGen(field_name):
         field.choices = [
             (user.pk, user.username) for user in User.objects.all()]
     elif field_name == 'group':
-        field.choices = [ ]
+        # find all name spaces
+        it_types = LabtrackerCore.InventoryType.objects.all()
+        field.choices = []
+        for group in LabtrackerCore.Group.objects.all():
+            namespace = group.it.namespace
+            obj = eval(namespace + ".Group")
+            field.choices.extend([
+                (group.pk, group.name) for group in obj.objects.all()
+                ])
 
     return field

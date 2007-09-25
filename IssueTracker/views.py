@@ -277,6 +277,7 @@ def advSearch(request):
     """
     setDefaultArgs(request)
 
+    """
     form = SearchForm()
     form.fields['resolved_state'].choices = [
             (state.pk, state.name) for state in ResolveState.objects.all()]
@@ -285,15 +286,9 @@ def advSearch(request):
     form.fields['inventory_type'].choices = [
             (type.pk, type.name) for type in LabtrackerCore.InventoryType.objects.all()]
 
-    # TODO item choices
-    # TODO group choices
-
-    #print ba.widget.render('test', "")
-    #print dir(form.fields['issue_id'].mode)
-    #print form.fields['assignee'].__hash__
-    #print dir(form.fields['resolved_state'])
-
     args['form'] = form
+    """
+
     args['add_query'] = AddSearchForm()
     return render_to_response('IssueTracker/adv_search.html', args)
 advSearch = permission_required('IssueTracker.can_view')(advSearch)
@@ -303,20 +298,8 @@ advSearch = permission_required('IssueTracker.can_view')(advSearch)
 
 def getSearchField(request, field_name):
     field = issueSearch.searchFieldGen(field_name)
-    #print field
-    #print dir(field)
-    #print field.widget.render(field_name, "")
-    #print type(field)
-    #print type(field.widget)
     return HttpResponse("{ 'label': '%s', 'field': '%s' }" % \
             (field.label, field.widget.render(field_name, "").replace("\n", "")))
-    """
-    return HttpResponse(simplejson.dumps(
-        { 
-            'label': field.label,
-            'field': field.as_widget().replace("\n", ""),
-        }
-    )) """
 getSearchField = permission_required('IssueTracker.add_issue')(getSearchField)
     
 def getGroups(request, it_type):

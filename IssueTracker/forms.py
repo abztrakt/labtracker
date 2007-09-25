@@ -31,7 +31,6 @@ IssueForm = forms.form_for_model(Issue)
 """
 
 # create the mode widgets
-
 class IsOrNot(forms.widgets.TextInput):
     mode = forms.widgets.Select( choices = [ ('is', 'is'), ('is not', 'is not')])
 
@@ -57,7 +56,6 @@ class IsSelected(forms.widgets.CheckboxSelectMultiple):
 class SearchForm(forms.Form):
     """
     """
-    #issue_id = STestField()
     issue_id = forms.CharField(label="Issue ID", widget=IsOrNot)
     title = forms.CharField(label="Title", widget=FuzzySearch)
     description = forms.CharField(label="Description", widget=FuzzySearch)
@@ -77,34 +75,17 @@ class SearchForm(forms.Form):
     inventory_type = forms.MultipleChoiceField(label="Inventory Type", widget =
             IsSelected(attrs={'class':'inline struct'}))
 
-
-
-# like IssueForm, but with the primary key as well
-#SearchForm = forms.form_for_model(Issue, 
-        #formfield_callback = lambda f: (f.formfield(), forms.CharField())[f.primary_key])
-
-#searchFormFields = [ 
-        #(field.name, field.verbose_name.capitalize()) \
-                #for field in Issue._meta.fields 
-    #] + [
-        #(field.name, field.verbose_name.capitalize()) \
-                #for field in Issue._meta.many_to_many 
-    #]
-
 searchFormFields = [ 
         (field, SearchForm.__dict__['base_fields'][field].label) \
                 for field in SearchForm.__dict__['base_fields']
     ]
 searchFormFields.sort()
-#print searchFormFields
 
 class AddSearchForm(forms.Form):
     """
     A drop down list of searchable formfields
     """
-    fields = forms.ChoiceField(
-            choices = searchFormFields
-        )
+    fields = forms.ChoiceField( choices = searchFormFields )
 
 CreateIssueForm = forms.form_for_model(Issue,
         fields=('it','group','item','cc','problem_type','title','description','reporter'))
