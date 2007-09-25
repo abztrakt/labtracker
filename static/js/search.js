@@ -27,19 +27,21 @@ function addQueryItem(event) {
             },
         "dataType": "json",
         "success": function (data) {
-                ql = $('#query_list');
+                var ql = $('#query_list');
+
+                var num = ql.children().length
 
                 // create the form element and append to the form
-                modes = genModeSelect(data.modes);
 
-                //console.log(data);
-                //console.log(modes);
+                var field = $(data.field);
+                field.map(function () {
+                    var name = $(this).attr('name');
+                    $(this).attr('name', num + "_" + name);
+                    });
+                field.filter('ul').attr('class','struct inline');
 
-                field = $(data.field);
-                name = field.attr('name');
-
-                li = $('<li></li>').attr('class', 'q_' + name)
-                    .append(data.label).append(modes)
+                var li = $('<li></li>').attr('class', 'q_' + name)
+                    .append("<label>" + data.label + "</label>")
                     .append(field).appendTo(ql);
 
                 $('<a href="#">[ - ]</a>').click(removeSearchItem)
