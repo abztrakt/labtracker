@@ -288,8 +288,25 @@ def advSearch(request):
 
     args['form'] = form
     """
+    if request.method == 'POST':
+        data = request.POST.copy()
+        if data['action'] == 'Search':
+            # send the data to the search handler
+            del(data['action'])
+            del(data['fields'])
+            print 'getting search list'
+            searches = issueSearch.parseSearch(data)
+            print 'passing list to query'
+            query = issueSearch.buildQuery(searches)
+
+            extra_context = {}
+
+            return HttpResponse(object_list(request, queryset=query, 
+                extra_context = extra_context, allow_empty=True))
+
 
     args['add_query'] = AddSearchForm()
+
     return render_to_response('IssueTracker/adv_search.html', args)
 advSearch = permission_required('IssueTracker.can_view')(advSearch)
 
@@ -297,7 +314,13 @@ advSearch = permission_required('IssueTracker.can_view')(advSearch)
 # ajax generators #
 
 def getSearchField(request, field_name):
+    """ 
+    Retrieves a search field and returns it in JSON
+
+    """
     field = issueSearch.searchFieldGen(field_name)
+
+    # TODO some better escaping needs to be done
     return HttpResponse("{ 'label': '%s', 'field': '%s' }" % \
             (field.label, field.widget.render(field_name, "").replace("\n", "")))
 getSearchField = permission_required('IssueTracker.add_issue')(getSearchField)
