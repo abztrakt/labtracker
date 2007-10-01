@@ -1,5 +1,4 @@
 $(document).ready( function () {
-    console.log('ready');
     //$('form#search div#query_add > input.query_add').bind('click', addQueryItem);
     $('form#search div#query_add > input.query_add').bind('click', addQueryItem);
 })
@@ -11,19 +10,17 @@ $(document).ready( function () {
  * that is appended to the query form
  */
 function addQueryItem(event) {
-    console.log('in addquery');
     event.preventDefault();
 
     // find the item being added
     form = $('form#search');
     field = $(form).find("select#id_fields")[0].value;
-    console.log('in addquery');
 
     $.ajax({
         "url": URL_BASE + "search/field/" + encodeURIComponent(field) + "/",
         "data": {},
         'error': function (req, err, e) {
-                //console.log('failed to add item');
+                console.log('failed to add item');
             },
         "dataType": "json",
         "success": function (data) {
@@ -35,12 +32,19 @@ function addQueryItem(event) {
 
                 var field = $(data.field);
                 field.map(function () {
+                    var items = $(this).find('select, input');
+
                     var name = $(this).attr('name');
                     $(this).attr('name', num + "_" + name);
-                    });
+
+                    for (var ii = 0; ii < items.length; ++ii) {
+                        var item = items[ii];
+                        item.name = num + "_" + item.name;
+                    }
+                });
                 field.filter('ul').attr('class','struct inline');
 
-                var li = $('<li></li>').attr('class', 'q_' + name)
+                var li = $('<li></li>') //.attr('class', 'q_' + name)
                     .append("<label>" + data.label + "</label>")
                     .append(field).appendTo(ql);
 
@@ -54,13 +58,32 @@ function addQueryItem(event) {
 }
 
 /**
- # removeSearchItem
+ * removeSearchItem
  * Prevents default event,a nd then removes parent
  */
 function removeSearchItem(event) {
     event.preventDefault();
     btn = event.target;
-    $(btn).parent().remove();
+
+    // now we have to renumber everything under this item everything
+    li = $(btn).parent();
+
+    reg = /^(\d+)(_\w+?(?:_mode)?)$/;
+    cur = li.next('li');
+    while (cur != null && cur.length > 0) {
+        items = cur.find('select, input');
+
+        for (var ii = 0; ii < items.length; ++ii) {
+            item = items[ii];
+            matches = item.name.match(reg);
+
+            item.name = (--matches[1]) + matches[2];
+        }
+        cur = cur.next('li');
+        count++;
+    }
+
+    li.remove();
 }
 
 /**
