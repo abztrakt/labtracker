@@ -35,26 +35,26 @@ class IsOrNot(forms.widgets.TextInput):
     mode = forms.widgets.Select( choices = [ ('is', 'is'), ('is not', 'is not')])
 
     def render(self, name, value, attrs=None):
-        return  self.mode.render("mode_%s" % name, "") + super(type(self), self).render(name, value, attrs)
+        return  self.mode.render("%s_mode" % name, "") + super(type(self), self).render(name, value, attrs)
 
 class FuzzySearch(forms.widgets.TextInput):
     mode = forms.widgets.Select( choices = [ 
         ('contains', 'contains'), ('not contain', "doesn't contain"),
         ('is', 'is'), ('is not', 'is not'), ('begins with', 'begins with'),
-        ('ends with', 'ends with')])
+        ('ends with', 'ends with'), ('none', 'Not Set') ])
 
     def render(self, name, value, attrs=None):
-        return  self.mode.render("mode_%s" % name, "") + super(type(self), self).render(name, value, attrs)
+        return  self.mode.render("%s_mode" % name, "") + super(type(self), self).render(name, value, attrs)
 
 class IsSelected(forms.widgets.CheckboxSelectMultiple):
     mode = forms.widgets.Select( choices = [ ('is', 'is'), ('is not', 'is not')])
 
     def render(self, name, value, attrs=None):
-        return  self.mode.render("mode_%s" % name, "") + super(type(self), self).render(name, value, attrs)
-
+        return  self.mode.render("%s_mode" % name, "") + super(type(self), self).render(name, value, attrs)
 
 class SearchForm(forms.Form):
     """
+    This form is used for the advanced search, searches issues
     """
     issue_id = forms.CharField(label="Issue ID", widget=IsOrNot)
     title = forms.CharField(label="Title", widget=FuzzySearch)
