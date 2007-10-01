@@ -1,27 +1,27 @@
 Goals:
 
 0.1 Rumble:
-    - Functional issue tracker 
-    - Inventory types must be manually constructed and then registered
-    - Machines searchable through the issuetracker
-    - Simple search interface allowing search through title and through issue id
-    - Search queries can be saved or trac like reports should be creatable
-      for everybody or individual use.
+   [ ] Functional issue tracker 
+   [ ] Inventory types should be constructable through fairly simple manual means
+   [ ] Machines searchable through the issuetracker
+   [x] Simple search interface allowing search through title and through issue id
+   [ ] Search queries can be saved or trac like reports should be creatable
+         for everybody or individual use.
 
 0.2 Thundercracker:
-    - Assited InventoryType creation process
+   [ ] Assited InventoryType creation process
         - should be through the administration interface
-    - Mostly functional (e.g.: core components) for admin interface
+   [ ] Mostly functional (e.g.: core components) for admin interface
 
 0.3 Galvatron:
-    - Working views
-    - Automated hit script creation for each inventory type
+   [ ] Working views
+   [ ] Automated hit script creation for each inventory type
 
 0.4 Shockwave:
-    - Statistics caching
+   [ ] Statistics caching
         
 
 Goal for 1.0:
-    - Fully functionally issue tracker (broken bin)
-    - Working views that allow difference ways to view collected data
-    - Assisted InventoryType creation
+   [ ] Fully functionally issue tracker (broken bin)
+   [ ] Working views that allow difference ways to view collected data
+   [ ] Assisted InventoryType creation
