@@ -42,3 +42,14 @@ IssueTracker:
 
 
 === Constructing a InventoryType ===
+
+1. In the application interface, create a new entry for InventoryTypes
+2. Navigate to your application directory
+3. Add the application to settings.py
+4. Add some new models, at minimal, a model named Group and the namespace is needed.
+5. Use manage.py to sync the db and add some entries.
+
+Deleting
+1. Remove the entry from the InventoryTypes admin interface (This also deletes the models from the db)
+2. Delete the entry from settings.py
+3. Remove the application folder
