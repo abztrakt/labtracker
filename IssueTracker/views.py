@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.list_detail import object_list
 from django.contrib.auth.models import User
+import django.db.models.loading as load
 
 import simplejson
 from django.core import serializers
@@ -330,8 +331,17 @@ def getGroups(request, it_type):
     Given an inventory type, will return a list of groups that belongs to that
     inventory_type
     """
-    import labtracker.Machine.models as Machine
-    query = Machine.Group.objects.filter(group__it=it_type)
+    # get namespace
+    inv_type = LabtrackerCore.InventoryType.objects.get(pk=it_type)
+    print inv_type.namespace
+
+    # now grab the model
+
+    ac = load.AppCache()
+    model = ac.get_model(inv_type.namespace, 'Group')
+
+    #query = Machine.Group.objects.filter(group__it=it_type)
+    query = model.objects.all()
 
     json_serializer = serializers.get_serializer("json")()
     return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
@@ -342,12 +352,12 @@ def getItems(request, group_id):
     Given an inventory type, will return a list of groups that belongs to that
     inventory_type
     """
-    import labtracker.Machine.models as Machine
-    query = Machine.Group.objects.get(pk=group_id).machines.all() #.machine_set.all()
-    print query
+    inv_type = LabtrackerCore.Group.objects.get(pk=group_id).it
+
+    ac = load.AppCache()
+    model = ac.get_model(inv_type.namespace, 'Group')
+    query = model.objects.get(pk=group_id).machines.all() 
 
     json_serializer = serializers.get_serializer("json")()
     return HttpResponse('{"items":%s}' % (json_serializer.serialize(query)))
 getItems = permission_required('IssueTracker.add_issue')(getItems)
-
-
