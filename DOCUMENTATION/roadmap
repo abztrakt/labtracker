@@ -1,12 +1,11 @@
 Goals:
 
 0.1 Rumble:
-   [ ] Functional issue tracker 
    [ ] Inventory types should be constructable through fairly simple manual means
    [ ] Machines searchable through the issuetracker
-   [x] Simple search interface allowing search through title and through issue id
-   [ ] Search queries can be saved or trac like reports should be creatable
-         for everybody or individual use.
+   [x] Simple search interface allowing search through title or issue id
+   [ ] Savable searches for later use (either public or private)
+
 
 0.2 Thundercracker:
    [ ] Assited InventoryType creation process
