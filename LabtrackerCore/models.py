@@ -9,8 +9,7 @@ class LabUser(models.Model):
     """
     user_id = models.AutoField(primary_key=True)
 
-    # this will be a md5'd hash of actual user_name
-    user_name = models.CharField(maxlength=32)
+    # this will be a md5'd hash of actual user_name user_name = models.CharField(maxlength=32)
 
     def __unicode__(self):
         return self.user_name
@@ -24,8 +23,40 @@ class InventoryType(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save(self):
+        # get the current directory
+        import django.core.management as dman
+        import labtracker.settings as lset
+        import django.core.management.commands.startapp as startapp
+
+        app_dir = dman.setup_environ(lset)
+        app_c = startapp.ProjectCommand(app_dir)
+        app_c.handle_label(str(self.namespace))
+        super(InventoryType,self).save()
+
+    def delete(self):
+        # delete the application and all it's related models
+        import django.core.management as dman
+        import labtracker.settings as lset
+        import django.core.management.commands.sqlclear as sqlclear
+
+        import django.db.models.loading as dbload
+
+        app_dir = dman.setup_environ(lset)
+
+        # see if there are any models
+        if len(dbload.get_models(dbload.get_app(self.namespace))) > 0:
+            app_c = sqlclear.Command()
+            app_c.handle(*[self.namespace,])
+
+        # deletion of the folder should be left to the admin. as well as removal from
+        # INSTALLED_APPS
+        
+        super(InventoryType,self).delete()
+
+
     class Admin:
-        pass
+        list_display = ('name','namespace','description')
 
 class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
