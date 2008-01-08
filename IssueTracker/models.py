@@ -15,7 +15,7 @@ class ResolveState(models.Model):
 
 class ProblemType(models.Model):
     pb_id = models.AutoField(primary_key=True)
-    inv = models.ManyToManyField(InventoryType)
+    inv = models.ManyToManyField(InventoryType, blank=True, null=True)
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=400)
 
