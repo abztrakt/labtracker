@@ -169,7 +169,7 @@ def view(request, issue_id):
 
     args['issue'] = issue
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
-    args['comments'] = IssuePost.objects.filter(issue=issue).order_by('post_date')
+    args['comments'] = IssueComment.objects.filter(issue=issue).order_by('post_date')
 
     args['add_comment_form'] = AddCommentForm()
     args['update_issue_form'] = UpdateIssueForm()
@@ -356,6 +356,8 @@ def getItems(request, group_id):
 
     ac = load.AppCache()
     model = ac.get_model(inv_type.namespace, 'Group')
+
+    # get the items in the group
     query = model.objects.get(pk=group_id).machines.all() 
 
     json_serializer = serializers.get_serializer("json")()
