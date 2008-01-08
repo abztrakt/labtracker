@@ -1,15 +1,15 @@
 Goals:
 
 0.1 Rumble:
-   [ ] Inventory types should be constructable through fairly simple manual means
-   [ ] Machines searchable through the issuetracker
+   [x] Inventory types should be constructable through fairly simple manual means
+   [ ] Assited InventoryType creation process
+        - should be through the administration interface
    [x] Simple search interface allowing search through title or issue id
-   [ ] Savable searches for later use (either public or private)
 
 
 0.2 Thundercracker:
-   [ ] Assited InventoryType creation process
-        - should be through the administration interface
+   [ ] Advanced search, (buildable query) through the issuetracker
+   [ ] Savable searches for later use (either public or private)
    [ ] Mostly functional (e.g.: core components) for admin interface
 
 0.3 Galvatron:
