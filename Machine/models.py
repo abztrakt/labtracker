@@ -28,9 +28,9 @@ class Status(models.Model):
         verbose_name_plural="Status"
 
     class Admin:
-        list_display = ('name','inuse','usable','broken')
+        list_display = ('name','inuse','usable','broken', 'description')
         fields = (
-            (None, {'fields': ('name', ('inuse','usable','broken',))}),
+            (None, {'fields': ('name', ('inuse','usable','broken',), 'description')}),
         )
 
 class Platform(models.Model):
@@ -60,6 +60,7 @@ class Type(models.Model):
     specs = models.TextField()
     purchase_date = models.DateField(null=True)
     warranty_date = models.DateField(null=True)
+    description = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -86,7 +87,8 @@ class Item(models.Model):
     The Machine
     """
 
-    item = models.OneToOneField(core.Item, editable=False, primary_key=True)
+    #item = models.OneToOneField(core.Item, editable=False, primary_key=True)
+    item = models.ForeignKey(core.Item, unique=True, editable=False)
     mt = models.ForeignKey(Type, verbose_name='Machine Type')
     ms = models.ForeignKey(Status, verbose_name='Machine Status')
     ml = models.ForeignKey(Location, verbose_name='Location')
@@ -109,7 +111,8 @@ class Item(models.Model):
         try:
             self.item
         except:
-            self.item = core.Item.objects.create(it = getInventoryType())
+            # FIXME 'test' needs to be replaced with an actual item name
+            self.item = core.Item.objects.create(name='test', it = getInventoryType())
 
         super(Item,self).save()
 
@@ -121,7 +124,7 @@ class Item(models.Model):
             }),
         )
         #list_display = ('item__name','mt','ms','ml','ip','mac','date_added','manu_tag')
-        list_display = ('mt','ms','ml','ip','mac','date_added','manu_tag')
+        list_display = ('item', 'mt','ms','ml','ip','mac','date_added','manu_tag')
         #search_fields = ['name','ip','mac']
         search_fields = ['ip','mac']
         list_filter = ['mt','ms','date_added']
