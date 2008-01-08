@@ -1,19 +1,25 @@
 from django.db import models
-from labtracker.LabtrackerCore.models import Item, LabUser, InventoryType, Group as SGroup
+import labtracker.LabtrackerCore.models as core
+#from labtracker.LabtrackerCore.models import Item, LabUser, InventoryType, Group as SGroup
 from django.contrib.auth.models import User
 
 NAMESPACE = 'Machine'
 
 def getInventoryType(self=None):
-    it = InventoryType.objects.filter(namespace=NAMESPACE)[0]
+    it = core.InventoryType.objects.filter(namespace=NAMESPACE)[0]
     return it
 
 class Status(models.Model):
+    """
+    Status of the machine
+    """
+
     ms_id = models.AutoField(primary_key=True)
-    name = models.CharField(maxlength=60, unique=True)
+    name = models.CharField(max_length=60, unique=True)
     inuse = models.BooleanField(default=False)
     usable = models.BooleanField(default=True)
     broken = models.BooleanField(default=False)
+    description = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -28,8 +34,13 @@ class Status(models.Model):
         )
 
 class Platform(models.Model):
+    """
+    Machine Platform: windows XP, Vista, Mac OS X, Linux/Ubuntu, etc.
+    """
+
     platform_id = models.AutoField(primary_key=True)
-    name = models.CharField(maxlength=60, unique=True)
+    name = models.CharField(max_length=60, unique=True)
+    description = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -38,11 +49,14 @@ class Platform(models.Model):
         pass
 
 class Type(models.Model):
+    """
+    Type of Machine, not InventoryType, similar to a group
+    """
+
     mt_id = models.AutoField(primary_key=True)
-    name = models.CharField(maxlength=60, unique=True)
+    name = models.CharField(max_length=60, unique=True)
     platform = models.ForeignKey(Platform)
-    #it = models.ForeignKey(InventoryType, verbose_name='Inventory Type')
-    model_name = models.CharField(maxlength=60)
+    model_name = models.CharField(max_length=60)
     specs = models.TextField()
     purchase_date = models.DateField(null=True)
     warranty_date = models.DateField(null=True)
@@ -55,11 +69,11 @@ class Type(models.Model):
 
 class Location(models.Model):
     ml_id = models.AutoField(primary_key=True)
-    name = models.CharField(maxlength=60, unique=True)
-    building = models.CharField(maxlength=60, null=True)
+    name = models.CharField(max_length=60, unique=True)
+    building = models.CharField(max_length=60, null=True)
     floor = models.SmallIntegerField(null=True)
-    room = models.CharField(maxlength=30, null=True)
-    comment = models.CharField(maxlength=600)
+    room = models.CharField(max_length=30, null=True)
+    comment = models.CharField(max_length=600)
 
     def __unicode__(self):
         return self.name
@@ -67,56 +81,63 @@ class Location(models.Model):
     class Admin:
         pass
 
-class Machine(models.Model):
-    item = models.OneToOneField(Item, editable=False, primary_key=True)
+class Item(models.Model):
+    """
+    The Machine
+    """
+
+    item = models.OneToOneField(core.Item, editable=False, primary_key=True)
     mt = models.ForeignKey(Type, verbose_name='Machine Type')
     ms = models.ForeignKey(Status, verbose_name='Machine Status')
     ml = models.ForeignKey(Location, verbose_name='Location')
-    name = models.CharField(maxlength=60, unique=True)
     ip = models.IPAddressField(verbose_name="IP Address")
-    mac = models.CharField(maxlength=17, verbose_name='MAC Address')
+    mac = models.CharField(max_length=17, verbose_name='MAC Address')
     date_added = models.DateTimeField(auto_now_add=True)
 
-    # XXX: what does manu_tag entail?
-    manu_tag = models.CharField(maxlength=200, verbose_name="Manufacturers tag")
-    comment = models.CharField(maxlength=400, blank=True)
+    manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
+    comment = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
-        return self.name
+        return self.item.name
 
     def delete(self):
-        self.item.delete()
-        super(Machine,self).delete()
+        self.item.delete()          # delete the item in core.Item
+        super(Item,self).delete()   # delete self
 
     def save(self):
-        # first insert a new thing into Items
+        # first insert a new thing into core.Items
         try:
             self.item
         except:
-            self.item = Item.objects.create(it = getInventoryType())
-        super(Machine,self).save()
+            self.item = core.Item.objects.create(it = getInventoryType())
+
+        super(Item,self).save()
 
     class Admin:
         fields = (
            (None, {
-                'fields': ('name','mt','ms','ml','ip','mac','manu_tag','comment'),
+                #'fields': ('name','mt','ms','ml','ip','mac','manu_tag','comment'),
+                'fields': ('mt','ms','ml','ip','mac','manu_tag','comment'),
             }),
         )
-        list_display = ('name','mt','ms','ml','ip','mac','date_added','manu_tag')
-        search_fields = ['name','ip','mac']
+        #list_display = ('item__name','mt','ms','ml','ip','mac','date_added','manu_tag')
+        list_display = ('mt','ms','ml','ip','mac','date_added','manu_tag')
+        #search_fields = ['name','ip','mac']
+        search_fields = ['ip','mac']
         list_filter = ['mt','ms','date_added']
 
 class Group(models.Model):
-    group = models.ForeignKey(SGroup, editable=False, unique=True)
-    name = models.CharField(maxlength=60, unique=True)
-    machines = models.ManyToManyField(Machine, null=True)
-    is_lab = models.BooleanField()
+    """
+    Expands on the core.Group 
+    """
+    group = models.ForeignKey(core.Group, unique=True, edit_inline=models.TABULAR)
+    #group = models.ForeignKey(core.Group, editable=False, unique=True)
+    is_lab = models.BooleanField(core=True)
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
-    description = models.CharField(maxlength=2616)
 
     def __unicode__(self):
-        return self.name
+        return self.group.name
 
     def delete(self):
         self.group.delete()
@@ -126,17 +147,24 @@ class Group(models.Model):
         try:
            self.group
         except:
-           self.group = SGroup.objects.create(it = getInventoryType())
+           self.group = core.Group.objects.create(it = getInventoryType(), name =
+                   self.name, description = self.description)
+
         super(Group,self).save()
 
     class Admin:
-        list_display = ('name','is_lab','casting_server','gateway')
+        fields = (
+                (None, { 
+                    'fields': ('is_lab', 'casting_server', 'gateway'), } 
+                ),)
+        list_display = ('group','is_lab','casting_server','gateway')
+        #list_display = ('name','is_lab','casting_server','gateway')
 
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
-    machine = models.ForeignKey(Machine)
+    machine = models.ForeignKey(Item)
     ms = models.ForeignKey(Status)
-    user = models.ForeignKey(LabUser)
+    user = models.ForeignKey(core.LabUser)
     time = models.DateTimeField(auto_now_add=True)
 
 class Contact(models.Model):
@@ -147,7 +175,5 @@ class Contact(models.Model):
     is_primary = models.BooleanField(core=True,default=False)
 
     def __unicode__(self):
-        extra = ""
-        if self.is_primary:
-            extra = " (Primary)"
+        extra = ("", " (Primary)")[self.is_primary]
         return "%s - %s%s" % (self.mg, self.user, extra)

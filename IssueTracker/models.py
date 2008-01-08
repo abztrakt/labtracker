@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class ResolveState(models.Model):
     rs_id = models.AutoField(primary_key=True)
-    name = models.CharField(maxlength=60)
-    description = models.CharField(maxlength=2616)
+    name = models.CharField(max_length=60)
+    description = models.CharField(max_length=400)
 
     def __unicode__(self):
         return self.name
@@ -16,8 +16,8 @@ class ResolveState(models.Model):
 class ProblemType(models.Model):
     pb_id = models.AutoField(primary_key=True)
     inv = models.ManyToManyField(InventoryType)
-    name = models.CharField(maxlength=60, unique=True)
-    description = models.CharField(maxlength=2616)
+    name = models.CharField(max_length=60, unique=True)
+    description = models.CharField(max_length=400)
 
     def __unicode__(self):
         return self.name
@@ -30,6 +30,7 @@ class Issue(models.Model):
     Issues can be related to specific items or the whole InventoryType.
     Therefore, item_id is null=True
     """
+
     issue_id = models.AutoField(primary_key=True)
     it = models.ForeignKey(InventoryType, verbose_name="Inventory Type", blank=True,
             null=True)
@@ -45,7 +46,7 @@ class Issue(models.Model):
     last_modified = models.DateTimeField(auto_now=True, null=True)
     resolve_time = models.DateTimeField(null=True, blank=True)
     resolved_state = models.ForeignKey(ResolveState, null=True, blank=True)
-    title = models.CharField(maxlength=200)
+    title = models.CharField(max_length=200)
     description = models.TextField()
 
     def __unicode__(self):
@@ -63,20 +64,22 @@ class IssueHistory(models.Model):
     Basically, keeps track of some of the changes made to a model outside of 
     the IssuePost area
     """
-    # FIXME the current way this work sucks, should keep track of individual 
-    # changes. eg: almost all the same fields as Issue, null for items that
-    # weren't changed.
+
     ih_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
     issue = models.ForeignKey(Issue)
     time = models.DateTimeField(auto_now=True)
-    change = models.CharField(maxlength=100)
+    message = models.CharField(max_length=100)
 
-class IssuePost(models.Model):
+class IssueComment(models.Model):
+    """
+    This is for the comments people add to each issues
+    """
+
     ip_id = models.AutoField(primary_key=True)
     issue = models.ForeignKey(Issue)
     user = models.ForeignKey(User)
-    post_date = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
 
     class Admin:
