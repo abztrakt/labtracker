@@ -85,7 +85,7 @@ class Item(models.Model):
     """
 
     item_id = models.AutoField(primary_key=True)
-    it = models.ForeignKey(InventoryType)
+    it = models.ForeignKey(InventoryType, editable=False)
     name = models.CharField(max_length=60, unique=True)
 
     def __unicode__(self):
