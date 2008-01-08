@@ -5,6 +5,7 @@ import operator
 
 from django.db.models import Q 
 from django.db.models.query import QNot
+from django.db import connection
 #from django.db.models.query import Q
 import django.newforms.fields as fieldTypes
 import django.newforms.widgets as widgets
@@ -23,8 +24,7 @@ class hacked_Q_for_isnull(Q):
     For a bit more detail, see ticket #1050
         http://code.djangoproject.com/ticket/1050
     
-    Example usage:
-        Foo.objects.filter(hacked_Q_for_isnull(bar__isnull=True))
+    Example usage: Foo.objects.filter(hacked_Q_for_isnull(bar__isnull=True))
     
     Note:
         The above usage is the only one that's been tested.  Even so,
@@ -202,10 +202,6 @@ def buildQuery(searches):
 
             QObject = reduce(operator.or_, QObjects)
 
-
-        #print dir(QObject)
-        #print QObjects
-
         if method is "exclude":
             query = query.exclude( QObject )
         elif method is "filter":
@@ -213,6 +209,5 @@ def buildQuery(searches):
 
         print list(query)
 
-    #print dir(query)
-    #print type(query)
+    #print connection.queries
     return query.distinct()

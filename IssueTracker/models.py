@@ -62,7 +62,7 @@ class Issue(models.Model):
 class IssueHistory(models.Model):
     """
     Basically, keeps track of some of the changes made to a model outside of 
-    the IssuePost area
+    the IssueComment area
     """
 
     ih_id = models.AutoField(primary_key=True)
