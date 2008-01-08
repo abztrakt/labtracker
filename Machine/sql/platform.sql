@@ -1,1 +1,1 @@
-INSERT INTO Machine_platform (name) VALUES ('Linux - Ubuntu'), ('Windows XP'),('Mac OS X');
+/* INSERT INTO Machine_platform (name) VALUES ('Linux - Ubuntu'), ('Windows XP'),('Mac OS X'); */
