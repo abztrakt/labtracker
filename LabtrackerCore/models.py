@@ -92,10 +92,7 @@ class Item(models.Model):
         """
         Will take the actual item name from whatever the Namespace_namespace
         """
-        namespace = self.it.namespace
-        app = dbload.get_app(namespace)
-        item = app.Item.objects.get(self.item_id)
-        return item
+        return self.name
 
     class Admin:
         pass
