@@ -1,10 +1,13 @@
 from django import newforms as forms
-from django.newforms import form_for_model
+from django.newforms import ModelForm
 from django.newforms.forms import BaseForm      #, SortedDictFromList
 from labtracker.IssueTracker.models import *
 
 #IssueForm = forms.form_for_model(Issue, formfield_callback=issueCallback)
-IssueForm = forms.form_for_model(Issue)
+
+class IssueForm(ModelForm):
+    class Meta:
+        model = Issue
 
 """
     modes = {}
@@ -87,12 +90,18 @@ class AddSearchForm(forms.Form):
     """
     fields = forms.ChoiceField( choices = searchFormFields )
 
-CreateIssueForm = forms.form_for_model(Issue,
+class CreateIssueForm(ModelForm):
+    class Meta:
+        model = Issue
         fields=('it','group','item','cc','problem_type','title','description','reporter'))
 
-UpdateIssueForm = forms.form_for_model(Issue,
+class UpdateIssueForm(ModelForm):
+    class Meta:
+        model = Issue
         fields=('issue_id','assignee','cc','resolve_time',
             'resolved_state', 'last_modified'))
 
-AddCommentForm = forms.form_for_model(IssueComment,
+class AddCommentForm(ModelForm):
+    class Meta:
+        model = IssueComment
         fields=('issue', 'user','comment'))
