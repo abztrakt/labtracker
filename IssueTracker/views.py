@@ -1,14 +1,13 @@
+from django import newforms as forms
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404, HttpResponse, \
-        HttpResponseServerError
-from django import newforms as forms
+from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.list_detail import object_list
-from django.contrib.auth.models import User
 import django.db.models.loading as load
 
 import simplejson
@@ -115,6 +114,7 @@ def post(request, issue_id):
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
+@permission_required('IssueTracker.add_issue')
 def modIssue(request, issue_id):
     """
     Can be accessed through post or get, will redirect immediately afterwards
@@ -149,8 +149,8 @@ def modIssue(request, issue_id):
     elif request.method == "GET":
         # direct call, will need to redirect
         return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
-modIssue = permission_required('IssueTracker.add_issue')(modIssue)
 
+@permission_required('IssueTracker.can_view')
 def view(request, issue_id):
     """
     This is called when the issue requests a specific issue.
@@ -175,8 +175,8 @@ def view(request, issue_id):
     args['update_issue_form'] = UpdateIssueForm()
 
     return render_to_response('IssueTracker/view.html', args)
-view = permission_required('IssueTracker.can_view')(view)
 
+@permission_required('IssueTracker.can_view')
 def reportList(request):
     """
     Currently does nothing but will list out all the available queries to list available
@@ -184,24 +184,24 @@ def reportList(request):
     """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/list.html', args)
-reportList = permission_required('IssueTracker.can_view')(reportList)
 
+@permission_required('IssueTracker.can_view')
 def report(request, report_id):
     """
     View a specific report
     """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/report.html', args)
-report = permission_required('IssueTracker.can_view')(report)
 
+@login_required
 def user(request):
     """
     User preference pane, may be renamed later
     """
     setDefaultArgs(request)
     return render_to_response('IssueTracker/user.html', args)
-user = login_required(user)
 
+@permission_required('IssueTracker.add_issue')
 def createIssue(request):
     """
     This is the view called when the user is creating a new issue, not for 
@@ -227,8 +227,8 @@ def createIssue(request):
     form = CreateIssueForm()
     args['form'] = form
     return render_to_response('IssueTracker/create.html', args)
-createIssue = permission_required('IssueTracker.add_issue')(createIssue)
 
+@permission_required('IssueTracker.can_view')
 def search(request):
     """
     Takes a post, searches, and either redirects to a list of matching items (or no
@@ -269,8 +269,8 @@ def search(request):
 
     else:
         return HttpResponseRedirect(reverse('index'))
-search = permission_required('IssueTracker.can_view')(search)
 
+@permission_required('IssueTracker.can_view')
 def advSearch(request):
     """ advSearch
 
@@ -309,11 +309,11 @@ def advSearch(request):
     args['add_query'] = AddSearchForm()
 
     return render_to_response('IssueTracker/adv_search.html', args)
-advSearch = permission_required('IssueTracker.can_view')(advSearch)
 
 ###################
 # ajax generators #
 
+@permission_required('IssueTracker.add_issue')
 def getSearchField(request, field_name):
     """ 
     Retrieves a search field and returns it in JSON
@@ -324,42 +324,112 @@ def getSearchField(request, field_name):
     # TODO some better escaping needs to be done
     return HttpResponse("{ 'label': '%s', 'field': '%s' }" % \
             (field.label, field.widget.render(field_name, "").replace("\n", "")))
-getSearchField = permission_required('IssueTracker.add_issue')(getSearchField)
     
-def getGroups(request, it_type):
+@permission_required('IssueTracker.add_issue')
+def getGroups(request):
     """
     Given an inventory type, will return a list of groups that belongs to that
     inventory_type
     """
+    if request.method == "POST":
+        data = request.POST.copy()
+    elif request.method == "GET":
+        data = request.GET.copy()
+
+    if not data.has_key('it_id'):
+        it_types = []
+    else:
+        it_types = data.getlist('it_id')
+
+    if len(it_types) == 0:
+        inv_types = LabtrackerCore.InventoryType.objects.all()
+    else:
+        inv_types = LabtrackerCore.InventoryType.objects.in_bulk(it_types).values()
+
     # get namespace
-    inv_type = LabtrackerCore.InventoryType.objects.get(pk=it_type)
-    print inv_type.namespace
+    it_type = data['it_id']
 
-    # now grab the model
+    # grab the models and fetch the groups
 
     ac = load.AppCache()
-    model = ac.get_model(inv_type.namespace, 'Group')
+    groups = []
 
-    #query = Machine.Group.objects.filter(group__it=it_type)
-    query = model.objects.all()
+    print inv_types
 
-    json_serializer = serializers.get_serializer("json")()
-    return HttpResponse('{"groups":%s}' % (json_serializer.serialize(query)))
-getGroups = permission_required('IssueTracker.add_issue')(getGroups)
+    for inv_type in inv_types:
+        print inv_type.namespace
+        model = ac.get_model(inv_type.namespace, 'Group')
+        groups.extend(model.objects.all())
 
-def getItems(request, group_id):
+    type = data.get("type", "xml")
+    
+    if type == "json":
+        json_serializer = serializers.get_serializer("json")()
+        return HttpResponse('{"groups":%s}' % (json_serializer.serialize(groups)))
+    else:
+        pass
+        # TODO XML serialization
+
+def createItemList(items, field='Item'):
+    list = []
+
+    ac = load.AppCache()
+    inv_type = None
+    for item in items:
+        if item.it != inv_type:
+            inv_type = item.it
+            model = ac.get_model(inv_type.namespace, field)
+
+        item_obj = model.objects.get(item = item.item_id)
+        data = forms.models.model_to_dict(item_obj)
+        data['name'] = item_obj.item.name
+        data['id'] = item_obj.item.item_id
+
+        list.append(data)
+
+    return list
+
+@permission_required('IssueTracker.add_issue')
+def getItems(request):
     """
     Given an inventory type, will return a list of groups that belongs to that
     inventory_type
     """
-    inv_type = LabtrackerCore.Group.objects.get(pk=group_id).it
 
-    ac = load.AppCache()
-    model = ac.get_model(inv_type.namespace, 'Group')
+    if request.method == "POST":
+        data = request.POST.copy()
+    elif request.method == "GET":
+        data = request.GET.copy()
+
+    if not data.has_key('group_id'):
+        group_ids = []
+    else:
+        group_ids = data.getlist('group_id')
+
+    items = []
+    # fetch the groups
+    if len(group_ids) == 0 or "" in group_ids:
+        items = createItemList(LabtrackerCore.Item.objects.order_by('it'))
+    else:
+        groups = LabtrackerCore.Group.objects.in_bulk(group_ids)
+
+        # for each group, get all the items
+        for group in groups:
+            #inv_type = group.it
+            #model = ac.get_model(inv_type.namespace, 'Group')
+
+            items.extend(createItemList(model.objects.item.all()), field='Group')
+            #items.extend(model.objects.item.all())
+    print items
 
     # get the items in the group
-    query = model.objects.get(pk=group_id).machines.all() 
+    type = data.get("type", "xml")
+    
+    if type == "json":
+        #json_serializer = serializers.get_serializer("json")()
+        #return HttpResponse('{"items":%s}' % (json_serializer.serialize(items)))
+        return HttpResponse('{"items":%s}' % (simplejson.dumps(items)))
+    else:
+        pass
+        # TODO XML serialization
 
-    json_serializer = serializers.get_serializer("json")()
-    return HttpResponse('{"items":%s}' % (json_serializer.serialize(query)))
-getItems = permission_required('IssueTracker.add_issue')(getItems)
