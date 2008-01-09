@@ -325,6 +325,43 @@ def getSearchField(request, field_name):
     return HttpResponse("{ 'label': '%s', 'field': '%s' }" % \
             (field.label, field.widget.render(field_name, "").replace("\n", "")))
     
+def createGroupList(inv_ids, field='Group'):
+    list = {}
+
+    ac = load.AppCache()
+    for inv_id in inv_ids:
+        model = ac.get_model(inv_id.namespace, field)
+
+        groups = model.objects.all()
+
+        for group in groups:
+            data = forms.models.model_to_dict(group)
+            data['name'] = group.group.name
+            list[group.group.group_id] = data
+            #list.append(data)
+
+
+    return list
+
+def createItemList(items, field='Item'):
+    list = {}
+
+    ac = load.AppCache()
+    inv_type = None
+    for item in items:
+        if item.it != inv_type:
+            inv_type = item.it
+            model = ac.get_model(inv_type.namespace, field)
+
+        item_obj = model.objects.get(item = item.item_id)
+        data = forms.models.model_to_dict(item_obj)
+        data['name'] = item_obj.item.name
+        list[item_obj.item.item_id] = data
+
+        #list.append(data)
+
+    return list
+
 @permission_required('IssueTracker.add_issue')
 def getGroups(request):
     """
@@ -340,54 +377,22 @@ def getGroups(request):
         it_types = []
     else:
         it_types = data.getlist('it_id')
-
-    if len(it_types) == 0:
-        inv_types = LabtrackerCore.InventoryType.objects.all()
-    else:
-        inv_types = LabtrackerCore.InventoryType.objects.in_bulk(it_types).values()
-
-    # get namespace
-    it_type = data['it_id']
-
-    # grab the models and fetch the groups
-
-    ac = load.AppCache()
+    
     groups = []
+    if len(it_types) == 0 or "" in it_types:
+        groups = createGroupList(LabtrackerCore.InventoryType.objects.all())
+    else:
+        groups = createGroupList(LabtrackerCore.InventoryType.objects.in_bulk(it_types).values())
 
-    print inv_types
-
-    for inv_type in inv_types:
-        print inv_type.namespace
-        model = ac.get_model(inv_type.namespace, 'Group')
-        groups.extend(model.objects.all())
 
     type = data.get("type", "xml")
     
     if type == "json":
-        json_serializer = serializers.get_serializer("json")()
-        return HttpResponse('{"groups":%s}' % (json_serializer.serialize(groups)))
+        return HttpResponse(simplejson.dumps(groups))
+        #return HttpResponse('{"groups":%s}' % (simplejson.dumps(groups)))
     else:
         pass
         # TODO XML serialization
-
-def createItemList(items, field='Item'):
-    list = []
-
-    ac = load.AppCache()
-    inv_type = None
-    for item in items:
-        if item.it != inv_type:
-            inv_type = item.it
-            model = ac.get_model(inv_type.namespace, field)
-
-        item_obj = model.objects.get(item = item.item_id)
-        data = forms.models.model_to_dict(item_obj)
-        data['name'] = item_obj.item.name
-        data['id'] = item_obj.item.item_id
-
-        list.append(data)
-
-    return list
 
 @permission_required('IssueTracker.add_issue')
 def getItems(request):
@@ -406,29 +411,23 @@ def getItems(request):
     else:
         group_ids = data.getlist('group_id')
 
-    items = []
+    items = {}
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
         items = createItemList(LabtrackerCore.Item.objects.order_by('it'))
     else:
-        groups = LabtrackerCore.Group.objects.in_bulk(group_ids)
+        groups = LabtrackerCore.Group.objects.in_bulk(group_ids).values()
 
         # for each group, get all the items
         for group in groups:
-            #inv_type = group.it
-            #model = ac.get_model(inv_type.namespace, 'Group')
-
-            items.extend(createItemList(model.objects.item.all()), field='Group')
-            #items.extend(model.objects.item.all())
-    print items
+            items.update(createItemList(group.item.all()))
 
     # get the items in the group
     type = data.get("type", "xml")
     
     if type == "json":
-        #json_serializer = serializers.get_serializer("json")()
-        #return HttpResponse('{"items":%s}' % (json_serializer.serialize(items)))
-        return HttpResponse('{"items":%s}' % (simplejson.dumps(items)))
+        return HttpResponse(simplejson.dumps(items))
+        #return HttpResponse('{"items":%s}' % (simplejson.dumps(items)))
     else:
         pass
         # TODO XML serialization
