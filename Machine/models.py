@@ -133,7 +133,7 @@ class Group(models.Model):
     """
     Expands on the core.Group 
     """
-    group = models.ForeignKey(core.Group, unique=True, edit_inline=models.TABULAR)
+    group = models.ForeignKey(core.Group, unique=True, editable=False)
     #group = models.ForeignKey(core.Group, editable=False, unique=True)
     is_lab = models.BooleanField(core=True)
     casting_server = models.IPAddressField()
@@ -151,7 +151,7 @@ class Group(models.Model):
            self.group
         except:
            self.group = core.Group.objects.create(it = getInventoryType(), name =
-                   self.name, description = self.description)
+                   'test', description = 'test')
 
         super(Group,self).save()
 
@@ -161,7 +161,6 @@ class Group(models.Model):
                     'fields': ('is_lab', 'casting_server', 'gateway'), } 
                 ),)
         list_display = ('group','is_lab','casting_server','gateway')
-        #list_display = ('name','is_lab','casting_server','gateway')
 
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
