@@ -43,10 +43,10 @@ function updateGroupList(it_id) {
 
 				// Take the groups, construct option elements and append them 
 				// to the group list
-				$.each(data.groups, 
+				$.each(data, 
 					function (ii, val) { 
-						id_group.append("<option value='" + val.pk + "'>" + 
-							val.fields.name + "</option>");
+						id_group.append("<option value='" + ii + "'>" + 
+							val.name + "</option>");
 					}
 				);
 				id_group[0].selectedIndex = 0;
@@ -73,10 +73,10 @@ function updateItemList(group_id) {
 		"success"	: function (data) {
 				// for each of the items, append to the list
 				var id_item = $('#id_item');
-				$.each(data.items,
+				$.each(data,
 					function (ii, val) {
-						id_item.append("<option value='" + val.id + "'>" + val.name +
-							"</option>");
+						id_item.append("<option value='" + ii + "'>" + 
+							val.name + "</option>");
 					}
 				);
 				id_item[0].selectedIndex = 0;
