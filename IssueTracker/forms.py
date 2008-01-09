@@ -93,15 +93,16 @@ class AddSearchForm(forms.Form):
 class CreateIssueForm(ModelForm):
     class Meta:
         model = Issue
-        fields=('it','group','item','cc','problem_type','title','description','reporter'))
+        fields=('it','group','item','cc','problem_type','title','description',
+                'reporter')
 
 class UpdateIssueForm(ModelForm):
     class Meta:
         model = Issue
-        fields=('issue_id','assignee','cc','resolve_time',
-            'resolved_state', 'last_modified'))
+        fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
+                'last_modified')
 
 class AddCommentForm(ModelForm):
     class Meta:
         model = IssueComment
-        fields=('issue', 'user','comment'))
+        fields=('issue', 'user','comment')
