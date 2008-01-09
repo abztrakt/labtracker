@@ -26,6 +26,6 @@ urlpatterns = patterns('',
      (r'^(?P<issue_id>\d+)/post/$', 'labtracker.IssueTracker.views.post'),
      (r'^report/(?P<report_id>\d+)/$', 'labtracker.IssueTracker.views.report'),
      (r'^report/$', 'labtracker.IssueTracker.views.reportList'),
-     (r'^groups/(?P<it_type>\d+)/$', 'labtracker.IssueTracker.views.getGroups'),
-     (r'^items/(?P<group_id>\d+)/$', 'labtracker.IssueTracker.views.getItems'),
+     (r'^groups/$', 'labtracker.IssueTracker.views.getGroups'),
+     (r'^items/$', 'labtracker.IssueTracker.views.getItems'),
 )
