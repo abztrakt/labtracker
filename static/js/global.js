@@ -1,5 +1,11 @@
 var URL_BASE = "/issue/";
 
+$.ajaxSetup({
+	'cache'		: false,
+	'dataType'	: "json",
+	'type'		: "GET"
+});
+
 $(document).ready(function() {
         $.each($(".none_if_js"), function () { this.style.display = "none"; } );
         $.each($(".block_if_js"), function () { this.style.display = "block"; } );

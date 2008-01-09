@@ -8,6 +8,9 @@ $(document).ready(function() {
     $('#id_it').change(function () { updateGroupList(this.value); } );
     $('#id_group').change(function () { updateItemList(this.value); } );
     $('#reset').click(function () { reset(); } );
+	
+	$('#id_it').change();
+	$('#id_group').change();
 });
 
 /**
@@ -24,56 +27,61 @@ function reset() {
 /**
  * updateGroupList will fetch the groups for a given inventory type and append 
  * it to the id_item list
- * @param it_id         The id of the inventory type to fetch groups for
+ * @param it_id         The id of the inventory type to fetch groups for, if null then show all
  *
  * FIXME what happens when group_id doesn't exist? how does getJSON react?
  */
 function updateGroupList(it_id) {
     reset();
-    if (it_id == "") return;
-    $.getJSON(URL_BASE + "groups/" + it_id + "/",
-        function (data) {
-            var id_group = $("#id_group");
 
-            // Take the groups, construct option elements and append them to the group
-            // list
-            $.each(data.groups, 
-                function (ii, val) { 
-                    id_group.append("<option value='" + val.pk + "'>" + val.fields.name +
-                        "</option>");
-                }
-            );
-            id_group[0].selectedIndex = 0;
-        }
-    );
+	// TODO need errorhandler
+	$.ajax({
+		"url"		: URL_BASE + "groups/",	
+		"data"		: { "type": "json", "it_id": it_id },
+		"success"	: function (data) {
+				var id_group = $("#id_group");
+
+				// Take the groups, construct option elements and append them 
+				// to the group list
+				$.each(data.groups, 
+					function (ii, val) { 
+						id_group.append("<option value='" + val.pk + "'>" + 
+							val.fields.name + "</option>");
+					}
+				);
+				id_group[0].selectedIndex = 0;
+				$('#id_group').change();
+			}
+	});
 }
 
 /**
  * updateItemList will fetch the items for a given group and append it to the id_item list
- * @param group_id      The id of the group to fetch items for
+ * @param group_id      The id of the group to fetch items for, if null then show all
  *
- * FIXME what happens when group_id doesn't exist? how does getJSON react?
  */
 function updateItemList(group_id) {
     // reset only the itemList
-    var id_item = $('#id_item');
-    id_item[0].selectedIndex = 0;
-    id_item[0].options.length = 1;
+    var id_item = $('#id_item')[0];
+    id_item.selectedIndex = 0;
+    id_item.options.length = 1;
 
-    if (group_id == "") return;
-
-    $.getJSON(URL_BASE + "items/" + group_id + "/",
-        function (data) {
-            // for each of the items, append to the list
-            $.each(data.items,
-                function (ii, val) {
-                    id_item.append("<option value='" + val.pk + "'>" + val.fields.name +
-                        "</option>");
-                }
-            );
-            id_item[0].selectedIndex = 0;
-        }
-    );
+	// TODO need errorhandler
+	$.ajax({
+		"url"		: URL_BASE + "items/",
+		"data"		: { "type": "json", "group_id" : group_id },
+		"success"	: function (data) {
+				// for each of the items, append to the list
+				var id_item = $('#id_item');
+				$.each(data.items,
+					function (ii, val) {
+						id_item.append("<option value='" + val.id + "'>" + val.name +
+							"</option>");
+					}
+				);
+				id_item[0].selectedIndex = 0;
+			}
+	});
 }
 
 
