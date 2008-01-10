@@ -36,7 +36,7 @@
 </div>
 {% for post in comments %}
 <div id='post_{{ post.ip_id }}' class='comment'>
-    <div class='post_date'>{{ post.post_date }} by {{ post.user }}</div>
+    <div class='post_date'>{{ post.time }} by {{ post.user }}</div>
     <p>
         {{ post.comment|escape }}
     </p>
@@ -70,14 +70,14 @@
 		<h3 class='label'>CC List:</h3>
 		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
 		<div class="block_if_js">
-			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}
-				<li><a href="javascript: false;" class="dropCC" 
-						id="cc_{{cc.id}}" title="Remove {{cc}} from CC">x</a> <span>{{cc}}</span></li>{% endfor %}
-			</ul>
 			<form id="addCC" action="">
 				<input type="text" id="addCC_user" class="small_text" />
 				<input type="submit" value="Add" name="Add" id="addCC" class="flat" />
 			</form>
+			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}
+				<li><a href="javascript: false;" class="dropCC" 
+						id="cc_{{cc.id}}" title="Remove {{cc}} from CC">x</a> <span>{{cc}}</span></li>{% endfor %}
+			</ul>
 			<ul class="errorl"></ul>
 		</div>
 		<form id='update_cc' class="none_if_js" method='post' action='post/'>
@@ -92,9 +92,7 @@
         {% for item in history %}
         <div id='hist_{{ item.ih_id }}' class='history'>
             <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
-            <ul class='struct'>
-                {{item.change}}
-            </ul>
+            <div class='action_msg'>{{ item.message }}</div>
         </div>
         {% endfor %}
     </div>
