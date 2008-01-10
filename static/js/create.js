@@ -10,7 +10,6 @@ $(document).ready(function() {
     $('#reset').click(function () { reset(); } );
 	
 	$('#id_it').change();
-	$('#id_group').change();
 });
 
 /**
@@ -75,7 +74,7 @@ function updateItemList(group_id) {
 				var id_item = $('#id_item');
 				$.each(data,
 					function (ii, val) {
-						id_item.append("<option value='" + val.id + "'>" + 
+						id_item.append("<option value='" + ii + "'>" + 
 							val.name + "</option>");
 					}
 				);
