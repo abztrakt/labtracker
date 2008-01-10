@@ -55,13 +55,17 @@ def post(request, issue_id):
     """
     issue = get_object_or_404(Issue, pk=issue_id)
 
+    UpdateIssueForm = forms.form_for_instance(issue, fields=('issue_id',
+        'assignee','cc','resolve_time', 'resolved_state', 'last_modified'))
+
+
     if request.method == 'POST':
         actionStr = []
         curAssignee = issue.assignee
         curState = issue.resolved_state
         data = request.POST.copy()
 
-        updateIssue = UpdateIssueForm(instance=data)
+        updateIssue = UpdateIssueForm(data)
         updateIssue = updateIssue.save(commit=False)
 
         if (data.has_key('cc')):
@@ -302,6 +306,47 @@ def advSearch(request):
 
     return render_to_response('IssueTracker/adv_search.html', args)
 
+def modelsToDict(items):
+    list = []
+    for item in items:
+        list.append(forms.models.model_to_dict( item ))
+    return list
+
+@permission_required('IssueTracker.can_view')
+def fetch(request, issue_id):
+    """
+    Fetch information for a given issue
+    """
+    issue = get_object_or_404(Issue, pk=issue_id)
+
+    if request.method == "POST":
+        data = request.POST.copy()
+    elif request.method == "GET":
+        data = request.GET.copy()
+
+    if not data.has_key('req'):
+        return Http404()
+
+    if data.get('req') == 'history':
+        req_data = modelsToDict(IssueHistory.objects.filter(issue=issue).order_by('time'))
+        pk = 'ih_id'
+               
+    format = data.get('format', 'xml')
+
+    if format == 'json':
+        # for security reasons, send hash not list
+        f_data = {}
+        for piece in req_data:
+            f_data[piece[pk]] = piece
+        return HttpResponse(simplejson.dumps(f_data))
+    elif format == 'xml':
+        # TODO add xml serialization capabilities capabilities
+        pass
+    elif format == 'html':
+        pass
+
+
+
 ###################
 # ajax generators #
 
@@ -330,9 +375,6 @@ def createGroupList(inv_ids, field='Group'):
             data = forms.models.model_to_dict(group)
             data['name'] = group.group.name
             list[group.group.group_id] = data
-            #list.append(data)
-
-
     return list
 
 def createItemList(items, field='Item'):
