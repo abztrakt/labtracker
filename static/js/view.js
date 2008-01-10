@@ -33,6 +33,7 @@ function dropCC(event) {
         'success': function (data) {
                 // delete the object
                 $(item).parent().remove()
+                reloadHistory();
             },
     });
 }
@@ -76,7 +77,29 @@ function addCC(event) {
                     data['username'] + "</span>");
                 $("ul#cc_list").append(li);
                 $('input#addCC_user')[0].value = "";
+
+                // reload the history
+                reloadHistory();
             },
+    });
+}
+
+// TODO updateHistory, only retrieve stuff we don't have
+function updateHistory(last) {
+}
+
+function reloadHistory() {
+    $('#history_box').empty();
+    $.ajax({
+        'url'       : 'fetch/',
+        'dataType'  : 'text',
+        'data'      : {
+                'format'    : 'html',
+                'req'       : 'history'
+            },
+        'success'   : function (text) {
+                $('#history_box').append(text);
+            }
     });
 }
 
