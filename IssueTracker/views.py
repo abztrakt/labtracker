@@ -17,6 +17,7 @@ from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
 import labtracker.IssueTracker.search as issueSearch
+from labtracker.IssueTracker import updateHistory
 
 args = { 'loggedIn' : False, }
 
@@ -87,15 +88,14 @@ def post(request, issue_id):
                     issue.cc.add(newUser)
 
         if data.has_key('assignee') and not (curAssignee == updateIssue.assignee):
-            actionStr += "<li>Assigned to %s</li>" % (updateIssue.assignee)
+            actionStr += "Assigned to %s" % (updateIssue.assignee)
         if data.has_key('resolved_state') and not (curState == updateIssue.resolved_state):
-            actionStr += "<li>Changed state to %s</li>" % (updateIssue.resolved_state)
+            actionStr += "Changed state to %s" % (updateIssue.resolved_state)
 
         if (actionStr):
             updateIssue.save()
             # also will need to create a new IssueHistory item
-            history = IssueHistory(user=request.user,change=actionStr,issue=issue)
-            history.save()
+            updateHistory(request.user, issue, actionStr)
 
         if data.has_key('comment') and (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
@@ -132,10 +132,12 @@ def modIssue(request, issue_id):
     if data['action'] == "dropcc":
         user = get_object_or_404(User, pk=int(data['user']))
         issue.cc.remove(user)
+        updateHistory(request.user, issue, "Removed %s from CC list" % (user))
         postResp['status'] = 1
     elif data['action'] == "addcc":
         user = get_object_or_404(User, username=data['user'])
         issue.cc.add(user)
+        updateHistory(request.user, issue, "Added %s to CC list" % (user))
         postResp['username'] = user.username
         postResp['userid'] = user.id
         postResp['status'] = 1
@@ -143,15 +145,15 @@ def modIssue(request, issue_id):
     # FIXME: Needs to deal with error handling here, what happens when user could not have
     # been removed?
 
-    if request.method == "POST":
-        # POST means an ajax call and so will do a json response
+    if data['js']:
+        # means an ajax call and so will do a json response
         return HttpResponse(simplejson.dumps(postResp))
-    elif request.method == "GET":
+    else:
         # direct call, will need to redirect
         return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
 @permission_required('IssueTracker.can_view')
-def view(request, issue_id):
+def viewIssue(request, issue_id):
     """
     This is called when the issue requests a specific issue.
     Basically displays the requested issue and any related comments. Offers the
@@ -162,17 +164,13 @@ def view(request, issue_id):
 
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
-    UpdateIssueForm = forms.form_for_instance(issue, 
-            fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
-                'last_modified'))
-
 
     args['issue'] = issue
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
-    args['comments'] = IssueComment.objects.filter(issue=issue).order_by('post_date')
+    args['comments'] = IssueComment.objects.filter(issue=issue).order_by('time')
 
     args['add_comment_form'] = AddCommentForm()
-    args['update_issue_form'] = UpdateIssueForm()
+    args['update_issue_form'] = UpdateIssueForm(instance=issue)
 
     return render_to_response('IssueTracker/view.html', args)
 
