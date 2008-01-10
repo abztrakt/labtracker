@@ -19,6 +19,7 @@ div.comment {
 
 div.post_date { background: #DDD; }
 
+div.history { margin: 0.5em 0em; }
 div.history ul { padding: 0px; margin: 0px; }
 div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 
@@ -79,3 +80,7 @@ input#addCC_user { width: 10em; }
 input#addCC {
 }
 
+div.action_msg {
+    padding: 0px;
+    margin: 0px 0px 0px 2em;
+}
