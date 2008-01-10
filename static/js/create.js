@@ -8,6 +8,8 @@ $(document).ready(function() {
     $('#id_it').change(function () { updateGroupList(this.value); } );
     $('#id_group').change(function () { updateItemList(this.value); } );
     $('#reset').click(function () { reset(); } );
+	//$('div.tags li.tag').click( changeTagState );
+	$('li.tag').click( changeTagState );
 	
 	$('#id_it').change();
 });
@@ -83,4 +85,22 @@ function updateItemList(group_id) {
 	});
 }
 
+function changeTagState(e) {
+	item = $(e.target);
+	tag_m = /\s*tagged\s*/;
+	it_class = item.attr('class')
 
+	item.unbind('click');
+	item.remove();
+
+	// if has class tagged, put back into untagged area
+	if (it_class && it_class.match(tag_m)) {
+		$('#untagged ul').append(item);
+		$('#id_problem_type').children(':contains('+item.text()+')').attr('selected', '');
+	} else {
+		$('#tagged ul').append(item);
+		$('#id_problem_type').children(':contains('+item.text()+')').attr('selected', 'selected');
+	}
+	item.toggleClass('tagged');
+	item.click( changeTagState );
+}

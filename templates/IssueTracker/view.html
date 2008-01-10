@@ -88,13 +88,7 @@
 	</div>
 
     <div id="history_box">
-		<h3 class='label'>History:</h3>
-        {% for item in history %}
-        <div id='hist_{{ item.ih_id }}' class='history'>
-            <h4>{{item.user}}<span class='date'>{{item.time}}</span></h4>
-            <div class='action_msg'>{{ item.message }}</div>
-        </div>
-        {% endfor %}
+        {% include "IssueTracker/issue/history.html" %}
     </div>
 </div>
 <br class='clear' />

@@ -88,6 +88,10 @@ function addCC(event) {
 function updateHistory(last) {
 }
 
+/**
+ * Reloads the history, deletes everything in the history_box and requests a new one from
+ * server
+ */
 function reloadHistory() {
     $('#history_box').empty();
     $.ajax({

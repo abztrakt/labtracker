@@ -221,7 +221,9 @@ def createIssue(request):
             print "Form was not valid"
 
     form = CreateIssueForm()
+
     args['form'] = form
+    args['problem_types'] = form.fields['problem_type'].queryset
     return render_to_response('IssueTracker/create.html', args)
 
 @permission_required('IssueTracker.can_view')
@@ -306,7 +308,10 @@ def advSearch(request):
 
     return render_to_response('IssueTracker/adv_search.html', args)
 
-def modelsToDict(items):
+def modelsToDicts(items):
+    """
+    Takes a list of items and turns each one into a dict, then returns the list of dicts
+    """
     list = []
     for item in items:
         list.append(forms.models.model_to_dict( item ))
@@ -316,6 +321,9 @@ def modelsToDict(items):
 def fetch(request, issue_id):
     """
     Fetch information for a given issue
+    Needs request params:
+        req     -- What data is being requested
+        format  -- What format data should be returned in
     """
     issue = get_object_or_404(Issue, pk=issue_id)
 
@@ -327,11 +335,28 @@ def fetch(request, issue_id):
     if not data.has_key('req'):
         return Http404()
 
-    if data.get('req') == 'history':
-        req_data = modelsToDict(IssueHistory.objects.filter(issue=issue).order_by('time'))
-        pk = 'ih_id'
-               
+    req = data.get('req')
     format = data.get('format', 'xml')
+    limit = data.get('limit', 0);
+
+    if req == 'history':
+        objs = IssueHistory.objects.filter(issue=issue).order_by('time')
+
+        if limit != 0:
+            objs = objs[-limit:]
+
+        req_data = modelsToDicts(objs)
+        pk = 'ih_id'
+
+        if format == 'html':
+            ii = 0
+            for obj in objs:
+                req_data[ii]['time'] = obj.time
+                req_data[ii]['user'] = obj.user
+                ii += 1
+
+            template_args = { 'history': req_data }
+               
 
     if format == 'json':
         # for security reasons, send hash not list
@@ -343,7 +368,11 @@ def fetch(request, issue_id):
         # TODO add xml serialization capabilities capabilities
         pass
     elif format == 'html':
-        pass
+        from django.template.loader import render_to_string
+        print render_to_string("IssueTracker/issue/%s.html" % req,
+                template_args)
+
+        return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
 
 
 

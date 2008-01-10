@@ -4,6 +4,7 @@ form#create_issue {
     width: 73em;
     padding: 1em;
 }
+
 #text {
     float: left;
     width: 30em;
@@ -12,6 +13,7 @@ form#create_issue {
     /* border: 1px #CCCCCC dotted; */
     background: #BBFFBB;
 }
+
 #fields {
     float: left;
     width: 25em;
@@ -21,3 +23,22 @@ form#create_issue {
     background: #BBFFBB;
 }
 
+div.tags {
+    font-weight: bold;
+}
+
+div.tags div {
+    margin: .5em;
+    padding: .2em;
+    min-height: 3em;
+    width: 50em;
+}
+
+div.tags li {
+    padding: .5em;
+    cursor: pointer;
+}
+
+div#untagged { background: #DDBB99; }
+
+div#tagged { background: #FFCCAA; }
