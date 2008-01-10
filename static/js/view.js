@@ -21,12 +21,11 @@ function dropCC(event) {
     errorl.reset();
 
     $.ajax({
-        'dataType':'json',
         'url': "modIssue/",
-        'type': 'POST',
         'data': { 
-                'action': 'dropcc',
-                'user': user_id, 
+                'action'    : 'dropcc',
+                'user'      : user_id, 
+                'js'        : 1
             },
         'error': function (req, err, e) {
                 errorl.addErr("Was unable to remove user from CC list.");
@@ -62,12 +61,11 @@ function addCC(event) {
     }
 
     $.ajax({
-        'dataType':'json',
         'url':'modIssue/',
-        'type': 'POST',
         'data': {
-                'action': 'addcc',
-                'user': user,
+                'action'    : 'addcc',
+                'user'      : user,
+                'js'        : 1
             },
         'error': function (req, err, e) {
                 errorl.addErr("Could not add user to CC list, does user exist?");
@@ -77,6 +75,7 @@ function addCC(event) {
                 var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
                     data['username'] + "</span>");
                 $("ul#cc_list").append(li);
+                $('input#addCC_user')[0].value = "";
             },
     });
 }
