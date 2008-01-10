@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
-from django.newforms import form_for_model
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list
 import django.db.models.loading as load
@@ -55,22 +54,18 @@ def post(request, issue_id):
     Requires a post request, otherwise nothing is done.
     """
     issue = get_object_or_404(Issue, pk=issue_id)
-    UpdateIssueForm = forms.form_for_instance(issue, 
-            fields=('issue_id','assignee','cc','resolve_time', 'resolved_state', 
-                'last_modified'))
 
     if request.method == 'POST':
-        actionStr = ""
+        actionStr = []
         curAssignee = issue.assignee
         curState = issue.resolved_state
         data = request.POST.copy()
 
-        updateIssue = UpdateIssueForm(data)
+        updateIssue = UpdateIssueForm(instance=data)
         updateIssue = updateIssue.save(commit=False)
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
-
             newUsers = User.objects.extra(where= [ 'id IN (%s)' % \
                     (", ".join(data.getlist('cc'))) ] ).order_by('id')
             curUsers = issue.cc.all().order_by('id')
@@ -88,14 +83,13 @@ def post(request, issue_id):
                     issue.cc.add(newUser)
 
         if data.has_key('assignee') and not (curAssignee == updateIssue.assignee):
-            actionStr += "Assigned to %s" % (updateIssue.assignee)
+            actionStr.append("Assigned to %s" % (updateIssue.assignee))
         if data.has_key('resolved_state') and not (curState == updateIssue.resolved_state):
-            actionStr += "Changed state to %s" % (updateIssue.resolved_state)
+            actionStr.append("Changed state to %s" % (updateIssue.resolved_state))
 
         if (actionStr):
             updateIssue.save()
-            # also will need to create a new IssueHistory item
-            updateHistory(request.user, issue, actionStr)
+            updateHistory(request.user, issue, "<br />".join(actionStr))
 
         if data.has_key('comment') and (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
