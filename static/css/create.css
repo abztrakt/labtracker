@@ -29,7 +29,7 @@ div.tags {
 
 div.tags div {
     margin: .5em;
-    padding: .2em;
+    padding: .4em;
     min-height: 3em;
     width: 50em;
 }
@@ -37,8 +37,14 @@ div.tags div {
 div.tags li {
     padding: .5em;
     cursor: pointer;
+    color: #333;
 }
 
 div#untagged { background: #DDBB99; }
 
 div#tagged { background: #FFCCAA; }
+
+div.tags h3 {
+    padding: 0px;
+    margin: .2em;
+}
