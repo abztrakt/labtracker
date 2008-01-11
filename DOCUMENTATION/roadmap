@@ -2,25 +2,26 @@ Goals:
 
 0.1 Rumble:
    [x] Inventory types should be constructable through fairly simple manual means
-   [ ] Assited InventoryType creation process
-        - should be through the administration interface
    [x] Simple search interface allowing search through title or issue id
+   [ ] Basic Issue Tracking
+       [x] Simple search
 
 
 0.2 Thundercracker:
-   [ ] Advanced search, (buildable query) through the issuetracker
-   [ ] Savable searches for later use (either public or private)
-   [ ] Mostly functional (e.g.: core components) for admin interface
+   [ ] Basic Views 
+   [ ] Hit scripts for inventory types (e.g.: computer usage)
 
 0.3 Galvatron:
-   [ ] Working views
-   [ ] Automated hit script creation for each inventory type
+   [ ] Assited InventoryType creation process
+        - should be through the administration interface
+   [ ] Automated hit script creation for inventory types
 
-0.4 Shockwave:
+0.4 Eject:
+   [ ] Advanced search, (buildable query) through the issuetracker
+   [ ] Savable searches for later use (either public or private)
+
+0.5 Shockwave:
    [ ] Statistics caching
-        
 
-Goal for 1.0:
-   [ ] Fully functionally issue tracker (broken bin)
-   [ ] Working views that allow difference ways to view collected data
-   [ ] Assisted InventoryType creation
+0.6 Jetfire:
+        
