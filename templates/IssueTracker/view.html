@@ -1,6 +1,7 @@
 {% extends "IssueTracker/base_generic.html" %}
 {% block pageCSS %}@import url('/css/view.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="/js/view.js"></script>{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="/js/view.js"></script>
+<script type="text/javascript" src="/js/prob_types.js"></script>{% endblock %}
 
 {% block content %}
 <div id="main_issue">
@@ -54,6 +55,11 @@
         <label for='comment' style='display: block;'>{{ add_comment_form.comment.label }}</label>
         {{ add_comment_form.comment }}
     </div>
+    <div class="none_if_js">
+        {{ update_issue_form.problem_type }}
+    </div>
+
+    {% include "IssueTracker/issue/prob_tag_block.html" %}
 {% if comment_errors %}
 {{ comment_errors }}
 {% endif %}
