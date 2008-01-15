@@ -56,8 +56,8 @@ class Issue(models.Model):
         permissions = (("can_modify_other", "Can modify anybody's posts"),
                     ("can_delete_other", "Can delete anybody's posts"),
                     ("can_view", "Can view issues"),)
-    class Admin:
-        list_display = ('title','description','issue_id','post_time')
+    #class Admin:
+        #list_display = ('title','description','issue_id','post_time')
 
 class IssueHistory(models.Model):
     """
@@ -70,6 +70,9 @@ class IssueHistory(models.Model):
     issue = models.ForeignKey(Issue)
     time = models.DateTimeField(auto_now=True)
     message = models.CharField(max_length=100)
+
+    class Admin:
+        pass
 
 class IssueComment(models.Model):
     """

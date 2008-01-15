@@ -16,7 +16,7 @@ from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
 import labtracker.IssueTracker.search as issueSearch
-from labtracker.IssueTracker import updateHistory
+from labtracker.IssueTracker.utils import updateHistory, modelsToDicts
 
 args = { 'loggedIn' : False, }
 
@@ -93,7 +93,8 @@ def post(request, issue_id):
 
         if (actionStr):
             updateIssue.save()
-            updateHistory(request.user, issue, "<br />".join(actionStr))
+            for action in actionStr:
+                updateHistory(request.user, issue, action)
 
         if data.has_key('comment') and (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
@@ -164,11 +165,14 @@ def viewIssue(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
 
     args['issue'] = issue
-    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('time')
+    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('-time')
     args['comments'] = IssueComment.objects.filter(issue=issue).order_by('time')
 
+    form = UpdateIssueForm(instance=issue)
+
     args['add_comment_form'] = AddCommentForm()
-    args['update_issue_form'] = UpdateIssueForm(instance=issue)
+    args['update_issue_form'] = form
+    args['problem_types'] = form.fields['problem_type'].queryset
 
     return render_to_response('IssueTracker/view.html', args)
 
@@ -241,7 +245,7 @@ def search(request):
         try:
             issue_id = int(data['search_term'])
         except ValueError, e:
-            issues = Issue.objects.filter(title__contains=data['search_term'])
+            issues = Issue.objects.filter(title__icontains=data['search_term'])
             print issues
             return HttpResponse(object_list(request, queryset=issues, 
                 extra_context = extra_context, allow_empty=True))
@@ -308,14 +312,6 @@ def advSearch(request):
 
     return render_to_response('IssueTracker/adv_search.html', args)
 
-def modelsToDicts(items):
-    """
-    Takes a list of items and turns each one into a dict, then returns the list of dicts
-    """
-    list = []
-    for item in items:
-        list.append(forms.models.model_to_dict( item ))
-    return list
 
 @permission_required('IssueTracker.can_view')
 def fetch(request, issue_id):
@@ -340,7 +336,7 @@ def fetch(request, issue_id):
     limit = data.get('limit', 0);
 
     if req == 'history':
-        objs = IssueHistory.objects.filter(issue=issue).order_by('time')
+        objs = IssueHistory.objects.filter(issue=issue).order_by('-time')
 
         if limit != 0:
             objs = objs[-limit:]
@@ -374,6 +370,16 @@ def fetch(request, issue_id):
 
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
 
+@permission_required('IssueTracker.can_view')
+def viewAllIssues(request, page=1):
+    setDefaultArgs(request)
+
+    # TODO need user-defined limits
+    num_per_page = 30
+
+    issues = Issue.objects.all().order_by('-last_modified')[(page - 1) * 30:page * 30]
+    args['issueList'] = issues
+    return render_to_response("IssueTracker/all.html", args)
 
 
 ###################
