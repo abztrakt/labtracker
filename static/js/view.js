@@ -1,6 +1,7 @@
 $(document).ready(function() {
         $("a.dropCC").bind("click", dropCC); 
         $("form#addCC").bind("submit", addCC); 
+        $('#problem_type_clicker')[0].compactor.setState(0);
     }
 );
 
