@@ -4,19 +4,17 @@ from labtracker.IssueTracker.models import *
 from django.views.generic.list_detail import object_list
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^labtracker/', include('labtracker.foo.urls')),
-
-    # Uncomment this for admin:
      url(r'^$', 'labtracker.IssueTracker.views.index', name="index"),
      (r'^search/$', 'labtracker.IssueTracker.views.search'),
      (r'^search/detailed/$', 'labtracker.IssueTracker.views.advSearch'),
      (r'^search/field/(?P<field_name>\w+)/$',
          'labtracker.IssueTracker.views.getSearchField'),
-     url(r'^all/$', object_list, 
-         {'queryset': Issue.objects.all().order_by('-last_modified'),
-             'allow_empty': True, }, 
-         name='all'),
+     url(r'^all/$', 'labtracker.IssueTracker.views.viewAllIssues', name='viewAll'),
+     url(r'^all/(?P<page>\d+)/$', 'labtracker.IssueTracker.views.viewAllIssues', name='viewAll'),
+     #url(r'^all/$', object_list, 
+         #{'queryset': Issue.objects.all().order_by('-last_modified'),
+             #'allow_empty': True, }, 
+         #name='all'),
      (r'^pref/$', 'labtracker.IssueTracker.views.user'),
      (r'^(?P<issue_id>\d+)/fetch/$', 'labtracker.IssueTracker.views.fetch'),
      url(r'^new/$', 'labtracker.IssueTracker.views.createIssue', name='createIssue'),
