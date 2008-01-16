@@ -55,7 +55,9 @@ def post(request, issue_id):
     """
     issue = get_object_or_404(Issue, pk=issue_id)
 
-    UpdateIssueForm = forms.form_for_instance(issue, fields=('issue_id',
+
+    #updateIssueForm = UpdateIssueForm(instance=issue)
+    UpdateIssueForm = forms.form_for_instance(issue, fields=('problem_type',
         'assignee','cc','resolve_time', 'resolved_state', 'last_modified'))
 
 
@@ -65,8 +67,10 @@ def post(request, issue_id):
         curState = issue.resolved_state
         data = request.POST.copy()
 
+        #updateIssue = updateIssueForm(data)
         updateIssue = UpdateIssueForm(data)
         updateIssue = updateIssue.save(commit=False)
+
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
@@ -90,6 +94,31 @@ def post(request, issue_id):
             actionStr.append("Assigned to %s" % (updateIssue.assignee))
         if data.has_key('resolved_state') and not (curState == updateIssue.resolved_state):
             actionStr.append("Changed state to %s" % (updateIssue.resolved_state))
+
+        if data.has_key('problem_type'):
+            given_pt = {}
+
+            # for each one that has been sent in args
+            for g_pt in data.getlist('problem_type'):
+                given_pt[int(g_pt)] = 1
+
+            print given_pt
+
+            for pt in issue.problem_type.all():
+                if not given_pt.has_key(pt.pk):
+                    given_pt[pt.pk] = 0
+
+            print given_pt
+
+            # FIXME
+            for pt in given_pt:
+                print pt,
+                print given_pt[pt]
+                if given_pt[pt]:
+                    issue.problem_type.add(ProblemType.objects.get(pk=pt))
+                else:
+                    issue.problem_type.remove(ProblemType.objects.get(pk=pt))
+
 
         if (actionStr):
             updateIssue.save()

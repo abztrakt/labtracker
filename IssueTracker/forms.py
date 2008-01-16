@@ -99,7 +99,7 @@ class CreateIssueForm(ModelForm):
 class UpdateIssueForm(ModelForm):
     class Meta:
         model = Issue
-        fields=('issue_id','problem_type','assignee','cc','resolve_time', 'resolved_state', 
+        fields=('problem_type','assignee','cc','resolve_time', 'resolved_state', 
                 'last_modified')
 
 class AddCommentForm(ModelForm):
