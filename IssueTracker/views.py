@@ -16,7 +16,7 @@ from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
 import labtracker.IssueTracker.search as issueSearch
-from labtracker.IssueTracker.utils import updateHistory, modelsToDicts
+import labtracker.IssueTracker.utils as utils
 
 args = { 'loggedIn' : False, }
 
@@ -47,6 +47,7 @@ def index(request):
 
     return render_to_response('IssueTracker/index.html', args)
 
+@permission_required('Issuetracker.add_issue', login_url="/login/")
 def post(request, issue_id):
     """
     This is for posting comments, and modifying some things for issues after they are
@@ -102,28 +103,46 @@ def post(request, issue_id):
             for g_pt in data.getlist('problem_type'):
                 given_pt[int(g_pt)] = 1
 
-            print given_pt
-
+            # Any problem type that is not given, will need to be marked for removal
             for pt in issue.problem_type.all():
                 if not given_pt.has_key(pt.pk):
+                    given_pt[pt.pk] = -1
+                else:
+                    # if it was given, and already exists, do nothing
                     given_pt[pt.pk] = 0
 
-            print given_pt
+            drop_items = []
+            add_items = []
 
-            # FIXME
             for pt in given_pt:
-                print pt,
-                print given_pt[pt]
-                if given_pt[pt]:
-                    issue.problem_type.add(ProblemType.objects.get(pk=pt))
-                else:
-                    issue.problem_type.remove(ProblemType.objects.get(pk=pt))
+                item = ProblemType.objects.get(pk=pt)
+                if given_pt[pt] == 1:
+                    add_items.append(item.name)
+                    issue.problem_type.add(item)
+                elif given_pt[pt] == -1:
+                    drop_items.append(item.name)
+                    issue.problem_type.remove(item)
+
+            hist_msg = ""
+            if add_items:
+                hist_msg += "<span class='label'>Added problems</span>: %s" % (", ".join(add_items))
+
+                if drop_items:
+                    hist_msg += "<br />"
+
+            if drop_items:
+                hist_msg += "<span class='label'>Removed problems</span>: %s" % (", ".join(drop_items))
+
+            if hist_msg:
+                print "updating History"
+                utils.updateHistory(request.user, issue, hist_msg)
+            
 
 
         if (actionStr):
             updateIssue.save()
             for action in actionStr:
-                updateHistory(request.user, issue, action)
+                utils.updateHistory(request.user, issue, action)
 
         if data.has_key('comment') and (not (data['comment'] in ("", None))):
             data['user'] = str(request.user.id)
@@ -142,7 +161,7 @@ def post(request, issue_id):
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
-@permission_required('IssueTracker.add_issue')
+@permission_required('IssueTracker.add_issue', login_url="/login/")
 def modIssue(request, issue_id):
     """
     Can be accessed through post or get, will redirect immediately afterwards
@@ -160,12 +179,12 @@ def modIssue(request, issue_id):
     if data['action'] == "dropcc":
         user = get_object_or_404(User, pk=int(data['user']))
         issue.cc.remove(user)
-        updateHistory(request.user, issue, "Removed %s from CC list" % (user))
+        utils.updateHistory(request.user, issue, "Removed %s from CC list" % (user))
         postResp['status'] = 1
     elif data['action'] == "addcc":
         user = get_object_or_404(User, username=data['user'])
         issue.cc.add(user)
-        updateHistory(request.user, issue, "Added %s to CC list" % (user))
+        utils.updateHistory(request.user, issue, "Added %s to CC list" % (user))
         postResp['username'] = user.username
         postResp['userid'] = user.id
         postResp['status'] = 1
@@ -180,7 +199,7 @@ def modIssue(request, issue_id):
         # direct call, will need to redirect
         return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def viewIssue(request, issue_id):
     """
     This is called when the issue requests a specific issue.
@@ -205,7 +224,7 @@ def viewIssue(request, issue_id):
 
     return render_to_response('IssueTracker/view.html', args)
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def reportList(request):
     """
     Currently does nothing but will list out all the available queries to list available
@@ -214,7 +233,7 @@ def reportList(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/list.html', args)
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def report(request, report_id):
     """
     View a specific report
@@ -230,7 +249,7 @@ def user(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/user.html', args)
 
-@permission_required('IssueTracker.add_issue')
+@permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
     """
     This is the view called when the user is creating a new issue, not for 
@@ -259,7 +278,7 @@ def createIssue(request):
     args['problem_types'] = form.fields['problem_type'].queryset
     return render_to_response('IssueTracker/create.html', args)
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def search(request):
     """
     Takes a post, searches, and either redirects to a list of matching items (or no
@@ -301,7 +320,7 @@ def search(request):
     else:
         return HttpResponseRedirect(reverse('index'))
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def advSearch(request):
     """ advSearch
 
@@ -342,7 +361,7 @@ def advSearch(request):
     return render_to_response('IssueTracker/adv_search.html', args)
 
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def fetch(request, issue_id):
     """
     Fetch information for a given issue
@@ -370,7 +389,7 @@ def fetch(request, issue_id):
         if limit != 0:
             objs = objs[-limit:]
 
-        req_data = modelsToDicts(objs)
+        req_data = utils.modelsToDicts(objs)
         pk = 'ih_id'
 
         if format == 'html':
@@ -399,15 +418,54 @@ def fetch(request, issue_id):
 
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
 
-@permission_required('IssueTracker.can_view')
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def viewAllIssues(request, page=1):
     setDefaultArgs(request)
 
-    # TODO need user-defined limits
-    num_per_page = 30
+    if request.method == "POST":
+        data = request.POST.copy()
+    elif request.method == "GET":
+        data = request.GET.copy()
 
-    issues = Issue.objects.all().order_by('-last_modified')[(page - 1) * 30:page * 30]
+    # TODO need user-defined limits
+    num_per_page = data.get('numperpage', 30)
+
+    last_order_by = data.get('orderby', 'last_modified')
+    last_order_method = data.get('ometh', 'ASC')
+
+    if last_order_by == 'id':
+        order_by = 'issue_id'
+    else:
+        order_by = last_order_by
+
+    if last_order_method == "ASC":
+        order_method = ''
+    else:
+        order_method = '-'
+
+    issues = Issue.objects.all().order_by(order_method + order_by)[(page - 1) * 30:page * 30]
     args['issueList'] = issues
+    args['last_order_method'] = last_order_method
+    args['order'] = order_by
+
+    args['cols'] = {
+            'id'            : { 'class': 'r_issue_id', 'order': 'ASC' },
+            'title'         : { 'class': 'r_title', 'order': 'ASC' },
+            'item'          : { 'class': 'r_item', 'order': 'ASC' },
+            'it': { 'class': 'r_inv_t', 'order': 'ASC' },
+            'group'         : { 'class': 'r_group', 'order': 'ASC' },
+            'reporter'      : { 'class': 'r_reporter', 'order': 'ASC' },
+            'assignee'      : { 'class': 'r_assignee', 'order': 'ASC' },
+            'post_time'     : { 'class': 'r_post_time', 'order': 'ASC' },
+            'last_modified' : { 'class': 'r_last_modified', 'order': 'ASC' },
+        }
+
+    if args['cols'][last_order_by]['order'] == last_order_method:
+        if last_order_method == "ASC":
+            args['cols'][last_order_by]['order'] = "DESC"
+        else:
+            args['cols'][last_order_by]['order'] = "ASC"
+
     return render_to_response("IssueTracker/all.html", args)
 
 

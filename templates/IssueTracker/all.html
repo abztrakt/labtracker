@@ -1,31 +1,50 @@
 {% extends "IssueTracker/base_generic.html" %}
+{% block pageCSS %}@import url('/css/results.css');{% endblock %}
 
 {% block content %}{% if issueList %}
-<table>
+<table id='issue_results'>
 <thead>
     <tr>
-        <th>Title </th>
-        <th>Issue ID</th>
-        <th>Inventory Type</th>
-        <th>Group</th>
-        <th>Item</th>
-        <th>Reporter</th>
-        <th>Assignee</th>
-        <th>Post Time</th>
-        <th>Last Modified</th>
+        <th class='{{ cols.id.class }}'>
+            <a href="?orderby=id&ometh={{ cols.id.order }}">ID</a>
+        </th>
+        <th class='{{ cols.title.class }}'>
+            <a href="?orderby=title&ometh={{ cols.title.order }}">Title</a>
+        </th>
+        <th class='{{ cols.item.class }}'>
+            <a href="?orderby=item&ometh={{ cols.item.order }}">Item Name</a>
+        </th>
+        <th class='{{ cols.it.class }}'>
+            <a href="?orderby=it&ometh={{ cols.it.order }}">Inventory Type</a>
+        </th>
+        <th class='{{ cols.group.class }}'>
+            <a href="?orderby=group&ometh={{ cols.group.order }}">Group</a>
+        </th>
+        <th class='{{ cols.reporter.class }}'>
+            <a href="?orderby=reporter&ometh={{ cols.reporter.order }}">Reporter</a>
+        </th>
+        <th class='{{ cols.assignee.class }}'>
+            <a href="?orderby=assignee&ometh={{ cols.assignee.order }}">Assignee</a>
+        </th>
+        <th class='{{ cols.post_time.class }}'>
+            <a href="?orderby=post_time&ometh={{ cols.post_time.order }}">Post Time</a>
+        </th>
+        <th class='{{ cols.last_modified.class }}'>
+            <a href="?orderby=last_modified&ometh={{ cols.last_modified.order }}">Last Modified</a>
+        </th>
     </tr>
 </thead>
 <tbody>{% for issue in issueList %}
     <tr>
-        <td><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
-        <td>{{ issue.issue_id }}</td>
-        <td>{{ issue.it }}</td>
-        <td>{{ issue.group }}</td>
-        <td>{{ issue.item }}</td>
-        <td>{{ issue.reporter }}</td>
-        <td>{{ issue.assignee }}</td>
-        <td>{{ issue.post_time }}</td>
-        <td>{{ issue.last_modified }}</td>
+        <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
+        <td class='{{ cols.title.class }}'><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
+        <td class='{{ cols.item.class }}'>{{ issue.item }}</td>
+        <td class='{{ cols.it.class }}'>{{ issue.it }}</td>
+        <td class='{{ cols.group.class }}'>{{ issue.group }}</td>
+        <td class='{{ cols.reporter.class }}'>{{ issue.reporter }}</td>
+        <td class='{{ cols.assignee.class }}'>{{ issue.assignee }}</td>
+        <td class='{{ cols.port_time.class }}'>{{ issue.post_time|date }} at {{ issue.post_time|time }}</td>
+        <td class='{{ cols.last_modified.class }}'>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
     </tr>{% endfor %}
 </tbody>
 </table>{% else %}
