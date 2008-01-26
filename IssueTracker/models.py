@@ -69,7 +69,7 @@ class IssueHistory(models.Model):
     user = models.ForeignKey(User)
     issue = models.ForeignKey(Issue)
     time = models.DateTimeField(auto_now=True)
-    message = models.CharField(max_length=100)
+    message = models.CharField(max_length=300)
 
     class Admin:
         pass
