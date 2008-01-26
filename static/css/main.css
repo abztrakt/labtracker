@@ -130,3 +130,7 @@ div.tags h4 {
 .compact_trigger {
     cursor: pointer;
 }
+
+span.label {
+    font-weight: bold;
+}
