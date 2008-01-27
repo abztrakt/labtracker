@@ -56,3 +56,17 @@ var compactor = {
         }
     }
 };
+
+var django_date_parser = {
+	'id':		'django_date',
+	'is':		function (s) {
+					return false;
+				},
+	'format':	function (s) {
+					s = s.replace(/\.|\bat\s+/g, "").replace(/\b(\w{2})$/, function (c) {
+							return c.toUpperCase();
+						});
+					return $.tablesorter.formatFloat(new Date(s).getTime());
+				},
+	'type': "numeric"
+};

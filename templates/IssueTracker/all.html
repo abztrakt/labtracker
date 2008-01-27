@@ -1,5 +1,7 @@
 {% extends "IssueTracker/base_generic.html" %}
 {% block pageCSS %}@import url('/css/results.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="/js/jquery.tablesorter.pack.js"></script>
+{# <script type="text/javascript" src="/js/list.js"></script>#}{% endblock %}
 
 {% block content %}{% if issueList %}
 <table id='issue_results'>
@@ -35,7 +37,7 @@
     </tr>
 </thead>
 <tbody>{% for issue in issueList %}
-    <tr>
+    <tr class="{% cycle 'even' 'odd' %}">
         <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
         <td class='{{ cols.title.class }}'><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
         <td class='{{ cols.item.class }}'>{{ issue.item }}</td>
