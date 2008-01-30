@@ -2,6 +2,12 @@ from django.conf.urls.defaults import *
 from django.contrib import databrowse
 import labtracker.Machine.models as machine
 
+import django.core.management as dman
+import labtracker.settings as lset
+import django.core.management.commands.startapp as startapp
+
+app_dir = dman.setup_environ(lset)              # get app_dir from settings
+
 
 urlpatterns = patterns('',
     # Example:
@@ -9,9 +15,9 @@ urlpatterns = patterns('',
 
     # Uncomment this for admin:
     (r'^css/(?P<path>.*)$', 'django.views.static.serve', 
-        {'document_root': '/var/www/django_apps/labtracker/static/css/', 'show_indexes': True}),
+        {'document_root': "%s/static/css" % (app_dir), 'show_indexes': True}),
     (r'^js/(?P<path>.*)$', 'django.views.static.serve', 
-        {'document_root': '/var/www/django_apps/labtracker/static/js/', 'show_indexes': True}),
+        {'document_root': "%s/static/css" % (app_dir), 'show_indexes': True}),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': '/var/www/django_apps/labtracker/static/', 'show_indexes': True}),
     # (r'^admin/Machine/group/add/$', 'labtracker.Machine.admin_views.addGroup'),
