@@ -32,7 +32,7 @@ def index(request):
     """
     setDefaultArgs(request)
 
-    # need to get app root somehow
+    # for dev reasons, i'm dumping stuff out 
     todos = open('/var/www/django_apps/labtracker/DOCUMENTATION/TODO')
     args['todos'] = todos.read()
     todos.close()

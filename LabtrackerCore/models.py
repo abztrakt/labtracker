@@ -66,7 +66,9 @@ class InventoryType(models.Model):
             if len(dbload.get_models(app)) > 0:
                 app_c = sqlclear.Command()
                 app_c.handle(*[self.namespace,])
+
             # deletion of the folder should be left to the admin. as well as removal from
+            # settings
 
         except ImproperlyConfigured, e:
             pass
