@@ -4,17 +4,17 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-        ('Ziling Zhao', 'zhaoz@u.washington.edu'),
+        ('Jane Doe', 'jd@u.washington.edu'),
 )
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_ENGINE = 'mysql'                # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'labtracker'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'labtracker'             # Not used with sqlite3.
-DATABASE_PASSWORD = '9tygramsofd!3t'         # Not used with sqlite3.
-DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = '3306'             # Set to empty string for default. Not used with sqlite3.
+DATABASE_PASSWORD = 'SECURITYPLUSPLUS'   # Not used with sqlite3.
+DATABASE_HOST = 'localhost'              # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = '3306'                   # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
 # http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
