@@ -43,33 +43,33 @@
         "pk": 1, 
         "model": "Machine.status", 
         "fields": {
-            "broken": 0, 
-            "usable": 1, 
+            "broken": false, 
+            "usable": true, 
             "description": "", 
             "name": "Usable", 
-            "inuse": 0
+            "inuse": false
         }
     }, 
     {
         "pk": 2, 
         "model": "Machine.status", 
         "fields": {
-            "broken": 0, 
-            "usable": 1, 
+            "broken": false, 
+            "usable": true, 
             "description": "", 
             "name": "Inuse", 
-            "inuse": 1
+            "inuse": true
         }
     }, 
     {
         "pk": 3, 
         "model": "Machine.status", 
         "fields": {
-            "broken": 1, 
-            "usable": 0, 
+            "broken": true, 
+            "usable": false, 
             "description": "", 
             "name": "Broken", 
-            "inuse": 0
+            "inuse": false
         }
     }, 
     {
@@ -77,7 +77,7 @@
         "model": "Machine.group", 
         "fields": {
             "casting_server": "192.168.0.0", 
-            "is_lab": 1, 
+            "is_lab": true, 
             "group": 1, 
             "gateway": "192.168.0.100"
         }
@@ -87,7 +87,7 @@
         "model": "Machine.group", 
         "fields": {
             "casting_server": "192.168.1.121", 
-            "is_lab": 1, 
+            "is_lab": true, 
             "group": 2, 
             "gateway": "192.168.1.100"
         }
@@ -97,7 +97,7 @@
         "model": "Machine.group", 
         "fields": {
             "casting_server": "192.168.0.2", 
-            "is_lab": 1, 
+            "is_lab": true, 
             "group": 3, 
             "gateway": "192.168.0.3"
         }
