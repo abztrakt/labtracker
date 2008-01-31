@@ -1,5 +1,37 @@
 [
     {
+        "pk": 2, 
+        "model": "LabtrackerCore.item", 
+        "fields": {
+            "it": 1, 
+            "name": "machine1"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "LabtrackerCore.item", 
+        "fields": {
+            "it": 1, 
+            "name": "machine2"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "LabtrackerCore.item", 
+        "fields": {
+            "it": 1, 
+            "name": "machine3"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "LabtrackerCore.item", 
+        "fields": {
+            "it": 1, 
+            "name": "machine4"
+        }
+    },
+    {
         "pk": 1, 
         "model": "LabtrackerCore.inventorytype", 
         "fields": {
@@ -39,38 +71,6 @@
             "description": "test", 
             "it": 1, 
             "name": "test"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "LabtrackerCore.item", 
-        "fields": {
-            "it": 1, 
-            "name": "machine1"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "LabtrackerCore.item", 
-        "fields": {
-            "it": 1, 
-            "name": "machine2"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "LabtrackerCore.item", 
-        "fields": {
-            "it": 1, 
-            "name": "machine3"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "LabtrackerCore.item", 
-        "fields": {
-            "it": 1, 
-            "name": "machine4"
         }
     }
 ]

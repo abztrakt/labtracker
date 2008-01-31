@@ -1,6 +1,46 @@
 [
     {
         "pk": 1, 
+        "model": "Machine.type", 
+        "fields": {
+            "name": "Scanning Station", 
+            "warranty_date": "2008-01-07", 
+            "model_name": "Dell Optiplex 2002", 
+            "platform": 1, 
+            "purchase_date": "2008-01-07", 
+            "specs": "stff", 
+            "description": ""
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "Machine.platform", 
+        "fields": {
+            "name": "WinXP", 
+            "description": ""
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "Machine.platform", 
+        "fields": {
+            "name": "Linux ", 
+            "description": ""
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "Machine.location", 
+        "fields": {
+            "building": "MGH", 
+            "comment": "test", 
+            "room": "101", 
+            "name": "CRC", 
+            "floor": 1
+        }
+    },
+    {
+        "pk": 1, 
         "model": "Machine.status", 
         "fields": {
             "broken": 0, 
@@ -120,46 +160,6 @@
             "ms": 1, 
             "ml": 1, 
             "date_added": "2008-01-29 14:32:33"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "Machine.platform", 
-        "fields": {
-            "name": "WinXP", 
-            "description": ""
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "Machine.platform", 
-        "fields": {
-            "name": "Linux ", 
-            "description": ""
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "Machine.location", 
-        "fields": {
-            "building": "MGH", 
-            "comment": "test", 
-            "room": "101", 
-            "name": "CRC", 
-            "floor": 1
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "Machine.type", 
-        "fields": {
-            "name": "Scanning Station", 
-            "warranty_date": "2008-01-07", 
-            "model_name": "Dell Optiplex 2002", 
-            "platform": 1, 
-            "purchase_date": "2008-01-07", 
-            "specs": "stff", 
-            "description": ""
         }
     }
 ]
