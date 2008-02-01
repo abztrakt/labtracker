@@ -4,7 +4,7 @@
         "model": "LabtrackerCore.item", 
         "fields": {
             "it": 1, 
-            "name": "machine1"
+            "name": "OUGL-16-a"
         }
     }, 
     {
@@ -12,7 +12,7 @@
         "model": "LabtrackerCore.item", 
         "fields": {
             "it": 1, 
-            "name": "machine2"
+            "name": "MGH044-02"
         }
     }, 
     {
@@ -20,7 +20,7 @@
         "model": "LabtrackerCore.item", 
         "fields": {
             "it": 1, 
-            "name": "machine3"
+            "name": "OUGL-20-f"
         }
     }, 
     {
@@ -28,7 +28,7 @@
         "model": "LabtrackerCore.item", 
         "fields": {
             "it": 1, 
-            "name": "machine4"
+            "name": "OUGL-02-c"
         }
     },
     {
@@ -50,7 +50,7 @@
             ], 
             "description": "test", 
             "it": 1, 
-            "name": "group1"
+            "name": "MGH030"
         }
     }, 
     {
@@ -60,7 +60,7 @@
             "item": [], 
             "description": "test", 
             "it": 1, 
-            "name": "group2"
+            "name": "MGH044"
         }
     }, 
     {
@@ -70,7 +70,17 @@
             "item": [], 
             "description": "test", 
             "it": 1, 
-            "name": "test"
+            "name": "IPL Workstations"
+        }
+    },
+	{
+        "pk": 4, 
+        "model": "LabtrackerCore.group", 
+        "fields": {
+            "item": [], 
+            "description": "test", 
+            "it": 1, 
+            "name": "OUGL General Access Workstations"
         }
     }
 ]
