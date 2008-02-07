@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CTAGS=`which ctags-exuberant`;
+CTAGS=`which ctags-exuberant || which ctags`;
 
 OPTS="--language-force=python -L - "
 
