@@ -287,16 +287,21 @@ def search(request):
     setDefaultArgs(request)
     extra_context = {}
 
-    if request.method == 'POST':
+    if request.method == "POST":
+        data = request.POST
+    elif request.method == "GET":
+        data = request.GET
+
+    if data:
         # in this case, we get to process the stuff
-        data = request.POST.copy()
         try:
             issue_id = int(data['search_term'])
         except ValueError, e:
             issues = Issue.objects.filter(title__icontains=data['search_term'])
-            print issues
-            return HttpResponse(object_list(request, queryset=issues, 
-                extra_context = extra_context, allow_empty=True))
+
+            return generateList(data, issues, 1)
+            #return HttpResponse(object_list(request, queryset=issues, 
+                #extra_context = extra_context, allow_empty=True))
         except Exception, e:
             # other exceptions
             return HttpResponseServerError
@@ -423,15 +428,24 @@ def viewAllIssues(request, page=1):
     setDefaultArgs(request)
 
     if request.method == "POST":
-        data = request.POST.copy()
+        data = request.POST
     elif request.method == "GET":
-        data = request.GET.copy()
+        data = request.GET
+
+    issues = Issue.objects.all()
+
+    return generateList(data, issues, page)
+
+
+
+def generateList(data, qdict, page):
 
     # TODO need user-defined limits
     num_per_page = data.get('numperpage', 30)
 
     last_order_by = data.get('orderby', 'last_modified')
     last_order_method = data.get('ometh', 'ASC')
+
 
     if last_order_by == 'id':
         order_by = 'issue_id'
@@ -443,7 +457,8 @@ def viewAllIssues(request, page=1):
     else:
         order_method = '-'
 
-    issues = Issue.objects.all().order_by(order_method + order_by)[(page - 1) * 30:page * 30]
+    issues = qdict.order_by(order_method + order_by)[(page - 1) * 30:page * 30]
+
     args['issueList'] = issues
     args['last_order_method'] = last_order_method
     args['order'] = order_by
