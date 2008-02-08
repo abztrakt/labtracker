@@ -1,4 +1,5 @@
 from labtracker.IssueTracker.models import *
+from django import newforms as forms
 
 def updateHistory(user, issue, msg):
     history = IssueHistory(user=user,message=msg,issue=issue)
