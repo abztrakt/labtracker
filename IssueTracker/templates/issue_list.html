@@ -16,9 +16,9 @@
         <th class='{{ cols.item.class }}'>
             <a href="?orderby=item&ometh={{ cols.item.order }}{{ extraArgs }}">Item Name</a>
         </th>
-        <th class='{{ cols.it.class }}'>
+        <!-- <th class='{{ cols.it.class }}'>
             <a href="?orderby=it&ometh={{ cols.it.order }}{{ extraArgs }}">Inventory Type</a>
-        </th>
+        </th> -->
         <th class='{{ cols.group.class }}'>
             <a href="?orderby=group&ometh={{ cols.group.order }}{{ extraArgs }}">Group</a>
         </th>
@@ -29,7 +29,7 @@
             <a href="?orderby=assignee&ometh={{ cols.assignee.order }}{{ extraArgs }}">Assignee</a>
         </th>
         <th class='{{ cols.post_time.class }}'>
-            <a href="?orderby=post_time&ometh={{ cols.post_time.order }}{{ extraArgs }}">Post Time</a>
+            <a href="?orderby=post_time&ometh={{ cols.post_time.order }}{{ extraArgs }}">Posted</a>
         </th>
         <th class='{{ cols.last_modified.class }}'>
             <a href="?orderby=last_modified&ometh={{ cols.last_modified.order }}{{ extraArgs }}">Last Modified</a>
@@ -41,7 +41,7 @@
         <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
         <td class='{{ cols.title.class }}'><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
         <td class='{{ cols.item.class }}'>{{ issue.item }}</td>
-        <td class='{{ cols.it.class }}'>{{ issue.it }}</td>
+        <!-- <td class='{{ cols.it.class }}'>{{ issue.it }}</td> -->
         <td class='{{ cols.group.class }}'>{{ issue.group }}</td>
         <td class='{{ cols.reporter.class }}'>{{ issue.reporter }}</td>
         <td class='{{ cols.assignee.class }}'>{{ issue.assignee }}</td>

@@ -431,7 +431,7 @@ def viewAllIssues(request, page=1):
     elif request.method == "GET":
         data = request.GET
 
-    return generateList(data, Issue.objects.all(), page)
+    return generateList(data, Issue.objects.filter(resolved_state__isnull=True), page)
 
 
 def generateList(data, qdict, page):
