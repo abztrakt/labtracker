@@ -78,8 +78,8 @@ class InventoryType(models.Model):
 
         #super(InventoryType,self).delete()
 
-    class Admin:
-        list_display = ('name','namespace','description')
+    #class Admin:
+    #    list_display = ('name','namespace','description')
 
 class Item(models.Model):
     """
