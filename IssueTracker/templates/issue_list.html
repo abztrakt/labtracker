@@ -50,5 +50,9 @@
     </tr>{% endfor %}
 </tbody>
 </table>{% else %}
-No issues
+<p>
+{% if search_term %}
+No issues were found for the given search terms '{{ search_term }}'
+{% else %}No issues{% endif %}
+</p>
 {% endif %}{% endblock %}

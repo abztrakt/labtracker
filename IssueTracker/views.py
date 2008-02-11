@@ -294,33 +294,32 @@ def search(request):
 
     if data:
         # in this case, we get to process the stuff
-        try:
-            issue_id = int(data['search_term'])
-        except ValueError, e:
-            issues = Issue.objects.filter(title__icontains=data['search_term'])
+        issue_id = data.get('search_term', False)
 
-            return generateList(data, issues, 1)
-            #return HttpResponse(object_list(request, queryset=issues, 
-                #extra_context = extra_context, allow_empty=True))
-        except Exception, e:
-            # other exceptions
-            return HttpResponseServerError
+        if issue_id:
+            try:
+                issue_id = int(issue_id)
 
-        extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
-        extra_context['search_by_id'] = True
+                issue = Issue.objects.get(pk=issue_id)
+                return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+            except ValueError, e:
+                # search_term was not an id, search by string
+                issues = Issue.objects.filter(title__icontains=issue_id)
 
-        try:
-            issue = Issue.objects.get(pk=issue_id)
-            return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
-        except ObjectDoesNotExist, e:
-            issues = Issue.objects.filter(title__contains=data['search_term'])
-            print issues
+                return generateList(data, issues, 1)
 
-            return HttpResponse(object_list(request, queryset=issues, 
-                extra_context = extra_context, allow_empty=True))
-        except Exception, e:
-            # other exceptions
-            return HttpResponseServerError()
+            except ObjectDoesNotExist, e:
+                # issue id was not an actual issue, use it as a search_term
+                issues = Issue.objects.filter(title__contains=issue_id)
+
+                # FIXME change so that it uses the generateList as well
+
+                return HttpResponse(object_list(request, queryset=issues, 
+                    extra_context = extra_context, allow_empty=True))
+            except Exception, e:
+                return HttpResponseServerError()
+
+            #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
 
     else:
         return HttpResponseRedirect(reverse('index'))
@@ -432,13 +431,14 @@ def viewAllIssues(request, page=1):
     elif request.method == "GET":
         data = request.GET
 
-    issues = Issue.objects.all()
-
-    return generateList(data, issues, page)
-
+    return generateList(data, Issue.objects.all(), page)
 
 
 def generateList(data, qdict, page):
+    """
+    Take some arguments from user in data, the page number to show and the returned query
+    items, render out to user
+    """
 
     # TODO need user-defined limits
     num_per_page = data.get('numperpage', 30)
@@ -481,7 +481,15 @@ def generateList(data, qdict, page):
         else:
             args['cols'][last_order_by]['order'] = "ASC"
 
-    return render_to_response("IssueTracker/all.html", args)
+    search_term =  data.get('search_term', False)
+    args['search_term'] = search_term
+
+    if search_term:
+        # kludgy way of doing things
+        args['extraArgs'] = '&search_term=%s' % ( search_term )
+
+
+    return render_to_response("IssueTracker/issue_list.html", args)
 
 
 ###################
