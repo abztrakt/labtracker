@@ -3,6 +3,8 @@
 DEBUG = True 
 TEMPLATE_DEBUG = DEBUG
 
+DJANGO_ROOT = "/var/www/django_apps/labtracker/"
+
 ADMINS = (
         ('Jane Doe', 'jd@u.washington.edu'),
 )
@@ -71,7 +73,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/var/www/django_apps/labtracker/templates',
+    '%s/templates' % DJANGO_ROOT,
 )
 
 INSTALLED_APPS = (
