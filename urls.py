@@ -20,9 +20,11 @@ urlpatterns = patterns('',
         {'document_root': "%s/static/js/" % (app_dir), 'show_indexes': True}),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': '/var/www/django_apps/labtracker/static/', 'show_indexes': True}),
+
     # (r'^admin/Machine/group/add/$', 'labtracker.Machine.admin_views.addGroup'),
+    (r'^admin/Machine/item/add/$', 'labtracker.Machine.admin_views.addItem'),
     (r'^admin/', include('django.contrib.admin.urls')),
-    (r'^databrowse/(.*)', databrowse.site.root),
+    #(r'^databrowse/(.*)', databrowse.site.root),
     #(r'^$', include('labtracker.IssueTracker.urls')),
     (r'^issue/', include('labtracker.IssueTracker.urls')),
 )
