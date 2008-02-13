@@ -30,21 +30,14 @@ def addItem(request):
 
             return http.HttpResponseRedirect('/admin/Machine/item/')
         else:
-            # handle the form errors
-            #print base_form.errors
-            #print dir(add_form)
-
-            for error in base_form.errors:
-                print error
-                print add_form.fields
-
-
             print "Error happened while trying to validate"
+
+    else:
+        add_form = MachineForm()
+        base_form = coreForms.BaseItemForm()
 
     model = machineModels.Item
 
-    add_form = MachineForm()
-    core_form = coreForms.BaseItemForm()
     opts = model._meta
 
     context = template.RequestContext(request, {
@@ -67,7 +60,7 @@ def addItem(request):
         "admin/Machine/item/change_form.html",
         {
             'addForm'           : add_form,
-            'coreForm'          : core_form,
+            'coreForm'          : base_form,
         },
         context
     )
