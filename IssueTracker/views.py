@@ -313,13 +313,16 @@ def search(request):
                 issues = Issue.objects.filter(title__contains=issue_id)
 
                 # FIXME change so that it uses the generateList as well
+                return generateList(data,
+                        Issue.objects.all(), 1)
 
-                return HttpResponse(object_list(request, queryset=issues, 
-                    extra_context = extra_context, allow_empty=True))
             except Exception, e:
                 return HttpResponseServerError()
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
+        else:
+            return generateList(data, Issue.objects.all(), 1)
+
 
     else:
         return HttpResponseRedirect(reverse('index'))
@@ -467,7 +470,7 @@ def generateList(data, qdict, page):
             'id'            : { 'class': 'r_issue_id', 'order': 'ASC' },
             'title'         : { 'class': 'r_title', 'order': 'ASC' },
             'item'          : { 'class': 'r_item', 'order': 'ASC' },
-            'it': { 'class': 'r_inv_t', 'order': 'ASC' },
+            'it'            : { 'class': 'r_inv_t', 'order': 'ASC' },
             'group'         : { 'class': 'r_group', 'order': 'ASC' },
             'reporter'      : { 'class': 'r_reporter', 'order': 'ASC' },
             'assignee'      : { 'class': 'r_assignee', 'order': 'ASC' },
