@@ -106,13 +106,13 @@ class Item(models.Model):
         self.item.delete()          # delete the item in core.Item
         super(Item,self).delete()   # delete self
 
-    def save(self, name='test'):
-        # first insert a new thing into core.Items
+    def save(self, name=None):
+        # first insert a new thing into core.Items, unless it already exists
         try:
             self.item
         except:
-            # FIXME 'test' needs to be replaced with an actual item name
-            self.item = core.Item.objects.create(name=name, it = getInventoryType())
+            if (name != None):
+                self.item = core.Item.objects.create(name=name, it = getInventoryType())
 
         super(Item,self).save()
 

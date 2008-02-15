@@ -1,12 +1,13 @@
 {% extends "admin/change_form.html" %}
+
+{% load i18n %}
+
 {% comment %}
     Still need to implement proper heading (e.g. Add Machine Item)
     Also need global error message (Please correct the errors below)
 
     Reference: /usr/lib/python2.4/site-packages/django/contrib/admin/templates/admin/change_form.html
 {% endcomment %}
-
-{% load i18n %}
 
 {% block content %}
 <form action="" method="post" id="machineItem_form">{% block form_top %}{% endblock %}

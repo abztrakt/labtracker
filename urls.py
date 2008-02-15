@@ -23,6 +23,8 @@ urlpatterns = patterns('',
 
     # (r'^admin/Machine/group/add/$', 'labtracker.Machine.admin_views.addGroup'),
     (r'^admin/Machine/item/add/$', 'labtracker.Machine.admin_views.addItem'),
+    (r'^admin/Machine/item/(?P<id>\d+)/$', 'labtracker.Machine.admin_views.modItem'),
+
     (r'^admin/', include('django.contrib.admin.urls')),
     #(r'^databrowse/(.*)', databrowse.site.root),
     #(r'^$', include('labtracker.IssueTracker.urls')),
