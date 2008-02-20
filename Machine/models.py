@@ -146,12 +146,13 @@ class Group(models.Model):
         self.group.delete()
         super(Group,self).delete()
 
-    def save(self):
+    def save(self, name=None, description = ''):
         try:
-           self.group
+            self.group
         except:
-           self.group = core.Group.objects.create(it = getInventoryType(), name =
-                   'test', description = 'test')
+            if name != None:
+                self.group = core.Group.objects.create(it = getInventoryType(), name =
+                        name, description = description)
 
         super(Group,self).save()
 
