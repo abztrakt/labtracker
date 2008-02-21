@@ -96,8 +96,8 @@ class Item(models.Model):
         """
         return self.name
 
-    class Admin:
-        pass
+    #class Admin:
+        #pass
 
 class Group(models.Model):
     """
@@ -117,6 +117,6 @@ class Group(models.Model):
         """
         return self.name
 
-    class Admin:
-        pass
+    #class Admin:
+        #pass
 

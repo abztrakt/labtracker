@@ -1,7 +1,6 @@
 from django import newforms as forms, template
 from django.newforms import ModelForm
 from django.newforms.forms import BaseForm      #, SortedDictFromList
-from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 import django.http as http
@@ -82,6 +81,10 @@ def addItem(request):
 
 @staff_member_required
 def modGroup(request, id):
+    """
+    Modify a pre-existing Machine.Group
+    Takes request and the id 
+    """
     model = machineModels.Group
     machine_group = get_object_or_404(model, pk=id)
     core_item = machine_group.group
@@ -109,6 +112,9 @@ def modGroup(request, id):
 
 @staff_member_required
 def addGroup(request):
+    """
+    Add a new Machine.Group, takes nothing but the request object
+    """
     model = machineModels.Group
 
     if request.method == "POST":
@@ -172,6 +178,10 @@ def adminRender(request, model, core_form, model_form, change=False, add=False):
     )
 
 def submit_row(context):
+    """
+    Used to construct and develop context for the submission bar at the end of
+    the page in the admin mod/add pages
+    """
     opts = context['opts']
     change = context['change']
     is_popup = context['is_popup']
@@ -187,12 +197,18 @@ def submit_row(context):
     }
 
 class MachineForm(ModelForm):
+    """
+    Form for machineModels.Item
+    """
     class Meta:
         model = machineModels.Item
         fields = ('id', 'item_id', 'mt', 'ms', 'ml', 'ip', 'mac', 'date_added',
                 'manu_tag', 'comment')
 
 class MachineGroupForm(ModelForm):
+    """
+    Form for machineModels.Group
+    """
     class Meta:
         model = machineModels.Group
         fields = ('is_lab', 'casting_server', 'gateway')
