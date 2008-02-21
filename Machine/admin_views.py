@@ -70,16 +70,14 @@ def modItem(request, id):
 
 @staff_member_required
 def addItem(request):
-
     if request.method == "POST":
         data = request.POST.copy()
 
-        add_form = MachineForm(data)
-        base_form = coreForms.BaseItemForm(data)
+        model_form = MachineForm(data)
+        core_form = coreForms.BaseItemForm(data)
 
-
-        if base_form.is_valid() and add_form.is_valid():
-            new_machine = add_form.save(commit=False)
+        if core_form.is_valid() and model_form.is_valid():
+            new_machine = model_form.save(commit=False)
             new_machine.save(data['name'])
 
             # TODO redirect like the admin page does 
