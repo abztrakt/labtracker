@@ -1,0 +1,83 @@
+{% extends "admin/change_form.html" %}
+
+{% load i18n %}
+
+{% comment %}
+    Still need to implement proper heading (e.g. Add Machine Item)
+    Also need global error message (Please correct the errors below)
+
+    Reference: /usr/lib/python2.4/site-packages/django/contrib/admin/templates/admin/change_form.html
+{% endcomment %}
+
+{% block content %}
+<form action="" method="post" id="machineItem_form">{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% comment %} {% if opts.admin.save_on_top %}{% submit_row %}{% endif %} 
+{% if coreForm.error_dict %}
+    <p class="errornote">
+        {% blocktrans count coreForm.error_dict.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+{% endif %}
+{% if addForm.error_dict %}
+    <p class="errornote">
+        {% blocktrans count addForm.error_dict.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+{% endif %}
+{% endcomment %}
+    <fieldset class="module aligned">
+    {% for field in coreForm %}
+        <div class="form-row">
+            {{ field.errors }}
+            {% if field.name %}<label class="required">{{ field.label }}</label>{% endif %}
+            {{ field }}
+        </div>
+    {% endfor %}
+    {% for field in addForm %}
+        <div class="form-row">
+            <p>{{ field.errors }}</p>
+            {% if field.html_error_list %}ERRORS FOUND: {{ field.html_error_list }}{% endif %}
+            {% if field.name %}<label class="required">{{ field.label }}</label>{% endif %}
+            {{ field }}
+        </div>
+    {% endfor %}
+    </fieldset>
+{% block after_field_sets %}{% endblock %}
+{% if change %}
+   {% if ordered_objects %}
+   <fieldset class="module"><h2>{% trans "Ordering" %}</h2>
+   <div class="form-row{% if form.order_.errors %} error{% endif %} ">
+   {% if form.order_.errors %}{{ form.order_.html_error_list }}{% endif %}
+   <p><label for="id_order_">{% trans "Order:" %}</label> {{ form.order_ }}</p>
+   </div></fieldset>
+   {% endif %}
+{% endif %}
+
+{% block after_related_objects %}{% endblock %}
+
+<div class="submit-row">
+    {% if show_delete_link %}<p class="float-left"><a href="delete/" class="deletelink">{% trans "Delete" %}</a></p>{% endif %}
+    {% if show_save_as_new %}<input type="submit" value="{% trans 'Save as new' %}" name="_saveasnew" {{ onclick_attrib }}/>{%endif%}
+    {% if show_save_and_add_another %}<input type="submit" value="{% trans 'Save and add another' %}" name="_addanother" {{ onclick_attrib }} />{% endif %}
+    {% if show_save_and_continue %}<input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" {{ onclick_attrib }}/>{% endif %}
+    {% if show_save %}<input type="submit" value="{% trans 'Save' %}" class="default" {{ onclick_attrib }}/>{% endif %}
+</div>
+
+
+{% comment %}{% submit_row %}
+
+{% if add %}
+   <script type="text/javascript">document.getElementById("{{ first_form_field_id }}").focus();</script>
+{% endif %}
+
+{% if auto_populated_fields %}
+   <script type="text/javascript">
+   {% auto_populated_field_script auto_populated_fields change %}
+   </script>
+{% endif %}
+{% endcomment %}
+</div>
+</form>
+
+{% endblock %}
+
