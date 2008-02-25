@@ -3,14 +3,16 @@ Goals:
 0.1 Rumble:
    [x] Inventory types should be constructable through fairly simple manual means
    [x] Simple search interface allowing search through title or issue id
-   [ ] Basic Issue Tracking
+   [x] Basic Issue Tracking
        [x] Simple search
-   [ ] Add and remove items/groups
+   [x] Add and remove items/groups
 
 
 0.2 Thundercracker:
    [ ] Basic Views 
    [ ] Hit scripts for inventory types (e.g.: computer usage)
+   [ ] Improved integration of add/remove items/groups with the rest of the
+        admin interface
 
 0.3 Galvatron:
    [ ] Assited InventoryType creation process
