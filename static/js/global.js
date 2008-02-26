@@ -10,7 +10,7 @@ $(document).ready(function() {
         $.each($(".none_if_js"), function () { this.style.display = "none"; } );
         $.each($(".block_if_js"), function () { this.style.display = "block"; } );
         $.each($(".inline_if_js"), function () { this.style.display = "inline"; } );
-        $.each($(".errorl"), 
+        $.each($(".errorl,.errorlist"), 
             function () { 
                 this.addErr = function (err) {
                     $(this).append("<li>" + err + "</li>");
@@ -70,3 +70,19 @@ var django_date_parser = {
 				},
 	'type': "numeric"
 };
+
+
+/**
+ * Creates the the html for rm link
+ */
+function rmCCLink(userid, username) {
+    return '<a id="cc_' + userid + '" class="dropCC" title="Remove ' + username + 
+        ' from CC" href="#">x</a>';
+}
+
+
+function debugLog(msg) {
+    if (typeof console != "undefined" && typeof console.log != "undefined") {
+        console.log(msg);
+    }
+}
