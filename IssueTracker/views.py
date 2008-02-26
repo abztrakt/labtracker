@@ -271,8 +271,8 @@ def createIssue(request):
         else:
             print form.errors
             print "Form was not valid"
-
-    form = CreateIssueForm()
+    else:
+        form = CreateIssueForm()
 
     args['form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
@@ -613,4 +613,28 @@ def getItems(request):
     else:
         pass
         # TODO XML serialization
+
+
+######################
+#   Query for info   #
+
+@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+def userCheck(request, name):
+    """
+    Given a username, check to see if the user exists, returns user info
+    """
+
+    resp = { 'exists' : 0, }
+    try:
+        user = User.objects.get(username=name)
+        resp['exists'] = 1
+        resp['id'] = user.id
+        resp['active'] = user.is_active
+        resp['username'] = user.username
+        resp['email'] = user.email
+    except ObjectDoesNotExist, e:
+        resp['exists'] = 0
+
+    return HttpResponse(simplejson.dumps(resp))
+
 
