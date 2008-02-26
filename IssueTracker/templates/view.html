@@ -72,26 +72,7 @@
 <!-- Right side bar -->
 <div id="right_side_bar">
 	<!-- Stuff involving the CC list -->
-    <div id="cc_box">
-		<h3 class='label'>CC List:</h3>
-		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
-		<div class="block_if_js">
-			<form id="addCC" action="">
-				<input type="text" id="addCC_user" class="small_text" />
-				<input type="submit" value="Add" name="Add" id="addCC" class="flat" />
-			</form>
-			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}
-				<li><a href="javascript: false;" class="dropCC" 
-						id="cc_{{cc.id}}" title="Remove {{cc}} from CC">x</a> <span>{{cc}}</span></li>{% endfor %}
-			</ul>
-			<ul class="errorl"></ul>
-		</div>
-		<form id='update_cc' class="none_if_js" method='post' action='post/'>
-			{{ update_issue_form.cc }} <br />
-			<input type="hidden" name="action" value="updateCC" />
-			<input type="submit" name="update" value="Update" class="flat" />
-		</form>
-	</div>
+    {% include "IssueTracker/cc_list.html" %}
 
     <div id="history_box">
         {% include "IssueTracker/issue/history.html" %}
