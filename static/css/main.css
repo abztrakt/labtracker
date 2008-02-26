@@ -134,3 +134,11 @@ div.tags h4 {
 span.label {
     font-weight: bold;
 }
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}

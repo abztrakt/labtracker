@@ -1,13 +1,20 @@
+label {
+    font-size: 1.2em;
+}
+
+div.f_container {
+    margin-bottom: 2em;
+}
+
 form#create_issue { 
     border: 1px grey dotted;
     background: #BBFFBB;
-    width: 73em;
+    /* width: 73em; */
     padding: 1em;
 }
 
 #text {
-    float: left;
-    width: 30em;
+    width: 45em;
     margin: 1em;
     padding: 1em;
     /* border: 1px #CCCCCC dotted; */
@@ -15,7 +22,6 @@ form#create_issue {
 }
 
 #fields {
-    float: left;
     width: 25em;
     margin: 1em;
     padding: 1em;
@@ -23,3 +29,15 @@ form#create_issue {
     background: #BBFFBB;
 }
 
+textarea#id_description {
+    width: 100%;
+    overflow: auto;
+}
+
+#id_cc {
+    height: 5em;
+}
+
+#addCC {
+    background-color: #99CC99;
+}

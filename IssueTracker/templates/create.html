@@ -6,58 +6,76 @@
 
 {% block content %}
 <form method='post' id="create_issue">
-<table id='text'>
-    <tr>
-        <td>{{ form.title.label }}</td>
-        <td>{{ form.title }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.description.label }}</td>
-        <td>{{ form.description }}</td>
-    </tr>
-</table>
-<table id='fields'>
-    <tr>
-        <td>{{ form.cc.label }}</td>
-        <td>{{ form.cc }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.it.label }}</td>
-        <td>{{ form.it }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.group.label }}</td>
-        <td>{{ form.group }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.item.label }}</td>
-        <td>{{ form.item }}</td>
-    </tr>
-    <tr class='none_if_js'>
-        <td>{{ form.problem_type.label }}</td>
-        <td>{{ form.problem_type }}</td>
-    </tr>
-</table>
-<br class="clear" />
-<div class='tags block_if_js'>
-    <h3>Problem Types</h3>
+    <div id="text" class="left">
+        <div id='title' class="f_container">
+            <label for="{{form.title.name}}">{{form.title.label}}</label>
+            <div>{{form.title}}</div>
+            {{ form.title.errors }}
+        </div>
+        <div id="desc" class="f_container">
+            <label for="{{form.description.name}}">{{form.description.label}}</label>
+            <div>{{form.description}}</div>
+            {{ form.description.errors }}
+        </div>
+    </div>
 
-	<h4>Selected</h4>
-	<div id='tagged'>
-		<ul class='inline'>
-		</ul>
-	</div>
+    <div id="fields" class="left">
+        <div class='f_container' id='cc_block'>
+            <label for="{{form.cc.name}}">{{ form.cc.label }}</label>
+            <div class='none_if_js'>{{ form.cc }}</div>
+            <div class='block_if_js'> 
+                <div>
+                    <input type="text" id="addCC_user" class="small_text" />
+                    <input type="button" value="Add" name="Add" id="addCC" class="flat" />
+                </div>
+                <ul id='cc_list' class="struct"></ul>
+                {% if form.cc.errors %}{{ form.cc.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
 
-	<h4>Unused</h4>
-	<div id='untagged'>
-		<ul class='inline'>
-			{% for problem in problem_types %}
-				<li class='tag'>{{ problem }}</li>
-			{% endfor %}
-		</ul>
-	</div>
-</div>
-<input type="submit" name="submit" value="Submit" />
-<input type="reset" id="reset" value="Reset" />
+
+        <div class='f_container'>
+            <label for="{{form.it.name}}">{{ form.it.label }}</label>
+            <div>{{ form.it }}</div>
+        </div>
+        <div class='f_container'>
+            <label for="{{form.group.name}}">{{ form.group.label }}</label>
+            <div>{{ form.group }}</div>
+        </div>
+        <div class='f_container'>
+            <label for="{{form.item.name}}">{{ form.item.label }}</label>
+            <div>{{ form.item }}</div>
+        </div>
+        <div class='none_if_js f_container'>
+            <label for="{{form.problem_type.name}}">{{ form.problem_type.label }}</label>
+            <div>{{ form.problem_type }}</div>
+        </div>
+    </div>
+
+    <br class="clear" />
+
+    <!-- Use fancier problem selection if the user has javascript powers -->
+    <div class='tags block_if_js'>
+        <h3>Problem Types</h3>
+
+        <h4>Selected</h4>
+        <div id='tagged'>
+            <ul class='inline'>
+            </ul>
+        </div>
+
+        <h4>Unused</h4>
+        <div id='untagged'>
+            <ul class='inline'>
+                {% for problem in problem_types %}
+                    <li class='tag'>{{ problem }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <input type="submit" name="submit" value="Submit" />
+    <input type="reset" id="reset" value="Reset" />
 </form>
 {% endblock %}
