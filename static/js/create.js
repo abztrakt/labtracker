@@ -8,13 +8,16 @@ $(document).ready(function() {
     $('#id_it').change(function () { updateGroupList(this.value); } );
     $('#id_group').change(function () { updateItemList(this.value); } );
     $('#reset').click(function () { reset(); } );
-	//$('li.tag').click( changeTagState );
 	
 	$('#id_it').change();
 
     // when a user is added to the cc list
     $('#addCC').bind('click', addCC);
+
+    // bind the enter key to hit addCC
     $('#addCC_user').keypress(function (e) { if (e.which == 13) { addCC(e); } });
+
+    loadCC();
 });
 
 /**
@@ -26,8 +29,6 @@ function reset() {
         this.selectedIndex = 0;
         this.options.length = 1;
     });
-
-    $('#id_cc')[0].selectedIndex = -1;
 }
 
 /**
@@ -113,10 +114,7 @@ function addCC(event) {
 
     if (option.length == 1) {
         var id = option.attr('value');
-        var btn = $(rmCCLink(id, user)).bind("click", dropCC);
-        var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
-            user + "</span>");
-        $("ul#cc_list").append(li);
+        addUserToCCList(id, user);
         input[0].value = "";
 
         // Select the user in the cc list
@@ -145,3 +143,19 @@ function dropCC(event) {
     $('#id_cc').children('option[value='+user_id+']').removeAttr('selected');
 }
 
+
+/**
+ * Takes the selected indexes in the cc select and adds them to the list
+ */
+function loadCC() {
+    $('#id_cc').children('option[selected]').each(function () {
+            addUserToCCList(this.value, this.innerHTML);
+        });
+}
+
+function addUserToCCList(id, username) {
+    var btn = $(rmCCLink(id, username)).bind("click", dropCC);
+    var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
+            username + "</span>");
+    $("ul#cc_list").append(li);
+}
