@@ -107,11 +107,3 @@ function reloadHistory() {
             }
     });
 }
-
-/**
- * Creates the the html for rm link
- */
-function rmCCLink(userid, username) {
-    return '<a id="cc_' + userid + '" class="dropCC" title="Remove ' + username + 
-        ' from CC" href="#">x</a>';
-}
