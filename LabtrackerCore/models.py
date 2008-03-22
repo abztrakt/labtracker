@@ -4,8 +4,8 @@ These are the Core models for Labtracker
 """
 
 from django.db import models,connection
-from django.core.exceptions import ImproperlyConfigured
-import django.core.management as dman
+#from django.core.exceptions import ImproperlyConfigured
+#import django.core.management as dman
 import django.db.models.loading as dbload
 
 import labtracker.settings as lset
