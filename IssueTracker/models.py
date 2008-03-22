@@ -71,8 +71,8 @@ class IssueHistory(models.Model):
     time = models.DateTimeField(auto_now=True)
     message = models.CharField(max_length=300)
 
-    class Admin:
-        pass
+    #class Admin:
+        #pass
 
 class IssueComment(models.Model):
     """
@@ -85,5 +85,5 @@ class IssueComment(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
 
-    class Admin:
-        pass;
+    #class Admin:
+        #pass;
