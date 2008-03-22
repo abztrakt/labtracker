@@ -1,19 +1,10 @@
 from django.conf.urls.defaults import *
-from django.contrib import databrowse
-import labtracker.Machine.models as machine
-
-import django.core.management as dman
 import labtracker.settings as lset
-import django.core.management.commands.startapp as startapp
 
-app_dir = dman.setup_environ(lset)              # get app_dir from settings
+app_dir = lset.APP_DIR
 
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^labtracker/', include('labtracker.foo.urls')),
-
-    # Uncomment this for admin:
     (r'^css/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': "%s/static/css/" % (app_dir), 'show_indexes': True}),
     (r'^js/(?P<path>.*)$', 'django.views.static.serve', 
@@ -27,6 +18,7 @@ urlpatterns = patterns('',
     (r'^admin/Machine/group/(?P<id>\d+)/$', 'labtracker.Machine.admin_views.modGroup'),
 
     (r'^admin/', include('django.contrib.admin.urls')),
+
     #(r'^databrowse/(.*)', databrowse.site.root),
     #(r'^$', include('labtracker.IssueTracker.urls')),
     (r'^issue/', include('labtracker.IssueTracker.urls')),
