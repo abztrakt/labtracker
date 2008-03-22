@@ -1,7 +1,4 @@
 from django.conf.urls.defaults import *
-from labtracker.IssueTracker.models import *
-#import django.views.generic.list_detail
-from django.views.generic.list_detail import object_list
 
 urlpatterns = patterns('',
      url(r'^$', 'IssueTracker.views.index', name="index"),

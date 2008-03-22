@@ -1,6 +1,0 @@
- * Name needs to be definable on item creation (non-core)
-
-[Search]
- * Query modes need to be associated to fields in some sane manner
- * Resolve Time and Post Time need to have custom widgets for the query modifier select
- * Query's need to do isnull correctly on exclusion type searches

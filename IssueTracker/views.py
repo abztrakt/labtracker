@@ -4,13 +4,13 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list
 import django.db.models.loading as load
 
 import simplejson
-from django.core import serializers
 
 from labtracker.IssueTracker.models import *
 import labtracker.LabtrackerCore.models as LabtrackerCore
@@ -33,13 +33,13 @@ def index(request):
     setDefaultArgs(request)
 
     # for dev reasons, i'm dumping stuff out 
-    todos = open('/var/www/django_apps/labtracker/DOCUMENTATION/TODO')
-    args['todos'] = todos.read()
-    todos.close()
+    #todos = open('/var/www/django_apps/labtracker/DOCUMENTATION/TODO')
+    #args['todos'] = todos.read()
+    #todos.close()
 
-    roadmap = open('/var/www/django_apps/labtracker/DOCUMENTATION/roadmap')
-    args['roadmap'] = roadmap.read()
-    roadmap.close()
+    #roadmap = open('/var/www/django_apps/labtracker/DOCUMENTATION/roadmap')
+    #args['roadmap'] = roadmap.read()
+    #roadmap.close()
 
     readme = open('/var/www/django_apps/labtracker/DOCUMENTATION/README')
     args['readme'] = readme.read()
