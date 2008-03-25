@@ -84,12 +84,10 @@ def parseSearch(data):
     """
     """
     # take the data and parse out what needs to be done
-    #print dir(data)
     keys = data.keys()
     keys.sort()
 
     searches = []
-    #print keys
     keyval = re.compile(r'^(\d+)_(\w+?)(_mode)?$')
     for key, value in data.lists():
         matches = re.match(keyval, key)
@@ -110,11 +108,9 @@ def parseSearch(data):
 def buildQuery(searches):
     """
     """
-    print 'in searches'
     query = IssueModel.Issue.objects
 
     for search in searches:
-        print search
         # take the contains and generate the search string
 
         term = {}
@@ -126,7 +122,6 @@ def buildQuery(searches):
         elif name in ('group',):
             name = "%s__name" % (name)
 
-        print name
 
         if search.has_key('value'):
             values = search['value']
@@ -166,7 +161,6 @@ def buildQuery(searches):
             value = str(values[0])
 
             # TODO  Make pretty
-            print search['mode']
         
             if search['mode'] == 'contains':
                 mode = "icontains"
@@ -207,7 +201,6 @@ def buildQuery(searches):
         elif method is "filter":
             query = query.filter( QObject )
 
-        print list(query)
 
     #print connection.queries
     return query.distinct()
