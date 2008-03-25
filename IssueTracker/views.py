@@ -134,7 +134,6 @@ def post(request, issue_id):
                 hist_msg += "<span class='label'>Removed problems</span>: %s" % (", ".join(drop_items))
 
             if hist_msg:
-                print "updating History"
                 utils.updateHistory(request.user, issue, hist_msg)
             
 
@@ -152,10 +151,8 @@ def post(request, issue_id):
             if newComment.is_valid():
                 newComment = newComment.save()
             else:
+                # Form not valid
                 args['add_comment_form'] = newComment
-                print "Form not valid"
-                print newComment.errors
-                #args['comment_errors'] = newComment.errors
     else:
         return Http404()
 
@@ -269,8 +266,9 @@ def createIssue(request):
             issue = form.save()
             return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
         else:
-            print form.errors
-            print "Form was not valid"
+            # form was not valid, errors should be on form though, so nothing needs to be
+            # done
+            pass
     else:
         form = CreateIssueForm()
 
@@ -352,9 +350,7 @@ def advSearch(request):
             # send the data to the search handler
             del(data['action'])
             del(data['fields'])
-            print 'getting search list'
             searches = issueSearch.parseSearch(data)
-            print 'passing list to query'
             query = issueSearch.buildQuery(searches)
 
             extra_context = {}
@@ -420,8 +416,6 @@ def fetch(request, issue_id):
         pass
     elif format == 'html':
         from django.template.loader import render_to_string
-        print render_to_string("IssueTracker/issue/%s.html" % req,
-                template_args)
 
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
 
