@@ -1,4 +1,13 @@
 [
+	{
+        "pk": 1, 
+		"model": "LabtrackerCore.InventoryType",
+		"fields": {
+			"name": "Machine",
+			"namespace": "Machine",
+			"description": "Machine inventorytype"
+		}
+	},
     {
         "pk": 1, 
         "model": "Machine.type", 
