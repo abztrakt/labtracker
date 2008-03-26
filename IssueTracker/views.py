@@ -17,6 +17,7 @@ import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
 import labtracker.IssueTracker.search as issueSearch
 import labtracker.IssueTracker.utils as utils
+import labtracker.settings as lset
 
 args = { 'loggedIn' : False, }
 
@@ -33,15 +34,7 @@ def index(request):
     setDefaultArgs(request)
 
     # for dev reasons, i'm dumping stuff out 
-    #todos = open('/var/www/django_apps/labtracker/DOCUMENTATION/TODO')
-    #args['todos'] = todos.read()
-    #todos.close()
-
-    #roadmap = open('/var/www/django_apps/labtracker/DOCUMENTATION/roadmap')
-    #args['roadmap'] = roadmap.read()
-    #roadmap.close()
-
-    readme = open('/var/www/django_apps/labtracker/DOCUMENTATION/README')
+    readme = open('%s/DOCUMENTATION/README' % lset.APP_DIR)
     args['readme'] = readme.read()
     readme.close()
 
