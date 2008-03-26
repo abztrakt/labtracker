@@ -3,7 +3,7 @@
 DEBUG = True 
 TEMPLATE_DEBUG = DEBUG
 
-DJANGO_ROOT = "/var/www/django_apps/labtracker/"
+APP_DIR = "/var/www/django_apps/labtracker"
 
 ADMINS = (
         ('Jane Doe', 'jd@u.washington.edu'),
