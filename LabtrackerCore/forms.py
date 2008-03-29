@@ -9,4 +9,4 @@ class BaseItemForm(ModelForm):
 class BaseGroupForm(ModelForm):
     class Meta:
         model = Group
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'item')
