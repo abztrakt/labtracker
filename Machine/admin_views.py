@@ -20,11 +20,11 @@ def modItem(request, id):
     Takes request and the id 
     """
     machine_item = get_object_or_404(machineModels.Item, pk=id)
-    core_item = machineItem.item
+    core_item = machine_item .item
 
     if request.method == "POST":
         # If the user has submitted stuff, form with stuff filled in
-        model_form = MachineForm(request.POST, instance=machineItem)
+        model_form = MachineForm(request.POST, instance=machine_item)
         core_form = coreForms.BaseItemForm(request.POST, instance=core_item)
 
         if core_form.is_valid() and model_form.is_valid():
