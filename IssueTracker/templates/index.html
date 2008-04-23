@@ -1,24 +1,8 @@
 {% extends "IssueTracker/base_generic.html" %}
 
 {% block content %}
-<div>
-    <h3>TODOs:</h3>
-    <pre>
-{{todos|escape}}
-    </pre>
-</div>
-
-<div>
-    <h3>Roadmap:</h3>
-    <pre>
-{{roadmap|escape}}
-    </pre>
-</div>
-
-<div>
-    <h3>Readme:</h3>
-    <pre>
-{{readme|escape}}
-    </pre>
-</div>
+<p>
+    To report bugs/issues, please go to the
+    <a href="https://donbot.eplt.washington.edu/trac/labtracker/">Trac Instance</a>
+</p>
 {% endblock %}
