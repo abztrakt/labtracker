@@ -32,11 +32,7 @@ def index(request):
     Used for log in as well
     """
     setDefaultArgs(request)
-
-    # for dev reasons, i'm dumping stuff out 
-    readme = open('%s/DOCUMENTATION/README' % lset.APP_DIR)
-    args['readme'] = readme.read()
-    readme.close()
+    args = {}
 
     return render_to_response('IssueTracker/index.html', args)
 

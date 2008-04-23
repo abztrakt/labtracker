@@ -1,19 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.01 Strict//EN" "http://www.w3.org/1999/xhtml">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us" >
-    <head>
-        <title>
+{% extends "base_generic.html" %}
             {% block title %}Issue Tracker{% endblock %}
-        </title>
-        <script type="text/javascript" src="/js/jquery-1.2.2.pack.js"></script>
-        <script type="text/javascript" src="/js/global.js"></script>
-        {% block pageHead %}{% endblock %}
-        <style type="text/css">
-            @import url('/css/main.css');
-            {% block pageCSS %}{% endblock %}
-        </style>
-    </head>
-    <body>
+            {% block b_pageCSS %}
+                @import url('/css/main.css');
+                {% block pageCSS %}
+                {% endblock %}
+            {% endblock %}
+            {% block body %}
         <div id="header">
             {% if user.is_authenticated %}<div id='userInfo'>
                 Logged in as: {{ user.username }}
@@ -61,5 +53,4 @@
         <div id="footer">
             {% block footer %}{% endblock %}
         </div>
-    </body>
-</html>
+        {% endblock %}

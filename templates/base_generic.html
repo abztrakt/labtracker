@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.01 Strict//EN" "http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us" >
+    <head>
+        <title>
+            {% block title %}LabTracker{% endblock %}
+        </title>
+        <style type="text/css">
+            @import url('/css/global.css');
+            {% block b_pageCSS %}{% endblock %}
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/global.js"></script>
+        {% block pageHead %}{% endblock %}
+    </head>
+    <body>
+		{% block body %}{% endblock %}
+    </body>
+</html>
