@@ -32,7 +32,6 @@ def index(request):
     Used for log in as well
     """
     setDefaultArgs(request)
-    args = {}
 
     return render_to_response('IssueTracker/index.html', args)
 
