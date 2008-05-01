@@ -36,51 +36,6 @@ class InventoryType(models.Model):
     def __unicode__(self):
         return self.name
 
-    #def save(self):
-        #"""
-        #On the creation of an InventoryType, create the project directory
-        #"""
-
-        # get the current directory
-        #import django.core.management.commands.startapp as startapp
-
-        #app_dir = dman.setup_environ(lset)              # get app_dir from settings
-        #app_c = startapp.ProjectCommand(app_dir)
-
-        # TODO: Need to handle bad namespaces
-        #app_c.handle_label(str(self.namespace))         # construct
-        #super(InventoryType,self).save()
-
-    #def delete(self):
-        """
-        On deletion, kill the models
-        """
-
-        # delete the application and all it's related models
-        #import django.core.management.commands.sqlclear as sqlclear
-
-        #app_dir = dman.setup_environ(lset)
-        #try:
-            #app = dbload.get_app(self.namespace)
-            # see if there are any models
-            #if len(dbload.get_models(app)) > 0:
-                #app_c = sqlclear.Command()
-                #app_c.handle(*[self.namespace,])
-
-            # deletion of the folder should be left to the admin. as well as removal from
-            # settings
-
-        #except ImproperlyConfigured, e:
-            #pass
-        #except Exception, e:
-            #print e[0]
-            #raise
-
-        #super(InventoryType,self).delete()
-
-    #class Admin:
-    #    list_display = ('name','namespace','description')
-
 class Item(models.Model):
     """
     Actual items, could be of any inventorytype
@@ -95,9 +50,6 @@ class Item(models.Model):
         Will take the actual item name from whatever the Namespace_namespace
         """
         return self.name
-
-    #class Admin:
-        #pass
 
 class Group(models.Model):
     """
@@ -116,7 +68,3 @@ class Group(models.Model):
         Print out the name of the group
         """
         return self.name
-
-    #class Admin:
-        #pass
-
