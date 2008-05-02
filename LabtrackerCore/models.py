@@ -89,9 +89,5 @@ class LabUserTest(unittest.TestCase):
 
 class InventoryTypeTest(unittest.TestCase):
     def setUp(self):
-        self.it = InventoryType.objects.create(name="Machines", namespace="Machine", description="Lab Machines")
-
-    def testName(self):
-        self.assertEquals("Machines", InventoryType.objects.all()[0].name)
-
+        pass
 

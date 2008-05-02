@@ -192,42 +192,19 @@ class StatusTest(unittest.TestCase):
         """
         Create some default status
         """
-        self.broken = Status.objects.create(name = 'Broken', inuse = False, 
-                usable = False, broken = True, description = "")
-        self.inuse = Status.objects.create(name = 'Inuse', inuse = True, 
-                usable = True, broken = False, description = "")
-        self.usable = Status.objects.create(name = 'Usable', inuse = False, 
-                usable = True, broken = False, description = "")
-
-    def testExist(self):
-        """
-        Make sure they were created??? pretty useless.
-        """
-        self.assertEquals(Status.objects.get(name='Broken'), self.broken)
-        self.assertEquals(Status.objects.get(name='Inuse'), self.inuse)
-        self.assertEquals(Status.objects.get(name='Usable'), self.usable)
-
+        pass
+        
 class PlatformTest(unittest.TestCase):
     def setUp(self):
         """
         Create some  platforms
         """
-        self.linux = Platform.objects.create(name='Linux',
-                description='Penguin Computing')
-        self.winxp = Platform.objects.create(name='WinXP',
-                description='Evil and stuff')
+        pass
 
 class TypeTest(unittest.TestCase):
     def setUp(self):
         """
         Create some Machine Types
         """
-        today = DateTime.date.today()
-        self.scan = Type.objects.create(name='Scanning Station',
-                platform=Platform.objects.get(name='WinXP'), 
-                model_name='Dell Optiplex 2002', 
-                specs='2ghz of panaromic jazz radiation extra frobnication on\
- the 2nd level cache buses. Double stacked platters on extra crispy DDR.',
-                purchase_date=today - datetime.timedelta(days=3),
-                warranty_date=today + datetime.timedelta(days=8))
+        pass
 

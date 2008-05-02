@@ -1,0 +1,64 @@
+[
+    {
+        "pk": 1, 
+        "model": "IssueTracker.problemtype", 
+        "fields": {
+            "inv": [], 
+            "name": "stolen", 
+            "description": "been stoeld"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "IssueTracker.problemtype", 
+        "fields": {
+            "inv": [
+                1
+            ], 
+            "name": "hard drive death", 
+            "description": "it megahurtz"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "IssueTracker.problemtype", 
+        "fields": {
+            "inv": [], 
+            "name": "aging", 
+            "description": "too old"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "IssueTracker.problemtype", 
+        "fields": {
+            "inv": [], 
+            "name": "aliens stole my computer", 
+            "description": "Aliens from another planet stole my computer with tractor beams"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "IssueTracker.resolvestate", 
+        "fields": {
+            "name": "Fixed", 
+            "description": "So Simple"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "IssueTracker.resolvestate", 
+        "fields": {
+            "name": "Ignored", 
+            "description": "not my job"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "IssueTracker.resolvestate", 
+        "fields": {
+            "name": "Made Worse", 
+            "description": "Oops"
+        }
+    }
+]
