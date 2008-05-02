@@ -1,3 +1,5 @@
+import unittest
+
 from django.db import models
 import labtracker.LabtrackerCore.models as core
 #from labtracker.LabtrackerCore.models import Item, LabUser, InventoryType, Group as SGroup
@@ -6,7 +8,7 @@ from django.contrib.auth.models import User
 NAMESPACE = 'Machine'
 
 def getInventoryType(self=None):
-    it = core.InventoryType.objects.filter(namespace=NAMESPACE)[0]
+    it = core.InventoryType.objects.get(namespace=NAMESPACE)
     return it
 
 class Status(models.Model):
@@ -180,3 +182,27 @@ class Contact(models.Model):
     def __unicode__(self):
         extra = ("", " (Primary)")[self.is_primary]
         return "%s - %s%s" % (self.mg, self.user, extra)
+
+"""
+Test Cases
+"""
+
+class StatusTest(unittest.TestCase):
+    def setUp(self):
+        """
+        Create some default status
+        """
+        self.broken = Status.objects.create(name = 'Broken', inuse = False, 
+                usable = False, broken = True, description = "")
+        self.inuse = Status.objects.create(name = 'Inuse', inuse = True, 
+                usable = True, broken = False, description = "")
+        self.usable = Status.objects.create(name = 'Usable', inuse = False, 
+                usable = True, broken = False, description = "")
+
+    def testExist(self):
+        """
+        Make sure they were created??? pretty useless.
+        """
+        self.assertEquals(Status.objects.get(name='Broken'), self.broken)
+        self.assertEquals(Status.objects.get(name='Inuse'), self.inuse)
+        self.assertEquals(Status.objects.get(name='Usable'), self.usable)
