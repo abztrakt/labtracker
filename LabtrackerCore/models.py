@@ -2,6 +2,8 @@
 These are the Core models for Labtracker
 
 """
+import unittest
+import md5
 
 from django.db import models,connection
 #from django.core.exceptions import ImproperlyConfigured
@@ -68,3 +70,28 @@ class Group(models.Model):
         Print out the name of the group
         """
         return self.name
+
+
+"""
+Tests begin here. For the core items, there isn't much to test though
+"""
+
+class LabUserTest(unittest.TestCase):
+    def setUp(self):
+        self.bob_md5 = md5.md5('bob').hexdigest()
+        self.bob = LabUser.objects.create(user_id=self.bob_md5)
+
+    def testBasic(self):
+        """
+        Test basic creation of the user
+        """
+        self.assertEquals(self.bob.user_id, self.bob_md5)
+
+class InventoryTypeTest(unittest.TestCase):
+    def setUp(self):
+        self.it = InventoryType.objects.create(name="Machines", namespace="Machine", description="Lab Machines")
+
+    def testName(self):
+        self.assertEquals("Machines", InventoryType.objects.all()[0].name)
+
+
