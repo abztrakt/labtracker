@@ -206,3 +206,28 @@ class StatusTest(unittest.TestCase):
         self.assertEquals(Status.objects.get(name='Broken'), self.broken)
         self.assertEquals(Status.objects.get(name='Inuse'), self.inuse)
         self.assertEquals(Status.objects.get(name='Usable'), self.usable)
+
+class PlatformTest(unittest.TestCase):
+    def setUp(self):
+        """
+        Create some  platforms
+        """
+        self.linux = Platform.objects.create(name='Linux',
+                description='Penguin Computing')
+        self.winxp = Platform.objects.create(name='WinXP',
+                description='Evil and stuff')
+
+class TypeTest(unittest.TestCase):
+    def setUp(self):
+        """
+        Create some Machine Types
+        """
+        today = DateTime.date.today()
+        self.scan = Type.objects.create(name='Scanning Station',
+                platform=Platform.objects.get(name='WinXP'), 
+                model_name='Dell Optiplex 2002', 
+                specs='2ghz of panaromic jazz radiation extra frobnication on\
+ the 2nd level cache buses. Double stacked platters on extra crispy DDR.',
+                purchase_date=today - datetime.timedelta(days=3),
+                warranty_date=today + datetime.timedelta(days=8))
+
