@@ -1,11 +1,45 @@
 [
-    {
-        "pk": 1, 
-        "model": "LabtrackerCore.inventorytype", 
-        "fields": {
-            "namespace": "Machine", 
-            "name": "Machine", 
-            "description": "Machines"
-        }
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.inventorytype", 
+    "fields": {
+      "namespace": "Machine", 
+      "name": "Machine", 
+      "description": "Machine inventorytype"
     }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.group", 
+    "fields": {
+      "item": [], 
+      "description": "Yea, we describe", 
+      "it": 1, 
+      "name": "test"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine1"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine2"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine3"
+    }
+  }
 ]
