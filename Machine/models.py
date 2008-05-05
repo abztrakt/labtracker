@@ -1,15 +1,12 @@
 import unittest
 
 from django.db import models
+
+import labtracker.LabtrackerCore.utils as utils
 import labtracker.LabtrackerCore.models as core
 #from labtracker.LabtrackerCore.models import Item, LabUser, InventoryType, Group as SGroup
 from django.contrib.auth.models import User
 
-NAMESPACE = 'Machine'
-
-def getInventoryType(self=None):
-    it = core.InventoryType.objects.get(namespace=NAMESPACE)
-    return it
 
 class Status(models.Model):
     """
@@ -107,7 +104,7 @@ class Item(core.Item):
         super(Item,self).delete()   # delete self
 
     def save(self):
-        self.it = getInventoryType()
+        self.it = utils.getInventoryType(__name__)
         super(Item,self).save()
 
     class Admin:
@@ -132,7 +129,7 @@ class Group(core.Group):
         super(Group,self).delete()
 
     def save(self):
-        self.it = getInventoryType()
+        self.it = utils.getInventoryType(__name__)
         super(Group,self).save()
 
     class Admin:
