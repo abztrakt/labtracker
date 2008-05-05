@@ -84,13 +84,11 @@ class Location(models.Model):
     class Admin:
         pass
 
-class Item(models.Model):
+class Item(core.Item):
     """
     The Machine
     """
-
-    #item = models.OneToOneField(core.Item, editable=False, primary_key=True)
-    item = models.ForeignKey(core.Item, unique=True, editable=False)
+    item = models.OneToOneField(core.Item, parent_link=True, editable=False)
     mt = models.ForeignKey(Type, verbose_name='Machine Type')
     ms = models.ForeignKey(Status, verbose_name='Machine Status')
     ml = models.ForeignKey(Location, verbose_name='Location')
@@ -108,35 +106,20 @@ class Item(models.Model):
         self.item.delete()          # delete the item in core.Item
         super(Item,self).delete()   # delete self
 
-    def save(self, name=None):
-        # first insert a new thing into core.Items, unless it already exists
-        try:
-            self.item
-        except:
-            if (name != None):
-                self.item = core.Item.objects.create(name=name, it = getInventoryType())
-
+    def save(self):
+        self.it = getInventoryType()
         super(Item,self).save()
 
     class Admin:
-        fields = (
-           (None, {
-                #'fields': ('name','mt','ms','ml','ip','mac','manu_tag','comment'),
-                'fields': ('mt','ms','ml','ip','mac','manu_tag','comment'),
-            }),
-        )
-        #list_display = ('item__name','mt','ms','ml','ip','mac','date_added','manu_tag')
-        list_display = ('item', 'mt','ms','ml','ip','mac','date_added','manu_tag')
-        #search_fields = ['name','ip','mac']
-        search_fields = ['ip','mac']
+        list_display = ('name', 'mt','ms','ml','ip','mac','date_added','manu_tag')
+        search_fields = ['name','ip','mac']
         list_filter = ['mt','ms','date_added']
 
-class Group(models.Model):
+class Group(core.Group):
     """
     Expands on the core.Group 
     """
-    group = models.ForeignKey(core.Group, unique=True, editable=False)
-    #group = models.ForeignKey(core.Group, editable=False, unique=True)
+    group = models.OneToOneField(core.Group, parent_link=True, editable=False)
     is_lab = models.BooleanField(core=True)
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
@@ -148,22 +131,16 @@ class Group(models.Model):
         self.group.delete()
         super(Group,self).delete()
 
-    def save(self, name=None, description = ''):
-        try:
-            self.group
-        except:
-            if name != None:
-                self.group = core.Group.objects.create(it = getInventoryType(), name =
-                        name, description = description)
-
+    def save(self):
+        self.it = getInventoryType()
         super(Group,self).save()
 
     class Admin:
         fields = (
-                (None, { 
-                    'fields': ('is_lab', 'casting_server', 'gateway'), } 
-                ),)
-        list_display = ('group','is_lab','casting_server','gateway')
+            (None, {'fields': ('name', 'is_lab', 'casting_server', 'gateway',
+                'item', 'description')}),
+        )
+        list_display = ('name','is_lab','casting_server','gateway')
 
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)

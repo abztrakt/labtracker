@@ -53,6 +53,9 @@ class Item(models.Model):
         """
         return self.name
 
+    class Admin:
+        pass
+
 class Group(models.Model):
     """
     Groups the items, can either by group of one inventorytype or all inventorytypes
@@ -70,6 +73,9 @@ class Group(models.Model):
         Print out the name of the group
         """
         return self.name
+
+    class Admin:
+        pass
 
 
 """
