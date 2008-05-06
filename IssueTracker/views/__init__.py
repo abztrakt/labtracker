@@ -17,7 +17,6 @@ import labtracker.LabtrackerCore.models as LabtrackerCore
 from labtracker.IssueTracker.forms import *
 import labtracker.IssueTracker.search as issueSearch
 import labtracker.IssueTracker.utils as utils
-import labtracker.settings as lset
 
 args = { 'loggedIn' : False, }
 

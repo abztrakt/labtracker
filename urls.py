@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
-import labtracker.settings as lset
+from django.conf import settings
 
-app_dir = lset.APP_DIR
+app_dir = settings.APP_DIR
 
 
 urlpatterns = patterns('',
