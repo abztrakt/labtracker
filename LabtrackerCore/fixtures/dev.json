@@ -54,5 +54,13 @@
       "it": 1, 
       "name": "Machine3"
     }
+  }, 
+  {
+    "pk": 4, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine4"
+    }
   }
 ]
