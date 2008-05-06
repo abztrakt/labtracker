@@ -10,8 +10,6 @@ from django.db import models,connection
 #import django.core.management as dman
 import django.db.models.loading as dbload
 
-import labtracker.settings as lset
-
 # TODO, is this needed?
 class LabUser(models.Model):
     """

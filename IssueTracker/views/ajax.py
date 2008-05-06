@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpRespons
 
 import simplejson
 
-import labtracker.IssueTracker.search as issueSearch
-import labtracker.LabtrackerCore.models as LabtrackerCore
+import IssueTracker.search as issueSearch
+import LabtrackerCore.models as LabtrackerCore
 import IssueTracker.utils as utils
 
 @permission_required('IssueTracker.add_issue')

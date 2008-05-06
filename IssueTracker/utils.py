@@ -1,7 +1,7 @@
 from django import newforms as forms
 
-from labtracker.IssueTracker.models import *
-import labtracker.LabtrackerCore.models as LabtrackerCore
+from IssueTracker.models import *
+import LabtrackerCore.models as LabtrackerCore
 
 def updateHistory(user, issue, msg):
     history = IssueHistory(user=user,message=msg,issue=issue)

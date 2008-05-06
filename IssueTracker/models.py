@@ -1,5 +1,5 @@
 from django.db import models
-from labtracker.LabtrackerCore.models import Item,InventoryType,Group
+from LabtrackerCore.models import Item,InventoryType,Group
 from django.contrib.auth.models import User
 
 class ResolveState(models.Model):

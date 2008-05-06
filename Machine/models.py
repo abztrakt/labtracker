@@ -1,12 +1,10 @@
 import unittest
 
 from django.db import models
-
-import labtracker.LabtrackerCore.utils as utils
-import labtracker.LabtrackerCore.models as core
-#from labtracker.LabtrackerCore.models import Item, LabUser, InventoryType, Group as SGroup
 from django.contrib.auth.models import User
 
+import LabtrackerCore.utils as utils
+import LabtrackerCore.models as core
 
 class Status(models.Model):
     """

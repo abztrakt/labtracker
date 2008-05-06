@@ -1,4 +1,4 @@
-import labtracker.LabtrackerCore as core
+import LabtrackerCore as core
 
 def getInventoryType(name):
     namespace = name.split('.')[-2]

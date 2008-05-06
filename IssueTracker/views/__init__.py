@@ -12,11 +12,11 @@ import django.db.models.loading as load
 
 import simplejson
 
-from labtracker.IssueTracker.models import *
-import labtracker.LabtrackerCore.models as LabtrackerCore
-from labtracker.IssueTracker.forms import *
-import labtracker.IssueTracker.search as issueSearch
-import labtracker.IssueTracker.utils as utils
+from IssueTracker.models import *
+import LabtrackerCore.models as LabtrackerCore
+from IssueTracker.forms import *
+import IssueTracker.search as issueSearch
+import IssueTracker.utils as utils
 
 args = { 'loggedIn' : False, }
 

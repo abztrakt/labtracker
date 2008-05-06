@@ -1,7 +1,8 @@
 from django import newforms as forms
 from django.newforms import ModelForm
 from django.newforms.forms import BaseForm      #, SortedDictFromList
-from labtracker.IssueTracker.models import *
+
+from IssueTracker.models import *
 
 #IssueForm = forms.form_for_model(Issue, formfield_callback=issueCallback)
 

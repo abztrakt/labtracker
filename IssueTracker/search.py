@@ -10,10 +10,10 @@ from django.db import connection
 import django.newforms.fields as fieldTypes
 import django.newforms.widgets as widgets
 
-import labtracker.LabtrackerCore.models as LabtrackerCore
-import labtracker.IssueTracker.models as IssueModel
-from labtracker.IssueTracker.forms import *
-import labtracker.Machine.models as Machine
+import LabtrackerCore.models as LabtrackerCore
+import IssueTracker.models as IssueModel
+from IssueTracker.forms import *
+import Machine.models as Machine
 
 
 def searchFieldGen(field_name):
