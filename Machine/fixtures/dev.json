@@ -33,16 +33,32 @@
     }
   }, 
   {
-    "pk": 1, 
+    "pk": 3, 
     "model": "Machine.group", 
     "fields": {
       "description": "Yea, we describe", 
       "it": 1, 
-      "item": [], 
+      "item": [
+        2, 
+        3
+      ], 
       "casting_server": "192.168.2.111", 
       "is_lab": false, 
       "gateway": "192.168.2.1", 
-      "name": "test"
+      "name": "Group1"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.group", 
+    "fields": {
+      "description": "keep empty", 
+      "it": 1, 
+      "item": [], 
+      "casting_server": "128.95.10.11", 
+      "is_lab": false, 
+      "gateway": "128.95.10.1", 
+      "name": "Empty Group"
     }
   }, 
   {
@@ -114,7 +130,7 @@
     "model": "Machine.contact", 
     "fields": {
       "is_primary": true, 
-      "mg": 1, 
+      "mg": 3, 
       "user": 1
     }
   }, 
@@ -123,7 +139,43 @@
     "model": "Machine.contact", 
     "fields": {
       "is_primary": false, 
-      "mg": 1, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": true, 
+      "mg": 4, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 4, 
       "user": 1
     }
   }, 

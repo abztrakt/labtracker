@@ -1,6 +1,39 @@
 [
   {
     "pk": 1, 
+    "model": "IssueTracker.issuehistory", 
+    "fields": {
+      "message": "Added zhaoz to CC list", 
+      "issue": 1, 
+      "user": 1, 
+      "time": "2008-05-06 13:11:27"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "IssueTracker.issue", 
+    "fields": {
+      "post_time": "2008-05-06 13:11:20", 
+      "group": 3, 
+      "description": "The magneto spherical transponder is not referring to the correct bistromathic stratum.", 
+      "assignee": null, 
+      "cc": [
+        1
+      ], 
+      "problem_type": [
+        3
+      ], 
+      "reporter": 1, 
+      "resolved_state": null, 
+      "it": 1, 
+      "item": null, 
+      "last_modified": "2008-05-06 13:11:20", 
+      "title": "Eating Problems", 
+      "resolve_time": null
+    }
+  }, 
+  {
+    "pk": 1, 
     "model": "IssueTracker.problemtype", 
     "fields": {
       "inv": [], 

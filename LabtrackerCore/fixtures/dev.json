@@ -9,13 +9,26 @@
     }
   }, 
   {
-    "pk": 1, 
+    "pk": 3, 
+    "model": "LabtrackerCore.group", 
+    "fields": {
+      "item": [
+        2, 
+        3
+      ], 
+      "description": "Yea, we describe", 
+      "it": 1, 
+      "name": "Group1"
+    }
+  }, 
+  {
+    "pk": 4, 
     "model": "LabtrackerCore.group", 
     "fields": {
       "item": [], 
-      "description": "Yea, we describe", 
+      "description": "keep empty", 
       "it": 1, 
-      "name": "test"
+      "name": "Empty Group"
     }
   }, 
   {
