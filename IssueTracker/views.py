@@ -21,6 +21,7 @@ import labtracker.settings as lset
 
 args = { 'loggedIn' : False, }
 
+# XXX RequestContext processor?
 def setDefaultArgs(request):
     """
     This is called by any view that needs to have default args set.
@@ -409,6 +410,9 @@ def fetch(request, issue_id):
 
 @permission_required('IssueTracker.can_view', login_url="/issue/login/")
 def viewAllIssues(request, page=1):
+    """
+    Lists all the Issues 
+    """
     setDefaultArgs(request)
 
     if request.method == "POST":
@@ -421,6 +425,7 @@ def viewAllIssues(request, page=1):
 
 def generateList(data, qdict, page):
     """
+    Generates a list of issues
     Take some arguments from user in data, the page number to show and the returned query
     items, render out to user
     """
@@ -497,13 +502,15 @@ def createGroupList(inv_ids, field='Group'):
 
     ac = load.AppCache()
     for inv_id in inv_ids:
-        model = ac.get_model(inv_id.namespace, field)
+        # fetch groups with that invtype
+        groups = LabtrackerCore.Group.objects.filter(it=inv_id)
+        #model = ac.get_model(inv_id.namespace, field)
 
-        groups = model.objects.all()
+        #groups = model.objects.all()
 
         for group in groups:
-            data = forms.models.model_to_dict(group)
-            data['name'] = group.group.name
+            data = forms.models.model_to_dict(group.group)
+            data['name'] = group.name
             list[group.group.group_id] = data
     return list
 
@@ -544,6 +551,7 @@ def getGroups(request):
     
     groups = []
     if len(it_types) == 0 or "" in it_types:
+        # get all groups
         groups = createGroupList(LabtrackerCore.InventoryType.objects.all())
     else:
         groups = createGroupList(LabtrackerCore.InventoryType.objects.in_bulk(it_types).values())
@@ -578,6 +586,7 @@ def getItems(request):
     items = {}
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
+        # fetch all groups
         items = createItemList(LabtrackerCore.Item.objects.order_by('it'))
     else:
         groups = LabtrackerCore.Group.objects.in_bulk(group_ids).values()
