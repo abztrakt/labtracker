@@ -16,36 +16,6 @@ from labtracker.IssueTracker.forms import *
 import labtracker.Machine.models as Machine
 
 
-class hacked_Q_for_isnull(Q):
-    """
-    Q object that forces all joins to be LEFT JOINs.  This is necessary
-    in the case of a filter for foo_isnull=True.
-    
-    For a bit more detail, see ticket #1050
-        http://code.djangoproject.com/ticket/1050
-    
-    Example usage: Foo.objects.filter(hacked_Q_for_isnull(bar__isnull=True))
-    
-    Note:
-        The above usage is the only one that's been tested.  Even so,
-        this is an ugly approach but I hope it will be enough until the
-        QuerySet refactor is completed.
-    """
-    def get_sql(self, opts):
-        results = super(hacked_Q_for_isnull, self).get_sql(opts)
-        new_results = []
-        for d in results:
-            if isinstance(d, dict):
-                temp = {}
-                for k,v in d.items():
-                    temp_list = list(v)
-                    temp_list[1] = 'LEFT JOIN'
-                    temp[k] = temp_list
-                d=temp
-            new_results.append(d)
-        return new_results
-
-
 def searchFieldGen(field_name):
     """ searchFieldGen
 
@@ -136,7 +106,7 @@ def buildQuery(searches):
 
                 if len(values) is 0:
                     # is nothing
-                    QObjects.append(hacked_Q_for_isnull( **{ "%s__isnull" % (name) : True, } ))
+                    QObjects.append(Q( **{ "%s__isnull" % (name) : True, } ))
 
                 QObjects.append(Q( **{ "%s__pk__in" % (name): values, }))
 
@@ -152,8 +122,8 @@ def buildQuery(searches):
                     # if nothing was given, then nothing will be excluded
                     continue
 
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__isnull" % (name) : True, } ))
-                QObjects.append(QNot(hacked_Q_for_isnull( **{ "%s__pk__in" % (name): values, })))
+                QObjects.append(Q( **{ "%s__isnull" % (name) : True, } ))
+                QObjects.append(QNot(Q( **{ "%s__pk__in" % (name): values, })))
 
             QObject = reduce(operator.or_, QObjects)
 
@@ -165,34 +135,34 @@ def buildQuery(searches):
             if search['mode'] == 'contains':
                 mode = "icontains"
                 method = "filter"
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+                QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
             elif search['mode'] == "not contain":
                 mode = "icontains" 
                 method = "filter"
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__isnull" % (name) : True, } ))
-                QObjects.append(QNot(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, })))
+                QObjects.append(Q( **{ "%s__isnull" % (name) : True, } ))
+                QObjects.append(QNot(Q( **{ "%s__%s" % (name, mode): value, })))
             elif search['mode'] == "is":
                 mode = "iexact" 
                 method = "filter"
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+                QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
             elif search['mode'] == "is not":
                 mode = "iexact" 
                 method = "exclude"
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+                QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
             elif search['mode'] == "begins with":
                 method = "filter"
                 mode = "istartswith" 
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+                QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
             elif search['mode'] == "ends with":
                 method = "filter"
                 mode = "iendswith" 
-                QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+                QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
             elif search['mode'] == 'none':
                 method = "filter"
                 mode = "isnull"
                 QObjects.append(Q( **{ "%s__%s" % (name, mode): True, }))
 
-            #QObjects.append(hacked_Q_for_isnull( **{ "%s__%s" % (name, mode): value, }))
+            #QObjects.append(Q( **{ "%s__%s" % (name, mode): value, }))
 
             QObject = reduce(operator.or_, QObjects)
 
