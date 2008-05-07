@@ -158,7 +158,6 @@ class Contact(models.Model):
 """
 Test Cases
 """
-
 class StatusTest(unittest.TestCase):
     def setUp(self):
         """
@@ -179,4 +178,3 @@ class TypeTest(unittest.TestCase):
         Create some Machine Types
         """
         pass
-
