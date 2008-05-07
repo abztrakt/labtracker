@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django import newforms as forms
 from django.newforms import ModelForm
 from django.newforms.forms import BaseForm      #, SortedDictFromList
@@ -92,18 +93,27 @@ class AddSearchForm(forms.Form):
     fields = forms.ChoiceField( choices = searchFormFields )
 
 class CreateIssueForm(ModelForm):
+    """
+    This form is used for creating issues
+    """
     class Meta:
         model = Issue
         fields=('it','group','item','cc','problem_type','title','description',
                 'reporter')
 
 class UpdateIssueForm(ModelForm):
+    """
+    This form is used for updating issues
+    """
     class Meta:
         model = Issue
         fields=('problem_type','assignee','cc','resolve_time', 'resolved_state', 
                 'last_modified')
 
 class AddCommentForm(ModelForm):
+    """
+    This form is used for adding comments to issues
+    """
     class Meta:
         model = IssueComment
         fields=('issue', 'user','comment')

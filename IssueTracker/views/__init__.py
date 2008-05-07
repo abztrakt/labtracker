@@ -35,7 +35,7 @@ def index(request):
 
     return render_to_response('IssueTracker/index.html', args)
 
-@permission_required('Issuetracker.add_issue', login_url="/issue/login/")
+@permission_required('Issuetracker.add_issue', login_url="/login/")
 def post(request, issue_id):
     """
     This is for posting comments, and modifying some things for issues after they are
@@ -146,7 +146,7 @@ def post(request, issue_id):
 
     return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
-@permission_required('IssueTracker.add_issue', login_url="/issue/login/")
+@permission_required('IssueTracker.add_issue', login_url="/login/")
 def modIssue(request, issue_id):
     """
     Can be accessed through post or get, will redirect immediately afterwards
@@ -184,7 +184,7 @@ def modIssue(request, issue_id):
         # direct call, will need to redirect
         return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def viewIssue(request, issue_id):
     """
     This is called when the issue requests a specific issue.
@@ -209,7 +209,7 @@ def viewIssue(request, issue_id):
 
     return render_to_response('IssueTracker/view.html', args)
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def reportList(request):
     """
     Currently does nothing but will list out all the available queries to list available
@@ -218,7 +218,7 @@ def reportList(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/list.html', args)
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def report(request, report_id):
     """
     View a specific report
@@ -234,7 +234,7 @@ def user(request):
     setDefaultArgs(request)
     return render_to_response('IssueTracker/user.html', args)
 
-@permission_required('IssueTracker.add_issue', login_url="/issue/login/")
+@permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
     """
     This is the view called when the user is creating a new issue, not for 
@@ -264,7 +264,7 @@ def createIssue(request):
     args['problem_types'] = form.fields['problem_type'].queryset
     return render_to_response('IssueTracker/create.html', args)
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def search(request):
     """
     Takes a post, searches, and either redirects to a list of matching items (or no
@@ -313,7 +313,7 @@ def search(request):
     else:
         return HttpResponseRedirect(reverse('index'))
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def advSearch(request):
     """ advSearch
 
@@ -352,7 +352,7 @@ def advSearch(request):
     return render_to_response('IssueTracker/adv_search.html', args)
 
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def fetch(request, issue_id):
     """
     Fetch information for a given issue
@@ -407,7 +407,7 @@ def fetch(request, issue_id):
 
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def viewAllIssues(request, page=1):
     """
     Lists all the Issues 
