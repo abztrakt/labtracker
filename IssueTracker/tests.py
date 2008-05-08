@@ -23,7 +23,7 @@ class IssueCreationTest(TestCase):
         """
         Logs in our test user and makes sure a success code is returned
         """
-        response = self.client.post('/issue/login/', 
+        response = self.client.post('/login/', 
                                     {'username' : 'testuser',
                                      'password' : 't3$tu$ser'})
             
