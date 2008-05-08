@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, check_password
 from IssueTracker.models import Issue
 from LabtrackerCore.models import Item, InventoryType, Group 
 
@@ -52,3 +52,39 @@ class IssueCreationTest(TestCase):
         self.testissue = Issue.objects.get(issue_id=self.issueId)
 
         self.assertEquals(self.issue.title, self.testissue.title)
+
+class PasswordChangeTest(TestCase):
+    def setUp(self):
+        """
+        Create user
+        """
+        self.user = User.objects.create_user('testuser', 'test@example', 'supersecret')
+        self.user.save()
+
+    def testChangePassword(self):
+        """
+        Change the password and make sure it works
+        """
+        
+        self.usertest = User.objects.get(username='testuser')
+
+        response = self.client.post('/login/',
+                         {'username' : 'testuser',
+                          'password' : 'supersecret'})
+
+        self.assertTrue(response) # logged in successfully
+        
+        # change password
+        passwd = 'unit tests' 
+        self.usertest.password = passwd 
+        self.usertest.save()
+
+        self.client.logout()
+
+        # make sure the password was changed by trying
+        # to login with the new password
+        response = self.client.post('/login/',
+                         {'username' : 'testuser',
+                          'password' : 'unit tests'})
+
+        self.assertTrue(response)
