@@ -1,11 +1,12 @@
-from django import newforms as forms
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
 from django.core import serializers
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.template import RequestContext
+from django import newforms as forms
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list
 import django.db.models.loading as load
@@ -20,20 +21,12 @@ import IssueTracker.utils as utils
 
 args = { 'loggedIn' : False, }
 
-# XXX RequestContext processor?
-def setDefaultArgs(request):
-    """
-    This is called by any view that needs to have default args set.
-    """
-    args['user'] = request.user
-
 def index(request):
     """
     Used for log in as well
     """
-    setDefaultArgs(request)
-
-    return render_to_response('IssueTracker/index.html', args)
+    return render_to_response('IssueTracker/index.html', args,
+            context_instance=RequestContext(request))
 
 @permission_required('Issuetracker.add_issue', login_url="/login/")
 def post(request, issue_id):
@@ -192,7 +185,6 @@ def viewIssue(request, issue_id):
     user the ability to add comments to the issue.
     If a post is given, will also post a comment
     """
-    setDefaultArgs(request)
 
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
@@ -207,7 +199,8 @@ def viewIssue(request, issue_id):
     args['update_issue_form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
 
-    return render_to_response('IssueTracker/view.html', args)
+    return render_to_response('IssueTracker/view.html', args,
+            context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def reportList(request):
@@ -215,24 +208,17 @@ def reportList(request):
     Currently does nothing but will list out all the available queries to list available
     reports
     """
-    setDefaultArgs(request)
-    return render_to_response('IssueTracker/list.html', args)
+    return render_to_response('IssueTracker/list.html', args,
+            context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def report(request, report_id):
     """
     View a specific report
     """
-    setDefaultArgs(request)
-    return render_to_response('IssueTracker/report.html', args)
+    return render_to_response('IssueTracker/report.html', args,
+            context_instance=RequestContext(request))
 
-@login_required
-def user(request):
-    """
-    User preference pane, may be renamed later
-    """
-    setDefaultArgs(request)
-    return render_to_response('IssueTracker/user.html', args)
 
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
@@ -243,7 +229,6 @@ def createIssue(request):
     then saves it.
     """
     # TODO improve the form validation here
-    setDefaultArgs(request)
 
     if request.method == 'POST':
         data = request.POST.copy()          # need to do this to set some defaults
@@ -262,7 +247,8 @@ def createIssue(request):
 
     args['form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
-    return render_to_response('IssueTracker/create.html', args)
+    return render_to_response('IssueTracker/create.html', args,
+            context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def search(request):
@@ -270,7 +256,6 @@ def search(request):
     Takes a post, searches, and either redirects to a list of matching items (or no
     items), or the specific issue
     """
-    setDefaultArgs(request)
     extra_context = {}
 
     if request.method == "POST":
@@ -319,7 +304,6 @@ def advSearch(request):
 
     Takes user to the advanced search form page
     """
-    setDefaultArgs(request)
 
     """
     form = SearchForm()
@@ -349,7 +333,8 @@ def advSearch(request):
 
     args['add_query'] = AddSearchForm()
 
-    return render_to_response('IssueTracker/adv_search.html', args)
+    return render_to_response('IssueTracker/adv_search.html', args,
+            context_instance=RequestContext(request))
 
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
@@ -405,24 +390,24 @@ def fetch(request, issue_id):
     elif format == 'html':
         from django.template.loader import render_to_string
 
-        return render_to_response("IssueTracker/issue/%s.html" % req, template_args)
+        return render_to_response("IssueTracker/issue/%s.html" % req, template_args,
+                context_instance=RequestContext(request))
 
-@permission_required('IssueTracker.can_view', login_url="/login/")
+@permission_required('IssueTracker.can_view', login_url="/issue/login/")
 def viewAllIssues(request, page=1):
     """
     Lists all the Issues 
     """
-    setDefaultArgs(request)
 
     if request.method == "POST":
         data = request.POST
     elif request.method == "GET":
         data = request.GET
 
-    return generateList(data, Issue.objects.filter(resolved_state__isnull=True), page)
+    return generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
 
 
-def generateList(data, qdict, page):
+def generateList(request, data, qdict, page):
     """
     Generates a list of issues
     Take some arguments from user in data, the page number to show and the returned query
@@ -478,5 +463,6 @@ def generateList(data, qdict, page):
         args['extraArgs'] = '&search_term=%s' % ( search_term )
 
 
-    return render_to_response("IssueTracker/issue_list.html", args)
+    return render_to_response("IssueTracker/issue_list.html", args,
+            context_instance=RequestContext(request))
 
