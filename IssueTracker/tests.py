@@ -88,3 +88,18 @@ class PasswordChangeTest(TestCase):
                           'password' : 'unit tests'})
 
         self.assertTrue(response)
+
+        response = self.client.post('/pref/pwchange/',
+                                    {'old_password' : 'unit tests',
+                                     'new_password1' : 'supersecret',
+                                     'new_password2' : 'supersecret'})
+
+        self.assertEquals(response.status_code, 302)
+
+        response = self.client.post('/login/',
+                         {'username' : 'testuser',
+                          'password' : 'supersecret'})
+
+        self.assertTrue(response)
+
+
