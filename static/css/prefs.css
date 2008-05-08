@@ -1,0 +1,20 @@
+#user_nav {
+    float: left;
+    width: 10em;
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: #EAC99D;
+}
+
+#user_nav a {
+    color: black;
+}
+
+#user_nav ul {
+}
+
+
+#pref_content {
+    float: left;
+    margin: 0.5em;
+}

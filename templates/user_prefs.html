@@ -1,9 +1,18 @@
 {% extends "base_full.html" %}
 
+{% block pageCSS %}@import url('/css/prefs.css');{% endblock %}
+
 {% block content %}
 <div class='nav' id='user_nav'>
     <ul class='struct'>
+        <li><a href="/pref/">Preferences</a></li>
         <li><a href="/pref/pwchange/">Change Password</a></li>
     </ul>
 </div>
+
+<div id='pref_content'>
+    {% block pref_content %}
+    {% endblock %}
+</div>
+
 {% endblock %}
