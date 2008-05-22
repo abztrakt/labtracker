@@ -58,7 +58,14 @@ input.small_text {
 
 br.clear { height: 0px; }
 .clear { clear: both; }
-.error { color: red; }
+.error { color: red; font-size: 10px; }
+.errorlist { 
+    color: red; 
+    font-size: 10px; 
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
 
 ul.inline { padding: 0px; display: inline; }
 ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
