@@ -83,7 +83,7 @@ class Item(core.Item):
     """
     The Machine
     """
-    item = models.OneToOneField(core.Item, parent_link=True, editable=False)
+    core = models.OneToOneField(core.Item, parent_link=True, editable=False)
     mt = models.ForeignKey(Type, verbose_name='Machine Type')
     ms = models.ForeignKey(Status, verbose_name='Machine Status')
     ml = models.ForeignKey(Location, verbose_name='Location')
@@ -114,7 +114,7 @@ class Group(core.Group):
     """
     Expands on the core.Group 
     """
-    group = models.OneToOneField(core.Group, parent_link=True, editable=False)
+    core = models.OneToOneField(core.Group, parent_link=True, editable=False)
     is_lab = models.BooleanField(core=True)
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
@@ -158,23 +158,25 @@ class Contact(models.Model):
 """
 Test Cases
 """
-class StatusTest(unittest.TestCase):
+class MachineItemTest(unittest.TestCase):
     def setUp(self):
         """
-        Create some default status
+        A create a machine item
         """
-        pass
-        
-class PlatformTest(unittest.TestCase):
-    def setUp(self):
-        """
-        Create some  platforms
-        """
-        pass
+        self.name = "test_name_a"
+        print Type.objects.all()
+        self.item = Item.objects.create(name=self.name, 
+                mt=Type.objects.all()[0], 
+                mt=Status.objects.all()[0], 
+                ml=Location.objects.all()[0], 
+                ip="138.121.342.11", 
+                mac="00:34:A3:DF:XA:89",
+                manu_tag="manufactuer tag", 
+                comment="comment")
 
-class TypeTest(unittest.TestCase):
-    def setUp(self):
+    def testParent(self):
         """
-        Create some Machine Types
+        Test and see if the parent exists
         """
-        pass
+        parent = core.Item.objects.get(name=self.name)
+        assertEquals(parent.item.name, self.name)
