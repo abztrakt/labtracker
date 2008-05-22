@@ -56,6 +56,7 @@ def post(request, issue_id):
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
+            # FIXME don't need to drop down to SQL for this
             newUsers = User.objects.extra(where= [ 'id IN (%s)' % \
                     (", ".join(data.getlist('cc'))) ] ).order_by('id')
             curUsers = issue.cc.all().order_by('id')

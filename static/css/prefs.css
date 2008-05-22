@@ -1,3 +1,8 @@
+h4.section {
+    padding: 0px;
+    margin: 0px;
+}
+
 #user_nav {
     float: left;
     width: 10em;
@@ -13,8 +18,14 @@
 #user_nav ul {
 }
 
+#user_nav ul li {
+    margin-left: 0.50em;
+}
+
 
 #pref_content {
     float: left;
     margin: 0.5em;
 }
+
+
