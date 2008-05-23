@@ -1,10 +1,9 @@
-import unittest
-
 from django.db import models
 from django.contrib.auth.models import User
+from django.test import TestCase
 
 import LabtrackerCore.utils as utils
-import LabtrackerCore.models as core
+import LabtrackerCore.models as coreModels
 
 class Status(models.Model):
     """
@@ -79,11 +78,11 @@ class Location(models.Model):
     class Admin:
         pass
 
-class Item(core.Item):
+class Item(coreModels.Item):
     """
     The Machine
     """
-    core = models.OneToOneField(core.Item, parent_link=True, editable=False)
+    core = models.OneToOneField(coreModels.Item, parent_link=True, editable=False)
     mt = models.ForeignKey(Type, verbose_name='Machine Type')
     ms = models.ForeignKey(Status, verbose_name='Machine Status')
     ml = models.ForeignKey(Location, verbose_name='Location')
@@ -98,7 +97,7 @@ class Item(core.Item):
         return self.item.name
 
     def delete(self):
-        self.item.delete()          # delete the item in core.Item
+        self.item.delete()          # delete the item in coreModels.Item
         super(Item,self).delete()   # delete self
 
     def save(self):
@@ -110,11 +109,11 @@ class Item(core.Item):
         search_fields = ['name','ip','mac']
         list_filter = ['mt','ms','date_added']
 
-class Group(core.Group):
+class Group(coreModels.Group):
     """
-    Expands on the core.Group 
+    Expands on the coreModels.Group 
     """
-    core = models.OneToOneField(core.Group, parent_link=True, editable=False)
+    core = models.OneToOneField(coreModels.Group, parent_link=True, editable=False)
     is_lab = models.BooleanField(core=True)
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
@@ -141,7 +140,7 @@ class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
     machine = models.ForeignKey(Item)
     ms = models.ForeignKey(Status)
-    user = models.ForeignKey(core.LabUser)
+    user = models.ForeignKey(coreModels.LabUser)
     time = models.DateTimeField(auto_now_add=True)
 
 class Contact(models.Model):
@@ -158,17 +157,130 @@ class Contact(models.Model):
 """
 Test Cases
 """
-class MachineItemTest(unittest.TestCase):
+class PlatformTest(TestCase):
+    def setUp(self):
+        """
+        Create a platform
+        """
+        self.name = "ArchLinux"
+        self.platform = Platform.objects.create(
+                    name = "ArchLinux",
+                    description = "ArchLinux distribution"
+                )
+
+    def testExistance(self):
+        platforms = Platform.objects.filter(name="ArchLinux")
+        assert(len(platforms) == 1)
+        self.assertEquals(platforms[0], self.platform)
+
+    def tearDown(self):
+        self.platform.delete()
+
+class TypeTest(TestCase):
+    def setUp(self):
+        """
+        Create a test item
+        """
+        self.name = "Gaming Station"
+        self.type = Type.objects.create(
+                name = "Gaming Station",
+                warranty_date = "2008-01-07", 
+                model_name = "Dell Optiplex 2002", 
+                platform = Platform.objects.all()[0],
+                purchase_date = "2008-01-07", 
+                specs = "stuff", 
+                description = ""
+            )
+
+    def tearDown(self):
+        self.type.delete()
+
+class StatusTest(TestCase):
+    def setUp(self):
+        self.name = "test"
+        self.status = Status.objects.create(
+                broken = False,
+                usable = False,
+                description = "teststatus",
+                name = "test",
+                inuse = True
+            )
+        self.status.save()
+
+    def testExistance(self):
+        status = Status.objects.filter(name=self.name)
+        assert(len(status) == 1)
+        self.assertEquals(status[0], self.status)
+        
+class LocationTest(TestCase):
+    def setUp(self):
+        self.name = "test"
+        self.location = Location.objects.create(
+                building = "test",
+                comment = "test",
+                room = 101,
+                name = self.name,
+                floor = 1
+            )
+        self.location.save()
+
+    def testExistance(self):
+        location = Location.objects.filter(name=self.name)
+        assert(len(location) == 1)
+        self.assertEquals(location[0], self.location)
+
+class MachineItemTest(TestCase):
     def setUp(self):
         """
         A create a machine item
         """
+
+        coreModels.InventoryType.objects.create(
+                    name="Machine",
+                    namespace="Machine",
+                    description="Machine inv type"
+                )
+
+        self.platform = Platform.objects.create(
+                    name = "ArchLinux",
+                    description = "ArchLinux distribution"
+                )
+        self.platform.save()
+
+        self.type = Type.objects.create(
+                name = "Gaming Station",
+                warranty_date = "2008-01-07", 
+                model_name = "Dell Optiplex 2002", 
+                platform = Platform.objects.all()[0],
+                purchase_date = "2008-01-07", 
+                specs = "stuff", 
+                description = ""
+            )
+        self.type.save()
+
+        self.status = Status.objects.create(
+                broken = False,
+                usable = False,
+                description = "teststatus",
+                name = "test",
+                inuse = True
+            )
+        self.status.save()
+        
+        self.location = Location.objects.create(
+                building = "test",
+                comment = "test",
+                room = 101,
+                name = "test",
+                floor = 1
+            )
+        self.location.save()
+
         self.name = "test_name_a"
-        print Type.objects.all()
         self.item = Item.objects.create(name=self.name, 
-                mt=Type.objects.all()[0], 
-                mt=Status.objects.all()[0], 
-                ml=Location.objects.all()[0], 
+                mt=self.type,
+                ms=self.status,
+                ml=self.location,
                 ip="138.121.342.11", 
                 mac="00:34:A3:DF:XA:89",
                 manu_tag="manufactuer tag", 
@@ -178,5 +290,5 @@ class MachineItemTest(unittest.TestCase):
         """
         Test and see if the parent exists
         """
-        parent = core.Item.objects.get(name=self.name)
-        assertEquals(parent.item.name, self.name)
+        parent = coreModels.Item.objects.get(name=self.name)
+        self.assertEquals(parent.item.name, self.name)
