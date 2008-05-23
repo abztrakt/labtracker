@@ -1,25 +1,35 @@
 {% extends "base_full.html" %}
 
-{% block pageCSS %}@import url('/css/prefs.css');{% endblock %}
+{% block pageCSS %}@import url("/css/prefs.css");{% endblock %}
 
 {% block content %}
-<div class='nav' id='user_nav'>
-    <ul class='struct'>
-        <li><h4 class='section'><a href="/pref/">Preferences</a></h4>
-            <ul class='struct'>
+<div class="nav" id="user_nav">
+    <ul class="struct">
+        <li><h4 class="section"><a href="/pref/">Preferences</a></h4>
+            <ul class="struct">
                 <li><a href="/pref/pwchange/">Change Password</a></li>
             </ul>
         </li>
     </ul>
 </div>
 
-<div id='pref_content'>
+<div id="pref_content">
+    {% block messages %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endblock %}
+
     {% block pref_content %}
     <form method="POST" action="./">
 		<div class="error">{{ emailForm.email.errors }}</div>
         {{ emailForm.email.label }} {{ emailForm.email }}
 		<div>
-			<input type='submit' value='Change' name='Change' />
+			<input type="submit" value="Change" name="Change" />
 		</div>
     </form>
     {% endblock %}

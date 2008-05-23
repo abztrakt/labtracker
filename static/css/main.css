@@ -67,6 +67,19 @@ br.clear { height: 0px; }
     margin: 0px;
 }
 
+ul.messages {
+    list-style-type: none;
+    font-weight: bold;
+    margin: 1em 0em 1.5em 0em;
+    padding: 0.8em 1em;
+    background: #FBDAAE;
+}
+
+ul.messages > li {
+    padding: 0.2em 0em;
+    margin: 0px;
+}
+
 ul.inline { padding: 0px; display: inline; }
 ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
 ul.struct li { margin: 0em; padding: 0px; }

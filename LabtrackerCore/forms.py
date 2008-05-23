@@ -1,12 +1,19 @@
 from django.newforms import ModelForm
-from LabtrackerCore.models import *
+from django.contrib.auth.models import User
+
+import LabtrackerCore.models as coreModels
 
 class BaseItemForm(ModelForm):
     class Meta:
-        model = Item
+        model = coreModels.Item
         fields = ('name')
 
 class BaseGroupForm(ModelForm):
     class Meta:
-        model = Group
+        model = coreModels.Group
         fields = ('name', 'description', 'item')
+
+class EmailForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('email')
