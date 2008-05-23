@@ -16,16 +16,13 @@ import simplejson
 from IssueTracker.models import *
 import LabtrackerCore.models as LabtrackerCore
 from IssueTracker.forms import *
-import IssueTracker.search as issueSearch
 import IssueTracker.utils as utils
-
-args = { 'loggedIn' : False, }
 
 def index(request):
     """
     Used for log in as well
     """
-    return render_to_response('IssueTracker/index.html', args,
+    return render_to_response('IssueTracker/index.html', 
             context_instance=RequestContext(request))
 
 @permission_required('Issuetracker.add_issue', login_url="/login/")
@@ -133,8 +130,9 @@ def post(request, issue_id):
             if newComment.is_valid():
                 newComment = newComment.save()
             else:
+                pass
                 # Form not valid
-                args['add_comment_form'] = newComment
+                #args['add_comment_form'] = newComment
     else:
         return Http404()
 
@@ -190,6 +188,7 @@ def viewIssue(request, issue_id):
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
 
+    args = {}
     args['issue'] = issue
     args['history'] = IssueHistory.objects.filter(issue=issue).order_by('-time')
     args['comments'] = IssueComment.objects.filter(issue=issue).order_by('time')
@@ -220,7 +219,6 @@ def report(request, report_id):
     return render_to_response('IssueTracker/report.html', args,
             context_instance=RequestContext(request))
 
-
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
     """
@@ -250,93 +248,6 @@ def createIssue(request):
     args['problem_types'] = form.fields['problem_type'].queryset
     return render_to_response('IssueTracker/create.html', args,
             context_instance=RequestContext(request))
-
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def search(request):
-    """
-    Takes a post, searches, and either redirects to a list of matching items (or no
-    items), or the specific issue
-    """
-    extra_context = {}
-
-    if request.method == "POST":
-        data = request.POST
-    elif request.method == "GET":
-        data = request.GET
-
-    if data:
-        # in this case, we get to process the stuff
-        issue_id = data.get('search_term', False)
-
-        if issue_id:
-            try:
-                issue_id = int(issue_id)
-
-                issue = Issue.objects.get(pk=issue_id)
-                return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
-            except ValueError, e:
-                # search_term was not an id, search by string
-                issues = Issue.objects.filter(title__icontains=issue_id)
-
-                return generateList(data, issues, 1)
-
-            except ObjectDoesNotExist, e:
-                # issue id was not an actual issue, use it as a search_term
-                issues = Issue.objects.filter(title__contains=issue_id)
-
-                # FIXME change so that it uses the generateList as well
-                return generateList(data,
-                        Issue.objects.all(), 1)
-
-            except Exception, e:
-                return HttpResponseServerError()
-
-            #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
-        else:
-            return generateList(data, Issue.objects.all(), 1)
-
-
-    else:
-        return HttpResponseRedirect(reverse('index'))
-
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def advSearch(request):
-    """ advSearch
-
-    Takes user to the advanced search form page
-    """
-
-    """
-    form = SearchForm()
-    form.fields['resolved_state'].choices = [
-            (state.pk, state.name) for state in ResolveState.objects.all()]
-    form.fields['problem_type'].choices = [
-            (type.pk, type.name) for type in ProblemType.objects.all()]
-    form.fields['inventory_type'].choices = [
-            (type.pk, type.name) for type in LabtrackerCore.InventoryType.objects.all()]
-
-    args['form'] = form
-    """
-    if request.method == 'POST':
-        data = request.POST.copy()
-        if data['action'] == 'Search':
-            # send the data to the search handler
-            del(data['action'])
-            del(data['fields'])
-            searches = issueSearch.parseSearch(data)
-            query = issueSearch.buildQuery(searches)
-
-            extra_context = {}
-
-            return HttpResponse(object_list(request, queryset=query, 
-                extra_context = extra_context, allow_empty=True))
-
-
-    args['add_query'] = AddSearchForm()
-
-    return render_to_response('IssueTracker/adv_search.html', args,
-            context_instance=RequestContext(request))
-
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def fetch(request, issue_id):
@@ -401,69 +312,9 @@ def viewAllIssues(request, page=1):
     """
 
     if request.method == "POST":
-        data = request.POST
+        data = request.POST.copy()
     elif request.method == "GET":
-        data = request.GET
+        data = request.GET.copy()
 
-    return generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
-
-
-def generateList(request, data, qdict, page):
-    """
-    Generates a list of issues
-    Take some arguments from user in data, the page number to show and the returned query
-    items, render out to user
-    """
-
-    # TODO need user-defined limits
-    num_per_page = data.get('numperpage', 30)
-
-    last_order_by = data.get('orderby', 'last_modified')
-    last_order_method = data.get('ometh', 'ASC')
-
-
-    if last_order_by == 'id':
-        order_by = 'issue_id'
-    else:
-        order_by = last_order_by
-
-    if last_order_method == "ASC":
-        order_method = ''
-    else:
-        order_method = '-'
-
-    issues = qdict.order_by(order_method + order_by)[(page - 1) * 30:page * 30]
-
-    args['issueList'] = issues
-    args['last_order_method'] = last_order_method
-    args['order'] = order_by
-
-    args['cols'] = {
-            'id'            : { 'class': 'r_issue_id', 'order': 'ASC' },
-            'title'         : { 'class': 'r_title', 'order': 'ASC' },
-            'item'          : { 'class': 'r_item', 'order': 'ASC' },
-            'it'            : { 'class': 'r_inv_t', 'order': 'ASC' },
-            'group'         : { 'class': 'r_group', 'order': 'ASC' },
-            'reporter'      : { 'class': 'r_reporter', 'order': 'ASC' },
-            'assignee'      : { 'class': 'r_assignee', 'order': 'ASC' },
-            'post_time'     : { 'class': 'r_post_time', 'order': 'ASC' },
-            'last_modified' : { 'class': 'r_last_modified', 'order': 'ASC' },
-        }
-
-    if args['cols'][last_order_by]['order'] == last_order_method:
-        if last_order_method == "ASC":
-            args['cols'][last_order_by]['order'] = "DESC"
-        else:
-            args['cols'][last_order_by]['order'] = "ASC"
-
-    search_term =  data.get('search_term', False)
-    args['search_term'] = search_term
-
-    if search_term:
-        # kludgy way of doing things
-        args['extraArgs'] = '&search_term=%s' % ( search_term )
-
-
-    return render_to_response("IssueTracker/issue_list.html", args,
-            context_instance=RequestContext(request))
+    return utils.generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
 
