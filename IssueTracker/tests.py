@@ -1,7 +1,11 @@
+from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import User, check_password
-from IssueTracker.models import Issue
+
 from LabtrackerCore.models import Item, InventoryType, Group 
+from IssueTracker.models import Issue
+import IssueTracker.Email as Email
+
 
 class IssueCreationTest(TestCase):
     def setUp(self):
@@ -102,4 +106,14 @@ class PasswordChangeTest(TestCase):
 
         self.assertTrue(response)
 
+class EmailTest(TestCase):
+    def setUp(self):
+        self.email = Email.Email()
 
+    def testSending(self):
+        self.email.appendSection(Email.EmailSection('Header', 'Content'))
+        self.email.subject = 'subject'
+        self.email.to = settings.EMAIL_TEST_RECIPIENT
+        self.email.send()
+
+        # TODO make sure that it was sent?
