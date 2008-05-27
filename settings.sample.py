@@ -96,3 +96,8 @@ INSTALLED_APPS = (
 
 LOGIN_URL="/issue/login/"
 LOGIN_REDIRECT_URL="/issue/"
+
+EMAIL_HOST="localhost"
+EMAIL_PORT=25
+DEFAULT_FROM_EMAIL="labtracker@localhost"
+EMAIL_TEST_RECIPIENT="test@localhost"
