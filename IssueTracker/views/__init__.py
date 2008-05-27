@@ -9,11 +9,13 @@ from django.template import RequestContext
 from django import newforms as forms
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list
+from django.template.loader import render_to_string
 import django.db.models.loading as load
 
 import simplejson
 
 from IssueTracker.models import *
+import IssueTracker.Email as Email
 import LabtrackerCore.models as LabtrackerCore
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
@@ -35,45 +37,61 @@ def post(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
 
 
-    #updateIssueForm = UpdateIssueForm(instance=issue)
-    UpdateIssueForm = forms.form_for_instance(issue, fields=('problem_type',
-        'assignee','cc','resolve_time', 'resolved_state', 'last_modified'))
-
-
     if request.method == 'POST':
         actionStr = []
         curAssignee = issue.assignee
         curState = issue.resolved_state
         data = request.POST.copy()
 
-        #updateIssue = updateIssueForm(data)
-        updateIssue = UpdateIssueForm(data)
+        updateIssue = UpdateIssueForm(data, instance=issue)
         updateIssue = updateIssue.save(commit=False)
 
+        issue_email = Email.Email()
+
+        issue_email.appendSection(Email.EmailSection("[Issue %d updates]" % (issue.pk)))
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
-            # FIXME don't need to drop down to SQL for this
-            newUsers = User.objects.extra(where= [ 'id IN (%s)' % \
-                    (", ".join(data.getlist('cc'))) ] ).order_by('id')
+            newUsers = User.objects.in_bulk(data.getlist('cc')).order_by('id')
             curUsers = issue.cc.all().order_by('id')
 
+            removeCC = []
             # find items that need to be removed
             # FIXME this is terrible inefficient, would be better if the newUsers list is shortened
             for curUser in curUsers:
                 if curUser not in newUsers:
+                    removeCC.append(curUser)
                     issue.cc.remove(curUser)
 
+            if removeCC:
+                issue_email.appendSection(Email.EmailSection(
+                    "Users removed from CC",
+                    ", ".join(removeCC)
+                ))
+
+            addCC = []
             # now curUsers only contains the users that need not be modified
             # add all newUsers not in curUser to cc list
             for newUser in newUsers:
                 if newUser not in curUsers:
+                    addCC.append(newUser)
                     issue.cc.add(newUser)
 
+            if addCC:
+                issue_email.appendSection(Email.EmailSection(
+                    "Users removed from CC", ", ".join(addCC)
+                ))
+
         if data.has_key('assignee') and not (curAssignee == updateIssue.assignee):
+
+            assigneeSection = Email.EmailSection("Assignee Change")
+            if curAssignee != None:
+                assigneeSection.content = "%s ----> %s" % (curAssignee, updateIssue.assignee)
+            else:
+                assigneeSection.content = updateIssue.assignee
+            issue_email.appendSection(assigneeSection)
+
             actionStr.append("Assigned to %s" % (updateIssue.assignee))
-        if data.has_key('resolved_state') and not (curState == updateIssue.resolved_state):
-            actionStr.append("Changed state to %s" % (updateIssue.resolved_state))
 
         if data.has_key('problem_type'):
             given_pt = {}
@@ -104,17 +122,41 @@ def post(request, issue_id):
 
             hist_msg = ""
             if add_items:
-                hist_msg += "<span class='label'>Added problems</span>: %s" % (", ".join(add_items))
+                # FIXME use a template
+                issue_email.appendSection(Email.EmailSection(
+                    "New Problem Types", ", ".join(add_items)
+                ))
+
+                hist_msg += "<span class='label'>Added problems</span>: %s" \
+                        % (", ".join(add_items))
 
                 if drop_items:
                     hist_msg += "<br />"
 
             if drop_items:
-                hist_msg += "<span class='label'>Removed problems</span>: %s" % (", ".join(drop_items))
+                # FIXME use a template
+                issue_email.appendSection(Email.EmailSection(
+                    "Removed Problem Types", ", ".join(drop_items)
+                ))
+
+                hist_msg += "<span class='label'>Removed problems</span>: %s" \
+                        % (", ".join(drop_items))
 
             if hist_msg:
                 utils.updateHistory(request.user, issue, hist_msg)
             
+        if data.has_key('resolved_state') and \
+                not (curState == updateIssue.resolved_state):
+
+            resolveSection = Email.EmailSection("Issue Resolve State")
+            if curState != None:
+                resolveSection.content = "%s ---> %s" % (curState, updateIssue.resolved_state)
+            else:
+                resolveSection.content = updateIssue.resolved_state
+            issue_email.appendSection(resolveSection)
+
+            actionStr.append("Changed state to %s" % \
+                    (updateIssue.resolved_state))
 
 
         if (actionStr):
@@ -122,17 +164,38 @@ def post(request, issue_id):
             for action in actionStr:
                 utils.updateHistory(request.user, issue, action)
 
-        if data.has_key('comment') and (not (data['comment'] in ("", None))):
+        if data.has_key('comment'):
             data['user'] = str(request.user.id)
             data['issue'] = issue_id
+
 
             newComment = AddCommentForm(data)
             if newComment.is_valid():
                 newComment = newComment.save()
+
+                issue_email.appendSection(Email.EmailSection(
+                    "Comment from %s" % (request.user.username), 
+                    data['comment']
+                ))
             else:
                 pass
                 # Form not valid
                 #args['add_comment_form'] = newComment
+        
+
+        # Send issue_email and all that jazz
+
+        if not issue_email.empty():
+            # get the cc list
+            cc_list = issue.cc.all()
+
+            issue_email.subject = '[labtracker] %s' % (issue.title)
+
+            for user in cc_list:
+                issue_email.addTo(user.email)
+
+            issue_email.send()
+
     else:
         return Http404()
 
@@ -188,13 +251,13 @@ def viewIssue(request, issue_id):
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
 
-    args = {}
-    args['issue'] = issue
-    args['history'] = IssueHistory.objects.filter(issue=issue).order_by('-time')
-    args['comments'] = IssueComment.objects.filter(issue=issue).order_by('time')
+    args = {
+            'issue': issue,
+            'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),
+            'comments': IssueComment.objects.filter(issue=issue).order_by('time')
+        }
 
     form = UpdateIssueForm(instance=issue)
-
     args['add_comment_form'] = AddCommentForm()
     args['update_issue_form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
