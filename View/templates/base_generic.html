@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+    {% block b_pageCSS %}{% block pageCSS %}{% endblock %}{% endblock %}
+{% block body %}
+<div id='header'>
+    {% block header %}
+    {% endblock %}
+</div>
+{% block content %}{% endblock %}
+<div id='footer'>
+    {% block footer %}{% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "View/base_generic.html" %}
+
+{% block title %}Machine Map -- {{ group.group_name }}{% endblock %}
+
+{% block pageCSS %}
+#map {
+    background-image: url("/media/img/view/{{ group.group_name }}.png");
+}
+{% endblock %}
+
+{% block content %}
+<div id="map">
+</div>
+{% endblock %}

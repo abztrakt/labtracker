@@ -12,6 +12,5 @@ shift
 
 for app in `getApps`; do
 	[[ -e "${app}/fixtures" ]] || mkdir "${app}/fixtures"
-	echo "Creating fixtures for ${app}"
 	python manage.py dumpdata --format=json --indent=2 ${app} > "${app}/fixtures/${name}.json"
 done

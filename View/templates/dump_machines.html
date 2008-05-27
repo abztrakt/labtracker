@@ -1,0 +1,33 @@
+{% extends "View/base_generic.html" %}
+
+{% block title %}Dump Machine Data{% endblock %}
+
+{% block pageCSS %} thead { margin: 5px; } {% endblock %}
+
+{% block content %}
+    {% if group %}<h1>Group: {{ group.name }}</h1>{% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>item id</th>
+                    <th>machine id</th>
+                    <th>Name</th>
+                    <th>date_added</th>
+                    <th>Machine Type</th>
+                    <th>Location</th>
+                    <th>Machine Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine in machines %}<tr>
+                    <td>{{ machine.item.pk }}</td>
+                    <td>{{ machine.pk }}</td>
+                    <td>{{ machine.item.name }}</td>
+                    <td>{{ machine.date_added }}</td>
+                    <td>{{ machine.mt }}</td>
+                    <td>{{ machine.ml }}</td>
+                    <td>{{ machine.ms }}</td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

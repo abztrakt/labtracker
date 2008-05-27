@@ -1,4 +1,5 @@
 var URL_BASE = "/issue/";
+var DEBUG = true;
 
 $.ajaxSetup({
 	'cache'		: false,
@@ -82,6 +83,8 @@ function rmCCLink(userid, username) {
 
 
 function debugLog(msg) {
+    if (!DEBUG) { return; }
+
     if (typeof console != "undefined" && typeof console.log != "undefined") {
         console.log(msg);
     }
