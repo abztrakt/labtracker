@@ -83,7 +83,7 @@ class IssueComment(models.Model):
     issue = models.ForeignKey(Issue)
     user = models.ForeignKey(User)
     time = models.DateTimeField(auto_now_add=True)
-    comment = models.TextField()
+    comment = models.TextField(blank=False)
 
     #class Admin:
         #pass;
