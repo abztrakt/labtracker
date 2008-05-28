@@ -212,11 +212,13 @@ def modMachineMap(request, view_name):
     }
 
     # get the list of unmapped items
-    mapped_set = set([m_item.item.getItem() for m_item in mapped_items])
+    mapped_set = set([m_item.item for m_item in mapped_items])
 
     for group in groups:
-        items = group.getItems()
+        items = group.item.all()
         args['unmapped'].extend( set(items).difference(mapped_set) )
+
+        print args['unmapped']
 
 
     return render_to_response('View/modMachineMap.html', args)
