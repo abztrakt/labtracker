@@ -11,10 +11,22 @@
     "pk": 2, 
     "model": "View.machinemap_item", 
     "fields": {
-      "xpos": 25, 
+      "xpos": 191, 
       "orientation": "H", 
-      "ypos": 14, 
+      "ypos": 142, 
       "item": 3, 
+      "view": 1, 
+      "size": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "View.machinemap_item", 
+    "fields": {
+      "xpos": 253, 
+      "orientation": "H", 
+      "ypos": 109, 
+      "item": 4, 
       "view": 1, 
       "size": 1
     }
