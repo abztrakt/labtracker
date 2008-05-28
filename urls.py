@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     (r'^js/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': "%s/static/js/" % (settings.APP_DIR), 'show_indexes': True}),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
-        {'document_root': '/var/www/django_apps/labtracker/static/', 'show_indexes': True}),
+        {'document_root': '%s/static/' % (settings.APP_DIR), 'show_indexes': True}),
 
     (r'^admin/', include('django.contrib.admin.urls')),
     #(r'^databrowse/(.*)', databrowse.site.root),
