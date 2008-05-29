@@ -8,7 +8,7 @@ urlpatterns = patterns('',
      (r'^search/field/(?P<field_name>\w+)/$',
          'IssueTracker.views.ajax.getSearchField'),
      url(r'^all/$', 'IssueTracker.views.allUnresolved', name='viewAll'),
-     url(r'^all/(?P<page>\d+)/$', 'IssueTracker.views.viewAllIssues', name='viewAll'),
+     url(r'^all/(?P<page>\d+)/$', 'IssueTracker.views.allUnresolved', name='viewAll'),
      (r'^(?P<issue_id>\d+)/fetch/$', 'IssueTracker.views.fetch'),
      url(r'^new/$', 'IssueTracker.views.createIssue', name='createIssue'),
 
