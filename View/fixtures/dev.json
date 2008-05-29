@@ -42,6 +42,16 @@
     }
   }, 
   {
+    "pk": 2, 
+    "model": "View.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 13, 
+      "name": "Square", 
+      "description": ""
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "View.view", 
     "fields": {
