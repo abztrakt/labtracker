@@ -372,7 +372,7 @@ def fetch(request, issue_id):
                 context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/issue/login/")
-def viewAllIssues(request, page=1):
+def allUnresolved(request, page=1):
     """
     Lists all the Issues 
     """
