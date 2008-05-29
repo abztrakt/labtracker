@@ -307,8 +307,11 @@ def createIssue(request):
     else:
         form = CreateIssueForm()
 
-    args['form'] = form
-    args['problem_types'] = form.fields['problem_type'].queryset
+    args = {
+        'form': form,
+        'problem_types': form.fields['problem_type'].queryset
+    }
+
     return render_to_response('IssueTracker/create.html', args,
             context_instance=RequestContext(request))
 
