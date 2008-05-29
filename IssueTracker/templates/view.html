@@ -10,7 +10,7 @@
     <div id="info">
         <ul class="floated struct">
             <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
-            <li><h4>Time Posted:</h4>  {{ issue.post_time }}</li>
+            <li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  {{ issue.item }}</li>
@@ -37,7 +37,7 @@
 </div>
 {% for post in comments %}
 <div id='post_{{ post.ip_id }}' class='comment'>
-    <div class='post_date'>{{ post.time }} by {{ post.user }}</div>
+    <div class='post_date'>{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}</div>
     <p>
         {{ post.comment|escape }}
     </p>
