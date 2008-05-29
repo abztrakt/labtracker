@@ -52,7 +52,7 @@ function updateGroupList(it_id) {
 				// to the group list
 				$.each(data, 
 					function (ii, val) { 
-						id_group.append("<option value='" + val.id + "'>" + 
+						id_group.append("<option value='" + val.group_id + "'>" + 
 							val.name + "</option>");
 					}
 				);
