@@ -1,0 +1,271 @@
+[
+  {
+    "pk": 1, 
+    "model": "Machine.status", 
+    "fields": {
+      "broken": false, 
+      "usable": true, 
+      "description": "", 
+      "name": "Usable", 
+      "inuse": false
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.status", 
+    "fields": {
+      "broken": false, 
+      "usable": true, 
+      "description": "", 
+      "name": "Inuse", 
+      "inuse": true
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.status", 
+    "fields": {
+      "broken": true, 
+      "usable": false, 
+      "description": "", 
+      "name": "Broken", 
+      "inuse": false
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.group", 
+    "fields": {
+      "description": "Yea, we describe", 
+      "it": 1, 
+      "item": [
+        2, 
+        3
+      ], 
+      "casting_server": "192.168.2.111", 
+      "is_lab": false, 
+      "gateway": "192.168.2.1", 
+      "name": "Group1"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.group", 
+    "fields": {
+      "description": "keep empty", 
+      "it": 1, 
+      "item": [], 
+      "casting_server": "128.95.10.11", 
+      "is_lab": false, 
+      "gateway": "128.95.10.1", 
+      "name": "Empty Group"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Machine.group", 
+    "fields": {
+      "description": "Computers in MGH", 
+      "it": 1, 
+      "item": [
+        1, 
+        2, 
+        3, 
+        4
+      ], 
+      "casting_server": "192.168.4.100", 
+      "is_lab": true, 
+      "gateway": "192.168.4.1", 
+      "name": "CRC"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.item", 
+    "fields": {
+      "comment": "", 
+      "name": "Machine1", 
+      "ip": "128.95.9.2", 
+      "manu_tag": "Test Machine 1", 
+      "it": 1, 
+      "mt": 1, 
+      "mac": "00:03:24:3A:12:3E", 
+      "ms": 1, 
+      "ml": 1, 
+      "date_added": "2008-05-05 16:16:26"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.item", 
+    "fields": {
+      "comment": "", 
+      "name": "Machine2", 
+      "ip": "128.95.9.3", 
+      "manu_tag": "test machine2", 
+      "it": 1, 
+      "mt": 1, 
+      "mac": "00:03:24:3A:12:4E", 
+      "ms": 2, 
+      "ml": 1, 
+      "date_added": "2008-05-05 16:17:15"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.item", 
+    "fields": {
+      "comment": "", 
+      "name": "Machine3", 
+      "ip": "128.95.9.4", 
+      "manu_tag": "test machine3", 
+      "it": 1, 
+      "mt": 1, 
+      "mac": "00:03:24:3A:12:4B", 
+      "ms": 1, 
+      "ml": 1, 
+      "date_added": "2008-05-05 16:17:51"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.item", 
+    "fields": {
+      "comment": "", 
+      "name": "Machine4", 
+      "ip": "128.95.9.23", 
+      "manu_tag": "azzaaaaa", 
+      "it": 1, 
+      "mt": 2, 
+      "mac": "00:03:12:23:34:2F", 
+      "ms": 2, 
+      "ml": 1, 
+      "date_added": "2008-05-06 14:47:45"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "WinXP", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "Linux ", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": true, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": true, 
+      "mg": 4, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 4, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": true, 
+      "mg": 5, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": false, 
+      "mg": 5, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.location", 
+    "fields": {
+      "building": "MGH", 
+      "comment": "test", 
+      "room": "101", 
+      "name": "CRC", 
+      "floor": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.type", 
+    "fields": {
+      "name": "Scanning Station", 
+      "warranty_date": "2008-01-07", 
+      "model_name": "Dell Optiplex 2002", 
+      "platform": 1, 
+      "purchase_date": "2008-01-07", 
+      "specs": "stff", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.type", 
+    "fields": {
+      "name": "Workstation", 
+      "warranty_date": "2012-05-06", 
+      "model_name": "Silicon Mechanix GX23", 
+      "platform": 2, 
+      "purchase_date": "2008-05-06", 
+      "specs": "Starburner 23 gs 20", 
+      "description": ""
+    }
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "pk": 1, 
+    "model": "View.viewtype", 
+    "fields": {
+      "name": "MachineMap", 
+      "description": "Map for machines"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "View.machinemap_item", 
+    "fields": {
+      "xpos": 191, 
+      "orientation": "H", 
+      "ypos": 142, 
+      "item": 3, 
+      "view": 1, 
+      "size": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "View.machinemap_item", 
+    "fields": {
+      "xpos": 253, 
+      "orientation": "H", 
+      "ypos": 109, 
+      "item": 4, 
+      "view": 1, 
+      "size": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "View.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 28, 
+      "name": "Rectangle", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "View.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 13, 
+      "name": "Square", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "View.view", 
+    "fields": {
+      "type": 1, 
+      "name": "CRC_Map", 
+      "groups": [
+        5
+      ], 
+      "description": "CRC Machine Map"
+    }
+  }
+]
