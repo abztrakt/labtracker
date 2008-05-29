@@ -94,7 +94,7 @@ def generateList(request, data, qdict, page):
 
     if args['search_term']:
         # kludgy way of doing things
-        args['extraArgs'] = '&search_term=%s' % ( search_term )
+        args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
 
 
     # FIXME should not be rendering here

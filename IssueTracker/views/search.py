@@ -15,9 +15,9 @@ def search(request):
     extra_context = {}
 
     if request.method == "POST":
-        data = request.POST
+        data = request.POST.copy()
     elif request.method == "GET":
-        data = request.GET
+        data = request.GET.copy()
 
     if data:
         # in this case, we get to process the stuff
@@ -33,7 +33,7 @@ def search(request):
                 # search_term was not an id, search by string
                 issues = Issue.objects.filter(title__icontains=issue_id)
 
-                return utils.generateList(data, issues, 1)
+                return utils.generateList(request, data, issues, 1)
 
             except ObjectDoesNotExist, e:
                 # issue id was not an actual issue, use it as a search_term
