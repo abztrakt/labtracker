@@ -1,27 +1,28 @@
 from django.conf import settings
 from django.test import TestCase
+from django.test.client import Client
 from django.contrib.auth.models import User, check_password
 
 from LabtrackerCore.models import Item, InventoryType, Group 
-from IssueTracker.models import Issue
+import LabtrackerCore.models as coreModels
+import Machine.models as mModels
+import IssueTracker.models as iModels
 import IssueTracker.Email as Email
 
 
 class IssueCreationTest(TestCase):
+    fixtures = ['test',]
+
     def setUp(self):
         """
         Creates test user and test issue
         """
         # create test user
-        self.user = User.objects.create_user('testuser', 'test@example.com', 't3$tu$ser')
+        self.password = 't3$tu$ser'
+        self.user = User.objects.create_user('testuser', 'test@example.com', self.password)
+        self.user.is_staff = True
+        self.user.is_superuser = True
         self.user.save()
-
-        # create test issue
-        self.issue = Issue( reporter=self.user, 
-                            title="Everything is broken", 
-                            description="All the machines in the lab are broken. (knock on wood)" )
-        self.issue.save()
-        self.issueId = self.issue.issue_id
 
     def testLogin(self):
         """
@@ -31,31 +32,50 @@ class IssueCreationTest(TestCase):
                                     {'username' : 'testuser',
                                      'password' : 't3$tu$ser'})
             
-        self.assertEquals(response.status_code, 200)
+        self.failUnlessEqual(response.status_code, 200)
         
     def testCreateIssue(self): 
         """
         Grabs the issue that was previously created and makes 
         sure it has the correct values
         """
-        # make sure it's there and has the right values
-        self.testissue = Issue.objects.get(issue_id=self.issueId)
+        # can we get to the page?
+        self.client.login(username=self.user.username, password=self.password)
+        #response = self.client.get('/issue/new/')
+        #self.assertEquals(response.status_code, 200)
 
-        self.assertEquals(self.issue.title, self.testissue.title)
-        self.assertEquals(self.issue.description, self.testissue.description)
-        self.assertEquals(self.issue.reporter, self.user)
-    
-    def testUpdateIssue(self):
-        """
-        Grabs the previously created issue and updates it.  Then
-        makes a change to it and grabs it, ensures that it is correct
-        """
-        self.issue.title = "erry thang is broke"
-        self.issue.save()
+        issues = iModels.Issue.objects.all()
+        num_issues = issues.count()
+        
+        last_pk = 0
+        if num_issues > 0:
+            last_pk = issues.reverse()[0].pk
 
-        self.testissue = Issue.objects.get(issue_id=self.issueId)
+        title = "Everything is broken"
+        response = self.client.post('/issue/new/', {
+                'title':        title,
+                'it':           coreModels.InventoryType.objects.all()[0].pk,
+                'description':  "All the machines in the lab are broken. (knock on wood)"
+            })
 
-        self.assertEquals(self.issue.title, self.testissue.title)
+        self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
+
+        issue = iModels.Issue.objects.filter(title=title).reverse()[0]
+
+        self.issue = issue
+
+        # make sure that the issue was created
+        self.assertTrue(last_pk < issue.pk)
+
+        self.failUnlessEqual(response.status_code, 302)
+        self.assertRedirects(response, '/issue/%d/' % (self.issue.pk), status_code=302, target_status_code=200)
+
+        # now make sure that we can actually view that issue
+        response = self.client.get('/issue/%d/' % (self.issue.pk))
+
+        self.assertTemplateUsed(response, "IssueTracker/view.html")
+        self.assertContains(response, '<h2 id="title">%s</h2>' % (self.issue.title), status_code=200)
+
 
 class PasswordChangeTest(TestCase):
     def setUp(self):
