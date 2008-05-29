@@ -48,7 +48,7 @@ def search(request):
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
         else:
-            return utils.generateList(data, Issue.objects.all(), 1)
+            return utils.generateList(request, data, Issue.objects.all(), 1)
 
 
     else:
