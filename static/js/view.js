@@ -70,7 +70,7 @@ function addCC(event) {
                 'js'        : 1
             },
         'error': function (req, err, e) {
-                errorl.addErr("Could not add user to CC list, does user exist?");
+                errorl.addErr("'" + user + "' could not be added to CC list. Please make sure '" + user + "' exists.");
             },
         'success': function (data) {
                 var btn = $(rmCCLink(data['userid'], data.username)).bind("click", dropCC);
