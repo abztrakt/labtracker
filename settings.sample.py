@@ -83,7 +83,7 @@ TEMPLATE_DIRS = (
     '%s/templates' % APP_DIR,
 )
 
-FIXTURE_DIRS = '%s/test/fixtures' % APP_DIR
+FIXTURE_DIRS = '%s/tests/fixtures' % APP_DIR
 
 INSTALLED_APPS = (
     'django.contrib.auth',

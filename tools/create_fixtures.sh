@@ -11,7 +11,7 @@ name=$1
 shift
 
 for app in 'auth'; do
-    python manage.py dumpdata --format=json --indent=2 ${app} >> "./test/fixtures/${name}.json"
+    python manage.py dumpdata --format=json --indent=2 ${app} >> "./tests/fixtures/${name}.json"
 done
 
 for app in `getApps`; do
