@@ -65,7 +65,9 @@ def generateList(request, data, qdict, page):
     else:
         order_method = '-'
 
+    # FIXME this isn't working, how ridiculous
     issues = qdict.order_by(order_method + order_by)[(page - 1) * 30:page * 30]
+    #issues = qdict[(page - 1) * 30:page * 30] #lambda a, b: cmp(getattr(a, order_by), getattr(b, order_by) ))
 
     args = {
         'issueList': issues,

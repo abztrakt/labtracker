@@ -39,10 +39,7 @@ class IssueCreationTest(TestCase):
         Grabs the issue that was previously created and makes 
         sure it has the correct values
         """
-        # can we get to the page?
         self.client.login(username=self.user.username, password=self.password)
-        #response = self.client.get('/issue/new/')
-        #self.assertEquals(response.status_code, 200)
 
         issues = iModels.Issue.objects.all()
         num_issues = issues.count()
@@ -61,7 +58,6 @@ class IssueCreationTest(TestCase):
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
 
         issue = iModels.Issue.objects.filter(title=title).reverse()[0]
-
         self.issue = issue
 
         # make sure that the issue was created
