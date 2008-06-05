@@ -1,15 +1,15 @@
 [
   {
-    "pk": 1, 
+    "pk": 2, 
     "model": "View.machinemap", 
     "fields": {
-      "shortname": "MGH_Map", 
+      "shortname": "CRC_Map", 
       "type": 1, 
-      "name": "MGH Machine Map", 
+      "name": "CRC Map View", 
       "groups": [
         5
       ], 
-      "description": "MGH Maps of Machines"
+      "description": "CRC Maps of Machines"
     }
   }, 
   {
@@ -17,20 +17,40 @@
     "model": "View.viewtype", 
     "fields": {
       "name": "MachineMap", 
-      "description": "Maps for machines in labs"
+      "description": "Maps of Machines"
     }
   }, 
   {
     "pk": 1, 
+    "model": "View.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 28, 
+      "name": "Rectangle", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "View.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 13, 
+      "name": "Square", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
     "model": "View.viewcore", 
     "fields": {
-      "shortname": "MGH_Map", 
+      "shortname": "CRC_Map", 
       "type": 1, 
-      "name": "MGH Machine Map", 
+      "name": "CRC Map View", 
       "groups": [
         5
       ], 
-      "description": "MGH Maps of Machines"
+      "description": "CRC Maps of Machines"
     }
   }
 ]

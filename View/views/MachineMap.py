@@ -37,6 +37,7 @@ def machineMap(request, group_name):
 
 
         format = data.get('format', 'json')
+
         if format == "xml":
             return HttpResponseServerError()
         elif format == "json":
@@ -49,18 +50,16 @@ def machineMap(request, group_name):
 
         return render_to_response('View/machineMap.html', args)
 
-def modMachineMap(request, view_name):
+def modify(request, view_name):
     """
     Spits out map, with the machines placed on it in appropriate places
     Unmapped items, are placed in an extra panel
     """
 
-    view = get_object_or_404(v_models.View, shortname=view_name)
-    model = view.type.getModel()
+    # get the map
+    view = v_models.MachineMap.objects.get(shortname=view_name)
 
-
-    #data = request.POST.copy()
-    data = request.GET.copy()
+    data = request.REQUEST.copy()
 
     if (data.get('save', False)):
         # need to save the computers
@@ -79,7 +78,7 @@ def modMachineMap(request, view_name):
         # get the mapped items
 
         # figure out which are already mapped and only need updating
-        mapped_items = v_models.MachineMap_item.objects.filter(
+        mapped_items = v_models.MachineMap_Item.objects.filter(
                 item__name__in = map)
 
         resp = { 'status': 0 }
@@ -154,9 +153,6 @@ def modMachineMap(request, view_name):
         return HttpResponse(simplejson.dumps(resp))
 
 
-
-
-    type = view.type.name
     map = None
 
     # XXX: Maybe move this to client side?

@@ -39,7 +39,7 @@ class MachineMap_Size(models.Model):
     class Meta:
         app_label = "View"
 
-class MachineMap_item(models.Model):
+class MachineMap_Item(models.Model):
     """
     This table is used by the machine map view to determine where computers are
     located
@@ -49,7 +49,7 @@ class MachineMap_item(models.Model):
         ('V', 'Vertical'),
     )
 
-    view = models.ForeignKey(base.ViewCore)
+    view = models.ForeignKey(MachineMap)
     item = models.ForeignKey(c_models.Item)
     size = models.ForeignKey(MachineMap_Size)
     xpos = models.IntegerField()
