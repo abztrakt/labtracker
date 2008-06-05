@@ -13,30 +13,6 @@ import View
 from View import models as v_models
 import Machine
 
-
-def dumpMachines(request, group = None):
-    """
-    Get's all the machines and dumps all their data out
-    This will only run if Debug mode is true
-    """
-
-    if not lset.DEBUG:
-        return Http404()
-
-    args = {}
-
-    if not group:
-        args['machines'] = Machine.models.Item.objects.all()
-    else:
-        # fetch the group of 404
-        group = get_object_or_404(Machine.models.Group, group__name=group)
-
-        args['group'] = group.group
-        args['machines'] = group.group.getItems()
-
-    return render_to_response('View/dump_machines.html', args)
-
-
 def machineMap(request, group_name):
     """
     Spits out a lab map
@@ -79,7 +55,7 @@ def modMachineMap(request, view_name):
     Unmapped items, are placed in an extra panel
     """
 
-    view = get_object_or_404(v_models.View, name=view_name)
+    view = get_object_or_404(v_models.View, shortname=view_name)
     model = view.type.getModel()
 
 
@@ -222,4 +198,3 @@ def modMachineMap(request, view_name):
 
 
     return render_to_response('View/modMachineMap.html', args)
-
