@@ -97,7 +97,7 @@ class Item(coreModels.Item):
         return self.item.name
 
     def delete(self):
-        self.item.delete()          # delete the item in coreModels.Item
+        self.core.delete()          # delete the item in coreModels.Item
         super(Item,self).delete()   # delete self
 
     def save(self):
