@@ -1,0 +1,36 @@
+[
+  {
+    "pk": 1, 
+    "model": "View.machinemap", 
+    "fields": {
+      "shortname": "MGH_Map", 
+      "type": 1, 
+      "name": "MGH Machine Map", 
+      "groups": [
+        5
+      ], 
+      "description": "MGH Maps of Machines"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "View.viewtype", 
+    "fields": {
+      "name": "MachineMap", 
+      "description": "Maps for machines in labs"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "View.viewcore", 
+    "fields": {
+      "shortname": "MGH_Map", 
+      "type": 1, 
+      "name": "MGH Machine Map", 
+      "groups": [
+        5
+      ], 
+      "description": "MGH Maps of Machines"
+    }
+  }
+]
