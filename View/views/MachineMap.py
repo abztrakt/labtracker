@@ -179,19 +179,9 @@ def modify(request, view_name):
                 "height":   map.size[1]
             },
         'mapped':   mapped_items,
-        'unmapped': [],
+        'unmapped': view.getUnmappedItems(),
         'sizes':    MachineMap.MachineMap_Size.objects.all(),
         'debug':    lset.DEBUG,
     }
-
-    # get the list of unmapped items
-    mapped_set = set([m_item.item for m_item in mapped_items])
-
-    for group in groups:
-        items = group.item.all()
-        args['unmapped'].extend( set(items).difference(mapped_set) )
-
-        print args['unmapped']
-
 
     return render_to_response('View/modMachineMap.html', args)

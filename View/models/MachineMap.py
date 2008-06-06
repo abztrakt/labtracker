@@ -15,6 +15,24 @@ class MachineMap(base.ViewCore):
         self.type = labtracker.View.utils.getViewType(__name__)
         super(MachineMap,self).save()
 
+    def getUnmappedItems(self):
+        """
+        Returns a list of items that have not been mapped yet
+        """
+        mapped = self.getMappedItems()
+        mapped_set = set([m_item.item for m_item in mapped])
+
+        groups = self.groups.all()
+
+        unmapped = []
+
+        for group in groups:
+            items = group.item.all()
+            unmapped.extend( set(items).difference(mapped_set) )
+
+        return unmapped
+
+
     def getMappedItems(self):
         """
         Returns a list of the Items that are currently in use by the view
