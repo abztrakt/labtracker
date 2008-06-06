@@ -43,6 +43,8 @@ var modMap = {
 	 * @param {Array} sizes - The list of sizes that machines can have
 	 */
 	'init': function (orientation, size, sizes) {
+        var self = this;
+
 		for (var size in sizes) {
 			this.sizes[size] = sizes[size];
 		}
@@ -52,7 +54,45 @@ var modMap = {
 			throw "Given size does not exist in list of sizes does not exist";
 
 		this.defaults.size = size;
+
+        $(self.bindItems);
 	},
+
+    'bindItems': function () {
+        $('div#map').droppable({
+                accept: "div.item",
+                drop: function (ev, ui) {
+                    var item = $(ui.draggable);
+
+                    var item_off = item.offset();
+                    var mapped_off = $(this).offset();
+
+                    item.appendTo(this).
+                        css({	'left':  item_off.left - mapped_off.left,
+                                'top': item_off.top - mapped_off.top,
+                                'position': 'absolute' }).
+                        data('mapped.modmap', true).
+                        data('dirty.modmap', true);
+                }
+            });
+
+        $('div#unmapped').droppable({
+                accept: "div.item",
+                out: function (ev, ui) {
+                    var item = $(ui.draggable);
+                    item.removeClass('unmapped');
+                    item.addClass('mapped');
+                },
+                over: function (ev, ui) {
+                    var item = $(ui.draggable);
+                    item.removeClass('mapped');
+                    item.addClass('unmapped');
+                },
+                drop: function(ev, ui) {
+                    modMap.unmapItem(ui.draggable);
+                }
+            }).children().droppable('disable');
+    },
 
 	/**
 	 * ready
@@ -134,6 +174,7 @@ var modMap = {
 		};
 	},
 
+
 	/**
 	 * Draw the tool dive around the given item
 	 * @param {object} item is the div to draw around
@@ -153,6 +194,7 @@ var modMap = {
 		// the div that will hold the list of tools
 		// XXX is this needed?
 		var tools = $("<div class='tools'></div>");
+        
 		
 		// the actual ul of tools
 		var tool_list = $("<ul class='struct'></ul>");
@@ -194,6 +236,7 @@ var modMap = {
 
 		tool_list.children().wrap("<li></li>").end().appendTo(tools);
 
+
 		// tell the tool div what item it is modifying
 		tools.data('item.modmap', item)
 
@@ -215,6 +258,7 @@ var modMap = {
 						|| ev.pageX > offset.left + item.outerWidth()
 						|| ev.pageY > offset.top + item.outerHeight()) {
 					self.removeToolDiv($(this));
+                    modMap.updateInfoPane();
 				}
 			})
 
@@ -263,9 +307,33 @@ var modMap = {
 			.data('dirty.modmap', true);
 	},
 
-    'getItemId': function (item) {
+    /**
+     * getItemID
+     *
+     * From an item, get the item's real id (pk)
+     */
+    'getItemID': function (item) {
         var id = item.attr('id');
         return id.replace(/\[.*?\]$/, '');
+    },
+
+    /**
+     * getItemName
+     *
+     * From an item, get the item's real name
+     */
+    'getItemName': function (item) {
+        var id = item.attr('id');
+        return id.match(/\[(.*?)\]$/)[1];
+    },
+
+    'updateInfoPane': function (name) {
+        debugLog('updating info pane');
+        var infoPane = $('#infoPane');
+
+        var machine_name = infoPane.find('#machineName');
+
+        machine_name.text(name || "");
     }
 };
 
@@ -279,9 +347,35 @@ $(document).ready(function () {
 				var item = $(ui.draggable);
 				// when beginning to drag, kill all 'infowraps' aka tooldiv
 				modMap.removeToolDiv($('div.tools'));
-				//$('div.tools').trigger('mouseleave');
 			}
 		})
+        .bind('mouseenter.modmap', function (event) {
+            // make sure that this item is mapped first
+            var item = $(this);
+
+            debugLog(item);
+            modMap.updateInfoPane(modMap.getItemName(item));
+
+
+            if (! item.data('mapped.modmap') || item.data('tools.modmap') 
+                    || item.data('dragging.modmap')) {
+                // do nothing
+            } else {
+                // remove all other tool divs
+                $('div.tools').each(function () {
+                        modMap.removeToolDiv($(this));
+                    });
+
+                modMap.drawToolDiv(this);
+            }
+        }).bind('mouseout.modmap', function (eve) {
+            var item = $(eve.target);
+
+            if (item.data('mapped.modmap')) {
+            } else {
+                modMap.updateInfoPane();
+            }
+        })
 		.each( function () { 
 			// figure out if they are mapped or not
 			var item = $(this);
@@ -301,59 +395,12 @@ $(document).ready(function () {
 				}
 			} 
 
-			item.data('load.modmap', info).data('dirty.modmap', false).
-				data('orientation.modmap', info.orientation).
-				data('size.modmap', info.size).data('mapped.modmap', info.mapped).
-				addClass(info.size + " " + info.orientation).
-				bind('mouseenter.modmap', function (event) {
-					// make sure that this item is mapped first
-					var item = $(this);
-					if (! item.data('mapped.modmap') || item.data('tools.modmap') 
-							|| item.data('dragging.modmap') == true) {
-						return;
-					}
-
-					$('div.tools').each(function () {
-							modMap.removeToolDiv($(this));
-						});
-
-					modMap.drawToolDiv(this);
-				});
+			item.data('load.modmap', info).data('dirty.modmap', false)
+				.data('orientation.modmap', info.orientation)
+				.data('size.modmap', info.size).data('mapped.modmap', info.mapped)
+				.addClass(info.size + " " + info.orientation)
 		});
 
-	$('div#unmapped').droppable({
-			accept: "div.item",
-			out: function (ev, ui) {
-				var item = $(ui.draggable);
-				item.removeClass('unmapped');
-				item.addClass('mapped');
-			},
-			over: function (ev, ui) {
-				var item = $(ui.draggable);
-				item.removeClass('mapped');
-				item.addClass('unmapped');
-			},
-			drop: function(ev, ui) {
-				modMap.unmapItem(ui.draggable);
-			}
-		}).children().droppable('disable');
-
-	$('div#map').droppable({
-			accept: "div.item",
-			drop: function (ev, ui) {
-				var item = $(ui.draggable);
-
-				var item_off = item.offset();
-				var mapped_off = $(this).offset();
-
-				item.appendTo(this).
-					css({	'left':  item_off.left - mapped_off.left,
-							'top': item_off.top - mapped_off.top,
-							'position': 'absolute' }).
-					data('mapped.modmap', true).
-					data('dirty.modmap', true);
-			}
-		});
 
 	$('a#save').bind('click.modmap', function (ev) {
 			ev.preventDefault();
@@ -382,7 +429,7 @@ $(document).ready(function () {
 
 			if (unmapped.length > 0) {
 				params['unmap'] = $.map(unmapped, 
-						function (item) { return modMap.getItemId($(item)); });
+						function (item) { return modMap.getItemID($(item)); });
 			}
 
 			if (mapped.length > 0) {
@@ -391,7 +438,7 @@ $(document).ready(function () {
                         // in addition, for each of these items, we will
                         // need to set the param's for the attributes
                         var item = $(item);
-                        var id = modMap.getItemId(item);
+                        var id = modMap.getItemID(item);
 
                         var prefix = 'map[' + id + ']';
                         params[prefix + '[x]'] = item.css('left').replace(/\D/g,"");
