@@ -1,0 +1,48 @@
+{% extends "View/base_generic.html" %}
+
+{% block title %}Modifying Machine Map -- {{ map.name }}{% endblock %}
+
+    {% block pageHead %}<script type="text/javascript" src="/js/jquery/ui.core.js"></script>
+        <script type="text/javascript" src="/js/jquery/jquery.dimensions.js"></script>
+        <script type="text/javascript" src="/js/jquery/ui.droppable.js"></script>
+        <script type="text/javascript" src="/js/jquery/ui.draggable.js"></script>
+        <script type="text/javascript" src="/js/View/modMachineMap.js"></script>
+        <script type="text/javascript">
+            // Register the types
+            modMap.init('H', 'Rectangle', { {% for size in sizes %}
+                    '{{ size.name }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
+                }
+            );
+        </script>
+    {% endblock %}
+    {% block pageCSS %}@import url('/static/css/View/MachineMap/main.css');
+        {% for size in sizes %}
+            div.mapped.{{ size.name }}.V { height: {{ size.height }}px; width: {{size.width}}px; }
+            div.mapped.{{ size.name }}.H { width: {{ size.height }}px; height: {{size.width}}px; }{% endfor %}
+    {% endblock %}
+
+{% block header %}
+    <h2>Modifying map: {{ map.name }}</h2>
+    <div id="cpanel">
+        <a href="#" id="save">Save</a>
+    </div>
+    <h4>Groups: {% for group in groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
+{% endblock %}
+
+{% block content %}
+<div id='drag'>
+    <div id='unmapped'>
+        <h4>Unmapped items:</h4>
+        <div id='items'>
+            {% for item in unmapped %}<div id="{{ item.item.name }}" class="item unmapped"></div>{% endfor %}
+        </div>
+        <br class='clear' />
+    </div>
+    <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
+        background-image: url('/static/img/view/{{ map.name }}.{{ map.ext }}');">
+        {% for item in mapped %}<div id="{{ item.item.name }}" class="item mapped {{item.size.name}} {{item.orientation}}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
