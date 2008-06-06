@@ -37,11 +37,11 @@
     "model": "Machine.group", 
     "fields": {
       "description": "Yea, we describe", 
-      "it": 1, 
       "items": [
         2, 
         3
       ], 
+      "it": 1, 
       "casting_server": "192.168.2.111", 
       "is_lab": false, 
       "gateway": "192.168.2.1", 
@@ -53,8 +53,8 @@
     "model": "Machine.group", 
     "fields": {
       "description": "keep empty", 
-      "it": 1, 
       "items": [], 
+      "it": 1, 
       "casting_server": "128.95.10.11", 
       "is_lab": false, 
       "gateway": "128.95.10.1", 
@@ -66,13 +66,13 @@
     "model": "Machine.group", 
     "fields": {
       "description": "Computers in MGH", 
-      "it": 1, 
       "items": [
         1, 
         2, 
         3, 
         4
       ], 
+      "it": 1, 
       "casting_server": "192.168.4.100", 
       "is_lab": true, 
       "gateway": "192.168.4.1", 

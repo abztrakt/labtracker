@@ -1,5 +1,23 @@
 [
   {
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "cstimmel", 
+      "first_name": "Craig", 
+      "last_name": "Stimmel", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2008-06-06 14:35:28", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$47e3d$2d42e034b988d4529b17c8d258e6a368f5898da1", 
+      "email": "", 
+      "date_joined": "2008-06-06 14:35:28"
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "auth.user", 
     "fields": {
@@ -9,7 +27,7 @@
       "is_active": true, 
       "is_superuser": true, 
       "is_staff": true, 
-      "last_login": "2008-06-05 16:35:42", 
+      "last_login": "2008-06-06 14:34:20", 
       "groups": [], 
       "user_permissions": [], 
       "password": "sha1$b654e$df1b6dba6bea69ca581b38b9bddbb8ef501a77c6", 
@@ -477,33 +495,6 @@
     }
   }, 
   {
-    "pk": 88, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_machinemap_size", 
-      "name": "Can add machine map_ size", 
-      "content_type": 29
-    }
-  }, 
-  {
-    "pk": 89, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_machinemap_size", 
-      "name": "Can change machine map_ size", 
-      "content_type": 29
-    }
-  }, 
-  {
-    "pk": 90, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_machinemap_size", 
-      "name": "Can delete machine map_ size", 
-      "content_type": 29
-    }
-  }, 
-  {
     "pk": 85, 
     "model": "auth.permission", 
     "fields": {
@@ -528,6 +519,33 @@
       "codename": "delete_machinemap_item", 
       "name": "Can delete machine map_item", 
       "content_type": 28
+    }
+  }, 
+  {
+    "pk": 88, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_machinemap_size", 
+      "name": "Can add machine map_ size", 
+      "content_type": 29
+    }
+  }, 
+  {
+    "pk": 89, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_machinemap_size", 
+      "name": "Can change machine map_ size", 
+      "content_type": 29
+    }
+  }, 
+  {
+    "pk": 90, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_machinemap_size", 
+      "name": "Can delete machine map_ size", 
+      "content_type": 29
     }
   }, 
   {
