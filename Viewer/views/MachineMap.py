@@ -79,29 +79,29 @@ def modify(request, view_name):
         # get the mapped items
 
         # figure out which are already mapped and only need updating
-        mapped_items = MachineMap.MachineMap_Item.objects.filter(
-                item__name__in = map)
+        map_items = MachineMap.MachineMap_Item.objects.filter(
+                item__pk__in = map)
 
-        resp = { 'status': 0 }
+        resp = { 'status': 0, 'error': "" }
 
-        def getItemInfo(name):
+        def getItemInfo(id):
             return {
-                'x':    data.get('map[%s][x]' % name, None),
-                'y':    data.get('map[%s][y]' % name, None),
-                'orient':    data.get('map[%s][orient]' % name, None),
-                'size':    data.get('map[%s][size]' % name, None)
+                'x':    data.get('map[%s][x]' % id, None),
+                'y':    data.get('map[%s][y]' % id, None),
+                'orient':    data.get('map[%s][orient]' % id, None),
+                'size':    data.get('map[%s][size]' % id, None)
             }
 
         # for these items, update
-        for item in mapped_items:
-            print 'dealing with %s' % item
+        for item in map_items:
 
-            iteminfo = getItemInfo(item.item.name)
+            iteminfo = getItemInfo(item.item.pk)
 
             item.xpos = iteminfo['x']
             item.ypos = iteminfo['y']
+
             if None in (item.xpos, item.ypos):
-                resp['error'] += "Both x and y needed: %s\n" % (item.item.name)
+                resp['error'] += "Both x and y needed: %s\n" % (item.item.pk)
                 return HttpResponseServerError()
                 #return HttpResponse(simplejson.dumps(resp))
 
@@ -118,26 +118,28 @@ def modify(request, view_name):
             item.save()
 
 
-        new_names = set(map).difference(
-                set([item.item.name for item in mapped_items]))
+        # Get the items that weren't mapped before
+        new_ids = set(map).difference(
+                set([item.item.pk for item in map_items]))
 
         # create new entries for each of these items
-        for name in new_names:
+        for item_id in new_ids:
             # first fetch the base_item
             try:
-                print "Name is %s" % name
-                base_item = Machine.models.Item.objects.get(name=name)
+                item = Machine.models.Item.objects.get(pk=item_id)
             except Exception, e:
                 # TODO finer grained error checking
-                print "Failed to get the base_item, %s" % e
                 resp['error'] += "Failed to get the base_item\n"
                 return HttpResponseServerError()
-                #return HttpResponse(simplejson.dumps(resp))
 
             # with the base_item, construct new mapped_item entry
-            iteminfo = getItemInfo(name)
+            iteminfo = getItemInfo(item_id)
 
-            new_item = MachineMap.MachineMap_Item(view = view, item = base_item,
+            if None in (iteminfo['x'], iteminfo['y']):
+                resp['error'] += "Both x and y needed: %s\n" % (item.item.pk)
+                return HttpResponseServerError()
+
+            new_item = MachineMap.MachineMap_Item(view = view, item = item,
                     xpos = iteminfo['x'], ypos = iteminfo['y'])
 
             size = iteminfo['size']
@@ -172,7 +174,7 @@ def modify(request, view_name):
         return HttpResponseServerError()
 
     groups = view.groups.all()
-    mapped_items = view.getMappedItems()
+    map_items = view.getMappedItems()
     args = {
         'groups':   groups,
         'map': {
@@ -181,7 +183,7 @@ def modify(request, view_name):
                 "width":    map.size[0],
                 "height":   map.size[1]
             },
-        'mapped':   mapped_items,
+        'mapped':   map_items,
         'unmapped': view.getUnmappedItems(),
         'sizes':    MachineMap.MachineMap_Size.objects.all(),
         'debug':    lset.DEBUG,
