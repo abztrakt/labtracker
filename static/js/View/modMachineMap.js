@@ -381,26 +381,27 @@ $(document).ready(function () {
 			}
 
 			if (mapped.length > 0) {
-				params['map'] = $.map(mapped,
-						function (item) { 
-							// in addition, for each of these items, we will
-							// need to set the param's for the attributes
-							var name = item.id;
-							var item = $(item);
-							params[name + '_x'] = item.css('left').replace(/\D/g,"");
-							params[name + '_y'] = item.css('top').replace(/\D/g,"");
-							params[name + '_s'] = item.data('size.modmap');
-							params[name + '_o'] = item.data('orientation.modmap');
+                params['map'] = $.map(mapped, 
+                    function (item) { 
+                        // in addition, for each of these items, we will
+                        // need to set the param's for the attributes
+                        var name = item.id;
+                        var item = $(item);
 
-							return name;
-						}
-					);
+                        var prefix = 'map[' + name + ']';
+                        params[prefix + '[x]'] = item.css('left').replace(/\D/g,"");
+                        params[prefix + '[y]'] = item.css('top').replace(/\D/g,"");
+                        params[prefix + '[size]'] = item.data('size.modmap');
+                        params[prefix + '[orient]'] = item.data('orientation.modmap');
+
+                        return name
+                    }
+                );
 			}
 
 			// only do this if both unmapped and mapped hold items
 
 			if (mapped.length + unmapped.length > 0) {
-				// TODO failure handler
 				$.ajax({
 					'url': location.href.replace(/\?.*$/,""),
 					'cache': false,
@@ -410,6 +411,9 @@ $(document).ready(function () {
 					'complete': function () {
 							modMap.getItems().draggable('enable');
 						},
+                    'failure': function (xhr, text, err) {
+				        // TODO failure handler
+                    },
 					'success': function (json) {
 							// TODO set the load settings for the items
 							$.each(dirty_items, function () {

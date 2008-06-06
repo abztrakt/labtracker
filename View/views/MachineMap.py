@@ -84,27 +84,33 @@ def modify(request, view_name):
 
         resp = { 'status': 0 }
 
+        def getItemInfo(name):
+            return {
+                'x':    data.get('map[%s][x]' % name, None),
+                'y':    data.get('map[%s][y]' % name, None),
+                'orient':    data.get('map[%s][orient]' % name, None),
+                'size':    data.get('map[%s][size]' % name, None)
+            }
+
         # for these items, update
         for item in mapped_items:
             print 'dealing with %s' % item
-            xattr = "%s_x" % (item.item.name)
-            yattr = "%s_y" % (item.item.name)
-            sizeattr = "%s_s" % (item.item.name)
-            orientattr = "%s_o" % (item.item.name)
 
-            item.xpos = data.get(xattr, None)
-            item.ypos = data.get(yattr, None)
+            iteminfo = getItemInfo(item.item.name)
+
+            item.xpos = iteminfo['x']
+            item.ypos = iteminfo['y']
             if None in (item.xpos, item.ypos):
                 resp['error'] += "Both x and y needed: %s\n" % (item.item.name)
                 return HttpResponseServerError()
                 #return HttpResponse(simplejson.dumps(resp))
 
-            param_size = data.get(sizeattr, None);
+            param_size = iteminfo['size']
             if (param_size):
                 item.size = \
                     MachineMap.MachineMap_Size.objects.get(name=param_size)
 
-            orientation = data.get(orientattr, None)
+            orientation = iteminfo['orient']
             if (orientation):
                 item.orientation = orientation
 
@@ -120,7 +126,7 @@ def modify(request, view_name):
             # first fetch the base_item
             try:
                 print "Name is %s" % name
-                base_item = core.models.Item.objects.get(name=name)
+                base_item = Machine.models.Item.objects.get(name=name)
             except Exception, e:
                 # TODO finer grained error checking
                 print "Failed to get the base_item, %s" % e
@@ -129,23 +135,20 @@ def modify(request, view_name):
                 #return HttpResponse(simplejson.dumps(resp))
 
             # with the base_item, construct new mapped_item entry
-            xattr = "%s_x" % (name)
-            yattr = "%s_y" % (name)
-            sizeattr = "%s_s" % (name)
-            orientattr = "%s_o" % (name)
+            iteminfo = getItemInfo(name)
 
             new_item = MachineMap.MachineMap_Item(view = view, item = base_item,
-                    xpos = data.get(xattr), ypos = data.get(yattr))
+                    xpos = iteminfo['x'], ypos = iteminfo['y'])
 
-            size = data.get(sizeattr, None)
+            size = iteminfo['size']
             if (size):
                 new_item.size = \
                     MachineMap.MachineMap_Size.objects.get(name=size)
 
-            new_item.orientation = data.get(orientattr, None)
+
+            new_item.orientation = iteminfo['orient']
 
             if None in (size, new_item.orientation):
-                debugLog("no data on size/orientation")
                 return HttpResponse(simplejson.dumps({'status': 0}))
 
             new_item.save()

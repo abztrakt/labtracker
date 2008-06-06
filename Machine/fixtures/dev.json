@@ -38,7 +38,7 @@
     "fields": {
       "description": "Yea, we describe", 
       "it": 1, 
-      "item": [
+      "items": [
         2, 
         3
       ], 
@@ -54,7 +54,7 @@
     "fields": {
       "description": "keep empty", 
       "it": 1, 
-      "item": [], 
+      "items": [], 
       "casting_server": "128.95.10.11", 
       "is_lab": false, 
       "gateway": "128.95.10.1", 
@@ -67,7 +67,7 @@
     "fields": {
       "description": "Computers in MGH", 
       "it": 1, 
-      "item": [
+      "items": [
         1, 
         2, 
         3, 

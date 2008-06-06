@@ -6,7 +6,7 @@ urlpatterns = patterns('',
 
      # for map stuff, will need to have stuff for creating maps
      # TODO move this to admin
-     url(r'^modMachineMap/(?P<view_name>.+)/$', 'View.views.MachineMap.modify',
+     url(r'^MachineMap/(?P<view_name>.+)/modify$', 'View.views.MachineMap.modify',
          name="machine_map_mod"),
 
 )

@@ -61,7 +61,7 @@ class Group(models.Model):
     name = models.CharField(max_length=60, unique=True, core=True)
     description = models.CharField(max_length=2616, core=True)
 
-    item = models.ManyToManyField(Item, null=True, blank=True)
+    items = models.ManyToManyField(Item, null=True, blank=True)
 
     def __unicode__(self):
         """

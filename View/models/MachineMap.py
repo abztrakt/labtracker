@@ -3,9 +3,14 @@ from django.db import models
 from labtracker.View.models import base
 import labtracker.View.utils 
 import labtracker.LabtrackerCore.models as c_models
+import labtracker.Machine.models as m_models
 
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
+    groups = models.ManyToManyField(m_models.Group,
+            filter_interface=models.HORIZONTAL,
+            related_name="view_machinemap_groups"
+            )
 
     def delete(self):
         self.view.delete()
@@ -23,11 +28,10 @@ class MachineMap(base.ViewCore):
         mapped_set = set([m_item.item for m_item in mapped])
 
         groups = self.groups.all()
-
         unmapped = []
 
         for group in groups:
-            items = group.item.all()
+            items = group.items.all()
             unmapped.extend( set(items).difference(mapped_set) )
 
         return unmapped
@@ -74,7 +78,7 @@ class MachineMap_Item(models.Model):
     )
 
     view = models.ForeignKey(MachineMap)
-    item = models.ForeignKey(c_models.Item)
+    item = models.ForeignKey(m_models.Item)
     size = models.ForeignKey(MachineMap_Size)
     xpos = models.IntegerField()
     ypos = models.IntegerField()
