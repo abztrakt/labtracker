@@ -51,7 +51,7 @@ def machineMap(request, group_name):
 
         return render_to_response('Viewer/machineMap.html', args)
 
-@permission_required('Issuetracker.add_issue', login_url="/login/")
+@permission_required('Viewer.change_view_core', login_url="/login/")
 def modify(request, view_name):
     """
     Spits out map, with the machines placed on it in appropriate places
