@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     (r'^issue/', include('IssueTracker.urls')),
 
 
-    (r'^view/', include('labtracker.View.urls')),
+    (r'^view/', include('labtracker.Viewer.urls')),
     (r'^tracker/', include('labtracker.Tracker.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/issue/'}),
 )
