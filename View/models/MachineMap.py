@@ -15,6 +15,12 @@ class MachineMap(base.ViewCore):
         self.type = labtracker.View.utils.getViewType(__name__)
         super(MachineMap,self).save()
 
+    def getMappedItems(self):
+        """
+        Returns a list of the Items that are currently in use by the view
+        """
+        return MachineMap_Item.objects.filter(view=self)
+
     class Admin:
         pass
 

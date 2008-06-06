@@ -11,6 +11,7 @@ import labtracker.settings as lset
 import LabtrackerCore as core
 import View
 from View import models as v_models
+from View.models import MachineMap
 import Machine
 
 def machineMap(request, group_name):
@@ -57,7 +58,7 @@ def modify(request, view_name):
     """
 
     # get the map
-    view = v_models.MachineMap.objects.get(shortname=view_name)
+    view = MachineMap.MachineMap.objects.get(shortname=view_name)
 
     data = request.REQUEST.copy()
 
@@ -67,7 +68,7 @@ def modify(request, view_name):
         map = data.getlist('map')
 
         # get the unmapped items
-        unmap_items = v_models.MachineMap_item.objects.filter(
+        unmap_items = MachineMap.MachineMap_Item.objects.filter(
                 item__name__in = unmap)
         if (len(unmap) != len(unmap_items)):
             print "Num requested did not match num returned"
@@ -78,7 +79,7 @@ def modify(request, view_name):
         # get the mapped items
 
         # figure out which are already mapped and only need updating
-        mapped_items = v_models.MachineMap_Item.objects.filter(
+        mapped_items = MachineMap.MachineMap_Item.objects.filter(
                 item__name__in = map)
 
         resp = { 'status': 0 }
@@ -101,7 +102,7 @@ def modify(request, view_name):
             param_size = data.get(sizeattr, None);
             if (param_size):
                 item.size = \
-                    v_models.MachineMap_Size.objects.get(name=param_size)
+                    MachineMap.MachineMap_Size.objects.get(name=param_size)
 
             orientation = data.get(orientattr, None)
             if (orientation):
@@ -133,13 +134,13 @@ def modify(request, view_name):
             sizeattr = "%s_s" % (name)
             orientattr = "%s_o" % (name)
 
-            new_item = v_models.MachineMap_item(view = view, item = base_item,
+            new_item = MachineMap.MachineMap_Item(view = view, item = base_item,
                     xpos = data.get(xattr), ypos = data.get(yattr))
 
             size = data.get(sizeattr, None)
             if (size):
                 new_item.size = \
-                    v_models.MachineMap_Size.objects.get(name=size)
+                    MachineMap.MachineMap_Size.objects.get(name=size)
 
             new_item.orientation = data.get(orientattr, None)
 
@@ -179,7 +180,7 @@ def modify(request, view_name):
             },
         'mapped':   mapped_items,
         'unmapped': [],
-        'sizes':    v_models.MachineMap_Size.objects.all(),
+        'sizes':    MachineMap.MachineMap_Size.objects.all(),
         'debug':    lset.DEBUG,
     }
 

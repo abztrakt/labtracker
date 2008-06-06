@@ -11,7 +11,7 @@ class ViewType(models.Model):
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=2616)
 
-    def __save__(self):
+    def save(self):
         # FIXME need to create the class
         super(ViewType, self).save()
 
@@ -39,15 +39,12 @@ class ViewCore(models.Model):
             filter_interface=models.HORIZONTAL)
     type = models.ForeignKey(ViewType, editable=False)
 
-    def getMappedItems(self):
-        """
-        Returns a list of the Items that are currently in use by the view
-        """
-        model = self.type.getModel()
-        return model.objects.filter(view=self)
-
     def __unicode__(self):
         return self.name
+
+    def getMappedItems(self):
+        # TODO get child class and do stuff with it?
+        raise NotImplementedError, "getMappedItems was not implemented in the base class"
 
     class Meta:
         app_label = "View"
