@@ -261,7 +261,12 @@ var modMap = {
 					'position': 'relative'})
 			.data('mapped.modmap', false)
 			.data('dirty.modmap', true);
-	}
+	},
+
+    'getItemId': function (item) {
+        var id = item.attr('id');
+        return id.replace(/\[.*?\]$/, '');
+    }
 };
 
 
@@ -377,7 +382,7 @@ $(document).ready(function () {
 
 			if (unmapped.length > 0) {
 				params['unmap'] = $.map(unmapped, 
-						function (item) { return item.id; });
+						function (item) { return modMap.getItemId($(item)); });
 			}
 
 			if (mapped.length > 0) {
@@ -385,16 +390,16 @@ $(document).ready(function () {
                     function (item) { 
                         // in addition, for each of these items, we will
                         // need to set the param's for the attributes
-                        var name = item.id;
                         var item = $(item);
+                        var id = modMap.getItemId(item);
 
-                        var prefix = 'map[' + name + ']';
+                        var prefix = 'map[' + id + ']';
                         params[prefix + '[x]'] = item.css('left').replace(/\D/g,"");
                         params[prefix + '[y]'] = item.css('top').replace(/\D/g,"");
                         params[prefix + '[size]'] = item.data('size.modmap');
                         params[prefix + '[orient]'] = item.data('orientation.modmap');
 
-                        return name
+                        return id;
                     }
                 );
 			}

@@ -1,9 +1,10 @@
 from PIL import Image
 
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
-from django.db.models import Q
+from django.template import RequestContext
 
 import simplejson
 
@@ -131,7 +132,7 @@ def modify(request, view_name):
             except Exception, e:
                 # TODO finer grained error checking
                 resp['error'] += "Failed to get the base_item\n"
-                return HttpResponseServerError()
+                return HttpResponseServerError(simplejson.dumps(resp))
 
             # with the base_item, construct new mapped_item entry
             iteminfo = getItemInfo(item_id)
