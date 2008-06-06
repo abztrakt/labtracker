@@ -52,6 +52,8 @@ class MachineMapWebTest(TestCase):
         self.user.is_superuser = True
         self.user.save()
 
+        self.r = random.Random()
+        self.r.seed()
 
         # create a map
         groups = m_models.Group.objects.all()[0:2]
@@ -74,8 +76,6 @@ class MachineMapWebTest(TestCase):
         Try to modify the map that was created
         """
 
-        r = random.Random()
-        r.seed()
 
         self.client.login(username=self.user.username, password=self.password)
 
@@ -87,7 +87,6 @@ class MachineMapWebTest(TestCase):
 
         mm_obj = v_models.MachineMap.MachineMap
 
-
         req_data = {
                 'save': 1,
                 'map': [item.pk for item in items_to_map]
@@ -98,18 +97,16 @@ class MachineMapWebTest(TestCase):
         # for each of the items to map, give them position and sizes and stuff
         for item in items_to_map:
             key = 'map[%s][%%s]' % (item.pk)
-            req_data[key % 'x'] = r.randint(0, 1000)
-            req_data[key % 'y'] = r.randint(0, 1000)
+            req_data[key % 'x'] = self.r.randint(0, 1000)
+            req_data[key % 'y'] = self.r.randint(0, 1000)
             req_data[key % 'size'] = size.name
-            req_data[key % 'orient'] = ('H', 'V')[r.randint(0,1)]
+            req_data[key % 'orient'] = ('H', 'V')[self.r.randint(0,1)]
 
         # map a few items
         response = self.client.post('/view/MachineMap/%s/modify' % self.map.shortname, req_data)
         self.assertContains(response, 'status', status_code=200)
 
         self.map = v_models.MachineMap.MachineMap.objects.get(pk=self.map.pk)
-
-        print "\n%d : %d\n" % (len(items_to_map), self.map.getMappedItems().count())
 
         self.assertTrue(len(items_to_map) == self.map.getMappedItems().count())
 
