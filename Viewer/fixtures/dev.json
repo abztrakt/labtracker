@@ -22,30 +22,6 @@
   }, 
   {
     "pk": 1, 
-    "model": "Viewer.machinemap_item", 
-    "fields": {
-      "xpos": 254, 
-      "orientation": "H", 
-      "ypos": 111, 
-      "item": 3, 
-      "view": 2, 
-      "size": 2
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.machinemap_item", 
-    "fields": {
-      "xpos": 337, 
-      "orientation": "H", 
-      "ypos": 114, 
-      "item": 4, 
-      "view": 2, 
-      "size": 2
-    }
-  }, 
-  {
-    "pk": 1, 
     "model": "Viewer.machinemap_size", 
     "fields": {
       "width": 13, 

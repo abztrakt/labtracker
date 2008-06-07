@@ -25,7 +25,7 @@ class MachineMap(base.ViewCore):
         Returns a list of items that have not been mapped yet
         """
         mapped = self.getMappedItems()
-        mapped_set = set([m_item.item for m_item in mapped])
+        mapped_set = set([m_item.machine for m_item in mapped])
 
         groups = self.groups.all()
         unmapped = []
@@ -77,8 +77,8 @@ class MachineMap_Item(models.Model):
         ('V', 'Vertical'),
     )
 
+    machine = models.ForeignKey(m_models.Item)
     view = models.ForeignKey(MachineMap)
-    item = models.ForeignKey(m_models.Item)
     size = models.ForeignKey(MachineMap_Size)
     xpos = models.IntegerField()
     ypos = models.IntegerField()

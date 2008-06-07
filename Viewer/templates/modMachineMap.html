@@ -47,7 +47,7 @@
     </div>
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('/static/img/view/{{ map.name }}.{{ map.ext }}');">
-        {% for item in mapped %}<div id="{{ item.item.pk }}[{{ item.item.name }}]" class="item mapped {{item.size.name}} {{item.orientation}}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
+        {% for item in mapped %}<div id="{{ item.machine.pk }}[{{ item.machine.name }}]" class="item mapped {{item.size.name}} {{item.orientation}}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
         {% endfor %}
     </div>
 </div>

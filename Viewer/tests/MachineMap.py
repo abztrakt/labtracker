@@ -76,7 +76,6 @@ class MachineMapWebTest(TestCase):
         Try to modify the map that was created
         """
 
-
         self.client.login(username=self.user.username, password=self.password)
 
         unmapped_items = self.map.getUnmappedItems()
@@ -103,7 +102,8 @@ class MachineMapWebTest(TestCase):
             req_data[key % 'orient'] = ('H', 'V')[self.r.randint(0,1)]
 
         # map a few items
-        response = self.client.post('/view/MachineMap/%s/modify' % self.map.shortname, req_data)
+        response = self.client.post('/views/MachineMap/%s/modify' % \
+                self.map.shortname, req_data)
         self.assertContains(response, 'status', status_code=200)
 
         self.map = v_models.MachineMap.MachineMap.objects.get(pk=self.map.pk)

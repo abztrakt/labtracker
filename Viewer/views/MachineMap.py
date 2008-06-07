@@ -70,19 +70,18 @@ def modify(request, view_name):
         map = data.getlist('map')
 
         # get the unmapped items
-        unmap_items = MachineMap.MachineMap_Item.objects.filter(
-                item__name__in = unmap)
+        unmap_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = unmap)
         if (len(unmap) != len(unmap_items)):
             print "Num requested did not match num returned"
             return HttpResponseServerError()
 
-        unmap_items.delete()
+        for uitem in unmap_items:
+            uitem.delete()
 
         # get the mapped items
 
         # figure out which are already mapped and only need updating
-        map_items = MachineMap.MachineMap_Item.objects.filter(
-                item__pk__in = map)
+        map_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = map)
 
         resp = { 'status': 0, 'error': "" }
 
@@ -97,13 +96,13 @@ def modify(request, view_name):
         # for these items, update
         for item in map_items:
 
-            iteminfo = getItemInfo(item.item.pk)
+            iteminfo = getItemInfo(item.machine.pk)
 
             item.xpos = iteminfo['x']
             item.ypos = iteminfo['y']
 
             if None in (item.xpos, item.ypos):
-                resp['error'] += "Both x and y needed: %s\n" % (item.item.pk)
+                resp['error'] += "Both x and y needed: %s\n" % (item.machine.pk)
                 return HttpResponseServerError()
                 #return HttpResponse(simplejson.dumps(resp))
 
@@ -122,7 +121,7 @@ def modify(request, view_name):
 
         # Get the items that weren't mapped before
         new_ids = set(map).difference(
-                set([item.item.pk for item in map_items]))
+                set([item.machine.pk for item in map_items]))
 
         # create new entries for each of these items
         for item_id in new_ids:
@@ -138,10 +137,10 @@ def modify(request, view_name):
             iteminfo = getItemInfo(item_id)
 
             if None in (iteminfo['x'], iteminfo['y']):
-                resp['error'] += "Both x and y needed: %s\n" % (item.item.pk)
+                resp['error'] += "Both x and y needed: %s\n" % (item.pk)
                 return HttpResponseServerError()
 
-            new_item = MachineMap.MachineMap_Item(view = view, item = item,
+            new_item = MachineMap.MachineMap_Item(view = view, machine = item,
                     xpos = iteminfo['x'], ypos = iteminfo['y'])
 
             size = iteminfo['size']

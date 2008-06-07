@@ -272,6 +272,7 @@ var modMap = {
 
 	/**
 	 * removeToolDiv
+     *
 	 * remote a tooldiv
 	 * @param {jQuery} the jQuery object that holds one tooldiv
 	 */
