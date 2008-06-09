@@ -3,6 +3,10 @@ from LabtrackerCore.models import Item,InventoryType,Group
 from django.contrib.auth.models import User
 
 class ResolveState(models.Model):
+    """
+    Issues are resolved into a resolve state such as this
+    """
+
     rs_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60)
     description = models.CharField(max_length=400)
@@ -14,6 +18,10 @@ class ResolveState(models.Model):
         pass
 
 class ProblemType(models.Model):
+    """
+    Issues have mulitple probme types associated to them
+    """
+
     pb_id = models.AutoField(primary_key=True)
     inv = models.ManyToManyField(InventoryType, blank=True, null=True)
     name = models.CharField(max_length=60, unique=True)

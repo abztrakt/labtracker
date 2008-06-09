@@ -17,11 +17,12 @@ import Machine.models as Machine
 
 
 def searchFieldGen(field_name):
-    """ searchFieldGen
+    """ 
+    searchFieldGen
 
     Generates the field for the search term
-
     """
+
     form = SearchForm()
     field = form.fields[field_name]
 
@@ -53,6 +54,7 @@ def searchFieldGen(field_name):
 def parseSearch(data):
     """
     """
+
     # take the data and parse out what needs to be done
     keys = data.keys()
     keys.sort()
@@ -78,6 +80,7 @@ def parseSearch(data):
 def buildQuery(searches):
     """
     """
+
     query = IssueModel.Issue.objects
 
     for search in searches:
