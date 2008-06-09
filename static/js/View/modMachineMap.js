@@ -16,8 +16,8 @@
  * in the process of being dragged
  */
 $.ui.plugin.add('draggable', 'flag', {
-	start: function (e, ui) { $(this).data('dragging', true); },
-	stop: function (e, ui) { $(this).data('dragging', false); }
+	start: function (e, ui) { $(this).data('dragging.modmap', true); },
+	stop: function (e, ui) { $(this).data('dragging.modmap', false); }
 });
 
 /**
@@ -55,10 +55,12 @@ var modMap = {
 
 		this.defaults.size = size;
 
-        $(self.bindItems);
+        $(function () {
+			self.bindItems(self);
+		});
 	},
 
-    'bindItems': function () {
+    'bindItems': function (self) {
         $('div#map').droppable({
                 accept: "div.item",
                 drop: function (ev, ui) {
@@ -89,7 +91,7 @@ var modMap = {
                     item.addClass('unmapped');
                 },
                 drop: function(ev, ui) {
-                    modMap.unmapItem(ui.draggable);
+                    self.unmapItem(ui.draggable);
                 }
             }).children().droppable('disable');
     },
@@ -220,7 +222,7 @@ var modMap = {
 				 item.data('dirty.modmap', true);
 
 				 // redraw the tool div
-				 self.removeToolDiv(tools);
+				 tools.trigger('remove.modmap');
 				 self.drawToolDiv(item[0]);
 			 });
 		tool_list.append(rotate);
@@ -254,34 +256,43 @@ var modMap = {
 			.bind('mouseleave.modmap', function (ev) {
 				// make sure that the mouse is actually outside the tools box
 				var offset = item.offset();
-				if (ev.pageX < offset.left || ev.pageY < offset.top
-						|| ev.pageX > offset.left + item.outerWidth()
-						|| ev.pageY > offset.top + item.outerHeight()) {
-					self.removeToolDiv($(this));
+				if (self.mouseOut(ev.pageX, ev.pageY, item)) {
+					$(this).trigger('remove.modmap');
                     modMap.updateInfoPane();
 				}
 			})
 
 			// clicking should also remove the tool div
-			.bind('click.modmap', function (ev) { self.removeToolDiv($(this)); })
+			.bind('click.modmap', function (ev) { $(this).trigger('remove.modmap'); })
+
+			.bind('remove.modmap', function (ev) { self.removeToolDiv($(ev.target)); })
 
 			// add to the page, and fade it in
 			.appendTo($('#map')).fadeTo("medium", 0.43);
 
 	},
 
+	'mouseOut': function (x, y, item) {
+		var offset = item.offset();
+		return x < offset.left || y < offset.top
+					|| x > offset.left + item.outerWidth()
+					|| y > offset.top + item.outerHeight();
+	},
+
 	/**
 	 * removeToolDiv
      *
-	 * remote a tooldiv
+	 * remove a tooldiv
 	 * @param {jQuery} the jQuery object that holds one tooldiv
 	 */
 	'removeToolDiv': function (tooldiv) {
-		if (tooldiv.size() != 1) return;
+		if (tooldiv.size() < 1) return;
 
-		var item = tooldiv.data('item.modmap');
-		item.data('tools.modmap', false);
-		item.removeClass('selected');
+		tooldiv.each(function () {
+			var item = $(this).data('item.modmap');
+			item.data('tools.modmap', false);
+			item.removeClass('selected');
+		});
 
 		tooldiv.unbind('.modmap');
 		tooldiv.fadeOut("fast", 
@@ -289,6 +300,7 @@ var modMap = {
 				var tooldiv = $(this);
 				tooldiv.remove(); 
 			});
+
 	},
 
 
@@ -329,7 +341,6 @@ var modMap = {
     },
 
     'updateInfoPane': function (name) {
-        debugLog('updating info pane');
         var infoPane = $('#infoPane');
 
         var machine_name = infoPane.find('#machineName');
@@ -347,14 +358,13 @@ $(document).ready(function () {
 			'start': function (ev, ui) {
 				var item = $(ui.draggable);
 				// when beginning to drag, kill all 'infowraps' aka tooldiv
-				modMap.removeToolDiv($('div.tools'));
+				$('div.tools').trigger('remove.modmap');
 			}
 		})
         .bind('mouseenter.modmap', function (event) {
             // make sure that this item is mapped first
             var item = $(this);
 
-            debugLog(item);
             modMap.updateInfoPane(modMap.getItemName(item));
 
 
@@ -364,7 +374,7 @@ $(document).ready(function () {
             } else {
                 // remove all other tool divs
                 $('div.tools').each(function () {
-                        modMap.removeToolDiv($(this));
+						$(this).trigger('remove.modmap');
                     });
 
                 modMap.drawToolDiv(this);
