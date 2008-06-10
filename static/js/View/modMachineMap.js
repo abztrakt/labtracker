@@ -55,11 +55,14 @@ var modMap = {
 
 		this.defaults.size = size;
 
-        $(function () {
+		$(document).ready(function () {
 			self.bindItems(self);
 		});
 	},
 
+	/**
+	 * Bind the machine items to their events
+	 */
     'bindItems': function (self) {
         $('div#map').droppable({
                 accept: "div.item",
@@ -94,6 +97,94 @@ var modMap = {
                     self.unmapItem(ui.draggable);
                 }
             }).children().droppable('disable');
+	
+		$('div.item')
+			.draggable({ 
+				'opacity': 0.5 ,
+				'flag': true,
+				'start': function (ev, ui) {
+					var item = $(ui.draggable);
+					// when beginning to drag, kill all 'infowraps' aka tooldiv
+					$('div.tools').trigger('remove.modmap');
+				}
+			})
+			.bind('mouseenter.modmap', function (event) {
+				// make sure that this item is mapped first
+				var item = $(this);
+
+				modMap.updateInfoPane(modMap.getItemName(item));
+
+
+				if (! item.data('mapped.modmap') || item.data('tools.modmap') 
+						|| item.data('dragging.modmap')) {
+					// do nothing
+				} else {
+					// remove all other tool divs
+					$('div.tools').each(function () {
+							$(this).trigger('remove.modmap');
+						});
+
+					modMap.drawToolDiv(this);
+				}
+			})
+			.bind('mouseout.modmap', function (eve) {
+				var item = $(eve.target);
+
+				if (item.data('mapped.modmap')) {
+				} else {
+					modMap.updateInfoPane();
+				}
+			})
+			.each( function () { 
+				// figure out if they are mapped or not
+				var item = $(this);
+
+				var info = modMap.getMachineDict();
+				info.mapped = item.parent().attr('id') == "map";
+
+				if (info.mapped) {
+					// Find the orientation
+					info.orientation = item.hasClass('H') ? 'H' : 'V';
+
+					for (var size in modMap.sizes) {
+						if (item.hasClass(size)) {
+							info.size = size;
+							break;
+						}
+					}
+				} 
+
+				item.data('load.modmap', info).data('dirty.modmap', false)
+					.data('orientation.modmap', info.orientation)
+					.data('size.modmap', info.size).data('mapped.modmap', info.mapped)
+					.addClass(info.size + " " + info.orientation)
+			})
+			.contextMenu('#itemcontextmenu', function (eve) {
+				$('#itemcontextmenu').data('target', eve.target);
+				$('div.tools').trigger('remove.modmap');
+			})
+		;
+
+		$('#itemcontextmenu').children('li').bind('click.modmap', function (eve) {
+			var menu = $('#itemcontextmenu');
+			var item = $(menu.data('target'));
+			menu.removeData('target');
+
+			var target = $(eve.target);
+
+			var size_span = target;
+
+			if (! size_span.hasClass('sizename')) {
+				size_span = size_span.find('span.sizename');
+			}
+			var target_size = size_span.text();
+
+			item.removeClass(self.getItemSize(item, self));
+			item.addClass(target_size);
+
+			item.data('dirty.modmap', true)
+			item.data('size.modmap', target_size);
+		});
     },
 
 	/**
@@ -197,7 +288,6 @@ var modMap = {
 		// XXX is this needed?
 		var tools = $("<div class='tools'></div>");
         
-		
 		// the actual ul of tools
 		var tool_list = $("<ul class='struct'></ul>");
 
@@ -227,6 +317,8 @@ var modMap = {
 			 });
 		tool_list.append(rotate);
 
+		tools.data('removeable.modmap', true);
+
 		// the unmap button
 		var unmap = $("<img class='op unmap' \
 							src='/static/img/view/modmap/x.gif' />")
@@ -255,7 +347,6 @@ var modMap = {
 			// on leaving the tool div area, remove it
 			.bind('mouseleave.modmap', function (ev) {
 				// make sure that the mouse is actually outside the tools box
-				var offset = item.offset();
 				if (self.mouseOut(ev.pageX, ev.pageY, item)) {
 					$(this).trigger('remove.modmap');
                     modMap.updateInfoPane();
@@ -272,6 +363,26 @@ var modMap = {
 
 	},
 
+	/**
+	 * Get the items size
+	 */
+	'getItemSize': function (item, self) {
+		if (self == null) { self = this; }
+
+		var item = $(item);
+
+		for (var size in self.sizes) {
+			if (item.hasClass(size)) {
+				return size;
+			}
+		}
+
+		return null;
+	},
+
+	/**
+	 * See if the location is outside the boundaries of given item
+	 */
 	'mouseOut': function (x, y, item) {
 		var offset = item.offset();
 		return x < offset.left || y < offset.top
@@ -286,7 +397,8 @@ var modMap = {
 	 * @param {jQuery} the jQuery object that holds one tooldiv
 	 */
 	'removeToolDiv': function (tooldiv) {
-		if (tooldiv.size() < 1) return;
+		if (!tooldiv.data('removeable.modmap')) { return; }
+		if (tooldiv.size() < 1) { return; }
 
 		tooldiv.each(function () {
 			var item = $(this).data('item.modmap');
@@ -352,65 +464,6 @@ var modMap = {
 
 
 $(document).ready(function () {
-	var items = $('div.item').draggable({ 
-			'opacity': 0.5 ,
-			'flag': true,
-			'start': function (ev, ui) {
-				var item = $(ui.draggable);
-				// when beginning to drag, kill all 'infowraps' aka tooldiv
-				$('div.tools').trigger('remove.modmap');
-			}
-		})
-        .bind('mouseenter.modmap', function (event) {
-            // make sure that this item is mapped first
-            var item = $(this);
-
-            modMap.updateInfoPane(modMap.getItemName(item));
-
-
-            if (! item.data('mapped.modmap') || item.data('tools.modmap') 
-                    || item.data('dragging.modmap')) {
-                // do nothing
-            } else {
-                // remove all other tool divs
-                $('div.tools').each(function () {
-						$(this).trigger('remove.modmap');
-                    });
-
-                modMap.drawToolDiv(this);
-            }
-        }).bind('mouseout.modmap', function (eve) {
-            var item = $(eve.target);
-
-            if (item.data('mapped.modmap')) {
-            } else {
-                modMap.updateInfoPane();
-            }
-        })
-		.each( function () { 
-			// figure out if they are mapped or not
-			var item = $(this);
-
-			var info = modMap.getMachineDict();
-			info.mapped = item.parent().attr('id') == "map";
-
-			if (info.mapped) {
-				// Find the orientation
-				info.orientation = item.hasClass('H') ? 'H' : 'V';
-
-				for (var size in modMap.sizes) {
-					if (item.hasClass(size)) {
-						info.size = size;
-						break;
-					}
-				}
-			} 
-
-			item.data('load.modmap', info).data('dirty.modmap', false)
-				.data('orientation.modmap', info.orientation)
-				.data('size.modmap', info.size).data('mapped.modmap', info.mapped)
-				.addClass(info.size + " " + info.orientation)
-		});
 
 
 	$('a#save').bind('click.modmap', function (ev) {

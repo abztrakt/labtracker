@@ -6,6 +6,7 @@
         <script type="text/javascript" src="/js/jquery/jquery.dimensions.js"></script>
         <script type="text/javascript" src="/js/jquery/ui.droppable.js"></script>
         <script type="text/javascript" src="/js/jquery/ui.draggable.js"></script>
+        <script type="text/javascript" src="/js/jquery/plugins/jquery.n-contextmenu.js"></script>
         <script type="text/javascript" src="/js/View/modMachineMap.js"></script>
         <script type="text/javascript">
             // Register the types
@@ -24,7 +25,10 @@
 {% block header %}
     <h2>Modifying map: {{ map.name }}</h2>
     <div id="cpanel" class="left">
-        <a href="#" id="save">Save</a>
+		<ul class="struct">
+			<li><a href="#" id="save">Save</a></li>
+			<li>Right click on items for menu</li>
+		</ul>
     </div>
     <div id="infoPane" class="right">
         <ul class="struct left">
@@ -51,5 +55,10 @@
         {% endfor %}
     </div>
 </div>
+
+<ul id="itemcontextmenu" class="menu">
+	{% for size in sizes %}
+	<li><span class='sizename'>{{ size.name }}</span></li>{% endfor %}
+</ul>
 {% endblock %}
 
