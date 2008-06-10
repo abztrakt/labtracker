@@ -25,10 +25,17 @@ class ViewType(models.Model):
 
             # was succesfully saved, now, create directory for it
             # ./static/css/[app_name]/[typename]
+            # ./static/img/[app_name]/[typename]
             # ./static/js/[app_name]/[typename]
             # ./[app_name]/views/[typename].py
-            os.mkdir('%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name))
-            os.mkdir('%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name))
+            css_dir = '%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name)
+            img_dir = '%s/static/img/%s/%s' % (settings.APP_DIR, app_name, self.name)
+            js_dir = '%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
+
+            for d in (css_dir, img_dir, js_dir):
+                if not os.path.is_dir(d):
+                    os.mkdir(d)
+                    
 
             fh = open('%s/%s/views/%s.py' % (settings.APP_DIR, app_name, self.name))
             fh.close()

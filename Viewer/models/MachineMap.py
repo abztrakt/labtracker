@@ -1,9 +1,14 @@
+import os
+
 from django.db import models 
+from django.conf import settings
 
 from labtracker.Viewer.models import base
 import labtracker.Viewer.utils 
 import labtracker.LabtrackerCore.models as c_models
 import labtracker.Machine.models as m_models
+
+app_name = __name__.split('.')[-3]
 
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
@@ -13,9 +18,21 @@ class MachineMap(base.ViewCore):
             )
 
     def save(self):
+        newmap = self.type_id == None
         self.type = labtracker.Viewer.utils.getViewType(__name__)
         super(MachineMap,self).save()
 
+        if newmap:
+            """
+            Need to create directories for images
+            """
+            # create directory need to save image to
+            css_dir = '%s/static/css/%s/%s/%s' % \
+                (settings.APP_DIR, app_name, self.type.name, self.name)
+
+            if not os.path.isdir(css_dir):
+                os.mkdir(css_dir)
+            
     def delete(self):
         self.view.delete()
         super(MachineMap,self).delete()   # delete self
