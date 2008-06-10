@@ -33,7 +33,7 @@ class ViewType(models.Model):
             js_dir = '%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
 
             for d in (css_dir, img_dir, js_dir):
-                if not os.path.is_dir(d):
+                if not os.path.isdir(d):
                     os.mkdir(d)
                     
 
