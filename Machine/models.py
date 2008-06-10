@@ -129,13 +129,14 @@ class Group(coreModels.Group):
         super(Group,self).delete()
 
     def save(self):
-        self.it = utils.getInventoryType(__name__)
+        if (self.it == None):
+            self.it = utils.getInventoryType(__name__)
         super(Group,self).save()
 
     class Admin:
         fields = (
             (None, {'fields': ('name', 'is_lab', 'casting_server', 'gateway',
-                'item', 'description')}),
+                'items', 'description')}),
         )
         list_display = ('name','is_lab','casting_server','gateway')
 
