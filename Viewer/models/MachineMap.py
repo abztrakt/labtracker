@@ -87,7 +87,7 @@ class MachineMap_Item(models.Model):
 
     def __unicode__(self):
         return "%s -- %s (%d, %d)" % \
-            (self.view, self.item, self.xpos, self.ypos)
+            (self.view, self.machine, self.xpos, self.ypos)
 
     class Admin:
         pass
