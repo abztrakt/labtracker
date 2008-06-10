@@ -50,7 +50,7 @@ def machineMap(request, group_name):
         args = {}
         args['group'] = group
 
-        return render_to_response('Viewer/machineMap.html', args)
+        return render_to_response('Viewer/MachineMap/show.html', args)
 
 @permission_required('Viewer.change_view_core', login_url="/login/")
 def modify(request, view_name):
@@ -80,8 +80,6 @@ def modify(request, view_name):
 
         for uitem in unmap_items:
             uitem.delete()
-
-        # get the mapped items
 
         # figure out which are already mapped and only need updating
 
@@ -190,5 +188,5 @@ def modify(request, view_name):
         'debug':    lset.DEBUG,
     }
 
-    return render_to_response('Viewer/modMachineMap.html', args,
+    return render_to_response('Viewer/MachineMap/modify.html', args,
             context_instance=RequestContext(request))
