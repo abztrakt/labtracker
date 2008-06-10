@@ -9,7 +9,7 @@ import Machine.models as m_models
 import Viewer.models as v_models
 
 class MachineMapTest(TestCase):
-    fixtures = ['test',]
+    fixtures = ['dev',]
 
     def setUp(self):
         pass
@@ -39,7 +39,7 @@ class MachineMapTest(TestCase):
         self.assertEquals(mm.groups.count(), 1)
 
 class MachineMapWebTest(TestCase):
-    fixtures = ['test',]
+    fixtures = ['dev',]
 
     def setUp(self):
         """
@@ -94,12 +94,12 @@ class MachineMapWebTest(TestCase):
         size = v_models.MachineMap.MachineMap_Size.objects.all()[0]
 
         # for each of the items to map, give them position and sizes and stuff
+        param_template = 'map[%s][%s]'
         for item in items_to_map:
-            key = 'map[%s][%%s]' % (item.pk)
-            req_data[key % 'x'] = self.r.randint(0, 1000)
-            req_data[key % 'y'] = self.r.randint(0, 1000)
-            req_data[key % 'size'] = size.name
-            req_data[key % 'orient'] = ('H', 'V')[self.r.randint(0,1)]
+            req_data[param_template % (item.pk, 'x')] = self.r.randint(0, 1000)
+            req_data[param_template % (item.pk, 'y')] = self.r.randint(0, 1000)
+            req_data[param_template % (item.pk, 'size')] = size.name
+            req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[self.r.randint(0,1)]
 
         # map a few items
         response = self.client.post('/views/MachineMap/%s/modify' % \
@@ -109,4 +109,23 @@ class MachineMapWebTest(TestCase):
         self.map = v_models.MachineMap.MachineMap.objects.get(pk=self.map.pk)
 
         self.assertTrue(len(items_to_map) == self.map.getMappedItems().count())
+
+        # change the rotatin of one of the objects and make sure that only one new mapped item is added
+        item = items_to_map[0]
+        old_orient = req_data[param_template % (item.pk, 'orient')]
+
+        num_mapped_items = self.map.getMappedItems().count()
+
+        rot_req_data = {
+                'save': 1,
+                'map': [item.pk]
+            }
+        rot_req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[old_orient == 'H']
+        response = self.client.post('/views/MachineMap/%s/modify' % \
+                self.map.shortname, req_data)
+        self.assertContains(response, 'status', status_code=200)
+
+        self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
+
+
 

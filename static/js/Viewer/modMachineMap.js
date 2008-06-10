@@ -1,7 +1,7 @@
 /**
  * @fileoverview
  *
- * View/modMachineMap.js
+ * Viewer/modMachineMap.js
  *
  * @requires jQuery
  * @author Ziling Zhao
@@ -294,7 +294,7 @@ var modMap = {
 
 		// The rotation button
 		var rotate = $("<img class='op rotatebtn' \
-							src='/static/img/view/modmap/rotate.gif' />")
+							src='/static/img/Viewer/modmap/rotate.gif' />")
 			 .bind('click.modmap', function (e) {
 				 e.preventDefault();
 
@@ -321,7 +321,7 @@ var modMap = {
 
 		// the unmap button
 		var unmap = $("<img class='op unmap' \
-							src='/static/img/view/modmap/x.gif' />")
+							src='/static/img/Viewer/modmap/x.gif' />")
 			 .bind('click.modmap', function (e) {
 				 e.preventDefault();
 				 modMap.unmapItem(item[0]);
