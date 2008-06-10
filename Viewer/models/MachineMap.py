@@ -16,10 +16,6 @@ class MachineMap(base.ViewCore):
         self.view.delete()
         super(MachineMap,self).delete()   # delete self
 
-    def save(self):
-        self.type = labtracker.Viewer.utils.getViewType(__name__)
-        super(MachineMap,self).save()
-
     def getUnmappedItems(self):
         """
         Returns a list of items that have not been mapped yet

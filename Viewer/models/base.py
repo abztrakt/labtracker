@@ -1,4 +1,7 @@
+import os
+
 from django.db import models
+from django.conf import settings
 import django.db.models.loading as dbload
 
 import LabtrackerCore.models as c_models
@@ -13,7 +16,23 @@ class ViewType(models.Model):
 
     def save(self):
         # FIXME need to create the class
+        newtype = self.name == None
+
         super(ViewType, self).save()
+
+        if newtype:
+            app_name = __name__.split('.')[-3]
+
+            # was succesfully saved, now, create directory for it
+            # ./static/css/[app_name]/[typename]
+            # ./static/js/[app_name]/[typename]
+            # ./[app_name]/views/[typename].py
+            os.mkdir('%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name)
+            os.mkdir('%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
+
+            fh = open('%s/%s/views/%s.py' % (settings.APP_DIR, app_name, self.name))
+            fh.close()
+
 
     def getModel(self):
         return dbload.get_model("Viewer", self.name)
