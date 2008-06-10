@@ -101,6 +101,8 @@ class MachineMapWebTest(TestCase):
             req_data[param_template % (item.pk, 'size')] = size.name
             req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[self.r.randint(0,1)]
 
+        print req_data
+
         # map a few items
         response = self.client.post('/views/MachineMap/%s/modify' % \
                 self.map.shortname, req_data)
@@ -110,19 +112,33 @@ class MachineMapWebTest(TestCase):
 
         self.assertTrue(len(items_to_map) == self.map.getMappedItems().count())
 
-        # change the rotatin of one of the objects and make sure that only one new mapped item is added
-        item = items_to_map[0]
-        old_orient = req_data[param_template % (item.pk, 'orient')]
 
+        # change the position of one of the objects and make sure that only one new mapped item is added
         num_mapped_items = self.map.getMappedItems().count()
+        item = items_to_map[0]
+        pos_req_data = {
+                'save': 1,
+                'map': [item.pk]
+            }
+        pos_req_data[param_template % (item.pk, 'x')] = 0
+        pos_req_data[param_template % (item.pk, 'y')] = 0
+        response = self.client.post('/views/MachineMap/%s/modify' % \
+                self.map.shortname, pos_req_data)
+        self.assertContains(response, 'status', status_code=200)
+        self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
+
+        # change the rotation of one of the objects and make sure that only one new mapped item is added
+        old_orient = req_data[param_template % (item.pk, 'orient')]
 
         rot_req_data = {
                 'save': 1,
                 'map': [item.pk]
             }
         rot_req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[old_orient == 'H']
+
+        print rot_req_data
         response = self.client.post('/views/MachineMap/%s/modify' % \
-                self.map.shortname, req_data)
+                self.map.shortname, rot_req_data)
         self.assertContains(response, 'status', status_code=200)
 
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())

@@ -69,11 +69,14 @@ def modify(request, view_name):
         unmap = data.getlist('unmap')
         map = data.getlist('map')
 
+        unmap = [int(id) for id in unmap]
+        map = [int(id) for id in map]
+
         # get the unmapped items
         unmap_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = unmap)
         if (len(unmap) != len(unmap_items)):
-            print "Num requested did not match num returned"
-            return HttpResponseServerError()
+            resp['error'] = "Could not find some of the requested items to unmap"
+            return HttpResponseServerError(simplejson.dumps(resp))
 
         for uitem in unmap_items:
             uitem.delete()
@@ -81,6 +84,8 @@ def modify(request, view_name):
         # get the mapped items
 
         # figure out which are already mapped and only need updating
+
+        # get items that are already mapped
         map_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = map)
 
         resp = { 'status': 0, 'error': "" }
@@ -93,18 +98,13 @@ def modify(request, view_name):
                 'size':    data.get('map[%s][size]' % id, None)
             }
 
-        # for these items, update
+        # These items already exist, so we only need to update 
         for item in map_items:
-
             iteminfo = getItemInfo(item.machine.pk)
 
-            item.xpos = iteminfo['x']
-            item.ypos = iteminfo['y']
-
-            if None in (item.xpos, item.ypos):
-                resp['error'] += "Both x and y needed: %s\n" % (item.machine.pk)
-                return HttpResponseServerError()
-                #return HttpResponse(simplejson.dumps(resp))
+            if None not in (iteminfo['x'], iteminfo['y']):
+                item.xpos = iteminfo['x']
+                item.ypos = iteminfo['y']
 
             param_size = iteminfo['size']
             if (param_size):
@@ -115,11 +115,10 @@ def modify(request, view_name):
             if (orientation):
                 item.orientation = orientation
 
-
             item.save()
 
 
-        # Get the items that weren't mapped before
+        # Figure out what items haven't been mapped before
         new_ids = set(map).difference(
                 set([item.machine.pk for item in map_items]))
 
@@ -138,7 +137,7 @@ def modify(request, view_name):
 
             if None in (iteminfo['x'], iteminfo['y']):
                 resp['error'] += "Both x and y needed: %s\n" % (item.pk)
-                return HttpResponseServerError()
+                return HttpResponseServerError(simplejson.dumps(resp))
 
             new_item = MachineMap.MachineMap_Item(view = view, machine = item,
                     xpos = iteminfo['x'], ypos = iteminfo['y'])
@@ -172,7 +171,8 @@ def modify(request, view_name):
             continue
 
     if not map:
-        return HttpResponseServerError()
+        resp['error'] = "Couldn't find map to load"
+        return HttpResponseServerError(simplejson.dumps(resp))
 
     groups = view.groups.all()
     map_items = view.getMappedItems()

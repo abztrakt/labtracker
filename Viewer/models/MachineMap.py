@@ -95,3 +95,7 @@ class MachineMap_Item(models.Model):
     class Meta:
         app_label = "Viewer"
 
+        unique_together = (
+            ('machine', 'view')
+        )
+
