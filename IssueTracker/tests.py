@@ -11,7 +11,7 @@ import IssueTracker.Email as Email
 
 
 class IssueCreationTest(TestCase):
-    fixtures = ['test',]
+    fixtures = ['dev',]
 
     def setUp(self):
         """

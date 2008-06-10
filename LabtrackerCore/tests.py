@@ -3,4 +3,4 @@ import unittest
 import LabtrackerCore.models as models
 
 class LabtrackerTest(TestCase):
-    fixtures = ['test',]
+    fixtures = ['dev',]

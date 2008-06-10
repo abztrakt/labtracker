@@ -7,7 +7,7 @@
         <script type="text/javascript" src="/js/jquery/ui.droppable.js"></script>
         <script type="text/javascript" src="/js/jquery/ui.draggable.js"></script>
         <script type="text/javascript" src="/js/jquery/plugins/jquery.n-contextmenu.js"></script>
-        <script type="text/javascript" src="/js/View/modMachineMap.js"></script>
+        <script type="text/javascript" src="/js/Viewer/modMachineMap.js"></script>
         <script type="text/javascript">
             // Register the types
             modMap.init('H', 'Rectangle', { {% for size in sizes %}
@@ -16,7 +16,7 @@
             );
         </script>
     {% endblock %}
-    {% block pageCSS %}@import url('/static/css/View/MachineMap/main.css');
+    {% block pageCSS %}@import url('/static/css/Viewer/MachineMap/main.css');
         {% for size in sizes %}
             div.mapped.{{ size.name }}.V { height: {{ size.height }}px; width: {{size.width}}px; }
             div.mapped.{{ size.name }}.H { width: {{ size.height }}px; height: {{size.width}}px; }{% endfor %}
@@ -50,7 +50,7 @@
         <br class='clear' />
     </div>
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
-        background-image: url('/static/img/view/{{ map.name }}.{{ map.ext }}');">
+        background-image: url('/static/img/Viewer/{{ map.name }}.{{ map.ext }}');">
         {% for item in mapped %}<div id="{{ item.machine.pk }}[{{ item.machine.name }}]" class="item mapped {{item.size.name}} {{item.orientation}}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
         {% endfor %}
     </div>

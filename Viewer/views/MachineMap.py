@@ -165,7 +165,7 @@ def modify(request, view_name):
     # XXX: Maybe move this to client side?
     for ext in ('png', 'jpg', 'gif'):
         try:
-            path = "%s/static/img/view/%s.%s" % (lset.APP_DIR, view_name, ext)
+            path = "%s/static/img/Viewer/%s.%s" % (lset.APP_DIR, view_name, ext)
             map = Image.open(path)
             break
         except IOError, e:
