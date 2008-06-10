@@ -12,6 +12,10 @@ class MachineMap(base.ViewCore):
             related_name="view_machinemap_groups"
             )
 
+    def save(self):
+        self.type = labtracker.Viewer.utils.getViewType(__name__)
+        super(MachineMap,self).save()
+
     def delete(self):
         self.view.delete()
         super(MachineMap,self).delete()   # delete self

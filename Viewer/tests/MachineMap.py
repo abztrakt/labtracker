@@ -101,8 +101,6 @@ class MachineMapWebTest(TestCase):
             req_data[param_template % (item.pk, 'size')] = size.name
             req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[self.r.randint(0,1)]
 
-        print req_data
-
         # map a few items
         response = self.client.post('/views/MachineMap/%s/modify' % \
                 self.map.shortname, req_data)
@@ -136,7 +134,6 @@ class MachineMapWebTest(TestCase):
             }
         rot_req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[old_orient == 'H']
 
-        print rot_req_data
         response = self.client.post('/views/MachineMap/%s/modify' % \
                 self.map.shortname, rot_req_data)
         self.assertContains(response, 'status', status_code=200)
