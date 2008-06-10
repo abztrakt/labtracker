@@ -27,8 +27,8 @@ class ViewType(models.Model):
             # ./static/css/[app_name]/[typename]
             # ./static/js/[app_name]/[typename]
             # ./[app_name]/views/[typename].py
-            os.mkdir('%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name)
-            os.mkdir('%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
+            os.mkdir('%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name))
+            os.mkdir('%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name))
 
             fh = open('%s/%s/views/%s.py' % (settings.APP_DIR, app_name, self.name))
             fh.close()
