@@ -1,5 +1,6 @@
 from PIL import Image
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
@@ -26,7 +27,7 @@ def getMapInfo(view_name):
         except IOError, e:
             continue
 
-    return map, ext
+    return map
 
 def show(request, view_name):
     """
@@ -48,7 +49,7 @@ def show(request, view_name):
 
     # if we are down here, we are just rendering the map
 
-    map, ext = getMapInfo(view_name)
+    map = getMapInfo(view_name)
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
@@ -57,8 +58,8 @@ def show(request, view_name):
         'view':     view,
         'mapped':   view.getMappedItems(),
         'sizes':    MachineMap.MachineMap_Size.objects.all(),
+        'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
-                "ext":      ext,
                 "name":     view_name,
                 "width":    map.size[0],
                 "height":   map.size[1]
@@ -175,7 +176,7 @@ def modify(request, view_name):
         
         return HttpResponse(simplejson.dumps(resp))
 
-    map, ext = getMapInfo(view_name)
+    map = getMapInfo(view_name)
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
@@ -184,8 +185,8 @@ def modify(request, view_name):
     map_items = view.getMappedItems()
     args = {
         'groups':   groups,
+        'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
-                "ext":      ext,
                 "name":     view_name,
                 "width":    map.size[0],
                 "height":   map.size[1]
