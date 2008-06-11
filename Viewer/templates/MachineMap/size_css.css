@@ -1,0 +1,4 @@
+        @import url('/static/css/Viewer/MachineMap/main.css');
+        {% for size in sizes %}
+            div.mapped.{{ size.name }}.V { height: {{ size.height }}px; width: {{size.width}}px; }
+            div.mapped.{{ size.name }}.H { width: {{ size.height }}px; height: {{size.width}}px; }{% endfor %}

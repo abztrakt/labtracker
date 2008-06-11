@@ -16,13 +16,10 @@
             );
         </script>
     {% endblock %}
-    {% block pageCSS %}@import url('/static/css/Viewer/MachineMap/main.css');
-        {% for size in sizes %}
-            div.mapped.{{ size.name }}.V { height: {{ size.height }}px; width: {{size.width}}px; }
-            div.mapped.{{ size.name }}.H { width: {{ size.height }}px; height: {{size.width}}px; }{% endfor %}
+    {% block pageCSS %}
+        {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 
 {% block content %}
-<div id="map">
-</div>
+    {% include "Viewer/MachineMap/map.html" %}
 {% endblock %}
