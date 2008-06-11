@@ -24,35 +24,23 @@ def show(request, view_name):
 
     return HttpResponseServerError('Not implemented yet')
 
-    data = request.GET.copy()
 
-    if data.has_key('get_pos'):
-        # in this case, we should return the positions of the machines
+    if request.is_ajax():
+        """
+        A request is being made on data
+        """
+        data = request.GET.copy()
 
-        items = Viewer.models.MachineMap.objects.filter(view=view)
+        ret = {}
 
-        item_info = {}
+        ret['error'] = "No understandable request made."
+        return HttpResponseServerError(simplejson.dumps(ret))
 
-        for item in items:
-            item_info[item.id] = {
-                    'xpos'  : item.xpos,
-                    'ypos'  : item.ypos
-                }
+    # if we are down here, we are just rendering the map
+    args = {}
 
-
-        format = data.get('format', 'json')
-
-        if format == "xml":
-            return HttpResponseServerError()
-        elif format == "json":
-            return HttpResponse(simplejson.dumps(item_info))
-        else:
-            return HttpResponseServerError()
-    else:
-        args = {}
-        args['group'] = group
-
-        return render_to_response('Viewer/MachineMap/show.html', args)
+    return render_to_response('Viewer/MachineMap/show.html', args,
+            context_instance=RequestContext(request))
 
 @permission_required('Viewer.change_view_core', login_url="/login/")
 def modify(request, view_name):
