@@ -3,7 +3,20 @@
 {% block title %}Showing Machine Map -- {{ view.name }}{% endblock %}
 
     {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/js/Viewer/show.js"></script>
+        <script type="text/javascript" src="/static/js/Viewer/MachineMap/show.js"></script>
+        <script type="text/javascript">
+            // need to initialize things, such as status
+            
+            $(document).ready(function () {
+                init({
+                    'timer': 50000,
+                    'refresh': 0,
+                    'status': { {% for st in status %}
+                        '{{st.name|lower}}': 'status[{{st.name|lower}}]'{% if not forloop.last %},{% endif %}{% endfor %}
+                    }
+                });
+            });
+        </script>
     {% endblock %}
     {% block pageCSS %}
         @import url('/static/css/Viewer/MachineMap/show.css');

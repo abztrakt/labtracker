@@ -58,6 +58,7 @@ def show(request, view_name):
         'view':     view,
         'mapped':   view.getMappedItems(),
         'sizes':    MachineMap.MachineMap_Size.objects.all(),
+        'status':   Machine.models.Status.objects.all(),
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
                 "name":     view_name,
