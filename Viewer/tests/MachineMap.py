@@ -77,16 +77,13 @@ class MachineMapWebTest(TestCase):
         # delete the extra testmap folder
         os.rmdir('%s/static/css/Viewer/MachineMap/%s' % (settings.APP_DIR, self.map.name))
 
-    def ShouldGetMap(self):
+    def testShouldGetMap(self):
         """
         Should be able to view the map
         """
 
-        map = v_models.MachineMap.MachineMap.objects.all()[0]
-
-        response = self.client.get('/views/MachineMap/%s/' % (map.name))
-
-        self.assertTrue(response.status_code == 200)
+        response = self.client.get('/views/MachineMap/%s/' % (self.map.name))
+        self.assertContains(response, self.map.name, status_code = 200)
 
         
 
