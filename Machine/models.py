@@ -83,9 +83,9 @@ class Item(coreModels.Item):
     The Machine
     """
     core = models.OneToOneField(coreModels.Item, parent_link=True, editable=False)
-    mt = models.ForeignKey(Type, verbose_name='Machine Type')
-    ms = models.ForeignKey(Status, verbose_name='Machine Status')
-    ml = models.ForeignKey(Location, verbose_name='Location')
+    type = models.ForeignKey(Type, verbose_name='Machine Type')
+    status = models.ForeignKey(Status, verbose_name='Machine Status')
+    location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
     mac = models.CharField(max_length=17, verbose_name='MAC Address')
     date_added = models.DateTimeField(auto_now_add=True)
@@ -105,9 +105,9 @@ class Item(coreModels.Item):
         super(Item,self).save()
 
     class Admin:
-        list_display = ('name', 'mt','ms','ml','ip','mac','date_added','manu_tag')
+        list_display = ('name', 'type','status','location','ip','mac','date_added','manu_tag')
         search_fields = ['name','ip','mac']
-        list_filter = ['mt','ms','date_added']
+        list_filter = ['type','status','date_added']
 
 class Group(coreModels.Group):
     """
