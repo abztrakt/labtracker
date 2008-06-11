@@ -101,6 +101,7 @@ class MachineMap_Item(models.Model):
     ypos = models.IntegerField()
     orientation = models.CharField(max_length=1, choices=ORIENTATION_CHOICES,
             default='H')
+    last_modified = models.DateTimeField(auto_now=True, editable=False)
 
     def __unicode__(self):
         return "%s -- %s (%d, %d)" % \

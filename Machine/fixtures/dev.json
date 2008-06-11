@@ -79,6 +79,7 @@
       "ip": "128.95.9.2", 
       "manu_tag": "Test Machine 1", 
       "mac": "00:03:24:3A:12:3E", 
+      "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:16:26", 
       "type": 1
@@ -93,6 +94,7 @@
       "ip": "128.95.9.3", 
       "manu_tag": "test machine2", 
       "mac": "00:03:24:3A:12:4E", 
+      "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:17:15", 
       "type": 1
@@ -107,6 +109,7 @@
       "ip": "128.95.9.4", 
       "manu_tag": "test machine3", 
       "mac": "00:03:24:3A:12:4B", 
+      "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:17:51", 
       "type": 1
@@ -121,6 +124,7 @@
       "ip": "128.95.9.23", 
       "manu_tag": "azzaaaaa", 
       "mac": "00:03:12:23:34:2F", 
+      "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-06 14:47:45", 
       "type": 2
