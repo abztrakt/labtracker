@@ -1,5 +1,7 @@
 import random
+import os
 
+from django.conf import settings
 from django.test.client import Client
 from django.contrib.auth.models import User, check_password
 from django.test import TestCase
@@ -56,6 +58,7 @@ class MachineMapWebTest(TestCase):
         self.r.seed()
 
         # create a map
+
         groups = m_models.Group.objects.all()[0:2]
         self.map = v_models.MachineMap.MachineMap(name = 'testmap',
                 shortname = 'testmap',
@@ -71,7 +74,10 @@ class MachineMapWebTest(TestCase):
         """
         self.user.delete()
 
-    def testShouldGetMap(self):
+        # delete the extra testmap folder
+        os.rmdir('%s/static/css/Viewer/MachineMap/%s' % (settings.APP_DIR, self.map.name))
+
+    def ShouldGetMap(self):
         """
         Should be able to view the map
         """
@@ -80,7 +86,7 @@ class MachineMapWebTest(TestCase):
 
         response = self.client.get('/views/MachineMap/%s/' % (map.name))
 
-        self.assert(response.status_code == 200)
+        self.assertTrue(response.status_code == 200)
 
         
 
@@ -89,6 +95,7 @@ class MachineMapWebTest(TestCase):
         Try to modify the map that was created
         """
 
+        print "\n\n================= testShouldModifyMap ======================"
         self.client.login(username=self.user.username, password=self.password)
 
         unmapped_items = self.map.getUnmappedItems()
@@ -114,14 +121,21 @@ class MachineMapWebTest(TestCase):
             req_data[param_template % (item.pk, 'size')] = size.name
             req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[self.r.randint(0,1)]
 
+        print "request data: \n%s" % (req_data)
+
         # map a few items
         response = self.client.post('/views/MachineMap/%s/modify' % \
                 self.map.shortname, req_data)
+
         self.assertContains(response, 'status', status_code=200)
 
         self.map = v_models.MachineMap.MachineMap.objects.get(pk=self.map.pk)
 
-        self.assertTrue(len(items_to_map) == self.map.getMappedItems().count())
+        req_num_items = len(items_to_map)
+        actual_num_items = self.map.getMappedItems().count()
+
+        print "Requested num to map: %d, was able to map: %d" % (req_num_items, actual_num_items)
+        self.assertTrue(req_num_items == actual_num_items) 
 
 
         # change the position of one of the objects and make sure that only one new mapped item is added
@@ -152,6 +166,8 @@ class MachineMapWebTest(TestCase):
         self.assertContains(response, 'status', status_code=200)
 
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
+
+        print "\n============================================================\n"
 
 
 

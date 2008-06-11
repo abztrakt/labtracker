@@ -15,12 +15,14 @@ from Viewer import models as v_models
 from Viewer.models import MachineMap
 import Machine
 
-def show(request, group_name):
+def show(request, view_name):
     """
     Spits out a lab map
     """
-    group = get_object_or_404(Machine.models.Group, group__name=group_name)
-    view = get_object_or_404(Viewer.models.Viewer, group=group)
+
+    view = get_object_or_404(MachineMap.MachineMap, name=view_name)
+
+    return HttpResponseServerError('Not implemented yet')
 
     data = request.GET.copy()
 
@@ -73,7 +75,8 @@ def modify(request, view_name):
         map = [int(id) for id in map]
 
         # get the unmapped items
-        unmap_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = unmap)
+        unmap_items = MachineMap.MachineMap_Item.objects.filter(view = view, 
+                machine__pk__in = unmap)
         if (len(unmap) != len(unmap_items)):
             resp['error'] = "Could not find some of the requested items to unmap"
             return HttpResponseServerError(simplejson.dumps(resp))
@@ -84,7 +87,8 @@ def modify(request, view_name):
         # figure out which are already mapped and only need updating
 
         # get items that are already mapped
-        map_items = MachineMap.MachineMap_Item.objects.filter(machine__pk__in = map)
+        map_items = MachineMap.MachineMap_Item.objects.filter(view = view, 
+                machine__pk__in = map)
 
         resp = { 'status': 0, 'error': "" }
 
