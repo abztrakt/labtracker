@@ -3,18 +3,7 @@
 {% block title %}Showing Machine Map -- {{ view.name }}{% endblock %}
 
     {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/ui.droppable.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/ui.draggable.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/plugins/jquery.n-contextmenu.js"></script>
-        <script type="text/javascript" src="/static/js/Viewer/modMachineMap.js"></script>
-        <script type="text/javascript">
-            // Register the types
-            modMap.init('H', 'Rectangle', { {% for size in sizes %}
-                    '{{ size.name }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
-                }
-            );
-        </script>
+        <script type="text/javascript" src="/static/js/Viewer/show.js"></script>
     {% endblock %}
     {% block pageCSS %}
         {% include "Viewer/MachineMap/size_css.css" %}
