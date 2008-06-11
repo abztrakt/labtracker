@@ -11,7 +11,7 @@ class Status(models.Model):
     """
 
     ms_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=60, unique=True)
+    name = models.SlugField(max_length=60, unique=True)
     inuse = models.BooleanField(default=False)
     usable = models.BooleanField(default=True)
     broken = models.BooleanField(default=False)
