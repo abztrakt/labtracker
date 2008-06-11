@@ -15,7 +15,7 @@ from Viewer import models as v_models
 from Viewer.models import MachineMap
 import Machine
 
-def machineMap(request, group_name):
+def show(request, group_name):
     """
     Spits out a lab map
     """
