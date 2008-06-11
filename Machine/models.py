@@ -283,9 +283,9 @@ class MachineItemTest(TestCase):
 
         self.name = "test_name_a"
         self.item = Item.objects.create(name=self.name, 
-                mt=self.type,
-                ms=self.status,
-                ml=self.location,
+                type=self.type,
+                status=self.status,
+                location=self.location,
                 ip="138.121.342.11", 
                 mac="00:34:A3:DF:XA:89",
                 manu_tag="manufactuer tag", 
