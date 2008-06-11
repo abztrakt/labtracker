@@ -26,7 +26,7 @@ def getMapInfo(view_name):
         except IOError, e:
             continue
 
-    return map
+    return map, ext
 
 def show(request, view_name):
     """
@@ -48,7 +48,7 @@ def show(request, view_name):
 
     # if we are down here, we are just rendering the map
 
-    map = getMapInfo(view_name)
+    map, ext = getMapInfo(view_name)
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
@@ -175,7 +175,7 @@ def modify(request, view_name):
         
         return HttpResponse(simplejson.dumps(resp))
 
-    map = getMapInfo(view_name)
+    map, ext = getMapInfo(view_name)
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
