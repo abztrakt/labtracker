@@ -3,13 +3,9 @@
     "pk": 2, 
     "model": "Viewer.machinemap", 
     "fields": {
-      "shortname": "CRC_Map", 
-      "type": 1, 
-      "name": "CRC Map View", 
       "groups": [
         5
-      ], 
-      "description": "CRC Maps of Machines"
+      ]
     }
   }, 
   {
@@ -18,6 +14,42 @@
     "fields": {
       "name": "MachineMap", 
       "description": "Maps of Machines"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Viewer.machinemap_item", 
+    "fields": {
+      "xpos": 251, 
+      "orientation": "V", 
+      "ypos": 202, 
+      "machine": 4, 
+      "view": 2, 
+      "size": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Viewer.machinemap_item", 
+    "fields": {
+      "xpos": 176, 
+      "orientation": "H", 
+      "ypos": 108, 
+      "machine": 2, 
+      "view": 2, 
+      "size": 2
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Viewer.machinemap_item", 
+    "fields": {
+      "xpos": 253, 
+      "orientation": "H", 
+      "ypos": 110, 
+      "machine": 3, 
+      "view": 2, 
+      "size": 1
     }
   }, 
   {

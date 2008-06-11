@@ -36,47 +36,38 @@
     "pk": 3, 
     "model": "Machine.group", 
     "fields": {
-      "description": "Yea, we describe", 
-      "items": [
-        2, 
-        3
-      ], 
-      "it": 1, 
       "casting_server": "192.168.2.111", 
       "is_lab": false, 
       "gateway": "192.168.2.1", 
-      "name": "Group1"
+      "items": [
+        2, 
+        3
+      ]
     }
   }, 
   {
     "pk": 4, 
     "model": "Machine.group", 
     "fields": {
-      "description": "keep empty", 
-      "items": [], 
-      "it": 1, 
       "casting_server": "128.95.10.11", 
       "is_lab": false, 
       "gateway": "128.95.10.1", 
-      "name": "Empty Group"
+      "items": []
     }
   }, 
   {
     "pk": 5, 
     "model": "Machine.group", 
     "fields": {
-      "description": "Computers in MGH", 
+      "casting_server": "192.168.4.100", 
+      "is_lab": true, 
+      "gateway": "192.168.4.1", 
       "items": [
         1, 
         2, 
         3, 
         4
-      ], 
-      "it": 1, 
-      "casting_server": "192.168.4.100", 
-      "is_lab": true, 
-      "gateway": "192.168.4.1", 
-      "name": "CRC"
+      ]
     }
   }, 
   {
@@ -84,10 +75,8 @@
     "model": "Machine.item", 
     "fields": {
       "comment": "", 
-      "name": "Machine1", 
       "ip": "128.95.9.2", 
       "manu_tag": "Test Machine 1", 
-      "it": 1, 
       "mt": 1, 
       "mac": "00:03:24:3A:12:3E", 
       "ms": 1, 
@@ -100,10 +89,8 @@
     "model": "Machine.item", 
     "fields": {
       "comment": "", 
-      "name": "Machine2", 
       "ip": "128.95.9.3", 
       "manu_tag": "test machine2", 
-      "it": 1, 
       "mt": 1, 
       "mac": "00:03:24:3A:12:4E", 
       "ms": 2, 
@@ -116,10 +103,8 @@
     "model": "Machine.item", 
     "fields": {
       "comment": "", 
-      "name": "Machine3", 
       "ip": "128.95.9.4", 
       "manu_tag": "test machine3", 
-      "it": 1, 
       "mt": 1, 
       "mac": "00:03:24:3A:12:4B", 
       "ms": 1, 
@@ -132,10 +117,8 @@
     "model": "Machine.item", 
     "fields": {
       "comment": "", 
-      "name": "Machine4", 
       "ip": "128.95.9.23", 
       "manu_tag": "azzaaaaa", 
-      "it": 1, 
       "mt": 2, 
       "mac": "00:03:12:23:34:2F", 
       "ms": 2, 
