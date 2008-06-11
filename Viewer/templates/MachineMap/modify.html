@@ -1,6 +1,6 @@
 {% extends "Viewer/base_generic.html" %}
 
-{% block title %}Modifying Machine Map -- {{ map.name }}{% endblock %}
+{% block title %}Modifying Machine Map -- {{ view.name }}{% endblock %}
 
     {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
         <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
@@ -21,7 +21,7 @@
     {% endblock %}
 
 {% block header %}
-    <h2>Modifying map: {{ map.name }}</h2>
+    <h2>Modifying map: {{ view.name }}</h2>
     <div id="cpanel" class="left">
 		<ul class="struct">
 			<li><a href="#" id="save">Save</a></li>

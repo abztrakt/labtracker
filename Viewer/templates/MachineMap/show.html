@@ -1,6 +1,6 @@
 {% extends "Viewer/base_generic.html" %}
 
-{% block title %}Modifying Machine Map -- {{ map.name }}{% endblock %}
+{% block title %}Showing Machine Map -- {{ view.name }}{% endblock %}
 
     {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
         <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
@@ -20,6 +20,9 @@
         {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 
+{% block header %}
+    <h2>{{ view.name }}</h2>
+{% endblock %}
 {% block content %}
     {% include "Viewer/MachineMap/map.html" %}
 {% endblock %}

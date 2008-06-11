@@ -20,10 +20,7 @@ def show(request, view_name):
     Spits out a lab map
     """
 
-    view = get_object_or_404(MachineMap.MachineMap, name=view_name)
-
-    return HttpResponseServerError('Not implemented yet')
-
+    view = get_object_or_404(MachineMap.MachineMap, shortname=view_name)
 
     if request.is_ajax():
         """
@@ -37,7 +34,35 @@ def show(request, view_name):
         return HttpResponseServerError(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
-    args = {}
+
+    map = None
+
+    # XXX: Maybe move this to client side?
+    for ext in ('png', 'jpg', 'gif'):
+        try:
+            path = "%s/static/img/Viewer/%s.%s" % (lset.APP_DIR, view_name, ext)
+            map = Image.open(path)
+            break
+        except IOError, e:
+            continue
+
+    if not map:
+        return HttpResponseServerError("Couldn't find map to load")
+
+    args = {
+        'mapped': view.getMappedItems(),
+        'sizes':    MachineMap.MachineMap_Size.objects.all(),
+        'debug':    lset.DEBUG,
+        'view':     view,
+        'map': {
+                "ext":      ext,
+                "name":     view_name,
+                "width":    map.size[0],
+                "height":   map.size[1]
+            },
+    }
+
+    # get the mapped items
 
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))

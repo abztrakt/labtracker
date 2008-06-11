@@ -82,8 +82,10 @@ class MachineMapWebTest(TestCase):
         Should be able to view the map
         """
 
-        response = self.client.get('/views/MachineMap/%s/' % (self.map.name))
-        self.assertContains(response, self.map.name, status_code = 200)
+        map = v_models.MachineMap.MachineMap.objects.all()[0]
+
+        response = self.client.get('/views/MachineMap/%s/' % (map.shortname))
+        self.assertContains(response, map.name, status_code = 200)
 
         
 
