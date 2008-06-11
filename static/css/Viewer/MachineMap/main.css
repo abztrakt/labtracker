@@ -4,16 +4,6 @@ div#map {
     position: relative;
 }
 
-div#unmapped {
-    border: 1px dotted grey;
-    padding: 10px;
-}
-
-div#unmapped > h4 {
-    padding-top: 0px;
-    margin-top: 0px;
-}
-
 div#infoPane {
     width: 20em;
     border: 1px dotted grey;
@@ -30,47 +20,8 @@ div.item {
     border: 1px solid #555555;
 }
 
-div.item:hover {
-    background-color: #EEEEEE;
-    border-color: #000;
-}
-
-div#unmapped div.item {
-    float: left;
-    margin: 2px;
-    position: static;
-    z-index: 2;
-}
-
 div#map div.item {
     margin: 0px;
     position: absolute;
     z-index: 1;
 }
-
-div#map div.item.selected {
-    z-index: 3;
-}
-
-/* tools div */
-
-div.tools {
-    background-color: black;
-    border: 0px;
-    position: absolute;
-    z-index: 2;
-}
-
-div.tools img { border: 0px; }
-
-div.tools > ul.struct {
-    padding: 0px;
-    margin: 5px 0px 0px 3px;
-}
-
-div.tools > ul.struct li{
-    margin: 0px;
-    padding: 0px;
-}
-
-.op { cursor: pointer; }
