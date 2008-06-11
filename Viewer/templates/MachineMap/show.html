@@ -1,12 +1,26 @@
 {% extends "Viewer/base_generic.html" %}
 
-{% block title %}Machine Map -- {{ group.group_name }}{% endblock %}
+{% block title %}Modifying Machine Map -- {{ map.name }}{% endblock %}
 
-{% block pageCSS %}
-#map {
-    background-image: url("/media/img/view/{{ group.group_name }}.png");
-}
-{% endblock %}
+    {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery/ui.droppable.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery/ui.draggable.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery/plugins/jquery.n-contextmenu.js"></script>
+        <script type="text/javascript" src="/static/js/Viewer/modMachineMap.js"></script>
+        <script type="text/javascript">
+            // Register the types
+            modMap.init('H', 'Rectangle', { {% for size in sizes %}
+                    '{{ size.name }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
+                }
+            );
+        </script>
+    {% endblock %}
+    {% block pageCSS %}@import url('/static/css/Viewer/MachineMap/main.css');
+        {% for size in sizes %}
+            div.mapped.{{ size.name }}.V { height: {{ size.height }}px; width: {{size.width}}px; }
+            div.mapped.{{ size.name }}.H { width: {{ size.height }}px; height: {{size.width}}px; }{% endfor %}
+    {% endblock %}
 
 {% block content %}
 <div id="map">

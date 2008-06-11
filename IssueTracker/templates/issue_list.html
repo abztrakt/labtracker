@@ -1,6 +1,6 @@
 {% extends "base_full.html" %}
-{% block pageCSS %}@import url('/css/results.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="/js/jquery.tablesorter.pack.js"></script>
+{% block pageCSS %}@import url('/static/css/results.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="/static/js/jquery.tablesorter.pack.js"></script>
 {# <script type="text/javascript" src="/js/list.js"></script>#}{% endblock %}
 
 {% block content %}{% if issueList %}
@@ -39,7 +39,7 @@
 <tbody>{% for issue in issueList %}
     <tr class="{% cycle 'even' 'odd' %}">
         <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
-        <td class='{{ cols.title.class }}'><a href="/issue/{{ issue.issue_id }}/">{{ issue.title }}</a></td>
+		<td class='{{ cols.title.class }}'><a href="{% url view issue.issue_id %}">{{ issue.title }}</a></td>
         <td class='{{ cols.item.class }}'>{{ issue.item }}</td>
         <!-- <td class='{{ cols.it.class }}'>{{ issue.it }}</td> -->
         <td class='{{ cols.group.class }}'>{{ issue.group }}</td>

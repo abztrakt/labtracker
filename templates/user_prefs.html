@@ -1,13 +1,13 @@
 {% extends "base_full.html" %}
 
-{% block pageCSS %}@import url("/css/prefs.css");{% endblock %}
+{% block pageCSS %}@import url("/static/css/prefs.css");{% endblock %}
 
 {% block content %}
 <div class="nav" id="user_nav">
     <ul class="struct">
-        <li><h4 class="section"><a href="/pref/">Preferences</a></h4>
+		<li><h4 class="section"><a href="{% url userPrefs %}">Preferences</a></h4>
             <ul class="struct">
-                <li><a href="/pref/pwchange/">Change Password</a></li>
+				<li><a href="{% url pwchange %}">Change Password</a></li>
             </ul>
         </li>
     </ul>

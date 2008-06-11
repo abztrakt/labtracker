@@ -1,9 +1,9 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-     url(r'^$', 'IssueTracker.views.index', name="issue_index"),
+     url(r'^$', 'IssueTracker.views.index', name="issueIndex"),
      (r'^checkuser/(?P<name>\w+)/$', 'IssueTracker.views.ajax.userCheck'),
-     (r'^search/$', 'IssueTracker.views.search.search'),
+     url(r'^search/$', 'IssueTracker.views.search.search', name="issueSearch"),
      (r'^search/detailed/$', 'IssueTracker.views.search.advSearch'),
      (r'^search/field/(?P<field_name>\w+)/$',
          'IssueTracker.views.ajax.getSearchField'),

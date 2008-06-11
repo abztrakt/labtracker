@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
             {% block title %}Issue Tracker{% endblock %}
             {% block b_pageCSS %}
-                @import url('/css/main.css');
+                @import url('/static/css/main.css');
                 {% block pageCSS %}
                 {% endblock %}
             {% endblock %}
@@ -12,7 +12,7 @@
             </div>{% endif %}
             <ul id="nav" class="inline struct">
                 <li>
-                    <a href="{% url issue_index %}">Home</a>
+                    <a href="{% url issueIndex %}">Home</a>
                 </li>
                 <li>
                     <a href="{% url viewAll %}">All Unresolved</a>
