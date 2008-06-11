@@ -15,6 +15,19 @@ from Viewer import models as v_models
 from Viewer.models import MachineMap
 import Machine
 
+def getMapInfo(view_name):
+    map = None
+
+    for ext in ('png', 'jpg', 'gif'):
+        try:
+            path = "%s/static/img/Viewer/%s.%s" % (lset.APP_DIR, view_name, ext)
+            map = Image.open(path)
+            break
+        except IOError, e:
+            continue
+
+    return map
+
 def show(request, view_name):
     """
     Spits out a lab map
@@ -35,34 +48,23 @@ def show(request, view_name):
 
     # if we are down here, we are just rendering the map
 
-    map = None
-
-    # XXX: Maybe move this to client side?
-    for ext in ('png', 'jpg', 'gif'):
-        try:
-            path = "%s/static/img/Viewer/%s.%s" % (lset.APP_DIR, view_name, ext)
-            map = Image.open(path)
-            break
-        except IOError, e:
-            continue
+    map = getMapInfo(view_name)
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
 
     args = {
-        'mapped': view.getMappedItems(),
-        'sizes':    MachineMap.MachineMap_Size.objects.all(),
-        'debug':    lset.DEBUG,
         'view':     view,
+        'mapped':   view.getMappedItems(),
+        'sizes':    MachineMap.MachineMap_Size.objects.all(),
         'map': {
                 "ext":      ext,
                 "name":     view_name,
                 "width":    map.size[0],
                 "height":   map.size[1]
             },
+        'debug':    lset.DEBUG,
     }
-
-    # get the mapped items
 
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))
@@ -173,21 +175,10 @@ def modify(request, view_name):
         
         return HttpResponse(simplejson.dumps(resp))
 
-
-    map = None
-
-    # XXX: Maybe move this to client side?
-    for ext in ('png', 'jpg', 'gif'):
-        try:
-            path = "%s/static/img/Viewer/%s.%s" % (lset.APP_DIR, view_name, ext)
-            map = Image.open(path)
-            break
-        except IOError, e:
-            continue
+    map = getMapInfo(view_name)
 
     if not map:
-        resp['error'] = "Couldn't find map to load"
-        return HttpResponseServerError(simplejson.dumps(resp))
+        return HttpResponseServerError("Couldn't find map to load")
 
     groups = view.groups.all()
     map_items = view.getMappedItems()
@@ -199,6 +190,7 @@ def modify(request, view_name):
                 "width":    map.size[0],
                 "height":   map.size[1]
             },
+        'view':     view,
         'mapped':   map_items,
         'unmapped': view.getUnmappedItems(),
         'sizes':    MachineMap.MachineMap_Size.objects.all(),
