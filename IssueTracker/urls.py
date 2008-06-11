@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-     url(r'^$', 'IssueTracker.views.index', name="index"),
+     url(r'^$', 'IssueTracker.views.index', name="issue_index"),
      (r'^checkuser/(?P<name>\w+)/$', 'IssueTracker.views.ajax.userCheck'),
      (r'^search/$', 'IssueTracker.views.search.search'),
      (r'^search/detailed/$', 'IssueTracker.views.search.advSearch'),

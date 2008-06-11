@@ -12,10 +12,10 @@
             </div>{% endif %}
             <ul id="nav" class="inline struct">
                 <li>
-                    <a href="/issue/">Home</a>
+                    <a href="{% url issue_index %}">Home</a>
                 </li>
                 <li>
-                    <a href="/issue/all/">All Unresolved</a>
+                    <a href="{% url viewAll %}">All Unresolved</a>
                 </li>
 				<!--  These aren't ready yet
 				<li>
@@ -25,19 +25,19 @@
 				</li> 
 				-->
                 <li>
-                    <a href="/issue/new/">New</a>
+                    <a href="{% url createIssue %}">New</a>
                 </li>
                 {% if user.is_authenticated %}<li>
-                    <a href="/pref/">Preferences</a>
+                <a href="{% url userPrefs' %}">Preferences</a>
                 </li>
                 <li>
                     <a href="/admin/">Admin</a>
                 </li>
                 <li>
-                    <a href="/logout/">Logout</a>
+                    <a href="{% url logout %}">Logout</a>
                 </li>
                 {% else %}<li>
-                    <a href="/login/">Login</a>
+                    <a href="{% url login %}">Login</a>
                 </li>
                 {% endif %}
             </ul>

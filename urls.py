@@ -14,8 +14,10 @@ urlpatterns = patterns('',
     #(r'^databrowse/(.*)', databrowse.site.root),
 
     # Auth related items
-    (r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logout.html'}),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'},
+        name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logout.html'}, 
+        name='logout'),
 
     (r'^pref/', include('LabtrackerCore.urls')),
     (r'^issue/', include('IssueTracker.urls')),
