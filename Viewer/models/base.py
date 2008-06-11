@@ -15,7 +15,6 @@ class ViewType(models.Model):
     description = models.CharField(max_length=2616)
 
     def save(self):
-        # FIXME need to create the class
         newtype = self.name == None
 
         super(ViewType, self).save()
