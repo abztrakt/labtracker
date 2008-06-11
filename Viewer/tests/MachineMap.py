@@ -71,6 +71,19 @@ class MachineMapWebTest(TestCase):
         """
         self.user.delete()
 
+    def testShouldGetMap(self):
+        """
+        Should be able to view the map
+        """
+
+        map = v_models.MachineMap.MachineMap.objects.all()[0]
+
+        response = self.client.get('/views/MachineMap/%s/' % (map.name))
+
+        self.assert(response.status_code == 200)
+
+        
+
     def testShouldModifyMap(self):
         """
         Try to modify the map that was created
