@@ -1,32 +1,29 @@
-$(document).ready(function () {
-    //
-});
-
 var initialized = false;    // is page ready?
 
 var timer = null;       // This is the interval timer
+var last_call = 0;
 
 var options = {
     'timer':    5000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
 
-    // Status is the mapping of what the server returns for status and what 
+    'sizes': [],
+    'orientations': ['H', 'V'],
+
+    // States is the mapping of what the server returns for states and what 
     // the class should be
-    'status':   {}      // what status are available?
+    'states':   {}      // what states are available
 };
 
 /**
  * Initialize
  *
  * Pass in a dictionary of options
- * Important ones include:
- *  'status' a mapping of what the server returns to what the class should be
  */
 function init(opts) {
     $.extend(options, opts);
 
     initialized = true;
-
     timer = setInterval(updateMachines, options.timer);
 }
 
@@ -36,12 +33,34 @@ function init(opts) {
  * Goes and updates machine stuff
  */
 function updateMachines() {
-    debugLog("Updating machines");
+
+    if (! initialized) {
+        debugLog("Cannot run updates until initializeation");
+        return;
+    }
 
     if (options.refresh) {
         window.location.href = window.location.href;
     } else {
         // do ajax update
+        $.ajax({
+            'url':          '/views/MachineMap/CRC_Map/',
+            'type':         'GET',
+            //'ifModified':   true,
+            'dataType':     'json',
+            'data': {
+                'last': last_call/1000
+            },
+            'error': function (xhr, txt, err) {
+                // handle the error
+                debugLog('error');
+            },
+            'success': function (json, txt) {
+                debugLog("last call was: " +  last_call);
+                last_call = Date.now();
+                applyMachineUpdates(json);
+            }
+        });
     }
 }
 
@@ -50,6 +69,56 @@ function updateMachines() {
  *
  * Given a dictionary of machine info, go and find the machines to update
  */
-function applyMachineUpdates(info) {
+function applyMachineUpdates(data) {
+    for (var ii in data) {
+        var item_id = ii + "_" + data[ii].name;
+        var item = $('#' + item_id);
+
+        applyToMachine(item, data[ii]);
+    }
 }
 
+
+function applyToMachine(item, data) {
+    if (data.x) {
+        item.css('left', data.x + 'px');
+    }
+
+    if (data.y) {
+        item.css('top', data.x + 'px');
+    }
+    
+    if (data.orient) {
+        switchOrientation(item, data.orient);
+    }
+
+    if (data.state) {
+        switchState(item, data.state);
+    }
+
+    if (data.size) {
+        switchSize(item, data.size);
+    }
+
+}
+
+function switchOrientation(item, orient) {
+    // TODO confirm that this orientation is known
+    item.removeClass(options.orientations.join(" "));
+    item.addClass(orient);
+}
+
+function switchState(item, state) {
+    // TODO confirm that this state is known
+    
+    // first remove all the known states from this item
+    item.removeClass(values(options.states).join(" "));
+    item.addClass(options.states[state]);
+}
+
+function switchSize(item, size) {
+    // TODO confirm that this size is known
+
+    item.removeClass(options.sizes.join(" "));
+    item.addClass(size);
+}

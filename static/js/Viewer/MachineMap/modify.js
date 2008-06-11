@@ -412,7 +412,6 @@ var modMap = {
 				var tooldiv = $(this);
 				tooldiv.remove(); 
 			});
-
 	},
 
 
@@ -439,7 +438,7 @@ var modMap = {
      */
     'getItemID': function (item) {
         var id = item.attr('id');
-        return id.replace(/\[.*?\]$/, '');
+        return id.replace(/_.*?$/, '');
     },
 
     /**
@@ -449,7 +448,7 @@ var modMap = {
      */
     'getItemName': function (item) {
         var id = item.attr('id');
-        return id.match(/\[(.*?)\]$/)[1];
+        return id.match(/_(.*?)$/)[1];
     },
 
     'updateInfoPane': function (name) {

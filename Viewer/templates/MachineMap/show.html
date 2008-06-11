@@ -5,15 +5,15 @@
     {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
         <script type="text/javascript" src="/static/js/Viewer/MachineMap/show.js"></script>
         <script type="text/javascript">
-            // need to initialize things, such as status
-            
+            // need to initialize things, such as available states
             $(document).ready(function () {
                 init({
-                    'timer': 50000,
+                    'timer': 5000,
                     'refresh': 0,
-                    'status': { {% for st in status %}
-                        '{{st.name|lower}}': 'status[{{st.name|lower}}]'{% if not forloop.last %},{% endif %}{% endfor %}
-                    }
+                    'states': { {% for st in status %}
+                        '{{st.name|lower}}': 'status_{{st.name|lower}}'{% if not forloop.last %},{% endif %}{% endfor %}
+                    },
+                    'sizes': [{% for size in sizes %}'{{ size.name }}'{% if not forloop.last %}, {%endif%}{%endfor%}]
                 });
             });
         </script>

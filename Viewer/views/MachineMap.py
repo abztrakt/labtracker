@@ -36,6 +36,27 @@ def show(request, view_name):
 
     view = get_object_or_404(MachineMap.MachineMap, shortname=view_name)
 
+    def getJSONData(time=None):
+        items = view.getMappedItems()
+
+        ret_data = {}
+
+        for item in items:
+            if time:
+                pass
+            
+            ret_data[item.machine.pk] = {
+                        'name':     item.machine.name,
+                        'x':        item.xpos,
+                        'y':        item.ypos,
+                        'orient':   item.orientation,
+                        'size':     item.size.name,
+                        'state':   item.machine.status.name.lower(),
+                    }
+
+        return ret_data
+        
+
     if request.is_ajax():
         """
         A request is being made on data
@@ -44,8 +65,15 @@ def show(request, view_name):
 
         ret = {}
 
-        ret['error'] = "No understandable request made."
-        return HttpResponseServerError(simplejson.dumps(ret))
+        try:
+            ret = getJSONData(data.get('last', None))
+        except Exception, e:
+            ret['error'] = "No understandable request made."
+            return HttpResponseServerError(simplejson.dumps(ret))
+
+        print 'success'
+
+        return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
 
