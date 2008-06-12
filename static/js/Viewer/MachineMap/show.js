@@ -1,7 +1,7 @@
 var initialized = false;    // is page ready?
 
 var timer = null;       // This is the interval timer
-var last_call = 0;
+var last_call = Date.now();
 
 var options = {
     'timer':    5000,   // duration between updates
@@ -98,7 +98,7 @@ function applyToMachine(item, data) {
         }
     }
     
-    if (data.orient && switchOrientation(item, data.orient)) {
+    if (data.orient && switchClass(item, data.orient, options.orientations)) {
         item.data('modified', true);
     }
 
@@ -106,24 +106,30 @@ function applyToMachine(item, data) {
         item.data('modified', true);
     }
 
-    if (data.size && switchSize(item, data.size)) {
+    if (data.size && switchClass(item, data.size, options.sizes)) {
         item.data('modified', true);
     }
 }
 
 /**
- * switchOrientation
+ * Switch a given items class
+ * @param item {jQuery}  item which to apply it on
+ * @param cl {String} the target class
+ * @param classes {Array} the list of classes to swap out
+ *
+ * Takes a look at the item and removes all classes from the list of classes
+ * given and adds the target class to the item
  */
-function switchOrientation(item, orient) {
-    if ($.inArray(orient, options.orientations) == -1) {
-        debugLog("Unknown orientation, cannot set");
+function switchClass(item, cl, classes) {
+    if (classes.length == 0) { return; }
+    if (item.hasClass(cl)) { return false; }
+
+    if ($.inArray(cl, classes) == -1 ) {
         return;
     }
-    if (item.hasClass(orient)) { return false; }
 
-    item.removeClass(options.orientations.join(" "));
-    item.addClass(orient);
-
+    item.removeClass(classes.join(" "));
+    item.addClass(cl);
     return true;
 }
 
@@ -136,32 +142,11 @@ function switchState(item, state) {
         return;
     }
 
-    if (item.hasClass(options.states[state])) {
-        return false;
-    }
-
     var states = new Array();
     for (var st in options.states) {
         states.push(options.states[st]);
     }
-    // first remove all the known states from this item
-    item.removeClass(states.join(" "));
 
-    item.addClass(options.states[state]);
-
-    return true;
+    return switchClass(item, options.states[state], states);
 }
 
-/**
- * switchSize
- */
-function switchSize(item, size) {
-    if (item.hasClass(size)) { return false; }
-
-    if ($.inArray(size, options.sizes) == -1) {
-        return;
-    }
-    item.removeClass(options.sizes.join(" "));
-    item.addClass(size);
-    return true;
-}
