@@ -54,7 +54,7 @@ def show(request, view_name):
                     machine_info = True
                 else:
                     mapped_info = item.last_modified > time
-                    machine_info = item.machine.last_modified > time: 
+                    machine_info = item.machine.last_modified > time
             else:
                 machine_info = True
                 mapped_info = True
