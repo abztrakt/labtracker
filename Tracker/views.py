@@ -38,9 +38,11 @@ def updateMachine(request, name):
 
         user.save()
         time = datetime.now()
+        print machine.status
         m_utils.updateStatus(machine, status, user, time)
+        print machine.status
 
-        return HttpResponse("%s - %s - %s -- %s" % (machine, status, user, time))
+        return HttpResponse("%s - %s - %s -- %s" % (machine, machine.status, user, time))
 
     return HttpResponseServerError()
 

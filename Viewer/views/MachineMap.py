@@ -71,8 +71,6 @@ def show(request, view_name):
             ret['error'] = "No understandable request made."
             return HttpResponseServerError(simplejson.dumps(ret))
 
-        print 'success'
-
         return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map

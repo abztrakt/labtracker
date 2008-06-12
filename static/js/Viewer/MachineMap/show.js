@@ -56,7 +56,6 @@ function updateMachines() {
                 debugLog('error');
             },
             'success': function (json, txt) {
-                debugLog("last call was: " +  last_call);
                 last_call = Date.now();
                 applyMachineUpdates(json);
             }
@@ -141,8 +140,6 @@ function switchState(item, state) {
         return false;
     }
 
-    debugLog("Updating: " + item[0].id + " to: " + state);
-    
     var states = new Array();
     for (var st in options.states) {
         states.push(options.states[st]);
@@ -150,7 +147,6 @@ function switchState(item, state) {
     // first remove all the known states from this item
     item.removeClass(states.join(" "));
 
-    debugLog("adding Class: " + options.states[state]);
     item.addClass(options.states[state]);
 
     return true;
@@ -163,7 +159,6 @@ function switchSize(item, size) {
     if (item.hasClass(size)) { return false; }
 
     if ($.inArray(size, options.sizes) == -1) {
-        debugLog("unknown size, cannot set");
         return;
     }
     item.removeClass(options.sizes.join(" "));

@@ -5,7 +5,7 @@ def updateStatus(machine, status, user, time):
     update the status of a machine
     """
 
-    machine.ms = status
+    machine.status = status
     machine.save()
 
     # TODO will need to implement a way to keep current status of the machine without
