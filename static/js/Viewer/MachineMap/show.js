@@ -73,8 +73,22 @@ function applyMachineUpdates(data) {
         var item_id = ii + "_" + data[ii].name;
         var item = $('#' + item_id);
 
+        if (item.size() == 0) {
+            // have to create the item
+            item = newMachine(item_id, data[ii]);
+
+            // status will be wrong... mark as unusable?
+            $('#map').append(item);
+            data[ii].state = "broken";
+        }
+
         applyToMachine(item, data[ii]);
     }
+}
+
+function newMachine(id, data) {
+    var mc = $('<div id="' + id + '" class="item mapped"></div>');
+    return mc;
 }
 
 

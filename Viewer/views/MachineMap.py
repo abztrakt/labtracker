@@ -43,18 +43,35 @@ def show(request, view_name):
         ret_data = {}
 
         for item in items:
-            if time and item.last_modified < time \
-                    and item.machine.last_modified < time: 
-                continue
-            
-            ret_data[item.machine.pk] = {
-                        'name':     item.machine.name,
-                        'x':        item.xpos,
-                        'y':        item.ypos,
-                        'orient':   item.orientation,
-                        'size':     item.size.name,
-                        'state':    item.machine.status.name.lower(),
-                    }
+            data = {}
+            machine_info = False
+            mapped_info = False
+
+            if time:
+                if item.date_added > time:
+                    # gotta get it all
+                    mapped_info = True
+                    machine_info = True
+                else:
+                    mapped_info = item.last_modified > time
+                    machine_info = item.machine.last_modified > time: 
+            else:
+                machine_info = True
+                mapped_info = True
+
+            if machine_info:
+                data['state'] = item.machine.status.name.lower()
+
+            if mapped_info:
+                data.update({
+                    'x':        item.xpos,
+                    'y':        item.ypos,
+                    'orient':   item.orientation,
+                    'size':     item.size.name, })
+
+            if data:
+                data['name'] = item.machine.name,
+                ret_data[item.machine.pk] = data
 
         return ret_data
         

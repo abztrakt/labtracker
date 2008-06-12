@@ -44,7 +44,7 @@
     <div id='unmapped'>
         <h4>Unmapped items:</h4>
         <div id='items'>
-            {% for item in unmapped %}<div id="{{ item.pk }}[{{ item.name }}]" class="item unmapped"></div>{% endfor %}
+            {% for item in unmapped %}<div id="{{ item.pk }}_{{ item.name }}" class="item unmapped"></div>{% endfor %}
         </div>
         <br class='clear' />
     </div>
