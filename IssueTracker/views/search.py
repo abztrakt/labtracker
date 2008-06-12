@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
 
 from IssueTracker.models import *
 import IssueTracker.search as issueSearch
@@ -28,19 +29,19 @@ def search(request):
                 issue_id = int(issue_id)
 
                 issue = Issue.objects.get(pk=issue_id)
-                return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+                return HttpResponseRedirect(reverse('view', args=[issue_id]))
             except ValueError, e:
                 # search_term was not an id, search by string
                 issues = Issue.objects.filter(title__icontains=issue_id)
 
                 return utils.generateList(request, data, issues, 1)
 
-            except ObjectDoesNotExist, e:
+            except Exception, e:
                 # issue id was not an actual issue, use it as a search_term
                 issues = Issue.objects.filter(title__contains=issue_id)
 
                 # FIXME change so that it uses the generateList as well
-                return utils.generateList(data,
+                return utils.generateList(request, data,
                         Issue.objects.all(), 1)
 
             except Exception, e:
@@ -53,6 +54,7 @@ def search(request):
 
     else:
         return HttpResponseRedirect(reverse('index'))
+        """
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def advSearch(request):
