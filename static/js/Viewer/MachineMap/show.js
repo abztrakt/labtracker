@@ -85,7 +85,7 @@ function applyToMachine(item, data) {
     }
 
     if (data.y) {
-        item.css('top', data.x + 'px');
+        item.css('top', data.y + 'px');
     }
     
     if (data.orient) {
@@ -103,22 +103,34 @@ function applyToMachine(item, data) {
 }
 
 function switchOrientation(item, orient) {
-    // TODO confirm that this orientation is known
+    if ($.inArray(orient, options.orientations) == -1) {
+        debugLog("Unknown orientation, cannot set");
+        return;
+    }
     item.removeClass(options.orientations.join(" "));
     item.addClass(orient);
 }
 
 function switchState(item, state) {
-    // TODO confirm that this state is known
+    if (! options.states[state]) {
+        debugLog("Given state is unknown");
+        return;
+    }
     
+    var states = new Array();
+    for (var state in options.states) {
+        states.push(options.states[state]);
+    }
     // first remove all the known states from this item
-    item.removeClass(values(options.states).join(" "));
+    item.removeClass(states.join(" "));
     item.addClass(options.states[state]);
 }
 
 function switchSize(item, size) {
-    // TODO confirm that this size is known
-
+    if ($.inArray(size, options.size) == -1) {
+        debugLog("unknown size, cannot set");
+        return;
+    }
     item.removeClass(options.sizes.join(" "));
     item.addClass(size);
 }
