@@ -18,9 +18,10 @@ class LabUser(models.Model):
     list, please look at the django.contrib.auth.models
     """
     user_id = models.CharField(primary_key=True, max_length=32)
+    accesses = models.IntegerField()
 
     def __unicode__(self):
-        return self.user_name
+        return self.user_id
 
 class InventoryType(models.Model):
     """

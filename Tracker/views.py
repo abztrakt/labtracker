@@ -18,9 +18,9 @@ def updateMachine(request, name):
     Give machine a new status, update it's time, and user
     The request must include a status, and a user
     """
-    machine = get_object_or_404(m_models.Item, item__name=name)
+    machine = get_object_or_404(m_models.Item, name=name)
 
-    data = request.POST.copy()
+    data = request.REQUEST.copy()
 
     if data.has_key('status') and data.has_key('user'):
         status = get_object_or_404(m_models.Status, pk=data['status'])
@@ -33,6 +33,7 @@ def updateMachine(request, name):
             user = c_models.LabUser(user_id=userhash.hexdigest())
             user.accesses = 1
         except Exception, e:
+            print "Could not get user %s" % e
             return HttpResponseServerError()
 
         user.save()

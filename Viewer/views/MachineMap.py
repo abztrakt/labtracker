@@ -51,7 +51,7 @@ def show(request, view_name):
                         'y':        item.ypos,
                         'orient':   item.orientation,
                         'size':     item.size.name,
-                        'state':   item.machine.status.name.lower(),
+                        'state':    item.machine.status.name.lower(),
                     }
 
         return ret_data

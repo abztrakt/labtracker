@@ -1,0 +1,9 @@
+div.item.status_broken {
+    background-color: black;
+}
+div.item.status_usable {
+    background-color: grey;
+}
+div.item.status_inuse {
+    background-color: yellow;
+}
