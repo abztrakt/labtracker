@@ -1,3 +1,4 @@
+import datetime
 from PIL import Image
 
 from django.conf import settings
@@ -42,8 +43,9 @@ def show(request, view_name):
         ret_data = {}
 
         for item in items:
-            if time:
-                pass
+            if time and item.last_modified < time \
+                    and item.machine.last_modified < time: 
+                continue
             
             ret_data[item.machine.pk] = {
                         'name':     item.machine.name,
@@ -65,8 +67,16 @@ def show(request, view_name):
 
         ret = {}
 
+        time = data.get('last', None)
+        if time:
+            try:
+                time = float(time)
+                time = datetime.datetime.fromtimestamp(time)
+            except Exception, e:
+                time = None
+
         try:
-            ret = getJSONData(data.get('last', None))
+            ret = getJSONData(time)
         except Exception, e:
             ret['error'] = "No understandable request made."
             return HttpResponseServerError(simplejson.dumps(ret))
