@@ -448,8 +448,7 @@ var modMap = {
      */
     'getItemName': function (item) {
         var id = item.attr('id');
-        return id.replace(/.*?_/);
-        //return id.match(/_(.*?)$/)[1];
+        return id.replace(/.*?_/, '');
     },
 
     'updateInfoPane': function (name) {
