@@ -5,7 +5,7 @@
                 {% block pageCSS %}
                 {% endblock %}
             {% endblock %}
-            {% block body %}
+{% block body %}
         <div id="header">
             {% if user.is_authenticated %}<div id='userInfo'>
                 Logged in as: {{ user.username }}
@@ -53,4 +53,4 @@
         <div id="footer">
             {% block footer %}{% endblock %}
         </div>
-        {% endblock %}
+{% endblock %}

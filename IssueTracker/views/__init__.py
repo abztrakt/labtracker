@@ -149,6 +149,7 @@ def post(request, issue_id):
                 not (curState == updateIssue.resolved_state):
 
             resolveSection = Email.EmailSection("Issue Resolve State")
+            # FIXME use a template
             if curState != None:
                 resolveSection.content = "%s ---> %s" % (curState, updateIssue.resolved_state)
             else:
@@ -183,7 +184,7 @@ def post(request, issue_id):
                 #args['add_comment_form'] = newComment
         
 
-        # Send issue_email and all that jazz
+        # Send issue_email
 
         if not issue_email.empty():
             # get the cc list
@@ -325,16 +326,13 @@ def fetch(request, issue_id):
     """
     issue = get_object_or_404(Issue, pk=issue_id)
 
-    if request.method == "POST":
-        data = request.POST.copy()
-    elif request.method == "GET":
-        data = request.GET.copy()
+    data = request.GET.copy()
 
     if not data.has_key('req'):
         return Http404()
 
     req = data.get('req')
-    format = data.get('format', 'xml')
+    format = data.get('format', 'json')
     limit = data.get('limit', 0);
 
     if req == 'history':
@@ -363,11 +361,9 @@ def fetch(request, issue_id):
             f_data[piece[pk]] = piece
         return HttpResponse(simplejson.dumps(f_data))
     elif format == 'xml':
-        # TODO add xml serialization capabilities capabilities
+        # TODO add xml serialization capabilities 
         pass
     elif format == 'html':
-        from django.template.loader import render_to_string
-
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args,
                 context_instance=RequestContext(request))
 
@@ -376,11 +372,6 @@ def allUnresolved(request, page=1):
     """
     Lists all the Issues 
     """
-
-    if request.method == "POST":
-        data = request.POST.copy()
-    elif request.method == "GET":
-        data = request.GET.copy()
-
+    data = request.GET.copy()
     return utils.generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
 

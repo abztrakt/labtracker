@@ -101,7 +101,6 @@ def getGroups(request):
     else:
         groups = utils.createGroupList(LabtrackerCore.InventoryType.objects.in_bulk(it_types).values())
 
-
     type = data.get("type", "json")
     
     if type == "xml":
