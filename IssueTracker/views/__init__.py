@@ -217,12 +217,13 @@ def modIssue(request, issue_id):
         # direct call, will need to redirect
         data = request.GET.copy()
 
-    if data['action'] == "dropcc":
+    action = data.get('action')
+    if action == "dropcc":
         user = get_object_or_404(User, pk=int(data['user']))
         issue.cc.remove(user)
         utils.updateHistory(request.user, issue, "Removed %s from CC list" % (user))
         postResp['status'] = 1
-    elif data['action'] == "addcc":
+    elif action == "addcc":
         user = get_object_or_404(User, username=data['user'])
         issue.cc.add(user)
         utils.updateHistory(request.user, issue, "Added %s to CC list" % (user))
@@ -233,7 +234,7 @@ def modIssue(request, issue_id):
     # FIXME: Needs to deal with error handling here, what happens when user could not have
     # been removed?
 
-    if data['js']:
+    if data.get('js'):
         # means an ajax call and so will do a json response
         return HttpResponse(simplejson.dumps(postResp))
     else:
@@ -366,6 +367,8 @@ def fetch(request, issue_id):
     elif format == 'html':
         return render_to_response("IssueTracker/issue/%s.html" % req, template_args,
                 context_instance=RequestContext(request))
+    else:
+        return HttpResponseServerError("Unknown data fromat")
 
 @permission_required('IssueTracker.can_view', login_url="/issue/login/")
 def allUnresolved(request, page=1):
