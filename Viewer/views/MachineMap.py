@@ -54,9 +54,7 @@ def show(request, view_name):
                     mapped_info = True
                     machine_info = True
                 else:
-                    print "last: %s, modified: %s" % (last, item.last_modified)
                     mapped_info = item.last_modified > last
-                    print " modified > last %s" % (mapped_info)
                     machine_info = item.machine.last_modified > last
             else:
                 machine_info = True
