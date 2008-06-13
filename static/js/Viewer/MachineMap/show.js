@@ -1,7 +1,7 @@
 var initialized = false;    // is page ready?
 
 var timer = null;       // This is the interval timer
-var last_call = Date.now();
+var last_call = Date.now()/1000;
 
 var options = {
     'timer':    5000,   // duration between updates
@@ -49,15 +49,15 @@ function updateMachines() {
             //'ifModified':   true,
             'dataType':     'json',
             'data': {
-                'last': last_call/1000
+                'last': last_call
             },
             'error': function (xhr, txt, err) {
                 // handle the error
                 debugLog('error');
             },
             'success': function (json, txt) {
-                last_call = Date.now();
-                applyMachineUpdates(json);
+                last_call = json.time;
+                applyMachineUpdates(json.machines);
             }
         });
     }
@@ -97,7 +97,7 @@ function applyToMachine(item, data) {
     if (data.x) {
         var xpos = parseInt(data.x) + 'px';
         
-        if (item.css('left') == xpos) {
+        if (item.css('left') != xpos) {
             item.css('left', xpos);
             item.data('modified', true);
         }
@@ -106,7 +106,7 @@ function applyToMachine(item, data) {
     if (data.y) {
         var ypos = parseInt(data.y) + 'px';
 
-        if (item.css('top') == ypos) {
+        if (item.css('top') != ypos) {
             item.css('top', ypos);
             item.data('modified', true);
         }

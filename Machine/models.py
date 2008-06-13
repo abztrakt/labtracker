@@ -89,7 +89,7 @@ class Item(coreModels.Item):
     ip = models.IPAddressField(verbose_name="IP Address")
     mac = models.CharField(max_length=17, verbose_name='MAC Address')
     date_added = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True, editable=False)
+    last_modified = models.DateTimeField(auto_now=True)
 
     manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
     comment = models.CharField(max_length=400, blank=True)

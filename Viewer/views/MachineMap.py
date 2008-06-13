@@ -1,3 +1,4 @@
+import time
 import datetime
 from PIL import Image
 
@@ -37,7 +38,7 @@ def show(request, view_name):
 
     view = get_object_or_404(MachineMap.MachineMap, shortname=view_name)
 
-    def getJSONData(time=None):
+    def getJSONData(last=None):
         items = view.getMappedItems()
 
         ret_data = {}
@@ -47,14 +48,16 @@ def show(request, view_name):
             machine_info = False
             mapped_info = False
 
-            if time:
-                if item.date_added > time:
+            if last:
+                if item.date_added > last:
                     # gotta get it all
                     mapped_info = True
                     machine_info = True
                 else:
-                    mapped_info = item.last_modified > time
-                    machine_info = item.machine.last_modified > time
+                    print "last: %s, modified: %s" % (last, item.last_modified)
+                    mapped_info = item.last_modified > last
+                    print " modified > last %s" % (mapped_info)
+                    machine_info = item.machine.last_modified > last
             else:
                 machine_info = True
                 mapped_info = True
@@ -63,11 +66,10 @@ def show(request, view_name):
                 data['state'] = item.machine.status.name.lower()
 
             if mapped_info:
-                data.update({
-                    'x':        item.xpos,
-                    'y':        item.ypos,
-                    'orient':   item.orientation,
-                    'size':     item.size.name, })
+                data['x'] = item.xpos
+                data['y'] = item.ypos
+                data['orient'] = item.orientation
+                data['size'] = item.size.name
 
             if data:
                 data['name'] = item.machine.name,
@@ -84,19 +86,21 @@ def show(request, view_name):
 
         ret = {}
 
-        time = data.get('last', None)
-        if time:
+        last = data.get('last', None)
+        if last:
             try:
-                time = float(time)
-                time = datetime.datetime.fromtimestamp(time)
+                last = float(last)
+                last = datetime.datetime.fromtimestamp(last)
             except Exception, e:
-                time = None
+                last = None
 
         try:
-            ret = getJSONData(time)
+            ret['machines'] = getJSONData(last)
         except Exception, e:
             ret['error'] = "No understandable request made."
             return HttpResponseServerError(simplejson.dumps(ret))
+
+        ret['time'] = time.mktime(time.localtime())
 
         return HttpResponse(simplejson.dumps(ret))
 

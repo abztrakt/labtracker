@@ -102,14 +102,18 @@ class MachineMap_Item(models.Model):
     orientation = models.CharField(max_length=1, choices=ORIENTATION_CHOICES,
             default='H')
     date_added = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True, editable=False)
+    last_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "%s -- %s (%d, %d)" % \
             (self.view, self.machine, self.xpos, self.ypos)
 
     class Admin:
-        pass
+        list_display = ('machine', 'view','size','xpos','ypos','orientation', 'date_added', 'last_modified')
+        fields = (
+            (None, {'fields': ('machine', 'view', 'size', 'xpos',
+                'ypos', 'orientation')}),
+        )
 
     class Meta:
         app_label = "Viewer"
