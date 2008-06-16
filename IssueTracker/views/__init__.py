@@ -253,6 +253,8 @@ def viewIssue(request, issue_id):
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
 
+    print "in viewIssue"
+
     args = {
             'issue': issue,
             'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),
@@ -318,7 +320,7 @@ def createIssue(request):
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
-def fetch(request, issue_id):
+def fetch(request, issue_id): #TODO move this to ajax.py
     """
     Fetch information for a given issue
     Needs request params:
@@ -353,6 +355,9 @@ def fetch(request, issue_id):
                 ii += 1
 
             template_args = { 'history': req_data }
+
+    if req == 'cclist':
+        return render_to_response('cc_list.html', {'issue':issue})
                
 
     if format == 'json':

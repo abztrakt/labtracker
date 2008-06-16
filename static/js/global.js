@@ -7,10 +7,15 @@ $.ajaxSetup({
 	'type'		: "GET"
 });
 
+function initializeJavascript(item) {
+    item.find(".none_if_js").hide();
+
+    item.find(".block_if_js").each( function () { this.style.display = "block"; } );
+    item.find(".inline_if_js").each( function () { this.style.display = "inline"; } );
+}
+
 $(document).ready(function() {
-        $.each($(".none_if_js"), function () { this.style.display = "none"; } );
-        $.each($(".block_if_js"), function () { this.style.display = "block"; } );
-        $.each($(".inline_if_js"), function () { this.style.display = "inline"; } );
+        initializeJavascript($(document));
         $.each($(".errorl,.errorlist"), 
             function () { 
                 this.addErr = function (err) {

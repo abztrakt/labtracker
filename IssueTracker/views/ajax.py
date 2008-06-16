@@ -1,12 +1,14 @@
 from django import newforms as forms
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.shortcuts import render_to_response, get_object_or_404
 
 import simplejson
 
 import IssueTracker.search as issueSearch
 import LabtrackerCore.models as LabtrackerCore
 import IssueTracker.utils as utils
+from IssueTracker.models import Issue
 
 @permission_required('IssueTracker.add_issue')
 def getSearchField(request, field_name):
@@ -67,7 +69,7 @@ def getItems(request):
 
         # for each group, get all the items
         for group in groups:
-            items.update(utils.createItemList(group.item.all()))
+            items.update(utils.createItemList(group.items.all()))
 
     # get the items in the group
     type = data.get("type", "json")
@@ -108,4 +110,3 @@ def getGroups(request):
         pass
     else:
         return HttpResponse(simplejson.dumps(groups))
-

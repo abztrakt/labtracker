@@ -19,7 +19,6 @@ function dropCC(event) {
     user_id = item.id.match(/^cc_(\d+)$/)[1];
 
     errorl = $('div#cc_box > div.block_if_js > ul.errorl')[0];
-    errorl.reset();
 
     $.ajax({
         'url': "modIssue/",
@@ -56,7 +55,7 @@ function addCC(event) {
 
 
     errorl = $('div#cc_box > div.block_if_js > ul.errorl')[0];
-    errorl.reset();
+
     if (findRes.length > 0) {
         errorl.addErr("User already in CC list");
         return false;
@@ -73,11 +72,7 @@ function addCC(event) {
                 errorl.addErr("'" + user + "' could not be added to CC list. Please make sure '" + user + "' exists.");
             },
         'success': function (data) {
-                var btn = $(rmCCLink(data['userid'], data.username)).bind("click", dropCC);
-                var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
-                    data['username'] + "</span>");
-                $("ul#cc_list").append(li);
-                $('input#addCC_user')[0].value = "";
+                reloadCcList();
 
                 // reload the history
                 reloadHistory();
@@ -104,6 +99,25 @@ function reloadHistory() {
             },
         'success'   : function (text) {
                 $('#history_box').append(text);
+            }
+    });
+}
+
+/**
+ * Reload the CC list, removes everything and request a new box from server
+ */
+function reloadCcList() {
+    $('#cc_box').empty();
+    $.ajax({
+        'url'       : 'fetch/',
+        'dataType'  : 'text',
+        'data'      : {
+                'req'       : 'cclist'
+            },
+        'success'   : function (text) {
+                var cc_box = $('#cc_box').html(text);
+                initializeJavascript(cc_box);
+                $('.dropCC').bind('click', dropCC);
             }
     });
 }

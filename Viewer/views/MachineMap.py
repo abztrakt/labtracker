@@ -15,7 +15,7 @@ import labtracker.settings as lset
 import LabtrackerCore as core
 import Viewer
 from Viewer import models as v_models
-from Viewer.models import MachineMap
+#from Viewer.models import MachineMap
 import Machine
 
 def getMapInfo(view_name):
@@ -36,7 +36,7 @@ def show(request, view_name):
     Spits out a lab map
     """
 
-    view = get_object_or_404(MachineMap.MachineMap, shortname=view_name)
+    view = get_object_or_404(v_models.MachineMap.MachineMap, shortname=view_name)
 
     def getJSONData(last=None):
         items = view.getMappedItems()
@@ -112,7 +112,7 @@ def show(request, view_name):
     args = {
         'view':     view,
         'mapped':   view.getMappedItems(),
-        'sizes':    MachineMap.MachineMap_Size.objects.all(),
+        'sizes':    v_models.MachineMap.MachineMap_Size.objects.all(),
         'status':   Machine.models.Status.objects.all(),
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
@@ -134,7 +134,7 @@ def modify(request, view_name):
     """
 
     # get the map
-    view = MachineMap.MachineMap.objects.get(shortname=view_name)
+    view = v_models.MachineMap.MachineMap.objects.get(shortname=view_name)
 
     data = request.REQUEST.copy()
 
@@ -147,7 +147,7 @@ def modify(request, view_name):
         map = [int(id) for id in map]
 
         # get the unmapped items
-        unmap_items = MachineMap.MachineMap_Item.objects.filter(view = view, 
+        unmap_items = v_models.MachineMap.MachineMap_Item.objects.filter(view = view, 
                 machine__pk__in = unmap)
         if (len(unmap) != len(unmap_items)):
             resp['error'] = "Could not find some of the requested items to unmap"
@@ -159,7 +159,7 @@ def modify(request, view_name):
         # figure out which are already mapped and only need updating
 
         # get items that are already mapped
-        map_items = MachineMap.MachineMap_Item.objects.filter(view = view, 
+        map_items = v_models.MachineMap.MachineMap_Item.objects.filter(view = view, 
                 machine__pk__in = map)
 
         resp = { 'status': 0, 'error': "" }
@@ -183,7 +183,7 @@ def modify(request, view_name):
             param_size = iteminfo['size']
             if (param_size):
                 item.size = \
-                    MachineMap.MachineMap_Size.objects.get(name=param_size)
+                    v_models.MachineMap.MachineMap_Size.objects.get(name=param_size)
 
             orientation = iteminfo['orient']
             if (orientation):
@@ -213,13 +213,13 @@ def modify(request, view_name):
                 resp['error'] += "Both x and y needed: %s\n" % (item.pk)
                 return HttpResponseServerError(simplejson.dumps(resp))
 
-            new_item = MachineMap.MachineMap_Item(view = view, machine = item,
+            new_item = v_models.MachineMap.MachineMap_Item(view = view, machine = item,
                     xpos = iteminfo['x'], ypos = iteminfo['y'])
 
             size = iteminfo['size']
             if (size):
                 new_item.size = \
-                    MachineMap.MachineMap_Size.objects.get(name=size)
+                    v_models.MachineMap.MachineMap_Size.objects.get(name=size)
 
 
             new_item.orientation = iteminfo['orient']
@@ -250,7 +250,7 @@ def modify(request, view_name):
         'view':     view,
         'mapped':   map_items,
         'unmapped': view.getUnmappedItems(),
-        'sizes':    MachineMap.MachineMap_Size.objects.all(),
+        'sizes':    v_models.MachineMap.MachineMap_Size.objects.all(),
         'debug':    lset.DEBUG,
     }
 
