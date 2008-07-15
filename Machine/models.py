@@ -92,6 +92,7 @@ class Item(coreModels.Item):
     last_modified = models.DateTimeField(auto_now=True)
 
     manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
+    uw_tag = models.CharField(max_length=200, verbose_name="UW tag", blank=True, null=True)
     comment = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):

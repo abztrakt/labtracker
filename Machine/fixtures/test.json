@@ -88,10 +88,10 @@
       "ip": "128.95.9.2", 
       "manu_tag": "Test Machine 1", 
       "it": 1, 
-      "mt": 1, 
+      "type": 1, 
       "mac": "00:03:24:3A:12:3E", 
-      "ms": 1, 
-      "ml": 1, 
+      "status": 1, 
+      "location": 1, 
       "date_added": "2008-05-05 16:16:26"
     }
   }, 
@@ -104,10 +104,10 @@
       "ip": "128.95.9.3", 
       "manu_tag": "test machine2", 
       "it": 1, 
-      "mt": 1, 
+      "type": 1, 
       "mac": "00:03:24:3A:12:4E", 
-      "ms": 2, 
-      "ml": 1, 
+      "status": 2, 
+      "location": 1, 
       "date_added": "2008-05-05 16:17:15"
     }
   }, 
@@ -120,10 +120,10 @@
       "ip": "128.95.9.4", 
       "manu_tag": "test machine3", 
       "it": 1, 
-      "mt": 1, 
+      "type": 1, 
       "mac": "00:03:24:3A:12:4B", 
-      "ms": 1, 
-      "ml": 1, 
+      "status": 1, 
+      "location": 1, 
       "date_added": "2008-05-05 16:17:51"
     }
   }, 
@@ -136,10 +136,10 @@
       "ip": "128.95.9.23", 
       "manu_tag": "azzaaaaa", 
       "it": 1, 
-      "mt": 2, 
+      "type": 2, 
       "mac": "00:03:12:23:34:2F", 
-      "ms": 2, 
-      "ml": 1, 
+      "status": 2, 
+      "location": 1, 
       "date_added": "2008-05-06 14:47:45"
     }
   }, 
