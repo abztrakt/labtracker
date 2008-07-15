@@ -1,6 +1,7 @@
 from django.db import models
 from LabtrackerCore.models import Item,InventoryType,Group
 from django.contrib.auth.models import User
+from django.test import TestCase
 
 class ResolveState(models.Model):
     """
@@ -95,3 +96,17 @@ class IssueComment(models.Model):
 
     #class Admin:
         #pass;
+
+"""
+Test Cases
+"""
+class NullForeignKeyTest(TestCase):
+    """
+    When sorting by a nullable foreign key, rows with a null value would disappear
+    """
+    fixtures = ['dev']
+    def testNullKey(self): 
+        issues = Issue.objects.filter(resolved_state__isnull=True).order_by('-assignee')
+        self.assertEquals(issues.count(), 3)
+
+

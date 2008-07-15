@@ -31,8 +31,9 @@ class IssueCreationTest(TestCase):
         response = self.client.post('/login/', 
                                     {'username' : 'testuser',
                                      'password' : 't3$tu$ser'})
-            
-        self.failUnlessEqual(response.status_code, 200)
+        
+        # successful login should send us to issues
+        self.failUnlessEqual(response.status_code, 302)
         
     def testCreateIssue(self): 
         """
@@ -129,7 +130,8 @@ class EmailTest(TestCase):
     def testSending(self):
         self.email.appendSection(Email.EmailSection('Header', 'Content'))
         self.email.subject = 'subject'
-        self.email.to = settings.EMAIL_TEST_RECIPIENT
+        # to must be list
+        self.email.to = [settings.EMAIL_TEST_RECIPIENT]
         self.email.send()
 
         # TODO make sure that it was sent?
