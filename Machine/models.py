@@ -54,8 +54,6 @@ class Type(models.Model):
     platform = models.ForeignKey(Platform)
     model_name = models.CharField(max_length=60)
     specs = models.TextField()
-    purchase_date = models.DateField(null=True)
-    warranty_date = models.DateField(null=True)
     description = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
@@ -87,7 +85,6 @@ class Item(coreModels.Item):
     status = models.ForeignKey(Status, verbose_name='Machine Status')
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
-    # add support for multiple mac addresses #46
     mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
     mac2 = models.CharField(max_length=17, verbose_name='Additional MAC Address', blank=True, null=True)
     wall_port = models.CharField(max_length=25)
@@ -96,6 +93,11 @@ class Item(coreModels.Item):
 
     manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
     uw_tag = models.CharField(max_length=200, verbose_name="UW tag", blank=True, null=True)
+
+    purchase_date = models.DateField(null=True)
+    warranty_date = models.DateField(null=True)
+    stf_date = models.DateField(null=True, verbose_name='Student Tech Fee Contract Expiration')
+
     comment = models.TextField(blank=True, null=True)
 
     def __unicode__(self):

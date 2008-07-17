@@ -85,6 +85,8 @@
       "date_added": "2008-05-05 16:16:26", 
       "type": 1,
 	  "wall_port": "234dfda",
+      "warranty_date": "2008-01-07", 
+      "purchase_date": "2008-01-07", 
 	  "uw_tag": "23l4nd923423"
     }
   }, 
@@ -103,6 +105,8 @@
       "date_added": "2008-05-05 16:17:15", 
       "type": 1,
 	  "wall_port": "234dfda",
+      "warranty_date": "2008-01-07", 
+      "purchase_date": "2008-01-07", 
 	  "uw_tag": "23l4nd923423"
     }
   }, 
@@ -121,6 +125,8 @@
       "date_added": "2008-05-05 16:17:51", 
       "type": 1,
 	  "wall_port": "234dfda",
+      "warranty_date": "2008-01-07", 
+      "purchase_date": "2008-01-07", 
 	  "uw_tag": "23l4nd923423"
     }
   }, 
@@ -139,6 +145,8 @@
       "date_added": "2008-05-06 14:47:45", 
       "type": 2,
 	  "wall_port": "234dfda",
+      "warranty_date": "2008-01-07", 
+      "purchase_date": "2008-01-07", 
 	  "uw_tag": "23l4nd923423"
     }
   }, 
@@ -246,10 +254,8 @@
     "model": "Machine.type", 
     "fields": {
       "name": "Scanning Station", 
-      "warranty_date": "2008-01-07", 
       "model_name": "Dell Optiplex 2002", 
       "platform": 1, 
-      "purchase_date": "2008-01-07", 
       "specs": "stff", 
       "description": ""
     }
@@ -259,10 +265,8 @@
     "model": "Machine.type", 
     "fields": {
       "name": "Workstation", 
-      "warranty_date": "2012-05-06", 
       "model_name": "Silicon Mechanix GX23", 
       "platform": 2, 
-      "purchase_date": "2008-05-06", 
       "specs": "Starburner 23 gs 20", 
       "description": ""
     }
