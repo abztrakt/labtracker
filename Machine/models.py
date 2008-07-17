@@ -87,13 +87,15 @@ class Item(coreModels.Item):
     status = models.ForeignKey(Status, verbose_name='Machine Status')
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
+    # add support for multiple mac addresses #46
     mac = models.CharField(max_length=17, verbose_name='MAC Address')
+    wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
     manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
     uw_tag = models.CharField(max_length=200, verbose_name="UW tag", blank=True, null=True)
-    comment = models.CharField(max_length=400, blank=True)
+    comment = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return self.item.name
@@ -107,8 +109,8 @@ class Item(coreModels.Item):
         super(Item,self).save()
 
     class Admin:
-        list_display = ('name', 'type','status','location','ip','mac','date_added','manu_tag')
-        search_fields = ['name','ip','mac']
+        list_display = ('name', 'type','status','location','ip','mac','wall_port','date_added','manu_tag','uw_tag')
+        search_fields = ['name','ip','mac','wall_port']
         list_filter = ['type','status','date_added']
 
 class Group(coreModels.Group):

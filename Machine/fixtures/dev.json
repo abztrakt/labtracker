@@ -82,7 +82,9 @@
       "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:16:26", 
-      "type": 1
+      "type": 1,
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -97,7 +99,9 @@
       "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:17:15", 
-      "type": 1
+      "type": 1,
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -112,7 +116,9 @@
       "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-05 16:17:51", 
-      "type": 1
+      "type": 1,
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -127,7 +133,9 @@
       "last_modified": "2008-06-11 15:49:32", 
       "location": 1, 
       "date_added": "2008-05-06 14:47:45", 
-      "type": 2
+      "type": 2,
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {

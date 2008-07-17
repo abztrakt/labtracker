@@ -92,7 +92,9 @@
       "mac": "00:03:24:3A:12:3E", 
       "status": 1, 
       "location": 1, 
-      "date_added": "2008-05-05 16:16:26"
+      "date_added": "2008-05-05 16:16:26",
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -108,7 +110,9 @@
       "mac": "00:03:24:3A:12:4E", 
       "status": 2, 
       "location": 1, 
-      "date_added": "2008-05-05 16:17:15"
+      "date_added": "2008-05-05 16:17:15",
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -124,7 +128,9 @@
       "mac": "00:03:24:3A:12:4B", 
       "status": 1, 
       "location": 1, 
-      "date_added": "2008-05-05 16:17:51"
+      "date_added": "2008-05-05 16:17:51",
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
@@ -140,7 +146,9 @@
       "mac": "00:03:12:23:34:2F", 
       "status": 2, 
       "location": 1, 
-      "date_added": "2008-05-06 14:47:45"
+      "date_added": "2008-05-06 14:47:45",
+	  "wall_port": "234dfda",
+	  "uw_tag": "23l4nd923423"
     }
   }, 
   {
