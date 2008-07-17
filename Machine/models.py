@@ -88,7 +88,8 @@ class Item(coreModels.Item):
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
     # add support for multiple mac addresses #46
-    mac = models.CharField(max_length=17, verbose_name='MAC Address')
+    mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
+    mac2 = models.CharField(max_length=17, verbose_name='Additional MAC Address', blank=True, null=True)
     wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
@@ -109,7 +110,7 @@ class Item(coreModels.Item):
         super(Item,self).save()
 
     class Admin:
-        list_display = ('name', 'type','status','location','ip','mac','wall_port','date_added','manu_tag','uw_tag')
+        list_display = ('name', 'type','status','location','ip','mac1','mac2','wall_port','date_added','manu_tag','uw_tag')
         search_fields = ['name','ip','mac','wall_port']
         list_filter = ['type','status','date_added']
 
