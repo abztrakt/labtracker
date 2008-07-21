@@ -6,7 +6,7 @@ from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.template import RequestContext
-from django import newforms as forms
+from django import forms
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list
 from django.template.loader import render_to_string

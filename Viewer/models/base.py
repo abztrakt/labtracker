@@ -46,9 +46,6 @@ class ViewType(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
     class Meta:
         app_label = "Viewer"
 
@@ -60,8 +57,9 @@ class ViewCore(models.Model):
     shortname = models.SlugField(max_length=20, unique=True,
             help_text="Used to access view")
     description = models.CharField(max_length=2616)
-    groups = models.ManyToManyField(c_models.Group,
-            filter_interface=models.HORIZONTAL)
+    groups = models.ManyToManyField(c_models.Group)
+            # TODO find new method for doing filter_interface
+            #filter_interface=models.HORIZONTAL)
     type = models.ForeignKey(ViewType, editable=False)
 
     def __unicode__(self):

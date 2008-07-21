@@ -39,6 +39,10 @@ def show(request, view_name):
     view = get_object_or_404(v_models.MachineMap.MachineMap, shortname=view_name)
 
     def getJSONData(last=None):
+        """
+        PRE: Takes a datetime object and will gets machines added after that date
+        POST: Returns machine information in JSON format
+        """
         items = view.getMappedItems()
 
         ret_data = {}
@@ -119,9 +123,7 @@ def show(request, view_name):
                 "name":     view_name,
                 "width":    map.size[0],
                 "height":   map.size[1]
-            },
-        'debug':    lset.DEBUG,
-    }
+            }
 
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))

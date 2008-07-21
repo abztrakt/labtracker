@@ -1,12 +1,15 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 
+from django.contrib import admin
+
+from labtracker.admin import default_admin
 
 urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': '%s/static/' % (settings.APP_DIR), 'show_indexes': True}),
 
-    (r'^admin/', include('django.contrib.admin.urls')),
+    (r'^admin/(.*)', default_admin.root),
     #(r'^databrowse/(.*)', databrowse.site.root),
 
     # Auth related items

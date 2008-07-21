@@ -70,10 +70,6 @@ class Group(models.Model):
         """
         return self.name
 
-    class Admin:
-        pass
-
-
 """
 Tests begin here. For the core items, there isn't much to test though
 """

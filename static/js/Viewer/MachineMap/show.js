@@ -30,12 +30,12 @@ function init(opts) {
 /**
  * updateMachines
  *
- * Goes and updates machine stuff
+ * Updates machine status on the map 
  */
 function updateMachines() {
 
     if (! initialized) {
-        debugLog("Cannot run updates until initializeation");
+        debugLog("Cannot run updates until initialization");
         return;
     }
 
@@ -72,6 +72,7 @@ function applyMachineUpdates(data) {
     for (var ii in data) {
         var item_id = ii + "_" + data[ii].name;
         var item = $('#' + item_id);
+		debugLog(item);
 
         if (item.size() == 0) {
             // have to create the item

@@ -15,9 +15,6 @@ class ResolveState(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
 class ProblemType(models.Model):
     """
     Issues have mulitple probme types associated to them
@@ -30,9 +27,6 @@ class ProblemType(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    class Admin:
-        pass
 
 class Issue(models.Model):
     """

@@ -23,12 +23,6 @@ class Status(models.Model):
     class Meta:
         verbose_name_plural="Status"
 
-    class Admin:
-        list_display = ('name','inuse','usable','broken', 'description')
-        fields = (
-            (None, {'fields': ('name', ('inuse','usable','broken',), 'description')}),
-        )
-
 class Platform(models.Model):
     """
     Machine Platform: windows XP, Vista, Mac OS X, Linux/Ubuntu, etc.
@@ -40,9 +34,6 @@ class Platform(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    class Admin:
-        pass
 
 class Type(models.Model):
     """
@@ -59,9 +50,6 @@ class Type(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
 class Location(models.Model):
     ml_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60, unique=True)
@@ -72,9 +60,6 @@ class Location(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    class Admin:
-        pass
 
 class Item(coreModels.Item):
     """
@@ -96,7 +81,7 @@ class Item(coreModels.Item):
 
     purchase_date = models.DateField(null=True)
     warranty_date = models.DateField(null=True)
-    stf_date = models.DateField(null=True, verbose_name='Student Tech Fee Contract Expiration')
+    stf_date = models.DateField(null=True, blank=True, verbose_name='Student Tech Fee Contract Expiration')
 
     comment = models.TextField(blank=True, null=True)
 
@@ -106,15 +91,10 @@ class Item(coreModels.Item):
     def delete(self):
         self.core.delete()          # delete the item in coreModels.Item
         super(Item,self).delete()   # delete self
-
+    
     def save(self):
         self.it = utils.getInventoryType(__name__)
         super(Item,self).save()
-
-    class Admin:
-        list_display = ('name', 'type','status','location','ip','mac1','mac2','wall_port','date_added','manu_tag','uw_tag')
-        search_fields = ['name','ip','mac','wall_port']
-        list_filter = ['type','status','date_added']
 
 class Group(coreModels.Group):
     """
@@ -139,13 +119,6 @@ class Group(coreModels.Group):
         if (self.it == None):
             self.it = utils.getInventoryType(__name__)
         super(Group,self).save()
-
-    class Admin:
-        fields = (
-            (None, {'fields': ('name', 'is_lab', 'casting_server', 'gateway',
-                'items', 'description')}),
-        )
-        list_display = ('name','is_lab','casting_server','gateway')
 
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)

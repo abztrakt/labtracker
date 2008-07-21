@@ -13,7 +13,7 @@ app_name = __name__.split('.')[-3]
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
     groups = models.ManyToManyField(m_models.Group,
-            filter_interface=models.HORIZONTAL,
+            #filter_interface=models.HORIZONTAL,
             related_name="view_machinemap_groups"
             )
 
@@ -60,9 +60,6 @@ class MachineMap(base.ViewCore):
         """
         return MachineMap_Item.objects.filter(view=self)
 
-    class Admin:
-        pass
-
     class Meta:
         app_label = "Viewer"
 
@@ -77,9 +74,6 @@ class MachineMap_Size(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    class Admin:
-        pass
 
     class Meta:
         app_label = "Viewer"
@@ -107,13 +101,6 @@ class MachineMap_Item(models.Model):
     def __unicode__(self):
         return "%s -- %s (%d, %d)" % \
             (self.view, self.machine, self.xpos, self.ypos)
-
-    class Admin:
-        list_display = ('machine', 'view','size','xpos','ypos','orientation', 'date_added', 'last_modified')
-        fields = (
-            (None, {'fields': ('machine', 'view', 'size', 'xpos',
-                'ypos', 'orientation')}),
-        )
 
     class Meta:
         app_label = "Viewer"
