@@ -123,6 +123,8 @@ def show(request, view_name):
                 "name":     view_name,
                 "width":    map.size[0],
                 "height":   map.size[1]
+                },
+            'debug' :   lset.DEBUG,
             }
 
     return render_to_response('Viewer/MachineMap/show.html', args,
