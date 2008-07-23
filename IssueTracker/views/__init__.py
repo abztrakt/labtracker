@@ -375,7 +375,7 @@ def fetch(request, issue_id): #TODO move this to ajax.py
     else:
         return HttpResponseServerError("Unknown data fromat")
 
-@permission_required('IssueTracker.can_view', login_url="/issue/login/")
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def allUnresolved(request, page=1):
     """
     Lists all the Issues 

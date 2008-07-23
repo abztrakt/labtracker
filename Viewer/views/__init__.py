@@ -36,3 +36,11 @@ def dumpMachines(request, group = None):
 
     return render_to_response('Viewer/dump_machines.html', args)
 
+def index(request):
+    """
+    Grab all available views and list them out
+    """
+
+    views = v_models.ViewCore.objects.all()
+    return render_to_response('Viewer/index.html', {'views': views})
+
