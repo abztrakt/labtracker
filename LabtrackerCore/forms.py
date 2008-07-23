@@ -1,4 +1,4 @@
-from django.newforms import ModelForm
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 import LabtrackerCore.models as coreModels

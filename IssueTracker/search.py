@@ -7,8 +7,8 @@ from django.db.models import Q
 from django.db.models.query import QNot
 from django.db import connection
 #from django.db.models.query import Q
-import django.newforms.fields as fieldTypes
-import django.newforms.widgets as widgets
+import django.forms.fields as fieldTypes
+import django.forms.widgets as widgets
 
 import LabtrackerCore.models as LabtrackerCore
 import IssueTracker.models as IssueModel

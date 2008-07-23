@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django import newforms as forms
-from django.newforms import ModelForm
-from django.newforms.forms import BaseForm      #, SortedDictFromList
+from django import forms 
+from django.forms import ModelForm
+from django.forms.forms import BaseForm      #, SortedDictFromList
 
 from IssueTracker.models import *
 

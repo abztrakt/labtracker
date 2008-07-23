@@ -13,7 +13,6 @@ app_name = __name__.split('.')[-3]
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
     groups = models.ManyToManyField(m_models.Group,
-            #filter_interface=models.HORIZONTAL,
             related_name="view_machinemap_groups"
             )
 

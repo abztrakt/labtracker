@@ -1,4 +1,4 @@
-from django import newforms as forms
+from django import forms
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404

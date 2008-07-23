@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 
-from django.contrib import admin
-
 from labtracker.admin import default_admin
 
 urlpatterns = patterns('',
