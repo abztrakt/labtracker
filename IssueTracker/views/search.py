@@ -53,7 +53,7 @@ def search(request):
 
 
     else:
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('issueIndex'))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def advSearch(request):

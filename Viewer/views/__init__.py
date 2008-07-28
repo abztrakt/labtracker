@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
+from django.template import RequestContext
 
 import simplejson
 
@@ -36,11 +37,12 @@ def dumpMachines(request, group = None):
 
     return render_to_response('Viewer/dump_machines.html', args)
 
+@permission_required('Viewer.can_view', login_url="/login/")
 def index(request):
     """
     Grab all available views and list them out
     """
 
     views = v_models.ViewCore.objects.all()
-    return render_to_response('Viewer/index.html', {'views': views})
+    return render_to_response('Viewer/index.html', {'views': views}, context_instance=RequestContext(request))
 

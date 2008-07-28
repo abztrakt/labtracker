@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url(r'^$', 'Viewer.views.index', name="viewIndex"), 
+    url(r'^$', 'Viewer.views.index', name="viewsIndex"), 
     url(r'^dumpMachines/$', 'Viewer.views.dumpMachines', name="machine_dump"),
     url(r'^dumpMachines/(?P<group>.+)/$', 'Viewer.views.dumpMachines', name="machine_group_dump"),
 

@@ -20,3 +20,16 @@ span.label { font-weight: bold; }
 
 span.date { margin-left: 1em; font-weight: normal; }
 
+table.plain {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table.plain tr:hover {
+    background-color: #cccccc;
+}
+
+table.plain td {
+    border: 1px solid #000000;
+    padding: 10px;
+}

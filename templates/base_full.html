@@ -25,13 +25,13 @@
 				</li> 
 				-->
                 <li>
-                    <a href="{% url createIssue %}">New</a>
-                </li>
-                {% if user.is_authenticated %}<li>
-                <a href="{% url userPrefs %}">Preferences</a>
+                    <a href="{% url createIssue %}">New Issue</a>
                 </li>
                 <li>
                     <a href="{% url viewsIndex %}">Views</a> 
+                </li>
+                {% if user.is_authenticated %}<li>
+                <a href="{% url userPrefs %}">Preferences</a>
                 </li>
                 <li>
                     <a href="/admin/">Admin</a>
