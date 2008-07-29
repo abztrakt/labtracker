@@ -122,9 +122,6 @@ class ViewTypeTestCase(TestCase):
         self.view_type = ViewType(name="%s" % self.name, description="This is a test type")
         self.view_type.save()
 
-    def tearDown(self):
-        self.view_type.delete()
-
     def testCreateViewType(self):
         """
         Creates a ViewType and checks that all folders and files are created
@@ -140,19 +137,38 @@ class ViewTypeTestCase(TestCase):
                 
         for dir in ['views', 'models']:
             path = '%s/%s/%s/%s.py' % (settings.APP_DIR, app_name, dir, self.name)
-            try:
-                open(path)
-            except IOError:
-                self.failUnless(False)
+            self.failUnless(os.path.exists(path)
 
         fh = open('%s/%s/models/__init__.py' % (settings.APP_DIR, app_name), 'r')
         lines = fh.readlines()
         fh.close()
-        if 'import %s' % self.name not in lines:
-            self.failUnless(False)
+        self.failUnless('import %s' % self.name in lines)
+
+        # deleting here instead of tear down because the 
+        # delete test case deletes the ViewType first
+        self.view_type.delete()
 
     def testDeleteViewType(self):
         """
         Ensures that the ViewType is totally deleted
         """
-        pass
+        self.view_type.delete()
+
+        app_name = __name__.split('.')[-3]
+
+        css_dir = '%s/static/css/%s/%s' % (settings.APP_DIR, app_name, self.name)
+        img_dir = '%s/static/img/%s/%s' % (settings.APP_DIR, app_name, self.name)
+        js_dir = '%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
+
+        for d in (css_dir, img_dir, js_dir):
+            self.failUnless(not os.path.isdir(d))
+                
+        for dir in ['views', 'models']:
+            path = '%s/%s/%s/%s.py' % (settings.APP_DIR, app_name, dir, self.name)
+            self.failUnless(not os.path.exists(path))
+
+        fh = open('%s/%s/models/__init__.py' % (settings.APP_DIR, app_name), 'r')
+        lines = fh.readlines()
+        fh.close()
+        self.failUnless('import %s' % self.name not in lines)
+
