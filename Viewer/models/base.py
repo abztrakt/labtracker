@@ -16,11 +16,8 @@ class ViewType(models.Model):
     description = models.CharField(max_length=2616)
 
     def save(self):
-        # TODO this newtype bit was supposed to check if we were creating
-        # a ViewType vs just updating the ViewType -- find some other way to do
-        # this otherwise there will be an error when trying to create folders and files that exist
-        #newtype = self.name == None
-        newtype = True
+        # check if this is the first time this ViewType was created
+        newtype = True if self.pk == None else False 
 
         super(ViewType, self).save()
 
@@ -137,7 +134,7 @@ class ViewTypeTestCase(TestCase):
                 
         for dir in ['views', 'models']:
             path = '%s/%s/%s/%s.py' % (settings.APP_DIR, app_name, dir, self.name)
-            self.failUnless(os.path.exists(path)
+            self.failUnless(os.path.exists(path))
 
         fh = open('%s/%s/models/__init__.py' % (settings.APP_DIR, app_name), 'r')
         lines = fh.readlines()
