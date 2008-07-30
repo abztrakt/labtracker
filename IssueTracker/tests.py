@@ -135,3 +135,58 @@ class EmailTest(TestCase):
         self.email.send()
 
         # TODO make sure that it was sent?
+
+class UpdateIssueTest(TestCase):
+    fixtures = ['dev',]
+
+    def setUp(self):
+        """
+        Creates test user 
+        """
+        self.password = 't3$tu$ser'
+        self.user = User.objects.create_user('testuser', 'test@example.com', self.password)
+        self.user.is_staff = True
+        self.user.is_superuser = True
+        self.user.save()
+
+    def tearDown(self):
+        self.user.delete()
+
+    def testChangeCC(self):
+        """
+        Tests adding and removing a user from the CC list
+        """
+        self.client.post('/login/', 
+                            {'username' : 'testuser',
+                             'password' : 't3$tu$ser'})
+
+        issue = iModels.Issue.objects.get(pk=1)
+        issueUser = issue.cc.get(username='zhaoz')
+    
+        self.client.get('/issue/1/modIssue/',
+                            {'action': 'dropcc',
+                            'user': issueUser.pk,
+                            'js': 1})
+
+        self.failUnless(issue.cc.filter(username=issueUser.username).count()==0)
+
+        self.client.get('/issue/1/modIssue/',
+                            {'action': 'addcc',
+                            'user': self.user.username,
+                            'js': 1})
+
+        self.failUnless(issue.cc.filter(username=self.user.username).count()==1)
+
+    def testAddComment(self):
+        """
+        Tests adding a comment to an issue
+        """
+        response = self.client.post('/issue/1/post/',
+                        {   'issue': 1,
+                            'user': self.user, 
+                            'comment': 'here is a test comment', 
+                        })
+
+        comment = iModels.IssueComment.objects.get(issue=issue)
+        self.failUnless(comment is not None)
+
