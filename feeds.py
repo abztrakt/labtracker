@@ -4,7 +4,28 @@ from django.shortcuts import get_object_or_404
 from django.utils import feedgenerator
 from django.http import HttpResponse
 
-def issues(request, assignee):
+def issuesAll(request):
+    """
+    Returns feed of all unresolved issues
+    """
+    feed = feedgenerator.Rss201rev2Feed(
+                title=u'Labtracker: latest unresolved issues',
+                link=u'/issues/all',
+                description=u'The latest issues on Labtracker, a tool for managing LST learning spaces',
+                language=u'en')
+
+    for issue in Issue.objects.order_by('-post_time')[:10]:
+        feed.add_item(
+                title=unicode(issue.title),
+                link=u'http://crushinator.eplt.washington.edu:8080/issue/%d/' % issue.pk,
+                description=unicode(issue.description))
+
+    resp = HttpResponse(mimetype='application/rss+xml')
+
+    feed.write(resp, 'utf8')
+    return resp
+
+def issuesByAssignee(request, assignee):
     """
     Given a username returns the latest 5 tickets in RSS format
     """

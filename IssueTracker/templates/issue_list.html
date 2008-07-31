@@ -1,12 +1,17 @@
 {% extends "base_full.html" %}
 {% block pageCSS %}@import url('/static/css/results.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.tablesorter.pack.js"></script>
-{# <script type="text/javascript" src="/js/list.js"></script>#}{% endblock %}
+{# <script type="text/javascript" src="/js/list.js"></script>#}
+<link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url issuesAll  %}" />{% endblock %}
 
 {% block content %}{% if issueList %}
+
+{% if user.is_authenticated %}
 <div id="feed">
-    <span><img src="/static/img/rss.png" /> <a href="{% url feed user.username %}">{{ user.username }}, subscribe to your personal feed</a></span>
+    <img src="/static/img/rss.png" /> <span><a href="{% url issuesByAssignee user.username %}">{{ user.username }}, subscribe to your latest tickets</a></span>
 </div>
+{% endif %}
+
 <table id='issue_results'>
 <thead>
     <tr>

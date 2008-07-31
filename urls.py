@@ -24,5 +24,6 @@ urlpatterns = patterns('',
     (r'^tracker/', include('labtracker.Tracker.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/issue/'}),
 
-    url(r'^feeds/latest/(?P<assignee>.*)/$', 'labtracker.feeds.issues', name='feed'), 
+    url(r'^feeds/latest/(?P<assignee>.*)/$', 'labtracker.feeds.issuesByAssignee', name='issuesByAssignee'), 
+    url(r'^feeds/issues/$', 'labtracker.feeds.issuesAll', name='issuesAll'), 
 )
