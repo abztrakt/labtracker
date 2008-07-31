@@ -2,11 +2,6 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 from labtracker.admin import default_admin
-from labtracker.feeds import LatestIssues 
-
-feeds = {
-            'latest' : LatestIssues
-        }
 
 urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
@@ -29,6 +24,5 @@ urlpatterns = patterns('',
     (r'^tracker/', include('labtracker.Tracker.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/issue/'}),
 
-    #(r'^feeds/(?P<url>.*)/(?P<assignee>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}), 
     (r'^feeds/latest/(?P<assignee>.*)/$', 'labtracker.feeds.issues'), 
 )
