@@ -98,8 +98,4 @@ def generateList(request, data, qdict, page):
         # kludgy way of doing things
         args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
 
-
-    # FIXME should not be rendering here
-    return render_to_response("IssueTracker/issue_list.html", args,
-            context_instance=RequestContext(request))
-
+    return args

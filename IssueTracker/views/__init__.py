@@ -379,5 +379,9 @@ def allUnresolved(request, page=1):
     Lists all the Issues 
     """
     data = request.GET.copy()
-    return utils.generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
+
+    args = utils.generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
+
+    return render_to_response("IssueTracker/issue_list.html", args,
+            context_instance=RequestContext(request))
 
