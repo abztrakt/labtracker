@@ -192,20 +192,18 @@ class UpdateIssueTest(TestCase):
         """
         Tests changing the assignee of an issue
         """
-        pass
-        
         # FIXME can't get this to change assignee
         """
         issue = iModels.Issue.objects.get(pk=3)
+        #comment = iModels.IssueComment.objects.get(issue=issue)
 
-        self.client.post('/issue/3/post/', {'assignee':1})
+
+        self.client.post('/issue/3/post/', 
                     {
-                        'problem_type'      : self.issue.problem_type.values_list(),
                         'assignee'          : 1,
-                        'cc'                : self.issue.cc.values_list(),
-                        'resolve_time'      : '',
                         'resolved_state'    : '',
-                        'last_modified'     : datetime.now() 
+                        'comment'           : '',
+                        'problem_type'      : issue.problem_type.values()[0]['name'],
                     })
 
         self.failUnless(issue.assignee!=None)

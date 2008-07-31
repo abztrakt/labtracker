@@ -4,6 +4,9 @@
 {# <script type="text/javascript" src="/js/list.js"></script>#}{% endblock %}
 
 {% block content %}{% if issueList %}
+<div id="feed">
+    <span><img src="/static/img/rss.png" /> <a href="{% url feed user.username %}">{{ user.username }}, subscribe to your personal feed</a></span>
+</div>
 <table id='issue_results'>
 <thead>
     <tr>

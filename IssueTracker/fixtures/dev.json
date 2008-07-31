@@ -116,7 +116,9 @@
             "cc": [
                 1
             ], 
-            "problem_type": [], 
+            "problem_type": [
+                3
+            ], 
             "reporter": 1, 
             "resolved_state": null, 
             "it": 1, 
