@@ -9,6 +9,7 @@ import Machine.models as mModels
 import IssueTracker.models as iModels
 import IssueTracker.Email as Email
 
+from datetime import datetime
 
 class IssueCreationTest(TestCase):
     fixtures = ['dev',]
@@ -149,44 +150,70 @@ class UpdateIssueTest(TestCase):
         self.user.is_superuser = True
         self.user.save()
 
+        self.issue = iModels.Issue.objects.get(pk=1)
+
     def tearDown(self):
         self.user.delete()
 
-    def testChangeCC(self):
+    def testUpdateIssue(self):
         """
-        Tests adding and removing a user from the CC list
+        Tests adding/removing CC list, adding comment
         """
         self.client.post('/login/', 
                             {'username' : 'testuser',
                              'password' : 't3$tu$ser'})
 
-        issue = iModels.Issue.objects.get(pk=1)
-        issueUser = issue.cc.get(username='zhaoz')
+        issueUser = self.issue.cc.get(username='zhaoz')
     
         self.client.get('/issue/1/modIssue/',
                             {'action': 'dropcc',
                             'user': issueUser.pk,
                             'js': 1})
 
-        self.failUnless(issue.cc.filter(username=issueUser.username).count()==0)
+        self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
 
         self.client.get('/issue/1/modIssue/',
                             {'action': 'addcc',
                             'user': self.user.username,
                             'js': 1})
 
-        self.failUnless(issue.cc.filter(username=self.user.username).count()==1)
+        self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
-    def testAddComment(self):
-        """
-        Tests adding a comment to an issue
-        """
-        response = self.client.post('/issue/1/post/',
-                        {   'issue': 1,
-                            'user': self.user, 
-                            'comment': 'here is a test comment', 
+        self.client.post('/issue/1/post/',
+                        {   'issue': self.issue.pk,
+                            'user': issueUser, 
+                            'comment': 'here is a test comment'
                         })
 
-        comment = iModels.IssueComment.objects.get(issue=issue)
+        comment = iModels.IssueComment.objects.get(issue=self.issue)
         self.failUnless(comment is not None)
 
+    def testChangeAssignee(self):
+        """
+        Tests changing the assignee of an issue
+        """
+        pass
+        
+        # FIXME can't get this to change assignee
+        """
+        issue = iModels.Issue.objects.get(pk=3)
+
+        self.client.post('/issue/3/post/', {'assignee':1})
+                    {
+                        'problem_type'      : self.issue.problem_type.values_list(),
+                        'assignee'          : 1,
+                        'cc'                : self.issue.cc.values_list(),
+                        'resolve_time'      : '',
+                        'resolved_state'    : '',
+                        'last_modified'     : datetime.now() 
+                    })
+
+        self.failUnless(issue.assignee!=None)
+        """
+
+    def testChangeProblemType(self):
+        """ 
+        Tests adding and removing problem types
+        """ 
+        pass
+        ""

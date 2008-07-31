@@ -36,7 +36,6 @@ def post(request, issue_id):
     """
     issue = get_object_or_404(Issue, pk=issue_id)
 
-
     if request.method == 'POST':
         actionStr = []
         curAssignee = issue.assignee
@@ -158,7 +157,6 @@ def post(request, issue_id):
 
             actionStr.append("Changed state to %s" % \
                     (updateIssue.resolved_state))
-
 
         if (actionStr):
             updateIssue.save()
