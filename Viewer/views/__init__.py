@@ -43,6 +43,8 @@ def index(request):
     Grab all available views and list them out
     """
 
-    views = v_models.ViewCore.objects.all()
-    return render_to_response('Viewer/index.html', {'views': views}, context_instance=RequestContext(request))
+    view_types = v_models.ViewType.objects.all()
+
+    machine_maps = v_models.ViewCore.objects.filter(type=v_models.ViewType.objects.get(name='MachineMap'))
+    return render_to_response('Viewer/index.html', {'view_types': view_types, 'machine_maps': machine_maps }, context_instance=RequestContext(request))
 

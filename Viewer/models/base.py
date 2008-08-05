@@ -55,7 +55,7 @@ class ViewType(models.Model):
         js_dir = '%s/static/js/%s/%s' % (settings.APP_DIR, app_name, self.name)
 
         for d in (css_dir, img_dir, js_dir):
-            if d:
+            if os.path.exists(d):
                 for f in os.listdir(d):
                     os.remove(f)
                 os.rmdir(d)

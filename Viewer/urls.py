@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^MachineMap/(?P<view_name>.+)/modify$', 'Viewer.views.MachineMap.modify',
      name="machine_map_mod"),
 
+    url(r'^MachineHistory/$', 'Viewer.views.MachineHistory.history', name='machine_history'),
+
 )
 
