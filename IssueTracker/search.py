@@ -4,7 +4,7 @@ import re
 import operator
 
 from django.db.models import Q 
-from django.db.models.query import QNot
+#from django.db.models.query import QNot
 from django.db import connection
 #from django.db.models.query import Q
 import django.forms.fields as fieldTypes
