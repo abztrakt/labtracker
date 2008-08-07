@@ -13,7 +13,7 @@
             <li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
-            <li><h4>Item:</h4>  {{ issue.item }}</li>
+            <li><h4>Item:</h4>  <a href="{% url history issue.item.name %}">{{ issue.item }}</a></li>
             <li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
             <li><h4>State:</h4>  {{ issue.resolved_state }}</li>
         </ul>
