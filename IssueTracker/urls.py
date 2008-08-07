@@ -21,4 +21,6 @@ urlpatterns = patterns('',
 
      (r'^groups/$', 'IssueTracker.views.ajax.getGroups'),
      (r'^items/$', 'IssueTracker.views.ajax.getItems'),
+
+     (r'^history/(?P<machine_name>\w+)/$', 'IssueTracker.views.machine.history'),
 )
