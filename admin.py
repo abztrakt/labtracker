@@ -8,7 +8,6 @@ from labtracker.IssueTracker.models import ResolveState, ProblemType
 from labtracker.Machine.models import Status, Platform, Type, Location, Item, Group
 from labtracker.Viewer.models import ViewType
 from labtracker.Viewer.models.MachineMap import MachineMap, MachineMap_Size, MachineMap_Item
-from labtracker.Viewer.models.MachineHistory import MachineHistory
 
 class StatusAdmin(admin.ModelAdmin):
     list_display = ('name','inuse','usable','broken', 'description')
@@ -57,8 +56,6 @@ default_admin.register(ViewType)
 default_admin.register(MachineMap)
 default_admin.register(MachineMap_Size)
 default_admin.register(MachineMap_Item, MachineMap_ItemAdmin)
-
-default_admin.register(MachineHistory)
 
 default_admin.register(User, UserAdmin)
 default_admin.register(AuthGroup)
