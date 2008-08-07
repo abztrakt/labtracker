@@ -1,13 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required, permission_required
 
 from IssueTracker.models import Issue
 from LabtrackerCore.models import Item as Core 
 from Machine.models import Item as Machine
 
-
-
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def history(request, machine_name):
     """
     Grab all the tickets for this particular machine and display
