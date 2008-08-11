@@ -1,4 +1,5 @@
 {% extends "base_full.html" %}
+{% load issue_extras %}
 {% block pageCSS %}@import url('/static/css/results.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.tablesorter.pack.js"></script>
 {# <script type="text/javascript" src="/js/list.js"></script>#}
@@ -8,7 +9,7 @@
 
 {% if user.is_authenticated %}
 <div id="feed">
-    <img src="/static/img/rss.png" /> <span><a href="{% url issuesByAssignee user.username %}">{{ user.username }}, subscribe to your latest tickets</a></span>
+    <img src="/static/img/rss.png" /> <span><a href="{% url issuesByAssignee user.username %}">{{ user.username }}, subscribe to your latest issues</a></span>
 </div>
 {% endif %}
 
@@ -48,7 +49,9 @@
     <tr class="{% cycle 'even' 'odd' %}">
         <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
 		<td class='{{ cols.title.class }}'><a href="{% url view issue.issue_id %}">{{ issue.title }}</a></td>
-        <td class='{{ cols.item.class }}'><a href="{% url history issue.item.name %}">{{ issue.item }}</a></td>
+        <td class='{{ cols.item.class }}'>
+            <a href="{% url history issue.item.name %}">{{ issue.item }}</a> 
+        </td>
         <!-- <td class='{{ cols.it.class }}'>{{ issue.it }}</td> -->
         <td class='{{ cols.group.class }}'>{{ issue.group }}</td>
         <td class='{{ cols.reporter.class }}'>{{ issue.reporter }}</td>
