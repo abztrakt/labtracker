@@ -101,7 +101,7 @@ class Group(coreModels.Group):
     Expands on the coreModels.Group 
     """
     core = models.OneToOneField(coreModels.Group, parent_link=True, editable=False)
-    is_lab = models.BooleanField(core=True)
+    is_lab = models.BooleanField()
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
 
@@ -129,10 +129,10 @@ class History(models.Model):
 
 class Contact(models.Model):
     contact_id = models.AutoField(primary_key=True)
-    mg = models.ForeignKey(Group, edit_inline=models.TABULAR,num_in_admin=2)
+    mg = models.ForeignKey(Group)
 
-    user = models.ForeignKey(User,core=True)
-    is_primary = models.BooleanField(core=True,default=False)
+    user = models.ForeignKey(User)
+    is_primary = models.BooleanField(default=False)
 
     def __unicode__(self):
         extra = ("", " (Primary)")[self.is_primary]
