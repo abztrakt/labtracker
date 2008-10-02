@@ -5,6 +5,8 @@ from django.test import TestCase
 import LabtrackerCore.utils as utils
 import LabtrackerCore.models as coreModels
 
+from datetime import date
+
 class Status(models.Model):
     """
     Status of the machine
@@ -65,23 +67,28 @@ class Item(coreModels.Item):
     """
     The Machine
     """
-    core = models.OneToOneField(coreModels.Item, parent_link=True, editable=False)
+    core = models.OneToOneField(coreModels.Item, parent_link=True, 
+            editable=False)
     type = models.ForeignKey(Type, verbose_name='Machine Type')
     status = models.ForeignKey(Status, verbose_name='Machine Status')
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
     mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
-    mac2 = models.CharField(max_length=17, verbose_name='Additional MAC Address', blank=True, null=True)
+    mac2 = models.CharField(max_length=17, 
+            verbose_name='Additional MAC Address', blank=True, null=True)
     wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
-    manu_tag = models.CharField(max_length=200, verbose_name="Manufacturers tag")
-    uw_tag = models.CharField(max_length=200, verbose_name="UW tag", blank=True, null=True)
+    manu_tag = models.CharField(max_length=200, 
+            verbose_name="Manufacturers tag")
+    uw_tag = models.CharField(max_length=200, verbose_name="UW tag", 
+            blank=True, null=True)
 
     purchase_date = models.DateField(null=True)
     warranty_date = models.DateField(null=True)
-    stf_date = models.DateField(null=True, blank=True, verbose_name='Student Tech Fee Contract Expiration')
+    stf_date = models.DateField(null=True, blank=True, 
+            verbose_name='Student Tech Fee Contract Expiration')
 
     comment = models.TextField(blank=True, null=True)
 
@@ -92,9 +99,9 @@ class Item(coreModels.Item):
         self.core.delete()          # delete the item in coreModels.Item
         super(Item,self).delete()   # delete self
     
-    def save(self):
+    def save(self, *args, **kwargs):
         self.it = utils.getInventoryType(__name__)
-        super(Item,self).save()
+        super(Item,self).save(*args, **kwargs)
 
 class Group(coreModels.Group):
     """
@@ -168,10 +175,8 @@ class TypeTest(TestCase):
         self.name = "Gaming Station"
         self.type = Type.objects.create(
                 name = "Gaming Station",
-                warranty_date = "2008-01-07", 
                 model_name = "Dell Optiplex 2002", 
                 platform = Platform.objects.all()[0],
-                purchase_date = "2008-01-07", 
                 specs = "stuff", 
                 description = ""
             )
@@ -233,10 +238,8 @@ class MachineItemTest(TestCase):
 
         self.type = Type.objects.create(
                 name = "Gaming Station",
-                warranty_date = "2008-01-07", 
                 model_name = "Dell Optiplex 2002", 
                 platform = Platform.objects.all()[0],
-                purchase_date = "2008-01-07", 
                 specs = "stuff", 
                 description = ""
             )
@@ -260,15 +263,23 @@ class MachineItemTest(TestCase):
             )
         self.location.save()
 
-        self.name = "test_name_a"
-        self.item = Item.objects.create(name=self.name, 
+
+        self.name = "test_name_abcd"
+
+        self.item = Item.objects.create(
+                name=self.name, 
                 type=self.type,
                 status=self.status,
                 location=self.location,
-                ip="138.121.342.11", 
-                mac="00:34:A3:DF:XA:89",
+                purchase_date = "2009-01-07", 
+                warranty_date = "2009-01-07", 
+                wall_port = "adj",
+                ip="18.121.342.11", 
+                mac1="00:34:A3:DF:XA:90",
                 manu_tag="manufactuer tag", 
+                uw_tag="uw tag", 
                 comment="comment")
+        self.item.save()
 
     def testParent(self):
         """
