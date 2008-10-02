@@ -66,7 +66,8 @@ class IssueCreationTest(TestCase):
         self.assertTrue(last_pk < issue.pk)
 
         self.failUnlessEqual(response.status_code, 302)
-        self.assertRedirects(response, '/issue/%d/' % (self.issue.pk), status_code=302, target_status_code=200)
+        self.assertRedirects(response, '/issue/%d/' % (self.issue.pk), 
+                status_code=302, target_status_code=200)
 
         # now make sure that we can actually view that issue
         response = self.client.get('/issue/%d/' % (self.issue.pk))

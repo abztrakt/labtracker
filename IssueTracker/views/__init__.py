@@ -251,8 +251,6 @@ def viewIssue(request, issue_id):
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
 
-    print "in viewIssue"
-
     args = {
             'issue': issue,
             'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),

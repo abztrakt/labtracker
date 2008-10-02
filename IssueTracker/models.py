@@ -41,9 +41,10 @@ class Issue(models.Model):
     item = models.ForeignKey(Item, null=True, blank=True)
 
     reporter = models.ForeignKey(User, related_name='reporter')
-    assignee = models.ForeignKey(User, related_name='assignee', null=True, blank=True)
-    cc = models.ManyToManyField(User, related_name="cc_user", null=True, blank=True,
-        verbose_name="CC", db_table="IssueTracker_email_cc")
+    assignee = models.ForeignKey(User, related_name='assignee', null=True, 
+            blank=True)
+    cc = models.ManyToManyField(User, related_name="cc_user", null=True, 
+            blank=True, verbose_name="CC", db_table="IssueTracker_email_cc")
     problem_type = models.ManyToManyField(ProblemType, null=True, blank=True)
     post_time = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True, null=True)
@@ -54,6 +55,11 @@ class Issue(models.Model):
 
     def __unicode__(self):
         return "%d - %s" % (self.issue_id, self.title)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('IssueTracker.views.viewIssue', [str(self.issue_id)])
+
 
     class Meta:
         permissions = (("can_modify_other", "Can modify anybody's posts"),
