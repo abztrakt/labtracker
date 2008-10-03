@@ -17,7 +17,7 @@ class MachineMap_ItemAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(vmod.MachineMap.MachineMap)
-admin.site.register(vmod.MachineMap.MachineMap_Size)
-admin.site.register(vmod.MachineMap.MachineMap_Item, MachineMap_ItemAdmin)
+admin.site.register(vmod.MachineMap)
+admin.site.register(vmod.MachineMap_Size)
+admin.site.register(vmod.MachineMap_Item, MachineMap_ItemAdmin)
 
