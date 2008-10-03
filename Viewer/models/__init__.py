@@ -1,3 +1,4 @@
 from django.db import models
 from base import *
-import MachineMap
+from MachineMap import *
+#import MachineMap
