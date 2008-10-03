@@ -24,7 +24,7 @@ def index(request):
     """
     Used for log in as well
     """
-    return render_to_response('IssueTracker/index.html', 
+    return render_to_response('index.html', 
             context_instance=RequestContext(request))
 
 @permission_required('Issuetracker.add_issue', login_url="/login/")
@@ -262,7 +262,7 @@ def viewIssue(request, issue_id):
     args['update_issue_form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
 
-    return render_to_response('IssueTracker/view.html', args,
+    return render_to_response('view.html', args,
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
@@ -271,7 +271,7 @@ def reportList(request):
     Currently does nothing but will list out all the available queries to list available
     reports
     """
-    return render_to_response('IssueTracker/list.html', args,
+    return render_to_response('list.html', args,
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
@@ -279,7 +279,7 @@ def report(request, report_id):
     """
     View a specific report
     """
-    return render_to_response('IssueTracker/report.html', args,
+    return render_to_response('report.html', args,
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.add_issue', login_url="/login/")
@@ -312,7 +312,7 @@ def createIssue(request):
         'problem_types': form.fields['problem_type'].queryset
     }
 
-    return render_to_response('IssueTracker/create.html', args,
+    return render_to_response('create.html', args,
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
@@ -366,7 +366,7 @@ def fetch(request, issue_id): #TODO move this to ajax.py
         # TODO add xml serialization capabilities 
         pass
     elif format == 'html':
-        return render_to_response("IssueTracker/issue/%s.html" % req, template_args,
+        return render_to_response("issue/%s.html" % req, template_args,
                 context_instance=RequestContext(request))
     else:
         return HttpResponseServerError("Unknown data fromat")
@@ -380,6 +380,6 @@ def allUnresolved(request, page=1):
 
     args = utils.generateList(request, data, Issue.objects.filter(resolved_state__isnull=True), page)
 
-    return render_to_response("IssueTracker/issue_list.html", args,
+    return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
 
