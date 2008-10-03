@@ -14,10 +14,10 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root),
 
     # Auth related items
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'},
-        name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logout.html'}, 
-        name='logout'),
+    url(r'^login/$', 'django.contrib.auth.views.login', 
+        {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', 
+        {'template_name': 'logout.html'}, name='logout'),
 
     (r'^pref/', include('LabtrackerCore.urls')),
     (r'^issue/', include('IssueTracker.urls')),
@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     (r'^tracker/', include('labtracker.Tracker.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/issue/'}),
 
-    url(r'^feeds/latest/(?P<assignee>.*)/$', 'labtracker.feeds.issuesByAssignee', name='issuesByAssignee'), 
+    url(r'^feeds/latest/(?P<assignee>.*)/$', 
+        'labtracker.feeds.issuesByAssignee', name='issuesByAssignee'), 
     url(r'^feeds/issues/$', 'labtracker.feeds.issuesAll', name='issuesAll'), 
 )

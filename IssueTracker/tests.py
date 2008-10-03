@@ -72,7 +72,7 @@ class IssueCreationTest(TestCase):
         # now make sure that we can actually view that issue
         response = self.client.get('/issue/%d/' % (self.issue.pk))
 
-        self.assertTemplateUsed(response, "IssueTracker/view.html")
+        self.assertTemplateUsed(response, "view.html")
         self.assertContains(response, '<h2 id="title">%s</h2>' % (self.issue.title), status_code=200)
 
 
