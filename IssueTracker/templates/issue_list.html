@@ -5,6 +5,7 @@
 {# <script type="text/javascript" src="/js/list.js"></script>#}
 <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url issuesAll  %}" />{% endblock %}
 
+{% block heading %}Issues{% endblock %}
 {% block content %}{% if issueList %}
 
 {% if user.is_authenticated %}
