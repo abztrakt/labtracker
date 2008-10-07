@@ -11,17 +11,16 @@ h3.label { padding: 0px; margin: 0px; }
 a { text-decoration: none; }
 
 
-
 /************************
  * base template styles *
  ************************/
 #header {
-    height: 1em;
+    height: 2.8em;
     margin: 0px;
-    padding: 1em;
+    padding: 0em 1em;
     border-bottom: 1px gray dotted;
 }
-#nav { float: right; margin: 0px 1em; }
+#nav { float: right; margin: .8em 1em 0em 1em; }
 #nav li {
     height: 1.5em;
     padding: 0.5em 4px;
@@ -30,6 +29,8 @@ a { text-decoration: none; }
 }
 #nav li:hover { background: #CCCCCC; }
 #userInfo { float: left; }
+#heading { float: left; }
+#heading h1 { padding: 0px; margin: 0px; }
 #content { padding: 0px 15px 15px 15px; }
 
 div#fast_search {
@@ -45,6 +46,9 @@ div#fast_search > form input.flat {
     padding: 1px;
     background: #C8A77B;
 }
+
+/* Header right under the main header */
+#lowerHeader { }
 
 
 

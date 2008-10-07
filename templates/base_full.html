@@ -7,9 +7,9 @@
             {% endblock %}
 {% block body %}
         <div id="header">
-            {% if user.is_authenticated %}<div id='userInfo'>
-                Logged in as: {{ user.username }}
-            </div>{% endif %}
+            <div id="heading">
+                <h1>{% block heading %}Heading{% endblock %}</h1>
+            </div>
             <ul id="nav" class="inline struct">
                 <li>
                     <a href="{% url issueIndex %}">Home</a>
@@ -46,8 +46,13 @@
             </ul>
             <br class="clear" />
         </div>
-        <div id="fast_search">
-        {% include "IssueTracker/fast_search.html" %}
+        <div id="lowerHeader">
+            {% if user.is_authenticated %}<div id='userInfo'>
+                Logged in as: {{ user.username }}
+            </div>{% endif %}
+            <div id="fast_search">
+            {% include "IssueTracker/fast_search.html" %}
+            </div>
         </div>
         <br class="clear" />
         <div id="content">
