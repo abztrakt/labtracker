@@ -16,6 +16,6 @@ def history(request, machine_name):
     issues = Issue.objects.filter(item=core).order_by('-post_time')
     machine = Machine.objects.get(core=core) 
 
-    return render_to_response('IssueTracker/issue/history.html', 
+    return render_to_response('IssueTracker/history.html', 
                 {'machine': machine, 'issues': issues}, 
                     context_instance=RequestContext(request))
