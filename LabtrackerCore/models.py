@@ -10,7 +10,6 @@ from django.db import models,connection
 #import django.core.management as dman
 import django.db.models.loading as dbload
 
-# TODO, is this needed?
 class LabUser(models.Model):
     """
     Not associated with the actually authenticated users, this only keeps track

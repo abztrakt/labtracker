@@ -56,7 +56,8 @@ def post(request, issue_id):
 
             removeCC = []
             # find items that need to be removed
-            # FIXME this is terrible inefficient, would be better if the newUsers list is shortened
+            # FIXME this is terrible inefficient, would be better if the 
+            #   newUsers list is shortened
             for curUser in curUsers:
                 if curUser not in newUsers:
                     removeCC.append(curUser)
@@ -85,7 +86,8 @@ def post(request, issue_id):
 
             assigneeSection = Email.EmailSection("Assignee Change")
             if curAssignee != None:
-                assigneeSection.content = "%s ----> %s" % (curAssignee, updateIssue.assignee)
+                assigneeSection.content = "%s ----> %s" % (curAssignee, 
+                        updateIssue.assignee)
             else:
                 assigneeSection.content = updateIssue.assignee
             issue_email.appendSection(assigneeSection)

@@ -1,3 +1,4 @@
+from django.core import validators
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -24,18 +25,30 @@ class EmailSection(object):
 
         return "%s:\n%s" % (self.header, self.content)
 
+def isValidEmail(email):
+    """
+    returns true if email is valid
+    """
+    validators.isValidEmail(email, None):
+
 class Email(object):
     """
     Email object itself, should be composed of many sections
     """
 
-    def __init__(self, subject="", sections=[], to=[], sender=settings.DEFAULT_FROM_EMAIL):
+    def __init__(self, subject="", sections=[], to=[], 
+            sender=settings.DEFAULT_FROM_EMAIL):
         for section in sections:
             if not isinstance(section, EmailSection):
                 raise Exception, "section given was not an emailsection type"
 
         self.sections = sections
         self.subject = subject
+
+        # check email valid
+        for em in to:
+            isValidEmail(em)            # raises ValidationError
+
         self.to = to
         self.sender = sender
 
