@@ -29,7 +29,7 @@ def isValidEmail(email):
     """
     returns true if email is valid
     """
-    validators.isValidEmail(email, None):
+    validators.isValidEmail(email, None)
 
 class Email(object):
     """
