@@ -79,7 +79,6 @@ def show(request, view_name):
 
         return ret_data
         
-
     if request.is_ajax():
         """
         A request is being made on data

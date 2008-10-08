@@ -44,10 +44,14 @@ def index(request):
     """
 
     view_types = v_models.ViewType.objects.all()
-    views = {}
+    views = []
     for type in view_types:
-        views[type.name] = v_models.ViewCore.objects.filter(type=v_models.ViewType.objects.get(name=type.name))
-        print 'type: %s has %d views' % (type.name, views[type.name].count())
+        # convert all fetched views to the child view
+        view_list = [ v.get_child()
+                for v in v_models.ViewCore.objects.filter(
+                type=v_models.ViewType.objects.get(name=type.name))]
+        views.append(( type.name, view_list ))
 
-    return render_to_response('Viewer/index.html', {'view_types': view_types, 'views': views }, context_instance=RequestContext(request))
+    return render_to_response('Viewer/index.html', 
+            {'views': views }, context_instance=RequestContext(request))
 

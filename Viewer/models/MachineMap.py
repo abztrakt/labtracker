@@ -14,7 +14,7 @@ class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
     groups = models.ManyToManyField(m_models.Group,
             related_name="view_machinemap_groups"
-            )
+        )
 
     def save(self):
         newmap = self.type_id == None
@@ -35,6 +35,10 @@ class MachineMap(base.ViewCore):
     def delete(self):
         self.view.delete()
         super(MachineMap,self).delete()   # delete self
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('Viewer.views.MachineMap.show', [str(self.shortname)])
 
     def getUnmappedItems(self):
         """

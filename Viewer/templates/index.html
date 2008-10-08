@@ -1,0 +1,16 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Available Views{% endblock %}
+{% block content %}
+    <ul>
+    {% for type, view_list in views %}
+        <li>{{ type }}
+            <ul>
+            {% for view in view_list %}
+            <li><a href="{{view.get_absolute_url}}">{{ view.name }}</a></li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

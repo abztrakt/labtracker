@@ -101,6 +101,9 @@ class ViewCore(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_child(self):
+        return getattr(self, self.type.name.lower())
+
     def getMappedItems(self):
         # TODO get child class and do stuff with it?
         raise NotImplementedError, "getMappedItems was not implemented in the base class"
