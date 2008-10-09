@@ -49,10 +49,7 @@ def getItems(request):
     inventory_type
     """
 
-    if request.method == "POST":
-        data = request.POST.copy()
-    elif request.method == "GET":
-        data = request.GET.copy()
+    data = request.REQUEST.copy()
 
     if not data.has_key('group_id'):
         group_ids = []
@@ -63,17 +60,19 @@ def getItems(request):
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
-        items = utils.createItemList(LabtrackerCore.Item.objects.order_by('it'))
+        items = utils.createItemDict(LabtrackerCore.Item.objects.order_by('it'))
     else:
         groups = LabtrackerCore.Group.objects.in_bulk(group_ids).values()
 
         # for each group, get all the items
         for group in groups:
-            items.update(utils.createItemList(group.items.all()))
+            items.update(utils.createItemDict(group.items.all()))
+
+    print items
 
     # get the items in the group
     type = data.get("type", "json")
-    
+
     if type == "xml":
         # TODO XML serialization
         pass

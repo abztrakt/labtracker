@@ -31,12 +31,18 @@ def createGroupList(inv_ids, field='Group'):
             list[group.group_id] = data
     return list
 
-def createItemList(items, field='Item'):
+def createItemDict(items, field='Item'):
+    """
+    Takes a set of items and creates a dictionary out of the items
+    """
     list = {}
 
     for item in items:
         data = forms.models.model_to_dict(item.item)
         data['name'] = item.name
+        for key in data.keys():
+            if type(data[key]) not in (int, float, unicode, str):
+                data.__delitem__(key)
         list[item.item.item_id] = data
 
     return list
