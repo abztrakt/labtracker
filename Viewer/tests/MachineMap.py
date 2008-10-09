@@ -20,8 +20,8 @@ class MachineMapTest(TestCase):
         pass
 
     def testShouldCreateMap(self):
-        count = v_models.MachineMap.MachineMap.objects.count()
-        mm = v_models.MachineMap.MachineMap(
+        count = v_models.MachineMap.objects.count()
+        mm = v_models.MachineMap(
                 name = "testmap",
                 shortname = "testmap",
                 description = "desc"
@@ -29,7 +29,7 @@ class MachineMapTest(TestCase):
 
         mm.save()
 
-        self.assertTrue(count < v_models.MachineMap.MachineMap.objects.count())
+        self.assertTrue(count < v_models.MachineMap.objects.count())
 
         # create a MachineMap and associate groups to it
         group = m_models.Group.objects.all()[0]
@@ -60,7 +60,7 @@ class MachineMapWebTest(TestCase):
         # create a map
 
         groups = m_models.Group.objects.all()[0:2]
-        self.map = v_models.MachineMap.MachineMap(name = 'testmap',
+        self.map = v_models.MachineMap(name = 'testmap',
                 shortname = 'testmap',
                 description = "description")
         self.map.save()
@@ -82,7 +82,7 @@ class MachineMapWebTest(TestCase):
         Should be able to view the map
         """
 
-        map = v_models.MachineMap.MachineMap.objects.all()[0]
+        map = v_models.MachineMap.objects.all()[0]
 
         response = self.client.get('/views/MachineMap/%s/' % (map.shortname))
         self.assertContains(response, map.name, status_code = 200)
@@ -103,14 +103,12 @@ class MachineMapWebTest(TestCase):
         # map half the items
         items_to_map = unmapped_items[0:len(unmapped_items)/2]
 
-        mm_obj = v_models.MachineMap.MachineMap
-
         req_data = {
                 'save': 1,
                 'map': [item.pk for item in items_to_map]
             }
 
-        size = v_models.MachineMap.MachineMap_Size.objects.all()[0]
+        size = v_models.MachineMap_Size.objects.all()[0]
 
         # for each of the items to map, give them position and sizes and stuff
         param_template = 'map[%s][%s]'
@@ -128,7 +126,7 @@ class MachineMapWebTest(TestCase):
 
         self.assertContains(response, 'status', status_code=200)
 
-        self.map = v_models.MachineMap.MachineMap.objects.get(pk=self.map.pk)
+        self.map = v_models.MachineMap.objects.get(pk=self.map.pk)
 
         req_num_items = len(items_to_map)
         actual_num_items = self.map.getMappedItems().count()

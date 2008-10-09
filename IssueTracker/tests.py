@@ -75,7 +75,6 @@ class IssueCreationTest(TestCase):
         self.assertTemplateUsed(response, "view.html")
         self.assertContains(response, '<h2 id="title">%s</h2>' % (self.issue.title), status_code=200)
 
-
 class PasswordChangeTest(TestCase):
     def setUp(self):
         """

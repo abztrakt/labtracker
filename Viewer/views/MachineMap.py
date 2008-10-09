@@ -216,13 +216,13 @@ def modify(request, view_name):
                 resp['error'] += "Both x and y needed: %s\n" % (item.pk)
                 return HttpResponseServerError(simplejson.dumps(resp))
 
-            new_item = v_models.MachineMap.MachineMap_Item(view = view, machine = item,
+            new_item = v_models.MachineMap_Item(view = view, machine = item,
                     xpos = iteminfo['x'], ypos = iteminfo['y'])
 
             size = iteminfo['size']
             if (size):
                 new_item.size = \
-                    v_models.MachineMap.MachineMap_Size.objects.get(name=size)
+                    v_models.MachineMap_Size.objects.get(name=size)
 
 
             new_item.orientation = iteminfo['orient']
@@ -253,7 +253,7 @@ def modify(request, view_name):
         'view':     view,
         'mapped':   map_items,
         'unmapped': view.getUnmappedItems(),
-        'sizes':    v_models.MachineMap.MachineMap_Size.objects.all(),
+        'sizes':    v_models.MachineMap_Size.objects.all(),
         'debug':    lset.DEBUG,
     }
 
