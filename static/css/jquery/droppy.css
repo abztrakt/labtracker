@@ -1,0 +1,37 @@
+/* Basic code - don't modify */
+
+.jquery-droppy { display: block; margin: 0; padding: 0; position: relative; }
+.jquery-droppy li { display: block; list-style: none; margin: 0; padding: 0; float: left; position: relative; }
+.jquery-droppy a { display: block; }
+.jquery-droppy ul { display: none; position: absolute; left: 0; margin: 0; padding: 0; }
+* html .jquery-droppy ul { line-height: 0; } /* IE6 "fix" */
+.jquery-droppy ul a { zoom: 1; } /* IE6/7 fix */
+.jquery-droppy ul li { float: none; }
+.jquery-droppy ul ul { top: 0; }
+
+/* Essentials - configure this */
+
+.jquery-droppy ul { width: 130px; }
+.jquery-droppy ul ul { left: 131px; }
+
+/* Everything else is theming */
+
+.jquery-droppy { 
+	/* background-color: #30A8C3; */
+	/* height: 24px;  */
+}
+.jquery-droppy *:hover { background-color: none; }
+.jquery-droppy a { border-right: 1px solid white; 
+	padding: .5em 6px; 
+	line-height: 1; }
+.jquery-droppy li.hover a { background-color: #CCCC88; }
+/* .jquery-droppy ul { top: 25px; } */
+.jquery-droppy ul li a { background-color: #5E5A5A; }
+.jquery-droppy ul a.hover { background-color: #30A8C3; }
+.jquery-droppy ul a { 
+	border-bottom: 1px solid white; 
+	border-right: none; 
+	opacity: 0.9; filter: alpha(opacity=90); 
+}
+/* .jquery-droppy ul a { border-bottom: none; } - I also needed this for IE6/7 */
+

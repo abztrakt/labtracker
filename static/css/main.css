@@ -20,14 +20,17 @@ a { text-decoration: none; }
     padding: 0em 1em;
     border-bottom: 1px gray dotted;
 }
-#nav { float: right; margin: .8em 1em 0em 1em; }
+#nav { 
+	float: right;
+	/* margin: .8em 1em 0em 1em; */
+	margin: 0.1em 1em 0em 1em; 
+}
 #nav li {
     height: 1.5em;
     padding: 0.5em 4px;
-    border-top: 1px grey solid;
     border-bottom: 1px grey solid;
 }
-#nav li:hover { background: #CCCCCC; }
+/* #nav li:hover { background: #CCCCCC; } */
 #userInfo { float: left; }
 #heading { float: left; }
 #heading h1 { padding: 0px; margin: 0px; }
