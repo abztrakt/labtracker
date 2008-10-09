@@ -10,40 +10,7 @@
             <div id="heading">
                 <h1>{% block heading %}Heading{% endblock %}</h1>
             </div>
-            <ul id="nav" class="inline struct">
-                <li>
-                    <a href="{% url issueIndex %}">Home</a>
-                </li>
-                <li>
-                    <a href="{% url viewAll %}">All Unresolved</a>
-                </li>
-				<!--  These aren't ready yet
-				<li>
-                    <a href="/issue/report/">Reports</a>
-				</li> 
-                    <a href="/issue/search/detailed/">Search</a>
-				</li> 
-				-->
-                <li>
-                    <a href="{% url createIssue %}">New Issue</a>
-                </li>
-                <li>
-                    <a href="{% url viewsIndex %}">Views</a> 
-                </li>
-                {% if user.is_authenticated %}<li>
-                <a href="{% url userPrefs %}">Preferences</a>
-                </li>
-                <li>
-                    <a href="/admin/">Admin</a>
-                </li>
-                <li>
-                    <a href="{% url logout %}">Logout</a>
-                </li>
-                {% else %}<li>
-                    <a href="{% url login %}">Login</a>
-                </li>
-                {% endif %}
-            </ul>
+			{% include "nav.html" %}
             <br class="clear" />
         </div>
         <div id="lowerHeader">
