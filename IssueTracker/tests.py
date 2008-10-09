@@ -1,7 +1,10 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User, check_password
+
+import simplejson
 
 from LabtrackerCore.models import Item, InventoryType, Group 
 import LabtrackerCore.models as coreModels
@@ -29,12 +32,36 @@ class IssueCreationTest(TestCase):
         """
         Logs in our test user and makes sure a success code is returned
         """
-        response = self.client.post('/login/', 
-                                    {'username' : 'testuser',
-                                     'password' : 't3$tu$ser'})
+        response = self.client.post(reverse('login'), 
+                {'username' : 'testuser', 'password' : 't3$tu$ser'})
         
         # successful login should send us to issues
         self.failUnlessEqual(response.status_code, 302)
+
+    def testAjaxGroups(self):
+        """
+        Grab the groups for Machines through the ajax interface
+        """
+        self.client.login(username=self.user.username, password=self.password)
+
+        # first, see what groups are available for Machines
+        inv_id = coreModels.InventoryType.objects.filter(name='Machine')[0].inv_id
+        groups = set([m.name for m in mModels.Group.objects.all()])
+
+        # when we fetch ajax for inv_id is 1, we *should* get all the groups
+        url = reverse('IssueTracker.views.ajax.getGroups')
+        response = self.client.post(url,
+                { 'type': 'json', 'it_id': inv_id })
+
+        self.failUnlessEqual(response.status_code, 200)
+
+        # convert the response content to a python dict
+        data = simplejson.JSONDecoder().decode(response.content)
+
+        ret_groups = set([data[key]["name"] for key in data.keys()])
+        self.assertTrue(len(ret_groups) > 0)
+        self.assertEquals(len(groups.difference(ret_groups)), 0)
+
         
     def testCreateIssue(self): 
         """
@@ -51,7 +78,7 @@ class IssueCreationTest(TestCase):
             last_pk = issues.reverse()[0].pk
 
         title = "Everything is broken"
-        response = self.client.post('/issue/new/', {
+        response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
                 'description':  "All the machines in the lab are broken. (knock on wood)"
@@ -70,7 +97,7 @@ class IssueCreationTest(TestCase):
                 status_code=302, target_status_code=200)
 
         # now make sure that we can actually view that issue
-        response = self.client.get('/issue/%d/' % (self.issue.pk))
+        response = self.client.get(reverse('view', args=[self.issue.pk]))
 
         self.assertTemplateUsed(response, "view.html")
         self.assertContains(response, '<h2 id="title">%s</h2>' % (self.issue.title), status_code=200)
@@ -80,7 +107,8 @@ class PasswordChangeTest(TestCase):
         """
         Create user
         """
-        self.user = User.objects.create_user('testuser', 'test@example', 'supersecret')
+        self.user = User.objects.create_user('testuser', 'test@example', 
+                'supersecret')
         self.user.save()
 
     def testChangePassword(self):
@@ -90,7 +118,7 @@ class PasswordChangeTest(TestCase):
         
         self.usertest = User.objects.get(username='testuser')
 
-        response = self.client.post('/login/',
+        response = self.client.post(reverse('login'),
                          {'username' : 'testuser',
                           'password' : 'supersecret'})
 
@@ -105,20 +133,20 @@ class PasswordChangeTest(TestCase):
 
         # make sure the password was changed by trying
         # to login with the new password
-        response = self.client.post('/login/',
+        response = self.client.post(reverse('login'),
                          {'username' : 'testuser',
                           'password' : 'unit tests'})
 
         self.assertTrue(response)
 
-        response = self.client.post('/pref/pwchange/',
+        response = self.client.post(reverse('pwchange'),
                                     {'old_password' : 'unit tests',
                                      'new_password1' : 'supersecret',
                                      'new_password2' : 'supersecret'})
 
         self.assertEquals(response.status_code, 302)
 
-        response = self.client.post('/login/',
+        response = self.client.post(reverse('login'),
                          {'username' : 'testuser',
                           'password' : 'supersecret'})
 
@@ -159,27 +187,27 @@ class UpdateIssueTest(TestCase):
         """
         Tests adding/removing CC list, adding comment
         """
-        self.client.post('/login/', 
+        self.client.post(reverse('login'),
                             {'username' : 'testuser',
                              'password' : 't3$tu$ser'})
 
         issueUser = self.issue.cc.get(username='zhaoz')
     
-        self.client.get('/issue/1/modIssue/',
+        self.client.get(reverse('IssueTracker-modIssue', args=[1]),
                             {'action': 'dropcc',
                             'user': issueUser.pk,
                             'js': 1})
 
         self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
 
-        self.client.get('/issue/1/modIssue/',
+        self.client.get(reverse('IssueTracker-modIssue', args=[1]),
                             {'action': 'addcc',
                             'user': self.user.username,
                             'js': 1})
 
         self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
-        self.client.post('/issue/1/post/',
+        self.client.post(reverse('IssueTracker-addComment', args=[1]),
                         {   'issue': self.issue.pk,
                             'user': issueUser, 
                             'comment': 'here is a test comment'

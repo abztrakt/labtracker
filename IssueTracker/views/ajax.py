@@ -41,7 +41,6 @@ def userCheck(request, name):
 
     return HttpResponse(simplejson.dumps(resp))
 
-
 @permission_required('IssueTracker.add_issue')
 def getItems(request):
     """
@@ -85,10 +84,7 @@ def getGroups(request):
     Given an inventory type, will return a list of groups that belongs to that
     inventory_type
     """
-    if request.method == "POST":
-        data = request.POST.copy()
-    elif request.method == "GET":
-        data = request.GET.copy()
+    data = request.REQUEST.copy()
 
     if not data.has_key('it_id'):
         it_types = []

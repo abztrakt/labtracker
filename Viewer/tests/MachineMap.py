@@ -116,9 +116,8 @@ class MachineMapWebTest(TestCase):
             req_data[param_template % (item.pk, 'x')] = self.r.randint(0, 1000)
             req_data[param_template % (item.pk, 'y')] = self.r.randint(0, 1000)
             req_data[param_template % (item.pk, 'size')] = size.name
-            req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[self.r.randint(0,1)]
-
-        print "request data: \n%s" % (req_data)
+            req_data[param_template % (item.pk, 'orient')] = \
+                    ('H', 'V')[self.r.randint(0,1)]
 
         # map a few items
         response = self.client.post('/views/MachineMap/%s/modify' % \
@@ -131,11 +130,11 @@ class MachineMapWebTest(TestCase):
         req_num_items = len(items_to_map)
         actual_num_items = self.map.getMappedItems().count()
 
-        print "Requested num to map: %d, was able to map: %d" % (req_num_items, actual_num_items)
         self.assertTrue(req_num_items == actual_num_items) 
 
 
-        # change the position of one of the objects and make sure that only one new mapped item is added
+        # change the position of one of the objects and make sure that only 
+        # one new mapped item is added
         num_mapped_items = self.map.getMappedItems().count()
         item = items_to_map[0]
         pos_req_data = {
@@ -149,7 +148,8 @@ class MachineMapWebTest(TestCase):
         self.assertContains(response, 'status', status_code=200)
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
 
-        # change the rotation of one of the objects and make sure that only one new mapped item is added
+        # change the rotation of one of the objects and make sure that only 
+        # one new mapped item is added
         old_orient = req_data[param_template % (item.pk, 'orient')]
 
         rot_req_data = {
