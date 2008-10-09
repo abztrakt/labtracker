@@ -13,8 +13,8 @@ urlpatterns = patterns('',
      url(r'^new/$', 'IssueTracker.views.createIssue', name='createIssue'),
 
      url(r'^(?P<issue_id>\d+)/$', 'IssueTracker.views.viewIssue', name="view"),
-     (r'^(?P<issue_id>\d+)/post/$', 'IssueTracker.views.post'),
-     (r'^(?P<issue_id>\d+)/modIssue/', 'IssueTracker.views.modIssue'),
+     url(r'^(?P<issue_id>\d+)/post/$', 'IssueTracker.views.post', name='IssueTracker-addComment'),
+     url(r'^(?P<issue_id>\d+)/modIssue/', 'IssueTracker.views.modIssue', name='IssueTracker-modIssue'),
 
      (r'^report/(?P<report_id>\d+)/$', 'IssueTracker.views.report'),
      (r'^report/$', 'IssueTracker.views.reportList'),
