@@ -67,8 +67,6 @@ def getItems(request):
         for group in groups:
             items.update(utils.createItemDict(group.items.all()))
 
-    print items
-
     # get the items in the group
     type = data.get("type", "json")
 

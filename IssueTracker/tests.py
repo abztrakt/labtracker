@@ -62,6 +62,48 @@ class IssueCreationTest(TestCase):
         self.assertTrue(len(ret_groups) > 0)
         self.assertEquals(len(groups.difference(ret_groups)), 0)
 
+    def testAjaxItems(self):
+        """
+        Grab the items for Machine groups 'Empty Group' and 'Group1', ensure 
+        they return correct items
+        """
+        self.client.login(username=self.user.username, password=self.password)
+
+        # fetch the two groups
+        groups = mModels.Group.objects.filter(name__in = ['Empty Group', 'Group1'])
+
+        if groups[0].name == u'Empty Group':
+            group_e = groups[0]
+            group_1 = groups[1]
+        else:
+            group_1 = groups[0]
+            group_e = groups[1]
+
+        url = reverse('IssueTracker.views.ajax.getItems')
+
+        def fetchJSON(group):
+            response = self.client.post(url,
+                { 'type': 'json', 'group_id': group.pk })
+
+            self.failUnlessEqual(response.status_code, 200)
+
+            # convert the response content to a python dict
+            return simplejson.JSONDecoder().decode(response.content)
+
+
+        # fetch for empty group first
+        data = fetchJSON(group_e)
+        self.failUnlessEqual(len(data), 0)
+
+        # now do the group1
+        data = fetchJSON(group_1)
+        self.assertTrue(len(data) > 0)
+
+        items = set([item.pk for item in group_1.items.all()])
+        ret_items = set([data[key]["item_id"] for key in data.keys()])
+
+        self.assertEquals(len(items.difference(ret_items)), 0)
+
         
     def testCreateIssue(self): 
         """
