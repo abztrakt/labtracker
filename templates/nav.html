@@ -3,7 +3,10 @@
                     <a href="{% url issueIndex %}">Home</a>
                 </li>
                 <li>
-                    <a href="{% url viewAll %}">All Unresolved</a>
+					<a href="#">View Issues</a>
+					<ul>
+						<li><a href="{% url viewAll %}">All Unresolved</a></li>
+					</ul>
                 </li>
 				<!--  These aren't ready yet
 				<li>

@@ -18,7 +18,7 @@
 
 .jquery-droppy { 
 	/* background-color: #30A8C3; */
-	/* height: 24px;  */
+	height: 24px; 
 }
 .jquery-droppy *:hover { background-color: none; }
 .jquery-droppy a { border-right: 1px solid white; 
