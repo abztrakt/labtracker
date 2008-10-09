@@ -31,6 +31,16 @@ function reset() {
     });
 }
 
+function appendError(list, msg) {
+	var error = $('<li>' + msg + '</li>');
+	list.empty().append(error);
+	setTimeout( function () {
+		error.fadeOut('slow', function () { 
+			error.remove(); 
+		});
+	}, 5000);
+}
+
 /**
  * updateGroupList will fetch the groups for a given inventory type and append 
  * it to the id_item list
@@ -41,10 +51,15 @@ function reset() {
 function updateGroupList(it_id) {
     reset();
 
+
 	// TODO need errorhandler
 	$.ajax({
 		"url"		: URL_BASE + "groups/",	
 		"data"		: { "type": "json", "it_id": it_id },
+		"error"		: function (xhr, text, err) {
+				appendError($('#group_block .errorlist'), 
+					"Error occurred while retrieving groups: " + text);
+			},
 		"success"	: function (data) {
 				var id_group = $("#id_group");
 
@@ -73,10 +88,13 @@ function updateItemList(group_id) {
     id_item.selectedIndex = 0;
     id_item.options.length = 1;
 
-	// TODO need errorhandler
 	$.ajax({
 		"url"		: URL_BASE + "items/",
 		"data"		: { "type": "json", "group_id" : group_id },
+		"error"		: function (xhr, text, err) {
+				appendError($('#item_block .errorlist'), 
+					"Error occurred while retrieving items: " + text);
+			},
 		"success"	: function (data) {
 				// for each of the items, append to the list
 				var id_item = $('#id_item');

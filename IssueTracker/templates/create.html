@@ -35,17 +35,29 @@
         </div>
 
 
-        <div class='f_container'>
+        <div class='f_container' id="it_block">
             <label for="{{form.it.name}}">{{ form.it.label }}</label>
-            <div>{{ form.it }}</div>
+			<div>
+				{{ form.it }}
+                {% if form.it.errors %}{{ form.it.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
         </div>
-        <div class='f_container'>
+        <div class='f_container' id="group_block">
             <label for="{{form.group.name}}">{{ form.group.label }}</label>
-            <div>{{ form.group }}</div>
+			<div>
+				{{ form.group }}
+                {% if form.group.errors %}{{ form.group.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
         </div>
-        <div class='f_container'>
+        <div class='f_container' id="item_block">
             <label for="{{form.item.name}}">{{ form.item.label }}</label>
-            <div>{{ form.item }}</div>
+			<div>
+				{{ form.item }}
+                {% if form.item.errors %}{{ form.item.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
         </div>
         <div class='none_if_js f_container'>
             <label for="{{form.problem_type.name}}">{{ form.problem_type.label }}</label>
