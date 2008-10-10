@@ -4,7 +4,7 @@
  */
 $.fn.droppy = function(options) {
     
-  options = $.extend({speed: 250}, options || {});
+  options = $.extend({speed: 250, delay: 500}, options || {});
   
   this.each(function() {
     
@@ -37,7 +37,7 @@ $.fn.droppy = function(options) {
         if (!$.data(subnav, 'cancelHide')) {
           $(subnav).slideUp(options.speed);
         }
-      }, 500);
+      }, options.delay);
     }
   
     function show() {
