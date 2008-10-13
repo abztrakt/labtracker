@@ -33,6 +33,139 @@
     }
   }, 
   {
+    "pk": 1, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "WinXP", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "Linux ", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.type", 
+    "fields": {
+      "specs": "stff", 
+      "platform": 1, 
+      "description": "", 
+      "name": "Scanning Station", 
+      "model_name": "Dell Optiplex 2002"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.type", 
+    "fields": {
+      "specs": "Starburner 23 gs 20", 
+      "platform": 2, 
+      "description": "", 
+      "name": "Workstation", 
+      "model_name": "Silicon Mechanix GX23"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.location", 
+    "fields": {
+      "building": "MGH", 
+      "comment": "test", 
+      "room": "101", 
+      "name": "CRC", 
+      "floor": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.item", 
+    "fields": {
+      "status": 1, 
+      "comment": "", 
+      "mac2": "00:03:24:3A:12:3E", 
+      "mac1": "00:03:24:3A:12:3E", 
+      "uw_tag": "23l4nd923423", 
+      "ip": "128.95.9.2", 
+      "manu_tag": "Test Machine 1", 
+      "warranty_date": "2008-01-07", 
+      "last_modified": "2008-06-11 15:49:32", 
+      "location": 1, 
+      "purchase_date": "2008-01-07", 
+      "stf_date": null, 
+      "date_added": "2008-05-05 16:16:26", 
+      "type": 1, 
+      "wall_port": "234dfda"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Machine.item", 
+    "fields": {
+      "status": 2, 
+      "comment": "", 
+      "mac2": "00:03:24:3A:12:4E", 
+      "mac1": "00:03:24:3A:12:4E", 
+      "uw_tag": "23l4nd923423", 
+      "ip": "128.95.9.3", 
+      "manu_tag": "test machine2", 
+      "warranty_date": "2008-01-07", 
+      "last_modified": "2008-06-11 15:49:32", 
+      "location": 1, 
+      "purchase_date": "2008-01-07", 
+      "stf_date": null, 
+      "date_added": "2008-05-05 16:17:15", 
+      "type": 1, 
+      "wall_port": "234dfda"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.item", 
+    "fields": {
+      "status": 1, 
+      "comment": "", 
+      "mac2": "00:03:24:3A:12:4B", 
+      "mac1": "00:03:24:3A:12:4B", 
+      "uw_tag": "23l4nd923423", 
+      "ip": "128.95.9.4", 
+      "manu_tag": "test machine3", 
+      "warranty_date": "2008-01-07", 
+      "last_modified": "2008-06-11 15:49:32", 
+      "location": 1, 
+      "purchase_date": "2008-01-07", 
+      "stf_date": null, 
+      "date_added": "2008-05-05 16:17:51", 
+      "type": 1, 
+      "wall_port": "234dfda"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Machine.item", 
+    "fields": {
+      "status": 2, 
+      "comment": "", 
+      "mac2": "00:03:12:23:34:2F", 
+      "mac1": "00:03:12:23:34:2F", 
+      "uw_tag": "23l4nd923423", 
+      "ip": "128.95.9.23", 
+      "manu_tag": "azzaaaaa", 
+      "warranty_date": "2008-01-07", 
+      "last_modified": "2008-10-08 14:45:29", 
+      "location": 1, 
+      "purchase_date": "2008-01-07", 
+      "stf_date": null, 
+      "date_added": "2008-05-06 14:47:45", 
+      "type": 2, 
+      "wall_port": "234dfda"
+    }
+  }, 
+  {
     "pk": 3, 
     "model": "Machine.group", 
     "fields": {
@@ -68,102 +201,6 @@
         3, 
         4
       ]
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Machine.item", 
-    "fields": {
-      "status": 1, 
-      "comment": "", 
-      "ip": "128.95.9.2", 
-      "manu_tag": "Test Machine 1", 
-      "mac1": "00:03:24:3A:12:3E", 
-      "mac2": "00:03:24:3A:12:3E", 
-      "last_modified": "2008-06-11 15:49:32", 
-      "location": 1, 
-      "date_added": "2008-05-05 16:16:26", 
-      "type": 1,
-	  "wall_port": "234dfda",
-      "warranty_date": "2008-01-07", 
-      "purchase_date": "2008-01-07", 
-	  "uw_tag": "23l4nd923423"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Machine.item", 
-    "fields": {
-      "status": 2, 
-      "comment": "", 
-      "ip": "128.95.9.3", 
-      "manu_tag": "test machine2", 
-      "mac1": "00:03:24:3A:12:4E", 
-      "mac2": "00:03:24:3A:12:4E", 
-      "last_modified": "2008-06-11 15:49:32", 
-      "location": 1, 
-      "date_added": "2008-05-05 16:17:15", 
-      "type": 1,
-	  "wall_port": "234dfda",
-      "warranty_date": "2008-01-07", 
-      "purchase_date": "2008-01-07", 
-	  "uw_tag": "23l4nd923423"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "Machine.item", 
-    "fields": {
-      "status": 1, 
-      "comment": "", 
-      "ip": "128.95.9.4", 
-      "manu_tag": "test machine3", 
-      "mac1": "00:03:24:3A:12:4B", 
-      "mac2": "00:03:24:3A:12:4B", 
-      "last_modified": "2008-06-11 15:49:32", 
-      "location": 1, 
-      "date_added": "2008-05-05 16:17:51", 
-      "type": 1,
-	  "wall_port": "234dfda",
-      "warranty_date": "2008-01-07", 
-      "purchase_date": "2008-01-07", 
-	  "uw_tag": "23l4nd923423"
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "Machine.item", 
-    "fields": {
-      "status": 2, 
-      "comment": "", 
-      "ip": "128.95.9.23", 
-      "manu_tag": "azzaaaaa", 
-      "mac1": "00:03:12:23:34:2F", 
-      "mac2": "00:03:12:23:34:2F", 
-      "last_modified": "2008-06-11 15:49:32", 
-      "location": 1, 
-      "date_added": "2008-05-06 14:47:45", 
-      "type": 2,
-	  "wall_port": "234dfda",
-      "warranty_date": "2008-01-07", 
-      "purchase_date": "2008-01-07", 
-	  "uw_tag": "23l4nd923423"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Machine.platform", 
-    "fields": {
-      "name": "WinXP", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Machine.platform", 
-    "fields": {
-      "name": "Linux ", 
-      "description": ""
     }
   }, 
   {
@@ -236,39 +273,6 @@
       "is_primary": false, 
       "mg": 5, 
       "user": 1
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Machine.location", 
-    "fields": {
-      "building": "MGH", 
-      "comment": "test", 
-      "room": "101", 
-      "name": "CRC", 
-      "floor": 1
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Machine.type", 
-    "fields": {
-      "name": "Scanning Station", 
-      "model_name": "Dell Optiplex 2002", 
-      "platform": 1, 
-      "specs": "stff", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Machine.type", 
-    "fields": {
-      "name": "Workstation", 
-      "model_name": "Silicon Mechanix GX23", 
-      "platform": 2, 
-      "specs": "Starburner 23 gs 20", 
-      "description": ""
     }
   }
 ]

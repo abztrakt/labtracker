@@ -9,6 +9,38 @@
     }
   }, 
   {
+    "pk": 1, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine1"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine2"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine3"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine4"
+    }
+  }, 
+  {
     "pk": 3, 
     "model": "LabtrackerCore.group", 
     "fields": {
@@ -44,38 +76,6 @@
       "description": "Computers in MGH", 
       "it": 1, 
       "name": "CRC"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "LabtrackerCore.item", 
-    "fields": {
-      "it": 1, 
-      "name": "Machine1"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "LabtrackerCore.item", 
-    "fields": {
-      "it": 1, 
-      "name": "Machine2"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "LabtrackerCore.item", 
-    "fields": {
-      "it": 1, 
-      "name": "Machine3"
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "LabtrackerCore.item", 
-    "fields": {
-      "it": 1, 
-      "name": "Machine4"
     }
   }
 ]

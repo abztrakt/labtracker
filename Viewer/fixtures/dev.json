@@ -1,5 +1,26 @@
 [
   {
+    "pk": 1, 
+    "model": "Viewer.viewtype", 
+    "fields": {
+      "name": "MachineMap", 
+      "description": "Maps of Machines"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Viewer.viewcore", 
+    "fields": {
+      "shortname": "CRC_Map", 
+      "type": 1, 
+      "name": "CRC Map View", 
+      "groups": [
+        5
+      ], 
+      "description": "CRC Maps of Machines"
+    }
+  }, 
+  {
     "pk": 2, 
     "model": "Viewer.machinemap", 
     "fields": {
@@ -10,10 +31,22 @@
   }, 
   {
     "pk": 1, 
-    "model": "Viewer.viewtype", 
+    "model": "Viewer.machinemap_size", 
     "fields": {
-      "name": "MachineMap", 
-      "description": "Maps of Machines"
+      "width": 13, 
+      "height": 28, 
+      "name": "Rectangle", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Viewer.machinemap_size", 
+    "fields": {
+      "width": 13, 
+      "height": 13, 
+      "name": "Square", 
+      "description": ""
     }
   }, 
   {
@@ -56,39 +89,6 @@
       "date_added": "2008-06-12 11:52:42", 
       "view": 2, 
       "size": 1
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Viewer.machinemap_size", 
-    "fields": {
-      "width": 13, 
-      "height": 28, 
-      "name": "Rectangle", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.machinemap_size", 
-    "fields": {
-      "width": 13, 
-      "height": 13, 
-      "name": "Square", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.viewcore", 
-    "fields": {
-      "shortname": "CRC_Map", 
-      "type": 1, 
-      "name": "CRC Map View", 
-      "groups": [
-        5
-      ], 
-      "description": "CRC Maps of Machines"
     }
   }
 ]
