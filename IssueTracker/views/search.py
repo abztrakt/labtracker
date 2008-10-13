@@ -16,10 +16,7 @@ def search(request):
     """
     extra_context = {}
 
-    if request.method == "POST":
-        data = request.POST.copy()
-    elif request.method == "GET":
-        data = request.GET.copy()
+    data = request.REQUEST.copy()
 
     if data:
         # in this case, we get to process the stuff
@@ -43,7 +40,6 @@ def search(request):
                 # issue id was not an actual issue, use it as a search_term
                 issues = Issue.objects.filter(title__contains=issue_id)
 
-                # FIXME change so that it uses the generateList as well
                 args =  utils.generateList(request, data,
                         Issue.objects.all(), 1)
 

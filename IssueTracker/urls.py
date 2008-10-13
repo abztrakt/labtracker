@@ -11,6 +11,10 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^(?P<issue_id>\d+)/post/$', 'post', name='IssueTracker-addComment'),
      url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', name='IssueTracker-modIssue'),
 
+     url(r'^history/(?P<item_id>\d+)/$', 'history', name="IssueTracker-history"),
+     url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
+         name="IssueTracker-history-page"),
+
      (r'^report/(?P<report_id>\d+)/$', 'report'),
      (r'^report/$', 'reportList'),
 )

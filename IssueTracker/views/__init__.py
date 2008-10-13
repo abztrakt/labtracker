@@ -16,7 +16,7 @@ import simplejson
 
 from IssueTracker.models import *
 import IssueTracker.Email as Email
-import LabtrackerCore.models as LabtrackerCore
+import LabtrackerCore.models as cModels
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
 
@@ -384,4 +384,24 @@ def allUnresolved(request, page=1):
 
     return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
+
+@permission_required('IssueTracker.can_view', login_url="/login/")
+def history(request, item_id, page=1):
+    """
+    Given an item, will look up the history for the item
+    """
+    item = get_object_or_404(cModels.Item, pk=item_id)
+
+    # with the item, we can look up all the history that the item has had
+    issues = Issue.objects.filter(item=item_id).order_by('post_time', 'last_modified')
+
+    print issues
+
+    args = { 'item': item, 'history': issues }
+
+    return render_to_response('history.html', args,
+            context_instance=RequestContext(request))
+
+
+
 
