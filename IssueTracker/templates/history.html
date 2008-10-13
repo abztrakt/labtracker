@@ -1,5 +1,5 @@
 {% extends "base_full.html" %}
-{% block pageCSS %}@import url('/static/css/history.css');{% endblock %}
+{% block pageCSS %}@import url('/static/css/historylist.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.tablesorter.pack.js"></script>
 {# <script type="text/javascript" src="/js/list.js"></script>#}
 {% endblock %}
@@ -7,8 +7,8 @@
 {% block heading %}Item History{% endblock %}
 {% block content %}
 <div>
-    {{ item.it.name }}
-    {{ item.name }}
+    <h2>{{ item.name }}</h2>
+    <h3>{{ item.it.name }}</h3>
 </div>
 {% if history %}
 <table id="history">
