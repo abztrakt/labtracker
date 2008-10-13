@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpRespons
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
+from django.template import RequestContext
 
 from IssueTracker.models import *
 import IssueTracker.search as issueSearch
@@ -34,18 +35,23 @@ def search(request):
                 # search_term was not an id, search by string
                 issues = Issue.objects.filter(title__icontains=issue_id)
 
-                return utils.generateList(request, data, issues, 1)
+                #return utils.generateList(request, data, issues, 1)
+                args =  utils.generateList(request, data,
+                        Issue.objects.all(), 1)
 
             except Exception, e:
                 # issue id was not an actual issue, use it as a search_term
                 issues = Issue.objects.filter(title__contains=issue_id)
 
                 # FIXME change so that it uses the generateList as well
-                return utils.generateList(request, data,
+                args =  utils.generateList(request, data,
                         Issue.objects.all(), 1)
 
             except Exception, e:
                 return HttpResponseServerError()
+
+            return render_to_response("issue_list.html", args,
+                    context_instance=RequestContext(request))
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
         else:
