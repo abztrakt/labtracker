@@ -15,9 +15,13 @@
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  
-                <a href="{% url IssueTracker-history issue.item.pk %}">
+                {% if issue.item %}
+                    <a href="{% url IssueTracker-history issue.item.pk %}">
+                        {{ issue.item }}
+                    </a>
+                {% else %}
                     {{ issue.item }}
-                </a>
+                {% endif %}
             </li>
             <li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
             <li><h4>State:</h4>  {{ issue.resolved_state }}</li>

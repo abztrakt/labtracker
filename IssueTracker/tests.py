@@ -249,7 +249,7 @@ class UpdateIssueTest(TestCase):
 
         self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
-        self.client.post(reverse('IssueTracker-addComment', args=[1]),
+        self.client.post(reverse('IssueTracker-update', args=[1]),
                         {   'issue': self.issue.pk,
                             'user': issueUser, 
                             'comment': 'here is a test comment'
