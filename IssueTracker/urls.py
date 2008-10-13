@@ -1,24 +1,30 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('',
-     url(r'^$', 'IssueTracker.views.index', name="issueIndex"),
-     (r'^checkuser/(?P<name>\w+)/$', 'IssueTracker.views.ajax.userCheck'),
-     url(r'^search/$', 'IssueTracker.views.search.search', name="issueSearch"),
-     (r'^search/detailed/$', 'IssueTracker.views.search.advSearch'),
-     (r'^search/field/(?P<field_name>\w+)/$',
-         'IssueTracker.views.ajax.getSearchField'),
-     url(r'^all/$', 'IssueTracker.views.allUnresolved', name='viewAll'),
-     url(r'^all/(?P<page>\d+)/$', 'IssueTracker.views.allUnresolved', name='viewAll'),
-     (r'^(?P<issue_id>\d+)/fetch/$', 'IssueTracker.views.fetch'),
-     url(r'^new/$', 'IssueTracker.views.createIssue', name='createIssue'),
+urlpatterns = patterns('IssueTracker.views',
+     url(r'^$', 'index', name="issueIndex"),
+     url(r'^all/$', 'allUnresolved', name='viewAll'),
+     url(r'^all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
+     (r'^(?P<issue_id>\d+)/fetch/$', 'fetch'),
+     url(r'^new/$', 'createIssue', name='createIssue'),
 
-     url(r'^(?P<issue_id>\d+)/$', 'IssueTracker.views.viewIssue', name="view"),
-     url(r'^(?P<issue_id>\d+)/post/$', 'IssueTracker.views.post', name='IssueTracker-addComment'),
-     url(r'^(?P<issue_id>\d+)/modIssue/', 'IssueTracker.views.modIssue', name='IssueTracker-modIssue'),
+     url(r'^(?P<issue_id>\d+)/$', 'viewIssue', name="view"),
+     url(r'^(?P<issue_id>\d+)/post/$', 'post', name='IssueTracker-addComment'),
+     url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', name='IssueTracker-modIssue'),
 
-     (r'^report/(?P<report_id>\d+)/$', 'IssueTracker.views.report'),
-     (r'^report/$', 'IssueTracker.views.reportList'),
+     (r'^report/(?P<report_id>\d+)/$', 'report'),
+     (r'^report/$', 'reportList'),
+)
 
-     (r'^groups/$', 'IssueTracker.views.ajax.getGroups'),
-     (r'^items/$', 'IssueTracker.views.ajax.getItems'),
+urlpatterns += patterns('IssueTracker.views.search',
+     url(r'^search/$', 'search', name="issueSearch"),
+     (r'^search/detailed/$', 'advSearch'),
+)
+
+urlpatterns += patterns('IssueTracker.views.ajax',
+     (r'^checkuser/(?P<name>\w+)/$', 'userCheck'),
+
+     (r'^search/field/(?P<field_name>\w+)/$', 'getSearchField'),
+
+     (r'^groups/$', 'getGroups'),
+     (r'^items/$', 'getItems'),
 )
