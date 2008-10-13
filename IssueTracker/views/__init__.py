@@ -30,7 +30,7 @@ def index(request):
             context_instance=RequestContext(request))
 
 @permission_required('Issuetracker.add_issue', login_url="/login/")
-def post(request, issue_id):
+def updateIssue(request, issue_id):
     """
     This is for posting comments, and modifying some things for issues after 
     they are created.

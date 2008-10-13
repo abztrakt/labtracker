@@ -51,7 +51,11 @@
         <td class='{{ cols.id.class }}'>{{ issue.issue_id }}</td>
 		<td class='{{ cols.title.class }}'><a href="{% url view issue.issue_id %}">{{ issue.title }}</a></td>
         <td class='{{ cols.item.class }}'>
-			{{ issue.item }}
+            {% if issue.item %}
+                <a href="{% url IssueTracker-history issue.item.pk %}">{{ issue.item }}</a>
+            {% else %}
+			    {{ issue.item }}
+            {% endif %}
         </td>
         <!-- <td class='{{ cols.it.class }}'>{{ issue.it }}</td> -->
         <td class='{{ cols.group.class }}'>{{ issue.group }}</td>
