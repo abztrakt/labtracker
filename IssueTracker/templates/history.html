@@ -25,11 +25,11 @@
     {% for issue in history %}
     <tr>
         <td>{{ issue.pk }}</td>
-        <td>{{ issue.title }}</td>
+        <td><a href="{% url view issue.pk %}">{{ issue.title }}</a></td>
         <td>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
         <td>{{ issue.post_time|date }} at {{ issue.post_time|time }} </td>
-        {% if issue.resolved_time %}
-            <td>{{ issue.resolved_time|date }} at {{ issue.resolved_time|time }}</td>
+        {% if issue.resolve_time %}
+            <td>{{ issue.resolve_time|date }} at {{ issue.resolve_time|time }}</td>
         {% else %}
             <td>None</td>
         {% endif %}

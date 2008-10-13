@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -30,8 +32,8 @@ def index(request):
 @permission_required('Issuetracker.add_issue', login_url="/login/")
 def post(request, issue_id):
     """
-    This is for posting comments, and modifying some things for issues after they are
-    created.
+    This is for posting comments, and modifying some things for issues after 
+    they are created.
     Requires a post request, otherwise nothing is done.
     """
     issue = get_object_or_404(Issue, pk=issue_id)
@@ -47,7 +49,8 @@ def post(request, issue_id):
 
         issue_email = Email.Email()
 
-        issue_email.appendSection(Email.EmailSection("[Issue %d updates]" % (issue.pk)))
+        issue_email.appendSection(
+                Email.EmailSection("[Issue %d updates]" % (issue.pk)))
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
@@ -149,7 +152,10 @@ def post(request, issue_id):
         if data.has_key('resolved_state') and \
                 not (curState == updateIssue.resolved_state):
 
+            updateIssue.resolve_time = datetime.datetime.now()
+
             resolveSection = Email.EmailSection("Issue Resolve State")
+
             # FIXME use a template
             if curState != None:
                 resolveSection.content = "%s ---> %s" % (curState, updateIssue.resolved_state)
@@ -393,7 +399,8 @@ def history(request, item_id, page=1):
     item = get_object_or_404(cModels.Item, pk=item_id)
 
     # with the item, we can look up all the history that the item has had
-    issues = Issue.objects.filter(item=item_id).order_by('post_time', 'last_modified')
+    issues = Issue.objects.filter(item=item_id).\
+            order_by('-post_time', 'last_modified')
 
     print issues
 
