@@ -94,7 +94,6 @@ class MachineMapWebTest(TestCase):
         Try to modify the map that was created
         """
 
-        print "\n\n================= testShouldModifyMap ======================"
         self.client.login(username=self.user.username, password=self.password)
 
         unmapped_items = self.map.getUnmappedItems()
@@ -164,7 +163,6 @@ class MachineMapWebTest(TestCase):
 
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
 
-        print "\n============================================================\n"
 
 
 
