@@ -46,13 +46,14 @@ def search(request):
             except Exception, e:
                 return HttpResponseServerError()
 
+            args['last_search_term'] = issue_id
+
             return render_to_response("issue_list.html", args,
                     context_instance=RequestContext(request))
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
         else:
             return utils.generateList(request, data, Issue.objects.all(), 1)
-
 
     else:
         return HttpResponseRedirect(reverse('issueIndex'))
