@@ -15,7 +15,7 @@ function initializeJavascript(item) {
 }
 
 function initNav() {
-	$('#nav').droppy({speed: 100, delay: 200});
+	$('#nav').droppy({speed: 100});
 }
 
 $(document).ready(function() {
