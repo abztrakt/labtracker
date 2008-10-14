@@ -19,7 +19,7 @@ class IssueCreationTest(TestCase):
 
     def setUp(self):
         """
-        Creates test user and test issue
+        Creates test user 
         """
         # create test user
         self.password = 't3$tu$ser'
@@ -33,7 +33,7 @@ class IssueCreationTest(TestCase):
         Logs in our test user and makes sure a success code is returned
         """
         response = self.client.post(reverse('login'), 
-                {'username' : 'testuser', 'password' : 't3$tu$ser'})
+                {'username' : self.user.username, 'password' : self.password})
         
         # successful login should send us to issues
         self.failUnlessEqual(response.status_code, 302)
