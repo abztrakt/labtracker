@@ -18,14 +18,14 @@
             </div>
 			{% include "nav.html" %}
             <br class="clear" />
-        </div>
-        <div id="lowerHeader">
-            {% if user.is_authenticated %}<div id='userInfo'>
-                Logged in as: {{ user.username }}
-            </div>{% endif %}
-            <div id="fast_search">
-            {% include "IssueTracker/fast_search.html" %}
-            </div>
+			<div id="lowerHeader">
+				{% if user.is_authenticated %}<div id='userInfo'>
+					Logged in as: {{ user.username }}
+				</div>{% endif %}
+				<div id="fast_search">
+				{% include "IssueTracker/fast_search.html" %}
+				</div>
+			</div>
         </div>
         <br class="clear" />
         <div id="content">

@@ -17,6 +17,7 @@ a { text-decoration: none; }
 #header {
     height: 2.8em;
     margin: 0px;
+    margin-bottom: 0.4em;
     padding: 0em 1em;
     border-bottom: 1px gray dotted;
 }
@@ -50,7 +51,7 @@ div#fast_search > form input.flat {
 }
 
 /* Header right under the main header */
-#lowerHeader { }
+#lowerHeader { margin-top: 2px;}
 
 
 
