@@ -276,8 +276,8 @@ def viewIssue(request, issue_id):
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def reportList(request):
     """
-    Currently does nothing but will list out all the available queries to list available
-    reports
+    Currently does nothing but will list out all the available queries to 
+    list available reports
     """
     return render_to_response('list.html', args,
             context_instance=RequestContext(request))

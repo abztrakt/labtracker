@@ -7,7 +7,10 @@
         <li>{{ type }}
             <ul>
             {% for view in view_list %}
-            <li><a href="{{view.get_absolute_url}}">{{ view.name }}</a></li>
+            <li>
+                <a href="{{view.get_absolute_url}}">{{ view.name }}</a> |
+                <a href="{{view.get_absolute_edit_url}}">edit</a>
+            </li>
             {% endfor %}
             </ul>
         </li>

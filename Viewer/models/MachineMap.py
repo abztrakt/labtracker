@@ -38,7 +38,11 @@ class MachineMap(base.ViewCore):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('Viewer.views.MachineMap.show', [str(self.shortname)])
+        return ('Viewer-MachineMap-view', [str(self.shortname)])
+
+    @models.permalink
+    def get_absolute_edit_url(self):
+        return ('Viewer-MachineMap-edit', [str(self.shortname)])
 
     def getUnmappedItems(self):
         """
