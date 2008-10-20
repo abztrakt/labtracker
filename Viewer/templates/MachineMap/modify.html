@@ -3,7 +3,7 @@
 
 {% block title %}Modifying Machine Map -- {{ view.name }}{% endblock %}
 
-{% block heading %}Map Editing{% endblock %}
+{% block heading %}Map Editing - {{view.name}}{% endblock %}
 
 {% block pageHead %}
         <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
@@ -24,12 +24,11 @@
         {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 
-{% block header %}
-    <h2>Modifying map: {{ view.name }}</h2>
+{% block pageHeader %}
     <div id="cpanel" class="left">
 		<ul class="struct">
-			<li><a href="#" id="save">Save</a></li>
 			<li>Right click on items for menu</li>
+			<li><a href="#" id="save">Save</a></li>
 		</ul>
     </div>
     <div id="infoPane" class="right">
@@ -39,7 +38,7 @@
         </ul>
     </div>
     <br class="clear" />
-    <h4>Groups: {% for group in groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
+    <h4 class="label">Groups: {% for group in groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
 {% endblock %}
 
 {% block content %}
