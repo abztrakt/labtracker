@@ -14,14 +14,8 @@ function initializeJavascript(item) {
     item.find(".inline_if_js").each( function () { this.style.display = "inline"; } );
 }
 
-function initNav() {
-	$('#nav').droppy({speed: 100});
-}
-
 $(document).ready(function() {
         initializeJavascript($(document));
-
-		initNav();
 
         $.each($(".errorl,.errorlist"), 
             function () { 
