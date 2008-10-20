@@ -4,6 +4,22 @@
     margin: 0px 0.5em;
 }
 
+#cpanel li {
+    display: block;
+    float: left;
+    padding-left: 1em;
+    margin-left: 1em;
+    height: 1.5em;
+    border-left: 1px black solid;
+}
+
+#cpanel li:first-child {
+    margin-left: 0px;
+    padding-left: 0px;
+    border-left: none;
+}
+
+
 h4.label {
     padding: 0.5em;
 }
@@ -33,7 +49,6 @@ div#unmapped div.item {
 div#map div.item.selected {
     z-index: 3;
 }
-
 
 /* tools div */
 

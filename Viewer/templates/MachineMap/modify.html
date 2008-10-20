@@ -27,7 +27,14 @@
 {% block pageHeader %}
     <div id="cpanel" class="left">
 		<ul class="struct">
-			<li>Right click on items for menu</li>
+			<li>
+				<select id="default-shape">
+				{% for size in sizes %}
+					<option value="{{size.pk}}">{{size.name}}</option>
+				{% endfor %}
+				</select>
+				<a href="#" id="set-shape">Set Shape</a>
+			</li>
 			<li><a href="#" id="save">Save</a></li>
 		</ul>
     </div>
@@ -35,6 +42,7 @@
         <ul class="struct left">
             <li>Mouse position: <span id="mousePosition" class="info"></span></li>
             <li>Machine Name: <span id="machineName" class="info"></span></li>
+			<li> * Right click on items for menu</li>
         </ul>
     </div>
     <br class="clear" />
