@@ -9,7 +9,7 @@ import IssueTracker.search as issueSearch
 import IssueTracker.utils as utils
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
-def search(request):
+def search(request, page=1):
     """
     Takes a post, searches, and either redirects to a list of matching items (or no
     items), or the specific issue
@@ -20,40 +20,29 @@ def search(request):
 
     if data:
         # in this case, we get to process the stuff
-        issue_id = data.get('search_term', False)
+        term = data.get('search_term', False)
 
-        if issue_id:
+        if term:
             try:
-                issue_id = int(issue_id)
+                issue_id = int(term)
 
+                # if this is an issue id, then send them to that view
                 issue = Issue.objects.get(pk=issue_id)
                 return HttpResponseRedirect(reverse('view', args=[issue_id]))
-            except ValueError, e:
+            except Exception, e:
                 # search_term was not an id, search by string
-                issues = Issue.objects.filter(title__icontains=issue_id)
+                issues = Issue.objects.filter(title__icontains=term)
 
-                #return utils.generateList(request, data, issues, 1)
-                args =  utils.generateList(request, data,
-                        Issue.objects.all(), 1)
+                args =  utils.generatePageList(request, Issue.objects.all(), 1)
 
-            except Exception, e:
-                # issue id was not an actual issue, use it as a search_term
-                issues = Issue.objects.filter(title__contains=issue_id)
+            args['last_search_term'] = term
 
-                args =  utils.generateList(request, data,
-                        Issue.objects.all(), 1)
-
-            except Exception, e:
-                return HttpResponseServerError()
-
-            args['last_search_term'] = issue_id
-
-            return render_to_response("issue_list.html", args,
-                    context_instance=RequestContext(request))
-
-            #extra_context['error'] = 'Issue with id "%i" not found.' % issue_id
+            #extra_context['error'] = 'Issue with id "%i" not found.' % term
         else:
-            return utils.generateList(request, data, Issue.objects.all(), 1)
+            args = utils.generatePageList(request, Issue.objects.all(), 1)
+
+        return render_to_response("issue_list.html", args,
+                context_instance=RequestContext(request))
 
     else:
         return HttpResponseRedirect(reverse('issueIndex'))
