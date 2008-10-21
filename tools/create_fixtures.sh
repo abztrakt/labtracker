@@ -10,7 +10,7 @@ fi
 name=$1
 shift
 
-for app in 'auth'; do
+for app in 'flatpages auth'; do
     python manage.py dumpdata --format=json --indent=2 ${app} > "./tests/fixtures/${name}.json"
 done
 
