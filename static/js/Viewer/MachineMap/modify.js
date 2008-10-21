@@ -215,6 +215,22 @@ function MapEditor (orientation, size, sizes) {
 	};
 
 	/**
+	 * setItemShape
+	 * given an item, and size, set it to that
+	 * @param {jQuery} item
+	 * @param {String} size name
+	 */
+	this.setItemShape = function (item, size) {
+		if (!this.validSize(size)) { throw "Size does not exist"; }
+
+		item.removeClass(this.getItemSize(item));
+		item.addClass(size);
+
+		item.data('dirty.modmap', true);
+		item.data('size.modmap', size);
+	};
+
+	/**
 	 * Given name of item updating, update the information pane 
 	 */
 	this.updateInfoPane = function (name) {
@@ -428,7 +444,7 @@ function MapEditor (orientation, size, sizes) {
 							break;
 						}
 					}
-				} 
+				}
 
 				item.data('load.modmap', info).data('dirty.modmap', false)
 					.data('orientation.modmap', info.orientation)
@@ -454,11 +470,7 @@ function MapEditor (orientation, size, sizes) {
 			}
 			var target_size = size_span.text();
 
-			item.removeClass(self.getItemSize(item));
-			item.addClass(target_size);
-
-			item.data('dirty.modmap', true);
-			item.data('size.modmap', target_size);
+			self.setItemShape(item, target_size);
 		});
 	};
 
@@ -549,6 +561,17 @@ $(document).ready(function () {
 				self.getItems().draggable('enable');
 			}
 
-		});
+	});
+
+	$('#set-shape').click(function (eve) {
+		var item = $(eve.target);
+
+		// get all the unmapped items, and set their shapes
+		var unmapped = modMap.getUnmappedItems();
+
+		// get target shape
+
+		// set all unmapped to target shape
+	});
 
 });
