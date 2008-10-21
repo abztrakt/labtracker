@@ -454,17 +454,15 @@ function MapEditor (orientation, size, sizes) {
 			.contextMenu('#itemcontextmenu', function (eve) {
 				$('#itemcontextmenu').data('target', eve.target);
 				$('div.tools').trigger('remove.modmap');
-			});
+			}
+		);
 
 		$('#itemcontextmenu').children('li').bind('click.modmap', function (eve) {
 			var menu = $('#itemcontextmenu');
 			var item = $(menu.data('target'));
 			menu.removeData('target');
 
-			var target = $(eve.target);
-
-			var size_span = target;
-
+			var size_span = $(eve.target);
 			if (! size_span.hasClass('sizename')) {
 				size_span = size_span.find('span.sizename');
 			}
@@ -564,14 +562,13 @@ $(document).ready(function () {
 	});
 
 	$('#set-shape').click(function (eve) {
-		var item = $(eve.target);
-
-		// get all the unmapped items, and set their shapes
-		var unmapped = modMap.getUnmappedItems();
-
 		// get target shape
+		var shape = $('#default-shape').val();
 
 		// set all unmapped to target shape
+		modMap.getUnmappedItems().each(function () {
+				modMap.setItemShape($(this), shape);
+			});
 	});
 
 });
