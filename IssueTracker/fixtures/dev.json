@@ -172,6 +172,29 @@
     }
   }, 
   {
+    "pk": 6, 
+    "model": "IssueTracker.issue", 
+    "fields": {
+      "post_time": "2008-10-14 12:36:47", 
+      "group": 3, 
+      "description": "We need to load up the share with hard drives.", 
+      "assignee": 3, 
+      "cc": [
+        1
+      ], 
+      "problem_type": [
+        2
+      ], 
+      "reporter": 3, 
+      "resolved_state": null, 
+      "it": 1, 
+      "item": 2, 
+      "last_modified": "2008-10-14 12:37:05", 
+      "title": "Need to expand LVM share", 
+      "resolve_time": null
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
@@ -269,6 +292,26 @@
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-13 14:18:35"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "IssueTracker.issuehistory", 
+    "fields": {
+      "message": "Added zhaoz to CC list", 
+      "issue": 6, 
+      "user": 3, 
+      "time": "2008-10-14 12:36:59"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "IssueTracker.issuehistory", 
+    "fields": {
+      "message": "Assigned to tmckay05", 
+      "issue": 6, 
+      "user": 3, 
+      "time": "2008-10-14 12:37:05"
     }
   }, 
   {

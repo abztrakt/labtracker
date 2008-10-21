@@ -1,5 +1,20 @@
 [
   {
+    "pk": 1, 
+    "model": "flatpages.flatpage", 
+    "fields": {
+      "registration_required": false, 
+      "title": "Labtracker", 
+      "url": "/", 
+      "template_name": "flatpage.html", 
+      "sites": [
+        1
+      ], 
+      "content": "<p>\r\nHome Page, should it be the Issue Tracker?\r\n</p>\r\n\r\n<p>\r\nTo report bugs/issues, please go to the <a href=\"https://donbot.eplt.washington.edu/trac/labtracker/\">Trac Instance</a>\r\n</p>\r\n", 
+      "enable_comments": false
+    }
+  }, 
+  {
     "pk": 67, 
     "model": "auth.permission", 
     "fields": {
@@ -783,6 +798,33 @@
     }
   }, 
   {
+    "pk": 94, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_flatpage", 
+      "name": "Can add flat page", 
+      "content_type": 31
+    }
+  }, 
+  {
+    "pk": 95, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_flatpage", 
+      "name": "Can change flat page", 
+      "content_type": 31
+    }
+  }, 
+  {
+    "pk": 96, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_flatpage", 
+      "name": "Can delete flat page", 
+      "content_type": 31
+    }
+  }, 
+  {
     "pk": 16, 
     "model": "auth.permission", 
     "fields": {
@@ -846,10 +888,10 @@
       "is_active": true, 
       "is_superuser": true, 
       "is_staff": true, 
-      "last_login": "2008-10-07 12:07:16", 
+      "last_login": "2008-10-14 13:02:56", 
       "groups": [], 
       "user_permissions": [], 
-      "password": "sha1$b654e$df1b6dba6bea69ca581b38b9bddbb8ef501a77c6", 
+      "password": "sha1$1e507$e9c5235ac92fa45ffbe1577a3028400a1dbc88d8", 
       "email": "zhaoz@u.washington.edu", 
       "date_joined": "2008-06-05 16:33:07"
     }
@@ -870,6 +912,24 @@
       "password": "sha1$47e3d$2d42e034b988d4529b17c8d258e6a368f5898da1", 
       "email": "", 
       "date_joined": "2008-06-06 14:35:28"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "tmckay05", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2008-10-21 12:54:08", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$cb595$1202c415167f044801bce6b397ca29a6151387bd", 
+      "email": "", 
+      "date_joined": "2008-10-14 12:16:09"
     }
   }
 ]

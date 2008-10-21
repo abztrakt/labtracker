@@ -53,11 +53,11 @@
     "pk": 1, 
     "model": "Viewer.machinemap_item", 
     "fields": {
-      "xpos": 251, 
+      "xpos": 285, 
       "orientation": "V", 
-      "ypos": 202, 
+      "ypos": 185, 
       "machine": 4, 
-      "last_modified": "2008-06-11 15:49:32", 
+      "last_modified": "2008-10-21 12:41:44", 
       "date_added": "2008-06-12 11:52:42", 
       "view": 2, 
       "size": 1
@@ -67,25 +67,25 @@
     "pk": 2, 
     "model": "Viewer.machinemap_item", 
     "fields": {
-      "xpos": 176, 
+      "xpos": 175, 
       "orientation": "H", 
-      "ypos": 108, 
+      "ypos": 109, 
       "machine": 2, 
-      "last_modified": "2008-06-11 15:49:32", 
+      "last_modified": "2008-10-21 12:41:44", 
       "date_added": "2008-06-12 11:52:42", 
       "view": 2, 
-      "size": 2
+      "size": 1
     }
   }, 
   {
     "pk": 3, 
     "model": "Viewer.machinemap_item", 
     "fields": {
-      "xpos": 253, 
+      "xpos": 254, 
       "orientation": "H", 
-      "ypos": 110, 
+      "ypos": 109, 
       "machine": 3, 
-      "last_modified": "2008-06-11 15:49:32", 
+      "last_modified": "2008-10-21 12:41:44", 
       "date_added": "2008-06-12 11:52:42", 
       "view": 2, 
       "size": 1
