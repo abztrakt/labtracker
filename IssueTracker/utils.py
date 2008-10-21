@@ -62,14 +62,9 @@ def generatePageList(request, qdict, page_num):
 
     orderby = data.get('orderby', 'issue_id')
     omethod = data.get('ometh', 'ASC')
-
     order_symbol = ('-', '')[omethod == 'ASC']
 
-
-    # FIXME this isn't working, how ridiculous
     issues = qdict.order_by(order_symbol + orderby)
-    #issues = qdict[(page - 1) * 30:page * 30] #lambda a, b: cmp(getattr(a, order_by), getattr(b, order_by) ))
-
 
     p = Paginator(issues, 30)
 

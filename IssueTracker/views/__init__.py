@@ -388,8 +388,6 @@ def allUnresolved(request, page=1):
     args = utils.generatePageList(request, 
             Issue.objects.filter(resolved_state__isnull=True), page)
 
-    print args['page'].object_list
-
     return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
 
