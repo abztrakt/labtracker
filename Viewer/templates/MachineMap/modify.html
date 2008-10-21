@@ -13,10 +13,9 @@
         <script type="text/javascript" src="/static/js/Viewer/MachineMap/modify.js"></script>
         <script type="text/javascript">
             // Register the types
-            modMap.init('H', 'Rectangle', { {% for size in sizes %}
+			modMap = new MapEditor('H', 'Rectangle', { {% for size in sizes %}
                     '{{ size.name }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
-                }
-            );
+                });
         </script>
     {% endblock %}
     {% block pageCSS %}
