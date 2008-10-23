@@ -25,6 +25,7 @@ class LookupMachineNode(template.Node):
         self.machine_string = self.machine_string.resolve(context)
         return "<a href=\"%s\">%s</a>" % (reverse('history', args=[self.machine_string]), self.machine_string)
 
+@register.tag('lookup_machine')
 def lookup_machine(parser, token):
     try:
         tag_name, machine_string = token.split_contents()
@@ -32,4 +33,29 @@ def lookup_machine(parser, token):
         raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
     return LookupMachineNode(parser.compile_filter(machine_string))
 
-register.tag('lookup_machine', lookup_machine)
+class SearchHeader(template.Node):
+    def __init__(self, col_name, id):
+        self.name = col_name
+        self.id = id
+
+    def render(self, context):
+        return """
+        <th class='r_%s'>
+            <a href="?orderby=%s&ometh=%s">%s</a>
+        </th>""" % (self.id, self.id, context['omethod'], self.name)
+
+def stripQuotes(str):
+    if (str[0] == str[-1] and str[0] == '"'):
+        return str[1:-1]
+    return str
+
+
+@register.tag('searchcolumn')
+def column_header(parser, token):
+    try:
+        tag_name, id, col_name = token.split_contents()
+        id = stripQuotes(id)
+        col_name = stripQuotes(col_name)
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
+    return SearchHeader(col_name, id)

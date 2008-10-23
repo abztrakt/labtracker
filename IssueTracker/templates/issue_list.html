@@ -17,31 +17,15 @@
 <table id='issue_results'>
 <thead>
     <tr>
-        <th class='r_issue_id'>
-            <a href="?orderby=issue_id&ometh={{omethod}}">ID</a>
-        </th>
-        <th class='r_title'>
-            <a href="?orderby=title&ometh={{omethod}}">Title</a>
-        </th>
-        <th class='r_item'>
-            <a href="?orderby=item&ometh={{omethod}}">Item Name</a>
-        </th>
+		{% searchcolumn "issue_id" "ID" %}
+		{% searchcolumn "title" "Title" %}
+		{% searchcolumn "item" "Item Name" %}
+		{% searchcolumn "group" "Group" %}
+		{% searchcolumn "reporter" "Reporter" %}
+		{% searchcolumn "assignee" "Assignee" %}
+		{% searchcolumn "post_time" "Posted" %}
+		{% searchcolumn "last_modified" "Last Modified" %}
 		{# <th class='{{ cols.it.class }}'><a href="?orderby=it&ometh={{omethod}}">Inventory Type</a></th> #}
-        <th class='r_group'>
-            <a href="?orderby=group&ometh={{omethod}}">Group</a>
-        </th>
-        <th class='r_reporter'>
-            <a href="?orderby=reporter&ometh={{omethod}}">Reporter</a>
-        </th>
-        <th class='r_assignee'>
-            <a href="?orderby=assignee&ometh={{omethod}}">Assignee</a>
-        </th>
-        <th class='r_post_time'>
-            <a href="?orderby=post_time&ometh={{omethod}}">Posted</a>
-        </th>
-        <th class='r_last_modified'>
-            <a href="?orderby=last_modified&ometh={{omethod}}">Last Modified</a>
-        </th>
     </tr>
 </thead>
 <tbody>{% for issue in page.object_list %}
