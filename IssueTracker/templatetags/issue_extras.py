@@ -42,20 +42,13 @@ class SearchHeader(template.Node):
         return """
         <th class='r_%s'>
             <a href="?orderby=%s&ometh=%s">%s</a>
-        </th>""" % (self.id, self.id, context['omethod'], self.name)
-
-def stripQuotes(str):
-    if (str[0] == str[-1] and str[0] == '"'):
-        return str[1:-1]
-    return str
-
+        </th>""" % (self.id, self.id.resolve(context), context['omethod'], self.name.resolve(context))
 
 @register.tag('searchcolumn')
 def column_header(parser, token):
     try:
         tag_name, id, col_name = token.split_contents()
-        id = stripQuotes(id)
-        col_name = stripQuotes(col_name)
+        id, col_name = map(template.Variable, [id, col_name])
     except ValueError:
         raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
     return SearchHeader(col_name, id)
