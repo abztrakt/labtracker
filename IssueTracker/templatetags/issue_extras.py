@@ -14,11 +14,11 @@ no item associated with the issue
 """
 
 class LookupMachineNode(template.Node):
+    #XXX not used
     def __init__(self, machine_string):
         self.machine_string = machine_string
 
     def render(self, context):
-
         if type(self.machine_string) == unicode:
             return 'None'
         
@@ -27,6 +27,7 @@ class LookupMachineNode(template.Node):
 
 @register.tag('lookup_machine')
 def lookup_machine(parser, token):
+    #XXX not used
     try:
         tag_name, machine_string = token.split_contents()
     except ValueError:
@@ -39,10 +40,24 @@ class SearchHeader(template.Node):
         self.id = id
 
     def render(self, context):
-        return """
-        <th class='r_%s'>
-            <a href="?orderby=%s&ometh=%s">%s</a>
-        </th>""" % (self.id, self.id.resolve(context), context['omethod'], self.name.resolve(context))
+        id = self.id.resolve(context)
+        name = self.name.resolve(context)
+        
+        row = "<th class='r_%s'>%%s</th>" % (id)
+        link = '<a href="?orderby=%s&ometh=%s">%s</a>' % \
+                    (id, context['omethod'], name)
+
+        if context['orderby'] == id:
+            if context['omethod'] == 'ASC':
+                image = 'desc.png'
+            else:
+                image = 'asc.png'
+            img = '<img src="/static/img/layout/%s" />%%s' % (image)
+
+            row = row % (img)
+
+        return row % (link)
+
 
 @register.tag('searchcolumn')
 def column_header(parser, token):
@@ -52,3 +67,4 @@ def column_header(parser, token):
     except ValueError:
         raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
     return SearchHeader(col_name, id)
+

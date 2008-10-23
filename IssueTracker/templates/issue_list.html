@@ -25,7 +25,6 @@
 		{% searchcolumn "assignee" "Assignee" %}
 		{% searchcolumn "post_time" "Posted" %}
 		{% searchcolumn "last_modified" "Last Modified" %}
-		{# <th class='{{ cols.it.class }}'><a href="?orderby=it&ometh={{omethod}}">Inventory Type</a></th> #}
     </tr>
 </thead>
 <tbody>{% for issue in page.object_list %}
@@ -39,7 +38,6 @@
 			    {{ issue.item }}
             {% endif %}
         </td>
-		{# <td class='{{ cols.it.class }}'>{{ issue.it }}</td> #}
         <td class='r_group'>{{ issue.group }}</td>
         <td class='r_reporter'>{{ issue.reporter }}</td>
         <td class='r_assignee'>{{ issue.assignee }}</td>
