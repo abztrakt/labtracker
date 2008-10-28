@@ -31,15 +31,15 @@ def search(request, page=1):
                 return HttpResponseRedirect(reverse('view', args=[issue_id]))
             except Exception, e:
                 # search_term was not an id, search by string
-                issues = Issue.objects.filter(title__icontains=term)
+                issues = issueSearch.titleSearch(term)
 
-                args =  utils.generatePageList(request, Issue.objects.all(), 1)
+                args =  utils.generatePageList(request, Issue.objects.all(), page)
 
             args['last_search_term'] = term
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % term
         else:
-            args = utils.generatePageList(request, Issue.objects.all(), 1)
+            args = utils.generatePageList(request, Issue.objects.all(), page)
 
         return render_to_response("issue_list.html", args,
                 context_instance=RequestContext(request))

@@ -15,6 +15,8 @@ import IssueTracker.models as IssueModel
 from IssueTracker.forms import *
 import Machine.models as Machine
 
+def titleSearch(term):
+    return IssueModel.Issue.objects.filter(title__icontains=term)
 
 def searchFieldGen(field_name):
     """ 
@@ -75,7 +77,6 @@ def parseSearch(data):
             searches[num]['mode'] = str(value[0])
     
     return searches
-
 
 def buildQuery(searches):
     """

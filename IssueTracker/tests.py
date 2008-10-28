@@ -9,8 +9,8 @@ import simplejson
 from LabtrackerCore.models import Item, InventoryType, Group 
 import LabtrackerCore.models as coreModels
 import Machine.models as mModels
-import IssueTracker.models as iModels
-import IssueTracker.Email as Email
+import IssueTracker
+from IssueTracker import models as iModels, Email
 
 from datetime import datetime
 
@@ -162,7 +162,7 @@ class IssueSearchTest(TestCase):
         response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
-                'description':  "All the machines in the lab are broken. (knock on wood)"
+                'description':  "All the machines in the lab are broken."
             })
         issue = iModels.Issue.objects.filter(title=title).reverse()[0]
         self.issue = issue
@@ -178,13 +178,23 @@ class IssueSearchTest(TestCase):
             })
 
         self.assertRedirects(response, reverse('view', args=[self.issue.pk]))
-        #self.assertTemplateUsed(response, "view.html")
 
-
-    #def testQuickSearch(self):
+    def testQuickSearch(self):
         """
         Test a simple search
         """
+        self.client.login(username=self.user.username, password=self.password)
+
+        issues = IssueTracker.search.titleSearch("XAZZER")
+        self.assertEquals(len(issues), 1)
+
+        response = self.client.get(reverse('issueSearch'), {
+                'search_term':  "XAZZER"
+            })
+        self.assertTemplateUsed(response, "issue_list.html")
+
+
+
 
 class PasswordChangeTest(TestCase):
     def setUp(self):
