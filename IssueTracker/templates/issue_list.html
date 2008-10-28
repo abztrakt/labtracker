@@ -8,12 +8,6 @@
 {% block heading %}Issues{% endblock %}
 {% block content %}{% if page.object_list %}
 
-{% if user.is_authenticated %}
-<div id="feed">
-    <img src="/static/img/rss.png" /> <span><a href="{% url issuesByAssignee user.username %}">{{ user.username }}, subscribe to your latest issues</a></span>
-</div>
-{% endif %}
-
 <table id='issue_results'>
 <thead>
     <tr>
