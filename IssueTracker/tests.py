@@ -142,7 +142,49 @@ class IssueCreationTest(TestCase):
         response = self.client.get(reverse('view', args=[self.issue.pk]))
 
         self.assertTemplateUsed(response, "view.html")
-        self.assertContains(response, '<h2 id="title">%s</h2>' % (self.issue.title), status_code=200)
+
+class IssueSearchTest(TestCase):
+    fixtures = ['dev',]
+
+    def setUp(self):
+        """
+        Creates test user 
+        """
+        # create test user
+        self.password = 't3$tu$ser'
+        self.user = User.objects.create_user('testuser', 'test@example.com', self.password)
+        self.user.is_staff = True
+        self.user.is_superuser = True
+        self.user.save()
+        
+        self.client.login(username=self.user.username, password=self.password)
+        title = "Unique Issue XAZZER"
+        response = self.client.post(reverse('createIssue'), {
+                'title':        title,
+                'it':           coreModels.InventoryType.objects.all()[0].pk,
+                'description':  "All the machines in the lab are broken. (knock on wood)"
+            })
+        issue = iModels.Issue.objects.filter(title=title).reverse()[0]
+        self.issue = issue
+
+    def testSearchID(self):
+        """
+        Search with given id, see if it brings up the issue
+        """
+        self.client.login(username=self.user.username, password=self.password)
+
+        response = self.client.get(reverse('issueSearch'), {
+                'search_term':  self.issue.pk
+            })
+
+        self.assertRedirects(response, reverse('view', args=[self.issue.pk]))
+        #self.assertTemplateUsed(response, "view.html")
+
+
+    #def testQuickSearch(self):
+        """
+        Test a simple search
+        """
 
 class PasswordChangeTest(TestCase):
     def setUp(self):

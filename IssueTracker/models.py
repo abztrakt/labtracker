@@ -99,6 +99,6 @@ class NullForeignKeyTest(TestCase):
     fixtures = ['dev']
     def testNullKey(self): 
         issues = Issue.objects.filter(resolved_state__isnull=True).order_by('-assignee')
-        self.assertEquals(issues.count(), 3)
+        self.assertEquals(issues.count(), 4)
 
 
