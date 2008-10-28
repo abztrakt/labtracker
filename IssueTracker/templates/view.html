@@ -7,7 +7,7 @@
 {% block content %}
 <div id="main_issue">
 <div id="issue">
-    <h2 id="title">{{ issue.title|escape }}</h2>
+	<h2 id="title">{{ issue.pk }} - {{ issue.title|escape }}</h2>
     <div id="info">
         <ul class="floated struct">
             <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
