@@ -26,10 +26,3 @@ urlpatterns = patterns('',
     (r'^views/', include('Viewer.urls')),
     (r'^tracker/', include('labtracker.Tracker.urls')),
 )
-
-urlpatterns += patterns('labtracker.feeds',
-
-    url(r'^feeds/latest/(?P<assignee>.*)/$', 
-        'issuesByAssignee', name='issuesByAssignee'), 
-    url(r'^feeds/issues/$', 'issuesAll', name='issuesAll'), 
-)

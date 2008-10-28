@@ -3,7 +3,7 @@
 {% block pageCSS %}@import url('/static/css/results.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.tablesorter.pack.js"></script>
 {# <script type="text/javascript" src="/js/list.js"></script>#}
-<link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url issuesAll  %}" />{% endblock %}
+{% endblock %}
 
 {% block heading %}Issues{% endblock %}
 {% block content %}{% if page.object_list %}
