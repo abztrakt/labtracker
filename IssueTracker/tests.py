@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -192,6 +194,11 @@ class IssueSearchTest(TestCase):
                 'search_term':  "XAZZER"
             })
         self.assertTemplateUsed(response, "issue_list.html")
+
+        # test and make sure that the response has only one issue
+        issue_link_re = re.compile(r'<a href="/issue/\d+/">')
+
+        self.assertEquals(len(issue_link_re.findall(response.content)), 1)
 
 
 
