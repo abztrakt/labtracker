@@ -32,8 +32,7 @@ def search(request, page=1):
             except Exception, e:
                 # search_term was not an id, search by string
                 issues = issueSearch.titleSearch(term)
-
-                args =  utils.generatePageList(request, Issue.objects.all(), page)
+                args =  utils.generatePageList(request, issues, page)
 
             args['last_search_term'] = term
 
