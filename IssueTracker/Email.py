@@ -1,5 +1,5 @@
 from django.core import validators
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage, SMTPConnection
 from django.conf import settings
 
 class EmailSection(object):
@@ -35,8 +35,7 @@ class Email(object):
     """
     Email object itself, should be composed of many sections
     """
-
-    def __init__(self, subject="", sections=[], to=[], 
+    def __init__(self, subject="", sections=[], to=[], cc=[], bcc=[], 
             sender=settings.DEFAULT_FROM_EMAIL):
         for section in sections:
             if not isinstance(section, EmailSection):
@@ -46,10 +45,15 @@ class Email(object):
         self.subject = subject
 
         # check email valid
-        for em in to:
+        emails = set(to)
+        emails.update(cc)
+        emails.update(bcc)
+        for em in emails:
             isValidEmail(em)            # raises ValidationError
 
-        self.to = to
+        self.to = set(to)               # uniquify
+        self.cc = set(cc)
+        self.bcc = set(bcc)
         self.sender = sender
 
     def empty(self):
@@ -77,22 +81,40 @@ class Email(object):
 
         self.sections.append(section)
 
+    def addCC(self, to):
+        """
+        Add a 'to' address
+        """
+        isValidEmail(to)            #raises ValidationError
+        self.cc.add(to)
+
+    def addBCC(self, to):
+        """
+        Add a 'to' address
+        """
+        isValidEmail(to)            #raises ValidationError
+        self.bcc.add(to)
+
     def addTo(self, to):
         """
         Add a 'to' address
         """
-
-        # FIXME validate these emails before adding to list
-        self.to.append(to)
+        isValidEmail(to)            #raises ValidationError
+        self.to.add(to)
 
     def send(self, auth_user=None, auth_password=None):
         """
         Send the email
         """
 
+
+        # TODO send emails to BCC and CC as well
+
         message = "\n\n".join([section.__str__() for section in self.sections])
 
-        send_mail(self.subject, message, self.sender, self.to,
-                auth_user=auth_user, 
-                auth_password=auth_password)
+        email = EmailMessage(self.subject, message, from_email=self.sender, 
+                to=self.to, bcc=self.bcc, 
+                connection=SMTPConnection(username=auth_user, password=auth_password))
+
+        email.send()
 

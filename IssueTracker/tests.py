@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
@@ -298,8 +299,8 @@ class UpdateIssueTest(TestCase):
                             {'action': 'dropcc',
                             'user': issueUser.pk,
                             'js': 1})
-
         self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
+
 
         self.client.get(reverse('IssueTracker-modIssue', args=[1]),
                             {'action': 'addcc',
@@ -316,6 +317,8 @@ class UpdateIssueTest(TestCase):
 
         comment = iModels.IssueComment.objects.get(issue=self.issue)
         self.failUnless(comment is not None)
+
+        self.assertEqual(len(mail.outbox), 1)
 
     def testChangeAssignee(self):
         """
