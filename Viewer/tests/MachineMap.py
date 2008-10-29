@@ -3,6 +3,7 @@ import os
 
 from django.conf import settings
 from django.test.client import Client
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, check_password
 from django.test import TestCase
 
@@ -119,8 +120,8 @@ class MachineMapWebTest(TestCase):
                     ('H', 'V')[self.r.randint(0,1)]
 
         # map a few items
-        response = self.client.post('/views/MachineMap/%s/modify' % \
-                self.map.shortname, req_data)
+        response = self.client.post(reverse("Viewer-MachineMap-edit", 
+            args=[self.map.shortname]), req_data)
 
         self.assertContains(response, 'status', status_code=200)
 
@@ -142,8 +143,8 @@ class MachineMapWebTest(TestCase):
             }
         pos_req_data[param_template % (item.pk, 'x')] = 0
         pos_req_data[param_template % (item.pk, 'y')] = 0
-        response = self.client.post('/views/MachineMap/%s/modify' % \
-                self.map.shortname, pos_req_data)
+        response = self.client.post(reverse("Viewer-MachineMap-edit", 
+            args=[self.map.shortname]), pos_req_data)
         self.assertContains(response, 'status', status_code=200)
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
 
@@ -157,8 +158,8 @@ class MachineMapWebTest(TestCase):
             }
         rot_req_data[param_template % (item.pk, 'orient')] = ('H', 'V')[old_orient == 'H']
 
-        response = self.client.post('/views/MachineMap/%s/modify' % \
-                self.map.shortname, rot_req_data)
+        response = self.client.post(reverse("Viewer-MachineMap-edit", 
+            args=[self.map.shortname]), rot_req_data)
         self.assertContains(response, 'status', status_code=200)
 
         self.assertTrue(num_mapped_items == self.map.getMappedItems().count())
