@@ -107,7 +107,6 @@ class IssueCreationTest(TestCase):
 
         self.assertEquals(len(items.difference(ret_items)), 0)
 
-        
     def testCreateIssue(self): 
         """
         Grabs the issue that was previously created and makes 
@@ -145,6 +144,30 @@ class IssueCreationTest(TestCase):
         response = self.client.get(reverse('view', args=[self.issue.pk]))
 
         self.assertTemplateUsed(response, "view.html")
+
+    def testCreateIssueEmail(self):
+        """
+        Create an issue for an item that is part of a group with a primary contact
+        """
+
+        self.client.login(username=self.user.username, password=self.password)
+
+        issues = iModels.Issue.objects.all()
+        num_issues = issues.count()
+
+        # get a group with a primary contact
+        group = mModels.Group.objects.filter(contact__user__username='zhaoz').all()[0]
+        item = group.items.all()[0]
+
+        response = self.client.post(reverse('createIssue'), {
+                'title':        "Issue for %s" % (item.pk),
+                'it':           item.it_id,
+                'item':         item.pk,
+                'description':  "Test problem"
+            })
+        self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
+        self.assertEqual(len(mail.outbox), 1)
+
 
 class IssueSearchTest(TestCase):
     fixtures = ['dev',]
@@ -280,7 +303,8 @@ class UpdateIssueTest(TestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        self.issue = iModels.Issue.objects.get(pk=1)
+        self.issue = iModels.Issue.objects.\
+                filter(group__group__contact__isnull=False).all()[0]
 
     def tearDown(self):
         self.user.delete()

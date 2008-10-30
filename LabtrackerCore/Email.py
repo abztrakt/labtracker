@@ -1,5 +1,4 @@
-from django.core import validators
-from django.core.mail import send_mail, EmailMessage, SMTPConnection
+from django.core import validators, mail 
 from django.conf import settings
 
 class EmailSection(object):
@@ -41,7 +40,11 @@ class Email(object):
             if not isinstance(section, EmailSection):
                 raise Exception, "section given was not an emailsection type"
 
-        self.sections = sections
+        if type(sections) != list:
+            self.sections = [sections]
+        else:
+            self.sections = sections
+
         self.subject = subject
 
         # check email valid
@@ -69,7 +72,6 @@ class Email(object):
                 return True
 
         return False
-
 
     def appendSection(self, section):
         """
@@ -102,19 +104,35 @@ class Email(object):
         isValidEmail(to)            #raises ValidationError
         self.to.add(to)
 
+    def getEmail(self, auth_user=None, auth_password=None):
+        message = "\n\n".join([section.__str__() for section in self.sections])
+
+        to = self.to.union(self.cc)
+
+        connection = mail.SMTPConnection(username=auth_user, password=auth_password,
+                fail_silently=False)
+        email = mail.EmailMessage(self.subject, message, self.sender, 
+                to, bcc=self.bcc, connection=connection)
+        return email
+
     def send(self, auth_user=None, auth_password=None):
         """
         Send the email
         """
+        email = self.getEmail()
+        return email.send()
 
+"""
+class NewIssueEmail(Email):
+    def __init__(self, issue, *args, **kwargs):
+        Email.__init__(self, *args, **kwargs)
 
-        # TODO send emails to BCC and CC as well
+        self.appendSection(EmailSection(
+            "New Issue:",
+            "Issue: %s\nTitle: %s" % (issue.pk, issue.title)
+        ))
 
-        message = "\n\n".join([section.__str__() for section in self.sections])
-
-        email = EmailMessage(self.subject, message, from_email=self.sender, 
-                to=self.to, bcc=self.bcc, 
-                connection=SMTPConnection(username=auth_user, password=auth_password))
-
-        email.send()
+        for cc in issue.cc.all():
+            self.addCC(cc.email)
+"""
 

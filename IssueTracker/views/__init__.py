@@ -18,7 +18,7 @@ import django.db.models.loading as load
 import simplejson
 
 from IssueTracker.models import *
-import IssueTracker.Email as Email
+import LabtrackerCore.Email as Email
 import LabtrackerCore.models as cModels
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
@@ -55,14 +55,16 @@ def updateIssue(request, issue_id):
 
         if (data.has_key('cc')):
             # CC is special in that it only updates this area
-            newUsers = User.objects.in_bulk(data.getlist('cc')).order_by('id')
-            curUsers = issue.cc.all().order_by('id')
+            newUsers = set(User.objects.in_bulk(data.getlist('cc')).order_by('id'))
+            curUsers = set(issue.cc.all().order_by('id'))
 
             removeCC = []
             # find items that need to be removed
             # FIXME this is terrible inefficient, would be better if the 
             #   newUsers list is shortened
-            for curUser in curUsers:
+
+            # find curUsers not in newUsers, remove them
+            for user in curUsers.difference(newUsers):
                 if curUser not in newUsers:
                     removeCC.append(curUser)
                     issue.cc.remove(curUser)
@@ -76,10 +78,9 @@ def updateIssue(request, issue_id):
             addCC = []
             # now curUsers only contains the users that need not be modified
             # add all newUsers not in curUser to cc list
-            for newUser in newUsers:
-                if newUser not in curUsers:
-                    addCC.append(newUser)
-                    issue.cc.add(newUser)
+            for user in newUsers.difference(curUsers):
+                addCC.append(newUser)
+                issue.cc.add(newUser)
 
             if addCC:
                 issue_email.appendSection(Email.EmailSection(
@@ -176,7 +177,6 @@ def updateIssue(request, issue_id):
             data['user'] = str(request.user.id)
             data['issue'] = issue_id
 
-
             newComment = AddCommentForm(data)
             if newComment.is_valid():
                 newComment = newComment.save()
@@ -200,7 +200,7 @@ def updateIssue(request, issue_id):
             issue_email.subject = '[labtracker] %s' % (issue.title)
 
             for user in cc_list:
-                issue_email.addTo(user.email)
+                issue_email.addCC(user.email)
 
             issue_email.send()
 
@@ -308,6 +308,8 @@ def createIssue(request):
         form = CreateIssueForm(data)
         if form.is_valid():
             issue = form.save()
+
+            # send an email here
             return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
         else:
             # form was not valid, errors should be on form though, so nothing needs to be
