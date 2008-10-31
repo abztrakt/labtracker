@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
-from django import forms 
+from django import forms, dispatch
 from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
 
+from IssueTracker import newIssueSignal
 from IssueTracker.models import *
 
 #IssueForm = forms.form_for_model(Issue, formfield_callback=issueCallback)
@@ -96,6 +97,14 @@ class CreateIssueForm(ModelForm):
     """
     This form is used for creating issues
     """
+    def save(self, *args, **kwargs):
+        inst = ModelForm.save(self, *args, **kwargs)
+
+        # send signal
+        newIssueSignal.send(sender=self, instance=inst)
+
+        return inst
+
     class Meta:
         model = Issue
         fields=('it','group','item','cc','problem_type','title','description',

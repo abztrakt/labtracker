@@ -125,7 +125,7 @@ class IssueCreationTest(TestCase):
         response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
-                'description':  "All the machines in the lab are broken. (knock on wood)"
+                'description':  "All the machines in the lab are broken."
             })
 
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
