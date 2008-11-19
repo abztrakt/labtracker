@@ -286,7 +286,7 @@ class EmailTest(TestCase):
         self.email.appendSection(Email.EmailSection('Header', 'Content'))
         self.email.subject = 'subject'
         # to must be list
-        self.email.to = [settings.EMAIL_TEST_RECIPIENT]
+        self.email.addTo(settings.EMAIL_TEST_RECIPIENT)
         self.email.send()
 
         # TODO make sure that it was sent?
