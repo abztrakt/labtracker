@@ -9,11 +9,12 @@ from django.contrib.auth.models import User, check_password
 
 import simplejson
 
+from LabtrackerCore import Email
 from LabtrackerCore.models import Item, InventoryType, Group 
 import LabtrackerCore.models as coreModels
 import Machine.models as mModels
 import IssueTracker
-from IssueTracker import models as iModels, Email
+from IssueTracker import models as iModels
 
 from datetime import datetime
 
