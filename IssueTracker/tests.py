@@ -167,6 +167,8 @@ class IssueCreationTest(TestCase):
                 'description':  "Test problem"
             })
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
+
+        # primary contact should get an email here
         self.assertEqual(len(mail.outbox), 1)
 
 
