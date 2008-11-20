@@ -1,6 +1,8 @@
 from django import template
 from django.core.urlresolvers import reverse
 
+from IssueTracker import utils
+
 import re
 
 register = template.Library()
@@ -65,6 +67,28 @@ def column_header(parser, token):
         tag_name, id, col_name = token.split_contents()
         id, col_name = map(template.Variable, [id, col_name])
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
+        raise template.TemplateSyntaxError, "%r tag requires two arguments" % token.contents.split()[0]
     return SearchHeader(col_name, id)
+
+class PrimaryContact(template.Node):
+    def __init__(self, issue):
+        self.issue = template.Variable(issue)
+
+    def render(self, context):
+        issue = self.issue.resolve(context)
+
+        # get the contact names
+        names = [u.username for u in utils.getIssueContacts(issue)]
+
+        return ", ".join(names)
+
+
+@register.tag('contact')
+def primary_contact(parser, token):
+    try:
+        tag_name, issue = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
+    return PrimaryContact(issue)
+
 

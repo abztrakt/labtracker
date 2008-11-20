@@ -13,6 +13,7 @@
         <ul class="floated struct">
             <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
             <li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
+			<li><h4>Contacts:</h4> {% contact issue %}</li>
             <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  
