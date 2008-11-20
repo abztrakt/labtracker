@@ -92,6 +92,10 @@ class Item(coreModels.Item):
 
     comment = models.TextField(blank=True, null=True)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('Machine-detail', [str(self.pk),])
+
     def primaryContact(self):
         """
         Returns the primary contact for this item, or None if no primary 
