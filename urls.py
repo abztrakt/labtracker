@@ -25,4 +25,6 @@ urlpatterns = patterns('',
 
     (r'^views/', include('Viewer.urls')),
     (r'^tracker/', include('labtracker.Tracker.urls')),
+
+    (r'^machine/', include('Machine.urls')),
 )

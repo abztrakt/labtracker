@@ -1,9 +1,10 @@
 from django.conf.urls.defaults import *
+import models
 
-urlpatterns = patterns('',
-    (r'^item/add/$', 'labtracker.Machine.admin_views.addItem'),
-    (r'^item/(?P<id>\d+)/$', 'labtracker.Machine.admin_views.modItem'),
-    (r'^group/add/$', 'labtracker.Machine.admin_views.addGroup'),
-    (r'^group/(?P<id>\d+)/$', 'labtracker.Machine.admin_views.modGroup'),
+urlpatterns = patterns('django.views.generic.list_detail',
+    url(r'^detailed/(?P<object_id>\d+)/$', 'object_detail', 
+        {   'queryset': models.Item.objects.all(), 
+            'template_name': 'item_detailed.html' }, 
+        name="Machine-detail"),
 )
 
