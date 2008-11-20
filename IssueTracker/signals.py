@@ -13,19 +13,15 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
     contacts = []
 
     if instance.group:
-        group = instance.group.group
-        g_contacts = group.contact_set.filter(is_primary=True).all()
+        g_contacts = instance.group.group.primaryContact()
         contacts = [contact.user.email for contact in g_contacts]
 
     contacts = set(contacts)
 
     # now add contacts for item groups 
-    i_groups = instance.item.group_set.all()
-
-    # for each group, need to get the contacts
-    for g in i_groups:
-        ig_contacts = g.group.contact_set.filter(is_primary=True).all()
-        contacts = contacts.union([contact.user.email for contact in ig_contacts])
+    if instance.item:
+        i_contacts = instance.item.item.primaryContact()
+        contacts = contacts.union([c.user.email for c in i_contacts])
 
     if len(contacts) == 0:
         return
