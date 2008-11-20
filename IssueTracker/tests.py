@@ -228,8 +228,6 @@ class IssueSearchTest(TestCase):
         self.assertEquals(len(issue_link_re.findall(response.content)), 1)
 
 
-
-
 class PasswordChangeTest(TestCase):
     def setUp(self):
         """
@@ -373,4 +371,3 @@ class UpdateIssueTest(TestCase):
         Tests adding and removing problem types
         """ 
         pass
-        ""
