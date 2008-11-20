@@ -77,8 +77,16 @@ class PrimaryContact(template.Node):
     def render(self, context):
         issue = self.issue.resolve(context)
 
+        if issue == None:
+            return
+
+        contacts = utils.getIssueContacts(issue)
+        
+        if contacts == None or len(contacts) < 1:
+            return
+
         # get the contact names
-        names = [u.username for u in utils.getIssueContacts(issue)]
+        names = [u.username for u in contacts]
 
         return ", ".join(names)
 
