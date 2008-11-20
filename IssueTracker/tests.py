@@ -97,14 +97,16 @@ class IssueCreationTest(TestCase):
 
         # fetch for empty group first
         data = fetchJSON(group_e)
-        self.failUnlessEqual(len(data), 0)
+        items = data['items']
+        self.failUnlessEqual(len(items), 0)
 
         # now do the group1
         data = fetchJSON(group_1)
-        self.assertTrue(len(data) > 0)
+        data_items = data['items']
+        self.assertTrue(len(data_items) > 0)
 
         items = set([item.pk for item in group_1.items.all()])
-        ret_items = set([data[key]["item_id"] for key in data.keys()])
+        ret_items = set([data_items[key]["item_id"] for key in data_items.keys()])
 
         self.assertEquals(len(items.difference(ret_items)), 0)
 
