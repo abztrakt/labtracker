@@ -81,3 +81,25 @@ def generatePageList(request, qdict, page_num):
         args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
 
     return args
+
+def getIssueContacts(instance):
+    """
+    Given instance of an issue, attempt to retrieve contacts
+    """
+    if instance.group == None and instance.item == None:
+        return
+
+    contacts = []
+
+    if instance.group:
+        g_contacts = instance.group.group.primaryContact()
+        contacts = [contact.user for contact in g_contacts]
+
+    contacts = set(contacts)
+
+    # now add contacts for item groups
+    if instance.item:
+        i_contacts = instance.item.item.primaryContact()
+        contacts = contacts.union([c.user for c in i_contacts])
+
+    return contacts

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 
+from IssueTracker import utils
 from IssueTracker import models as im, newIssueSignal, forms, Email
 
 def sendCreateIssueEmail(sender, instance=None, **kwargs):
@@ -10,18 +11,7 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
     if instance.group == None and instance.item == None:
         return
 
-    contacts = []
-
-    if instance.group:
-        g_contacts = instance.group.group.primaryContact()
-        contacts = [contact.user.email for contact in g_contacts]
-
-    contacts = set(contacts)
-
-    # now add contacts for item groups 
-    if instance.item:
-        i_contacts = instance.item.item.primaryContact()
-        contacts = contacts.union([c.user.email for c in i_contacts])
+    contacts = [c.email for c in utils.getIssueContacts(instance)]
 
     if len(contacts) == 0:
         return
