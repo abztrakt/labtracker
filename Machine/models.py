@@ -92,6 +92,15 @@ class Item(coreModels.Item):
 
     comment = models.TextField(blank=True, null=True)
 
+    def primaryContact(self):
+        """
+        Returns the primary contact for this item, or None if no primary 
+        contact exists
+        """
+        # first check to see if item has groups, then fetch the groups, and 
+        # call the groups primary contact function
+        return Contact.objects.filter(is_primary=True, mg__items__pk=self.pk)
+
     def __unicode__(self):
         return self.item.name
 
@@ -112,8 +121,14 @@ class Group(coreModels.Group):
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
 
-    items = models.ManyToManyField(Item, null=True, blank=True, related_name="machinegroup_items")
+    items = models.ManyToManyField(Item, null=True, blank=True, 
+                                related_name="machinegroup_items")
 
+    def primaryContact(self):
+        """
+        for this group find primary contact, returns set of users
+        """
+        return self.contact_set.filter(is_primary=True)
 
     def __unicode__(self):
         return self.group.name
