@@ -51,8 +51,6 @@ function appendError(list, msg) {
 function updateGroupList(it_id) {
     reset();
 
-
-	// TODO need errorhandler
 	$.ajax({
 		"url"		: URL_BASE + "groups/",	
 		"data"		: { "type": "json", "it_id": it_id },
@@ -78,7 +76,8 @@ function updateGroupList(it_id) {
 }
 
 /**
- * updateItemList will fetch the items for a given group and append it to the id_item list
+ * updateItemList will fetch the items for a given group and append it to the
+ * id_item list
  * @param group_id      The id of the group to fetch items for, if null then show all
  *
  */
@@ -98,11 +97,15 @@ function updateItemList(group_id) {
 		"success"	: function (data) {
 				// for each of the items, append to the list
 				var id_item = $('#id_item');
-				$.each(data, function (ii, val) {
+				var items = data.items;
+				$.each(items, function (ii, val) {
 						id_item.append("<option value='" + ii + "'>" + 
 							val.name + "</option>");
 					}
 				);
+
+				// var contacts = data.contacts;
+
 				id_item[0].selectedIndex = 0;
 			}
 	});

@@ -44,8 +44,7 @@ def userCheck(request, name):
 @permission_required('IssueTracker.add_issue')
 def getItems(request):
     """
-    Given an inventory type, will return a list of groups that belongs to that
-    inventory_type
+    Given a group id, will return a list of items that belongs to that group
     """
 
     data = request.REQUEST.copy()
@@ -56,25 +55,35 @@ def getItems(request):
         group_ids = data.getlist('group_id')
 
     items = {}
+    contacts = set()
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
-        items = utils.createItemDict(LabtrackerCore.Item.objects.order_by('it'))
+        items = utils.createItemDict(
+            LabtrackerCore.Item.objects.order_by('it'))
     else:
         groups = LabtrackerCore.Group.objects.in_bulk(group_ids).values()
 
         # for each group, get all the items
+        # we will also return the primary contact for the group
         for group in groups:
             items.update(utils.createItemDict(group.items.all()))
+            cons = group.group.primaryContact()
+            contacts = contacts.union(set([c.user.username for c in cons]))
 
     # get the items in the group
     type = data.get("type", "json")
+
+    dict = {
+        "contacts": [c for c in contacts],
+        "items": items,
+    }
 
     if type == "xml":
         # TODO XML serialization
         pass
     else:
-        return HttpResponse(simplejson.dumps(items))
+        return HttpResponse(simplejson.dumps(dict))
 
 @permission_required('IssueTracker.add_issue')
 def getGroups(request):
