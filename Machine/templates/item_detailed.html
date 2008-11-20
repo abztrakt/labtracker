@@ -1,7 +1,32 @@
 {% extends "base_full.html" %}
-{% block pageCSS %}{% endblock %}
+{% block pageCSS %}@import url("{{ MEDIA_URL }}css/Machine/detailed.css");
+{% endblock %}
 {% block pageHead %}{% endblock %}
 
-{% block heading %}Machine: {% endblock %}
+{% block heading %}{{ object.name }} :: Detail{% endblock %}
 {% block content %}
+<div id="machine-info" class="infodiv">
+	<h4>Machine Info</h4>
+	<dl>
+		<dt>Machine Name: </dt>
+		<dd>{{ object.name }}</dd>
+	</dl>
+</div>
+
+<div id="machine-status" class="infodiv">
+	<h4>Machine Status</h4>
+	<dl>
+		<dt>In Use:</dt>
+		<dd>{{ object.status.inuse }}</dd>
+
+		<dt>Usable: </dt>
+		<dd>{{ object.status.usable }}</dd>
+
+		<dt>Broken: </dt>
+		<dd>{{ object.status.broken }}</dd>
+	</dl>
+</div>
+
+<br class="clear" />
+
 {% endblock %}

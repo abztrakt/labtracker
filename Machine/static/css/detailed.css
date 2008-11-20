@@ -1,0 +1,15 @@
+.infodiv {
+	float: left;
+	min-width: 30%;
+	margin: 1em;
+}
+
+.infodiv dl {
+	padding: 0em 1em;
+}
+
+#machine-info {
+}
+
+#machine-status {
+}
