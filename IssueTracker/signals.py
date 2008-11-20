@@ -8,7 +8,6 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
     """
     # retrieve the group from Instance
     if instance.group == None and instance.item == None:
-        print "No group or item for instance"
         return
 
     contacts = []
