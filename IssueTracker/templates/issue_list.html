@@ -26,11 +26,11 @@
         <td class='r_issue_id'>{{ issue.issue_id }}</td>
 		<td class='r_title'><a href="{% url view issue.issue_id %}">{{ issue.title }}</a></td>
         <td class='r_item'>
-            {% if issue.item %}
+        {% if issue.item %}
 			<a href="{{ issue.item.item.get_absolute_url }}">{{ issue.item }}</a>
-            {% else %}
-			    {{ issue.item }}
-            {% endif %}
+        {% else %}
+			{{ issue.item }}
+        {% endif %}
         </td>
         <td class='r_group'>{{ issue.group }}</td>
         <td class='r_reporter'>{{ issue.reporter }}</td>
