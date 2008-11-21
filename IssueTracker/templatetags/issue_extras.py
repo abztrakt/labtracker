@@ -45,20 +45,20 @@ class SearchHeader(template.Node):
         id = self.id.resolve(context)
         name = self.name.resolve(context)
         
-        row = "<th class='r_%s'>%%s</th>" % (id)
-        link = '<a href="?orderby=%s&ometh=%s">%s</a>' % \
-                    (id, context['omethod'], name)
+        row = '<th class="r_%s">%%s</th>' % (id)
+        text = name
+        link = '<a href="?orderby=%s&ometh=%s">%%s</a>' % \
+                    (id, context['omethod'])
 
         if context['orderby'] == id:
             if context['omethod'] == 'ASC':
                 image = 'desc.png'
             else:
                 image = 'asc.png'
-            img = '<img src="/static/img/layout/%s" />%%s' % (image)
+            img = '<img src="/static/img/layout/%s" />' % (image)
+            text = img + text
 
-            row = row % (img)
-
-        return row % (link)
+        return row % (link % text)
 
 
 @register.tag('searchcolumn')
