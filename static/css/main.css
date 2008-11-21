@@ -8,8 +8,8 @@ html, body {
     min-width: 1000px;
 }
 h3.label, h4.label { padding: 0px; margin: 0px; }
-a { text-decoration: none; }
-
+a { text-decoration: none; border: none; }
+a img { border: none; }
 
 /************************
  * base template styles *
