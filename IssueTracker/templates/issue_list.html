@@ -27,7 +27,7 @@
 		<td class='r_title'><a href="{% url view issue.issue_id %}">{{ issue.title }}</a></td>
         <td class='r_item'>
             {% if issue.item %}
-                <a href="{% url IssueTracker-history issue.item.pk %}">{{ issue.item }}</a>
+			<a href="{{ issue.item.item.get_absolute_url }}">{{ issue.item }}</a>
             {% else %}
 			    {{ issue.item }}
             {% endif %}
