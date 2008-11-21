@@ -18,7 +18,7 @@
             <li><h4>Group:</h4>  {{ issue.group }}</li>
             <li><h4>Item:</h4>  
                 {% if issue.item %}
-                    <a href="{% url IssueTracker-history issue.item.pk %}">
+					<a href="{{ issue.item.item.get_absolute_url }}">
                         {{ issue.item }}
                     </a>
                 {% else %}
