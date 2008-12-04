@@ -8,16 +8,16 @@ class ContactInLine(admin.TabularInline):
     max_num = 2
 
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ('name','inuse','usable','broken', 'description')
+    list_display = ('name', 'description')
     fieldsets = (
-            (None, {'fields': ('name', ('inuse','usable','broken',), 'description')}),
+            (None, {'fields': ('name', 'description')}),
         )
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type','status','location','ip','mac1','mac2',
+    list_display = ('name', 'type','location','ip','mac1','mac2',
             'wall_port','date_added','manu_tag','uw_tag')
     search_fields = ['name','ip','mac','wall_port']
-    list_filter = ['type','status','date_added']
+    list_filter = ['type','date_added']
 
 class GroupAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -30,7 +30,6 @@ class GroupAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(mmod.Status, StatusAdmin)
 admin.site.register(mmod.Item, ItemAdmin)
 admin.site.register(mmod.Group, GroupAdmin)
 admin.site.register(mmod.Platform)

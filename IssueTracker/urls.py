@@ -26,10 +26,11 @@ urlpatterns += patterns('IssueTracker.views.search',
 )
 
 urlpatterns += patterns('IssueTracker.views.ajax',
-     (r'^checkuser/(?P<name>\w+)/$', 'userCheck'),
+    (r'^checkuser/(?P<name>\w+)/$', 'userCheck'),
 
-     (r'^search/field/(?P<field_name>\w+)/$', 'getSearchField'),
+    (r'^search/field/(?P<field_name>\w+)/$', 'getSearchField'),
 
-     (r'^groups/$', 'getGroups'),
-     (r'^items/$', 'getItems'),
+    (r'^groups/$', 'getGroups'),
+    (r'^items/$', 'getItems'),
+    (r'^invSpec/create/$', 'invSpecCreate'),
 )

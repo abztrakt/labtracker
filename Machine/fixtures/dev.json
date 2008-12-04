@@ -3,33 +3,24 @@
     "pk": 1, 
     "model": "Machine.status", 
     "fields": {
-      "broken": false, 
-      "usable": true, 
-      "description": "", 
-      "name": "Usable", 
-      "inuse": false
+      "name": "Inuse", 
+      "description": "Machine is being used"
     }
   }, 
   {
     "pk": 2, 
     "model": "Machine.status", 
     "fields": {
-      "broken": false, 
-      "usable": true, 
-      "description": "", 
-      "name": "Inuse", 
-      "inuse": true
+      "name": "Broken", 
+      "description": "Machine has a problem"
     }
   }, 
   {
     "pk": 3, 
     "model": "Machine.status", 
     "fields": {
-      "broken": true, 
-      "usable": false, 
-      "description": "", 
-      "name": "Broken", 
-      "inuse": false
+      "name": "Usable", 
+      "description": "Machine is usable"
     }
   }, 
   {
@@ -85,15 +76,18 @@
     "pk": 1, 
     "model": "Machine.item", 
     "fields": {
-      "status": 1, 
       "comment": "", 
+      "status": [
+        1, 
+        3
+      ], 
       "mac2": "00:03:24:3A:12:3E", 
       "mac1": "00:03:24:3A:12:3E", 
       "uw_tag": "23l4nd923423", 
       "ip": "128.95.9.2", 
       "manu_tag": "Test Machine 1", 
       "warranty_date": "2008-01-07", 
-      "last_modified": "2008-06-11 15:49:32", 
+      "last_modified": "2008-12-03 13:33:50", 
       "location": 1, 
       "purchase_date": "2008-01-07", 
       "stf_date": null, 
@@ -106,8 +100,11 @@
     "pk": 2, 
     "model": "Machine.item", 
     "fields": {
-      "status": 2, 
       "comment": "", 
+      "status": [
+        2, 
+        3
+      ], 
       "mac2": "00:03:24:3A:12:4E", 
       "mac1": "00:03:24:3A:12:4E", 
       "uw_tag": "23l4nd923423", 
@@ -127,8 +124,10 @@
     "pk": 3, 
     "model": "Machine.item", 
     "fields": {
-      "status": 1, 
       "comment": "", 
+      "status": [
+        1
+      ], 
       "mac2": "00:03:24:3A:12:4B", 
       "mac1": "00:03:24:3A:12:4B", 
       "uw_tag": "23l4nd923423", 
@@ -148,8 +147,10 @@
     "pk": 4, 
     "model": "Machine.item", 
     "fields": {
-      "status": 2, 
       "comment": "", 
+      "status": [
+        2
+      ], 
       "mac2": "00:03:12:23:34:2F", 
       "mac1": "00:03:12:23:34:2F", 
       "uw_tag": "23l4nd923423", 

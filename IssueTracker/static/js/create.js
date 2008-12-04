@@ -5,7 +5,7 @@ $(document).ready(function() {
     reset();
 
     // attach hooks
-    $('#id_it').change(function () { updateGroupList(this.value); } );
+    $('#id_it').change(function () { loadExtra(this.value); updateGroupList(this.value); } );
     $('#id_group').change(function () { updateItemList(this.value); } );
     $('#reset').click(function () { reset(); } );
 	
@@ -44,7 +44,8 @@ function appendError(list, msg) {
 /**
  * updateGroupList will fetch the groups for a given inventory type and append 
  * it to the id_item list
- * @param it_id         The id of the inventory type to fetch groups for, if null then show all
+ * @param it_id         The id of the inventory type to fetch groups for, if 
+ *					null then show all
  *
  * FIXME what happens when group_id doesn't exist? how does getJSON react?
  */
@@ -73,6 +74,19 @@ function updateGroupList(it_id) {
 				$('#id_group').change();
 			}
 	});
+}
+
+/**
+ * Given an inventory id, load extra stuff for it
+ * @param it_id		The id of the inventory type
+ */
+function loadExtra(it_id) {
+	if (it_id <= 0) {
+		$('div#invSpecific').empty();
+		return;
+	}
+
+	$("div#invSpecific").load("/issue/invSpec/create/", { 'type': it_id });
 }
 
 /**

@@ -6,6 +6,82 @@ from django.template import RequestContext
 from IssueTracker.models import *
 import LabtrackerCore.models as LabtrackerCore
 
+class IssueHooks(object):
+    """
+    Maintains a set of hooks for inventory types
+
+    These hooks will be called on create/createSubmit/view/update
+    """
+    
+    def __init__(self):
+        """
+        """
+
+        # hook storage is done through a dictionary
+        # format is { inventoryType: function }
+        self.create = {}
+        self.createSubmit = {}
+
+        self.view = {}
+        self.update = {}
+
+    def _registerHook(self, dict, inv_t, f):
+        dict[inv_t] = f
+
+    def registerCreateHook(self, inv_t, f):
+        self._registerHook(self.create, inv_t, f)
+
+    def registerCreateSubmitHook(self, inv_t, f):
+        self._registerHook(self.createSubmit, inv_t, f)
+
+    def registerViewHook(self, inv_t, f):
+        self._registerHook(self.view, inv_t, f)
+
+    def registerUpdateHook(self, inv_t, f):
+        self._registerHook(self.update, inv_t, f)
+
+    def _getHook(self, dict, inv_t):
+        if dict.has_key(inv_t):
+            return dict[inv_t]
+        return None
+
+    def getCreateHook(self, inv_t):
+        print "Getting create hook for: %s" % (inv_t)
+        print self.create[inv_t]
+        return self._getHook(self.create, inv_t)
+
+    def getCreateSubmitHook(self, inv_t):
+        return self._getHook(self.createSubmit, inv_t)
+        #return self.createSubmit[inv_t]
+
+    def getViewHook(self, inv_t):
+        return self._getHook(self.view, inv_t)
+        #return self.view[inv_t]
+
+    def getUpdateHook(self, inv_t):
+        return self._getHook(self.update, inv_t)
+        #return self.update[inv_t]
+
+issueHooks = IssueHooks()
+
+def issueHook(type, **kwargs):
+    """
+    Decorator to simplify way to register issue hooks
+    """
+    def decorate(f):
+        inv_t =  f.__module__.split('.')[-2]
+        if type == "create":
+            issueHooks.registerCreateHook(inv_t, f)
+        elif type == "createSubmit":
+            issueHooks.registerCreateSubmitHook(inv_t, f)
+        elif type == "view":
+            issueHooks.registerViewHook(inv_t, f)
+        elif type == "update":
+            issueHooks.registerUpdateHook(inv_t, f)
+
+        return f
+    return decorate
+
 def updateHistory(user, issue, msg):
     history = IssueHistory(user=user,message=msg,issue=issue)
     history.save()

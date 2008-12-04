@@ -51,12 +51,12 @@
     }
   }, 
   {
-    "pk": 61, 
+    "pk": 79, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_resolvestate", 
-      "name": "Can add resolve state", 
-      "content_type": 21
+      "codename": "add_viewtype", 
+      "name": "Can add view type", 
+      "content_type": 26
     }
   }, 
   {
@@ -123,12 +123,12 @@
     }
   }, 
   {
-    "pk": 62, 
+    "pk": 80, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_resolvestate", 
-      "name": "Can change resolve state", 
-      "content_type": 21
+      "codename": "change_viewtype", 
+      "name": "Can change view type", 
+      "content_type": 26
     }
   }, 
   {
@@ -168,12 +168,12 @@
     }
   }, 
   {
-    "pk": 63, 
+    "pk": 81, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "delete_resolvestate", 
-      "name": "Can delete resolve state", 
-      "content_type": 21
+      "codename": "delete_viewtype", 
+      "name": "Can delete view type", 
+      "content_type": 26
     }
   }, 
   {
@@ -204,12 +204,12 @@
     }
   }, 
   {
-    "pk": 25, 
+    "pk": 37, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_labuser", 
-      "name": "Can add lab user", 
-      "content_type": 9
+      "codename": "add_status", 
+      "name": "Can add status", 
+      "content_type": 13
     }
   }, 
   {
@@ -240,12 +240,12 @@
     }
   }, 
   {
-    "pk": 26, 
+    "pk": 38, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_labuser", 
-      "name": "Can change lab user", 
-      "content_type": 9
+      "codename": "change_status", 
+      "name": "Can change status", 
+      "content_type": 13
     }
   }, 
   {
@@ -276,12 +276,12 @@
     }
   }, 
   {
-    "pk": 27, 
+    "pk": 39, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "delete_labuser", 
-      "name": "Can delete lab user", 
-      "content_type": 9
+      "codename": "delete_status", 
+      "name": "Can delete status", 
+      "content_type": 13
     }
   }, 
   {
@@ -339,12 +339,12 @@
     }
   }, 
   {
-    "pk": 37, 
+    "pk": 61, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_status", 
-      "name": "Can add status", 
-      "content_type": 13
+      "codename": "add_resolvestate", 
+      "name": "Can add resolve state", 
+      "content_type": 21
     }
   }, 
   {
@@ -411,12 +411,12 @@
     }
   }, 
   {
-    "pk": 38, 
+    "pk": 62, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_status", 
-      "name": "Can change status", 
-      "content_type": 13
+      "codename": "change_resolvestate", 
+      "name": "Can change resolve state", 
+      "content_type": 21
     }
   }, 
   {
@@ -483,12 +483,12 @@
     }
   }, 
   {
-    "pk": 39, 
+    "pk": 63, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "delete_status", 
-      "name": "Can delete status", 
-      "content_type": 13
+      "codename": "delete_resolvestate", 
+      "name": "Can delete resolve state", 
+      "content_type": 21
     }
   }, 
   {
@@ -498,6 +498,15 @@
       "codename": "delete_type", 
       "name": "Can delete type", 
       "content_type": 15
+    }
+  }, 
+  {
+    "pk": 94, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_flatpage", 
+      "name": "Can add flat page", 
+      "content_type": 31
     }
   }, 
   {
@@ -537,12 +546,12 @@
     }
   }, 
   {
-    "pk": 79, 
+    "pk": 95, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_viewtype", 
-      "name": "Can add view type", 
-      "content_type": 26
+      "codename": "change_flatpage", 
+      "name": "Can change flat page", 
+      "content_type": 31
     }
   }, 
   {
@@ -582,12 +591,12 @@
     }
   }, 
   {
-    "pk": 80, 
+    "pk": 96, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_viewtype", 
-      "name": "Can change view type", 
-      "content_type": 26
+      "codename": "delete_flatpage", 
+      "name": "Can delete flat page", 
+      "content_type": 31
     }
   }, 
   {
@@ -627,39 +636,30 @@
     }
   }, 
   {
-    "pk": 81, 
+    "pk": 25, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "delete_viewtype", 
-      "name": "Can delete view type", 
-      "content_type": 26
+      "codename": "add_labuser", 
+      "name": "Can add lab user", 
+      "content_type": 9
     }
   }, 
   {
-    "pk": 22, 
+    "pk": 26, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_logentry", 
-      "name": "Can add log entry", 
-      "content_type": 8
+      "codename": "change_labuser", 
+      "name": "Can change lab user", 
+      "content_type": 9
     }
   }, 
   {
-    "pk": 23, 
+    "pk": 27, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_logentry", 
-      "name": "Can change log entry", 
-      "content_type": 8
-    }
-  }, 
-  {
-    "pk": 24, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_logentry", 
-      "name": "Can delete log entry", 
-      "content_type": 8
+      "codename": "delete_labuser", 
+      "name": "Can delete lab user", 
+      "content_type": 9
     }
   }, 
   {
@@ -798,30 +798,30 @@
     }
   }, 
   {
-    "pk": 94, 
+    "pk": 22, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "add_flatpage", 
-      "name": "Can add flat page", 
-      "content_type": 31
+      "codename": "add_logentry", 
+      "name": "Can add log entry", 
+      "content_type": 8
     }
   }, 
   {
-    "pk": 95, 
+    "pk": 23, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "change_flatpage", 
-      "name": "Can change flat page", 
-      "content_type": 31
+      "codename": "change_logentry", 
+      "name": "Can change log entry", 
+      "content_type": 8
     }
   }, 
   {
-    "pk": 96, 
+    "pk": 24, 
     "model": "auth.permission", 
     "fields": {
-      "codename": "delete_flatpage", 
-      "name": "Can delete flat page", 
-      "content_type": 31
+      "codename": "delete_logentry", 
+      "name": "Can delete log entry", 
+      "content_type": 8
     }
   }, 
   {
@@ -888,7 +888,7 @@
       "is_active": true, 
       "is_superuser": true, 
       "is_staff": true, 
-      "last_login": "2008-10-14 13:02:56", 
+      "last_login": "2008-12-03 14:45:11", 
       "groups": [], 
       "user_permissions": [], 
       "password": "sha1$1e507$e9c5235ac92fa45ffbe1577a3028400a1dbc88d8", 

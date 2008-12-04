@@ -7,6 +7,7 @@ html, body {
     margin: 0px; padding: 0px;
     min-width: 1000px;
 }
+h3 { padding-top: 0px; margin-top: 0px; }
 h3.label, h4.label { padding: 0px; margin: 0px; }
 a { text-decoration: none; border: none; }
 a img { border: none; }
@@ -131,14 +132,16 @@ div.tags {
 div.tags div {
     margin: .5em;
     padding: .4em;
-    min-height: 3em;
-    width: 50em;
+    min-height: 2em;
+    width: 100%;
 }
 
 div.tags li {
     padding: .5em;
     cursor: pointer;
     color: #333;
+	display: block;
+	float: left;
 }
 
 div#untagged { background: #DDBB99; }

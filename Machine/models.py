@@ -14,9 +14,6 @@ class Status(models.Model):
 
     ms_id = models.AutoField(primary_key=True)
     name = models.SlugField(max_length=60, unique=True)
-    inuse = models.BooleanField(default=False)
-    usable = models.BooleanField(default=True)
-    broken = models.BooleanField(default=False)
     description = models.CharField(max_length=400, blank=True)
 
     def __unicode__(self):
@@ -24,6 +21,7 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural="Status"
+        unique_together = (("ms_id", "name"),)
 
 class Platform(models.Model):
     """
@@ -70,7 +68,9 @@ class Item(coreModels.Item):
     core = models.OneToOneField(coreModels.Item, parent_link=True, 
             editable=False)
     type = models.ForeignKey(Type, verbose_name='Machine Type')
-    status = models.ForeignKey(Status, verbose_name='Machine Status')
+
+    status = models.ManyToManyField(Status, related_name="machine_status")
+
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
     mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
@@ -207,11 +207,8 @@ class StatusTest(TestCase):
     def setUp(self):
         self.name = "test"
         self.status = Status.objects.create(
-                broken = False,
-                usable = False,
                 description = "teststatus",
                 name = "test",
-                inuse = True
             )
         self.status.save()
 
@@ -265,11 +262,8 @@ class MachineItemTest(TestCase):
         self.type.save()
 
         self.status = Status.objects.create(
-                broken = False,
-                usable = False,
                 description = "teststatus",
                 name = "test",
-                inuse = True
             )
         self.status.save()
         
@@ -288,7 +282,6 @@ class MachineItemTest(TestCase):
         self.item = Item.objects.create(
                 name=self.name, 
                 type=self.type,
-                status=self.status,
                 location=self.location,
                 purchase_date = "2009-01-07", 
                 warranty_date = "2009-01-07", 
@@ -298,6 +291,7 @@ class MachineItemTest(TestCase):
                 manu_tag="manufactuer tag", 
                 uw_tag="uw tag", 
                 comment="comment")
+        self.item.status.add(self.status)
         self.item.save()
 
     def testParent(self):

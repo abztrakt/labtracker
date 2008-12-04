@@ -10,6 +10,9 @@
         @import url('/static/css/jquery/droppy.css');
         {% block b_pageCSS %}{% endblock %}
     </style>
+	<script type="text/javascript">
+		var media_url = "{{ MEDIA_URL }}";
+	</script>
     <script type="text/javascript" src="/static/js/jquery.js"></script>
     <script type="text/javascript" src="/static/js/global.js"></script>
 	{% block b_pageJS %}{% endblock %}

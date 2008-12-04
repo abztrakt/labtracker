@@ -33,6 +33,12 @@ class InventoryType(models.Model):
     namespace = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=2616)
 
+    def getApp(self):
+        """
+        return the application
+        """
+        return __import__(self.namespace)
+
     def __unicode__(self):
         return self.name
 

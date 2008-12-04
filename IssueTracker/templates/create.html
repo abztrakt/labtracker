@@ -1,8 +1,8 @@
 {% extends "base_full.html" %}
 
-{% block pageCSS %}@import url('/static/css/create.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="/static/js/IssueTracker/create.js"> </script>
-<script type="text/javascript" src="/static/js/prob_types.js"> </script>{% endblock %}
+{% block pageCSS %}@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/prob_types.js"> </script>{% endblock %}
 
 {% block heading %}New Issue{% endblock %}
 
@@ -28,7 +28,8 @@
             <div class='block_if_js'> 
                 <div>
                     <input type="text" id="addCC_user" class="small_text" />
-                    <input type="button" value="Add" name="Add" id="addCC" class="flat" />
+					<input type="button" value="Add" name="Add" id="addCC" 
+						class="flat" />
                 </div>
                 <ul id='cc_list' class="struct"></ul>
                 {% if form.cc.errors %}{{ form.cc.errors }}
@@ -70,24 +71,33 @@
     <br class="clear" />
 
     <!-- Use fancier problem selection if the user has javascript powers -->
-    <div class='tags block_if_js'>
-        <h3>Problem Types</h3>
+	<div id="lowerInfo">
+		<div id="probtypes" class='left tags block_if_js'>
+			<h3>Problem Types</h3>
 
-        <h4>Selected</h4>
-        <div id='tagged'>
-            <ul class='inline'>
-            </ul>
-        </div>
+			<h4>Selected</h4>
+			<div id='tagged'>
+				<ul class='inline'>
+				</ul>
+				<br class="clear" />
+			</div>
 
-        <h4>Unused</h4>
-        <div id='untagged'>
-            <ul class='inline'>
-                {% for problem in problem_types %}
-                    <li class='tag'>{{ problem }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+			<h4>Unused</h4>
+			<div id='untagged'>
+				<ul class='inline'>
+					{% for problem in problem_types %}
+						<li class='tag'>{{ problem }}</li>
+					{% endfor %}
+				</ul>
+				<br class="clear" />
+			</div>
+		</div>
+
+		<div id="invSpecific" class="left">
+		</div>
+	</div>
+
+    <br class="clear" />
 
     <input type="submit" name="submit" value="Submit" />
     <input type="reset" id="reset" value="Reset" />

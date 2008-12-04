@@ -307,13 +307,30 @@ def createIssue(request):
 
         form = CreateIssueForm(data)
         if form.is_valid():
-            issue = form.save()
+            inv_t = form.cleaned_data['it']
 
-            # send an email here
-            return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+            # need to call hook now and see if it is good
+            hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
+
+            if hook:
+                # need to get the item or group here
+                group = form.cleaned_data['group']
+
+                item = None
+                if form.cleaned_data['item']:
+                    item = form.cleaned_data['item'].item
+
+                valid = hook(request, item=item, group=group)
+            else:
+                valid = True
+
+            if valid:
+                issue = form.save()
+                return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+            
         else:
-            # form was not valid, errors should be on form though, so nothing needs to be
-            # done
+            # form was not valid, errors should be on form though, so nothing
+            # needs to be done
             pass
     else:
         form = CreateIssueForm()

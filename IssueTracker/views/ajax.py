@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 import simplejson
 
 import IssueTracker.search as issueSearch
-import LabtrackerCore.models as LabtrackerCore
+import LabtrackerCore.models as cm
 import IssueTracker.utils as utils
 from IssueTracker.models import Issue
 
@@ -60,9 +60,9 @@ def getItems(request):
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
         items = utils.createItemDict(
-            LabtrackerCore.Item.objects.order_by('it'))
+            cm.Item.objects.order_by('it'))
     else:
-        groups = LabtrackerCore.Group.objects.in_bulk(group_ids).values()
+        groups = cm.Group.objects.in_bulk(group_ids).values()
 
         # for each group, get all the items
         # we will also return the primary contact for the group
@@ -101,9 +101,10 @@ def getGroups(request):
     groups = []
     if len(it_types) == 0 or "" in it_types:
         # get all groups
-        groups = utils.createGroupList(LabtrackerCore.InventoryType.objects.all())
+        groups = utils.createGroupList(cm.InventoryType.objects.all())
     else:
-        groups = utils.createGroupList(LabtrackerCore.InventoryType.objects.in_bulk(it_types).values())
+        groups = utils.createGroupList(
+            cm.InventoryType.objects.in_bulk(it_types).values())
 
     type = data.get("type", "json")
     
@@ -112,3 +113,20 @@ def getGroups(request):
         pass
     else:
         return HttpResponse(simplejson.dumps(groups))
+
+@permission_required('IssueTracker.add_issue', login_url="/login/")
+def invSpecCreate(request):
+    """
+    Given an inventory type in the GET, return the HTML for stage
+    """
+    data = request.REQUEST.copy()
+
+    # first, figure out if inventory type exists
+    inv_type = get_object_or_404(cm.InventoryType, pk=data.get('type'))
+
+    hook = utils.issueHooks.getCreateHook(inv_type.name)
+
+    if hook == None:
+        return Http404()
+
+    return hook(request)

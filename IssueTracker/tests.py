@@ -74,14 +74,8 @@ class IssueCreationTest(TestCase):
         self.client.login(username=self.user.username, password=self.password)
 
         # fetch the two groups
-        groups = mModels.Group.objects.filter(name__in = ['Empty Group', 'Group1'])
-
-        if groups[0].name == u'Empty Group':
-            group_e = groups[0]
-            group_1 = groups[1]
-        else:
-            group_1 = groups[0]
-            group_e = groups[1]
+        group_1 = mModels.Group.objects.filter(name='Group1').all()[0]
+        group_e = mModels.Group.objects.filter(name='Empty Group').all()[0]
 
         url = reverse('IssueTracker.views.ajax.getItems')
 
@@ -105,6 +99,7 @@ class IssueCreationTest(TestCase):
         data_items = data['items']
         self.assertTrue(len(data_items) > 0)
 
+        # make sure that the items returned by json are the same as those in DB
         items = set([item.pk for item in group_1.items.all()])
         ret_items = set([data_items[key]["item_id"] for key in data_items.keys()])
 
@@ -128,6 +123,7 @@ class IssueCreationTest(TestCase):
         response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
+                'status':       ['3'],
                 'description':  "All the machines in the lab are broken."
             })
 
@@ -140,7 +136,7 @@ class IssueCreationTest(TestCase):
         self.assertTrue(last_pk < issue.pk)
 
         self.failUnlessEqual(response.status_code, 302)
-        self.assertRedirects(response, '/issue/%d/' % (self.issue.pk), 
+        self.assertRedirects(response, reverse('view', args=[self.issue.pk,]),
                 status_code=302, target_status_code=200)
 
         # now make sure that we can actually view that issue
@@ -159,13 +155,17 @@ class IssueCreationTest(TestCase):
         num_issues = issues.count()
 
         # get a group with a primary contact
-        group = mModels.Group.objects.filter(contact__user__username='zhaoz').all()[0]
-        item = group.items.all()[0]
+        group = mModels.Group.objects.filter(contact__user__username='zhaoz', name='CRC').all()[0]
+
+        # ensure that group has at least one item
+        item = mModels.Item.objects.all()[0]
+        group.items.add(item)
 
         response = self.client.post(reverse('createIssue'), {
                 'title':        "Issue for %s" % (item.pk),
                 'it':           item.it_id,
                 'item':         item.pk,
+                'status':       ['3'],
                 'description':  "Test problem"
             })
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
