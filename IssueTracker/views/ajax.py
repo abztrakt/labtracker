@@ -129,4 +129,4 @@ def invSpecCreate(request):
     if hook == None:
         return Http404()
 
-    return hook(request)
+    return HttpResponse(hook(request))

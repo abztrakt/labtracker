@@ -46,21 +46,16 @@ class IssueHooks(object):
         return None
 
     def getCreateHook(self, inv_t):
-        print "Getting create hook for: %s" % (inv_t)
-        print self.create[inv_t]
         return self._getHook(self.create, inv_t)
 
     def getCreateSubmitHook(self, inv_t):
         return self._getHook(self.createSubmit, inv_t)
-        #return self.createSubmit[inv_t]
 
     def getViewHook(self, inv_t):
         return self._getHook(self.view, inv_t)
-        #return self.view[inv_t]
 
     def getUpdateHook(self, inv_t):
         return self._getHook(self.update, inv_t)
-        #return self.update[inv_t]
 
 issueHooks = IssueHooks()
 

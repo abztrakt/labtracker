@@ -1,14 +1,17 @@
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.template.loader import render_to_string
 from IssueTracker.utils import issueHook
 import models, forms
 
 @issueHook("create")
 def issueCreate(request):
+    """
+    Given request, render what extra stuff is needed for Machines
+    """
     args = {
         'statusForm' : forms.itemStatusForm(),
     }
-    return render_to_response('issueCreate.html', args,
+    return render_to_string('issueCreate.html', args,
             context_instance=RequestContext(request))
 
 @issueHook("createSubmit")
@@ -30,4 +33,3 @@ def issueCreateSave(request, item=None, group=None):
         return form.save(machine=item, group=group)
 
     return False
-
