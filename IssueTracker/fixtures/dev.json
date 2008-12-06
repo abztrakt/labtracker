@@ -57,7 +57,7 @@
     "model": "IssueTracker.problemtype", 
     "fields": {
       "inv": [], 
-      "name": "aliens stole my computer", 
+      "name": "aliens", 
       "description": "Aliens from another planet stole my computer with tractor beams"
     }
   }, 
