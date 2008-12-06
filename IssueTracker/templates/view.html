@@ -30,6 +30,9 @@
         </ul>
         <br class="clear" />
     </div>
+	<div id="specInfo">
+		{% invspec issue %}
+	</div>
 	<h3 class='label'>Description:</h3>
     <p id="description">{{ issue.description|escape }}</p>
     <div id="problems">
