@@ -110,13 +110,16 @@ class InventorySpecific(template.Node):
         issue = self.issue.resolve(context)
         inv_t = issue.it
 
+        print context
+        print dir(context)
+
         # call the hook if it exists
         hook = utils.issueHooks.getViewHook(inv_t.name)
 
         if hook == None:
             return ""
 
-        return hook(context.get('request'), issue)
+        return hook(context, issue)
 
 @register.tag('invspec')
 def inv_spec(parser, token):

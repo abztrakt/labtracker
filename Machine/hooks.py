@@ -33,3 +33,26 @@ def issueCreateSave(request, item=None, group=None):
         return form.save(machine=item, group=group)
 
     return False
+
+@issueHook("view")
+def issueView(context, issue):
+    """
+    Hook for handling the viewing of an issue, should return machine specific
+    info
+    """
+
+    args = {
+        'item': None,
+        'group': None
+    }
+    
+    if issue.item != None:
+        item = issue.item.item
+        args['item'] = item
+        args['status'] = item.status.all()
+    if issue.group != None:
+        args['group'] = issue.group.group
+
+
+    return render_to_string('issueView.html', args, context)
+

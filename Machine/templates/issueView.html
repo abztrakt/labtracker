@@ -1,0 +1,16 @@
+{% if issue.item %}
+<ul class="floated struct">
+	<li>
+		<h4>Status: </h4>
+		{% for s in status %}
+			{{ s.name }}{% if not forloop.last %}, {%endif%}
+		{% endfor %}
+	</li>
+	<li><h4>IP: </h4>{{ item.ip }}</li>
+	<li><h4>MAC: </h4>{{ item.mac1 }}</li>
+</ul>
+{% endif %}
+{% if issue.group %}
+<ul class="floated struct">
+</ul>
+{% endif %}
