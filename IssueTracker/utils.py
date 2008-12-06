@@ -23,7 +23,9 @@ class IssueHooks(object):
         self.createSubmit = {}
 
         self.view = {}
+
         self.update = {}
+        self.updateSubmit = {}
 
     def _registerHook(self, dict, inv_t, f):
         dict[inv_t] = f
@@ -36,6 +38,9 @@ class IssueHooks(object):
 
     def registerViewHook(self, inv_t, f):
         self._registerHook(self.view, inv_t, f)
+
+    def registerUpdateSubmitHook(self, inv_t, f):
+        self._registerHook(self.updateSubmit, inv_t, f)
 
     def registerUpdateHook(self, inv_t, f):
         self._registerHook(self.update, inv_t, f)
