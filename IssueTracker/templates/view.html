@@ -68,13 +68,19 @@
         <li><label for='assignee'>Assign To:</label> {{ update_issue_form.assignee }}</li>
         <li><label for='resolved_state'>Resolve:</label> {{ update_issue_form.resolved_state }}</li>
     </ul>
-    <div>
-        <label for='comment' style='display: block;'>{{ add_comment_form.comment.label }}</label>
-        {{ add_comment_form.comment }}
-    </div>
-    <div class="none_if_js">
-        {{ update_issue_form.problem_type }}
-    </div>
+	<div class="left">
+		<div>
+			<label for='comment' style='display: block;'>{{ add_comment_form.comment.label }}</label>
+			{{ add_comment_form.comment }}
+		</div>
+		<div class="none_if_js">
+			{{ update_issue_form.problem_type }}
+		</div>
+	</div>
+	<div class="left" id="itemUpdate">
+		{% invspecUpdate issue %}
+	</div>
+	<br class="clear" />
 
     {% include "IssueTracker/issue/prob_tag_block.html" %}
 {% if comment_errors %}

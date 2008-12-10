@@ -122,12 +122,42 @@ class InventorySpecific(template.Node):
         return hook(context, issue)
 
 @register.tag('invspec')
-def inv_spec(parser, token):
+def invSpec(parser, token):
     try:
         tag_name, issue = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
+        raise template.TemplateSyntaxError, \
+                "%r tag requires a single argument" % token.contents.split()[0]
     return InventorySpecific(issue)
+
+
+class InventorySpecificUpdate(template.Node):
+    def __init__(self, issue):
+        self.issue = template.Variable(issue)
+
+    def render(self, context):
+        issue = self.issue.resolve(context)
+        inv_t = issue.it
+
+        #print context
+        #print dir(context)
+
+        # call the hook if it exists
+        hook = utils.issueHooks.getUpdateHook(inv_t.name)
+
+        if hook == None:
+            return ""
+
+        return hook(context, issue)
+
+@register.tag('invspecUpdate')
+def invSpecUpdate(parser, token):
+    try:
+        tag_name, issue = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, \
+                "%r tag requires a single argument" % token.contents.split()[0]
+    return InventorySpecificUpdate(issue)
 
 
 

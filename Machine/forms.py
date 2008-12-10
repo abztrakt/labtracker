@@ -35,3 +35,12 @@ class itemStatusForm(forms.Form):
 
         return False
 
+
+class UpdateMachineForm(forms.ModelForm):
+    """
+    Form used for updating machine stuff
+    """
+
+    class Meta:
+        model = models.Item
+        fields=('wall_port',)

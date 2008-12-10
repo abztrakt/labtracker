@@ -1,6 +1,7 @@
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from IssueTracker.utils import issueHook
+
 import models, forms
 
 @issueHook("create")
@@ -53,6 +54,16 @@ def issueView(context, issue):
     if issue.group != None:
         args['group'] = issue.group.group
 
-
     return render_to_string('issueView.html', args, context)
 
+@issueHook("update")
+def issueUpdateView(context, issue):
+    """
+    Hook for showing form needed for issueUpdateView
+    """
+    
+    args = {
+        "form": forms.UpdateMachineForm(),
+    }
+
+    return render_to_string('issueUpdate.html', args, context)
