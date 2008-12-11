@@ -67,3 +67,11 @@ def issueUpdateView(context, issue):
     }
 
     return render_to_string('issueUpdate.html', args, context)
+
+@issueHook("updateSubmit")
+def issueUpdateViewSubmit(request, issue):
+    """
+    Hook for updating machine from form
+    """
+
+    return False

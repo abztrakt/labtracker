@@ -1,3 +1,34 @@
 <div class="machine issueUpdate">
-	{{ form }}
+	<ul class="struct">
+		<li>
+			<label for="{{form.wall_port.name}}">
+				{{form.wall_port.label}}
+			</label>
+			{{ form.wall_port }}
+		</li>
+		<li>
+			<label for="{{form.location.name}}">
+				{{form.location.label}}
+			</label>
+			{{ form.location }}
+		</li>
+		<li>
+			<label for="{{form.mac1.name}}">
+				{{form.mac1.label}}
+			</label>
+			{{ form.mac1 }}
+		</li>
+		<li>
+			<label for="{{form.ip.name}}">
+				{{form.ip.label}}
+			</label>
+			{{ form.ip }}
+		</li>
+		<li>
+			<label for="{{form.status.name}}">
+				{{form.status.label}}
+			</label>
+			{{ form.status }}
+		</li>
+	</ul>
 </div>

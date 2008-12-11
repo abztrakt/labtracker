@@ -89,3 +89,11 @@ div.action_msg {
 
 select#id_problem_type {
 }
+
+div#itemUpdate {
+	margin-left: 1em;
+}
+
+#itemUpdate li {
+	margin-bottom: 1em;
+}
