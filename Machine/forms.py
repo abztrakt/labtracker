@@ -43,4 +43,4 @@ class UpdateMachineForm(forms.ModelForm):
 
     class Meta:
         model = models.Item
-        fields=('wall_port',)
+        fields=('wall_port', 'location', 'mac1', 'ip', 'status')
