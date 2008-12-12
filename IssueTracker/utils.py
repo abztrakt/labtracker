@@ -139,7 +139,7 @@ def generatePageList(request, qdict, page_num):
     data = request.GET.copy()
 
     # TODO need user-defined limits
-    num_per_page = 30
+    num_per_page = 100
 
     orderby = data.get('orderby', 'issue_id')
     omethod = data.get('ometh', 'ASC')
