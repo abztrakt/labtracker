@@ -160,7 +160,8 @@ def updateIssue(request, issue_id):
 
             # FIXME use a template
             if curState != None:
-                resolveSection.content = "%s ---> %s" % (curState, updateIssue.resolved_state)
+                resolveSection.content = "%s ---> %s" % (curState,\
+                                                         updateIssue.resolved_state)
             else:
                 resolveSection.content = updateIssue.resolved_state
             issue_email.appendSection(resolveSection)
@@ -190,6 +191,11 @@ def updateIssue(request, issue_id):
                 # Form not valid
                 #args['add_comment_form'] = newComment
         
+        # deal with hooks
+        if issue.it:
+            hook = utils.issueHooks.getUpdateSubmitHook(issue.it.name)
+            if not hook(request, issue):
+                return Http404()
 
         # Send issue_email
 
