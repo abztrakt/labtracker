@@ -62,6 +62,11 @@ def issueUpdateView(context, issue):
     Hook for showing form needed for issueUpdateView
     """
 
+    user = context.get('user')
+
+    if not user.has_perm('IssueTracker.can_change'):
+        return ""
+
     if issue.item:
         item = issue.item.item
         
@@ -80,6 +85,12 @@ def issueUpdateViewSubmit(request, issue):
     """
 
     data = request.POST.copy()
+
+    user = request.user
+
+    if not user.has_perm('IssueTracker.can_change'):
+        # don't process
+        return True
 
     if issue.item:
         item = issue.item.item
