@@ -110,9 +110,6 @@ class InventorySpecific(template.Node):
         issue = self.issue.resolve(context)
         inv_t = issue.it
 
-        print context
-        print dir(context)
-
         # call the hook if it exists
         hook = utils.issueHooks.getViewHook(inv_t.name)
 
@@ -138,9 +135,6 @@ class InventorySpecificUpdate(template.Node):
     def render(self, context):
         issue = self.issue.resolve(context)
         inv_t = issue.it
-
-        #print context
-        #print dir(context)
 
         # call the hook if it exists
         hook = utils.issueHooks.getUpdateHook(inv_t.name)
