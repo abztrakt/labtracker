@@ -44,7 +44,7 @@ class SearchHeader(template.Node):
     def render(self, context):
         id = self.id.resolve(context)
         name = self.name.resolve(context)
-        
+
         row = '<th class="r_%s">%%s</th>' % (id)
         text = name
         link = '<a href="?orderby=%s&ometh=%s">%%s</a>' % \
@@ -153,5 +153,9 @@ def invSpecUpdate(parser, token):
                 "%r tag requires a single argument" % token.contents.split()[0]
     return InventorySpecificUpdate(issue)
 
-
-
+@register.inclusion_tag('issue/list_block.html', takes_context=True)
+def issueList(context, list):
+    print list
+    return { 'object_list': list, 
+            'omethod': context['omethod'],
+            'orderby': context['orderby'] }
