@@ -61,12 +61,17 @@ def issueUpdateView(context, issue):
     """
     Hook for showing form needed for issueUpdateView
     """
-    
-    args = {
-        "form": forms.UpdateMachineForm(),
-    }
 
-    return render_to_string('issueUpdate.html', args, context)
+    if issue.item:
+        item = issue.item.item
+        
+        args = {
+            "form": forms.UpdateMachineForm(instance=item),
+        }
+
+        return render_to_string('issueUpdate.html', args, context)
+
+    return ""
 
 @issueHook("updateSubmit")
 def issueUpdateViewSubmit(request, issue):
@@ -74,4 +79,18 @@ def issueUpdateViewSubmit(request, issue):
     Hook for updating machine from form
     """
 
-    return False
+    data = request.POST.copy()
+
+    if issue.item:
+        item = issue.item.item
+        
+        form = forms.UpdateMachineForm(data, instance=item)
+        
+        if form.is_valid():
+            form.save()
+            return True
+
+        return False
+
+    # didn't do any processing, proceed
+    return True
