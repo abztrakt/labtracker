@@ -16,8 +16,8 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
          name="IssueTracker-history-page"),
 
-     (r'^report/(?P<report_id>\d+)/$', 'report'),
-     (r'^report/$', 'reportList'),
+     #(r'^report/(?P<report_id>\d+)/$', 'report'),
+     #(r'^report/$', 'reportList'),
 )
 
 urlpatterns += patterns('IssueTracker.views.search',
