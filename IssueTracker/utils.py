@@ -59,6 +59,9 @@ class IssueHooks(object):
     def getViewHook(self, inv_t):
         return self._getHook(self.view, inv_t)
 
+    def getUpdateSubmitHook(self, inv_t):
+        return self._getHook(self.updateSubmit, inv_t)
+
     def getUpdateHook(self, inv_t):
         return self._getHook(self.update, inv_t)
 
@@ -78,6 +81,8 @@ def issueHook(type, **kwargs):
             issueHooks.registerViewHook(inv_t, f)
         elif type == "update":
             issueHooks.registerUpdateHook(inv_t, f)
+        elif type == "updateSubmit":
+            issueHooks.registerUpdateSubmitHook(inv_t, f)
 
         return f
     return decorate
