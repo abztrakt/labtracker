@@ -1,19 +1,13 @@
 import datetime
 
 from django.conf.urls.defaults import *
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.core import serializers
-from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.http import HttpResponseRedirect, Http404, HttpResponse, \
+        HttpResponseServerError
 from django.template import RequestContext
-from django import forms
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.generic.list_detail import object_list
-from django.template.loader import render_to_string
-import django.db.models.loading as load
 
 import simplejson
 
