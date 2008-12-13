@@ -6,8 +6,10 @@
 {% endblock %}
 
 {% block heading %}Issues{% endblock %}
-{% block content %}{% if page.object_list %}
+{% block content %}{% if object_list %}
+	{% block issueListContent %}
 	{% issueList page.object_list %}
+	{% endblock %}
 {% else %}
 <p>
 {% if search_term %}

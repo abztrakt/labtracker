@@ -1,0 +1,9 @@
+{% extends "issue_list.html" %}
+{% load issue_extras %}
+
+{% block issueListContent %}
+{% for name, list in object_list.items %}
+	{% issueList list name %}
+{% endfor %}
+
+{% endblock %}

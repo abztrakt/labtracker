@@ -16,9 +16,14 @@ urlpatterns = patterns('IssueTracker.views',
 )
 
 urlpatterns += patterns("IssueTracker.views.reports",
-     url(r'^all/$', 'allUnresolved', name='viewAll'),
-     url(r'^all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
+     url(r'^report/all/$', 'allUnresolved', name='viewAll'),
+     url(r'^report/all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
+
+     url(r'^report/group/(?P<group_by>\w+)/$', 'groupedList', name='groupView'),
+     url(r'^report/group/(?P<group_by>\w+)/(?P<page>\d+)/$', 'groupedList', 
+         name='groupView'),
 )
+
 
 urlpatterns += patterns('IssueTracker.views.search',
      url(r'^search/$', 'search', name="issueSearch"),
