@@ -129,6 +129,24 @@ def createItemDict(items, field='Item'):
 
     return list
 
+def generateIssueArgs(request, qdict):
+    data = request.GET.copy()
+
+    orderby = data.get('orderby', 'issue_id')
+    omethod = data.get('ometh', 'ASC')
+    order_symbol = ('-', '')[omethod == 'ASC']
+
+    issues = qdict.order_by(order_symbol + orderby)
+
+    args = {
+        'orderby':  orderby,
+        'issues': issues,
+        'omethod':  ('ASC', 'DESC')[omethod=='ASC'],
+        'search_term':  data.get('search_term')
+    }
+
+    return args
+
 def generatePageList(request, qdict, page_num):
     """
     Generates args needed for issue_list template
@@ -141,21 +159,13 @@ def generatePageList(request, qdict, page_num):
     # TODO need user-defined limits
     num_per_page = 100
 
-    orderby = data.get('orderby', 'issue_id')
-    omethod = data.get('ometh', 'ASC')
-    order_symbol = ('-', '')[omethod == 'ASC']
+    args = generateIssueArgs(request, qdict)
 
-    issues = qdict.order_by(order_symbol + orderby)
+    issues = args['issues']
 
     p = Paginator(issues, 30)
 
-    args = {
-            'orderby':  orderby,
-            'omethod':  ('ASC', 'DESC')[omethod=='ASC'],
-            'page':     p.page(page_num),
-            'search_term':  data.get('search_term')
-        }
-
+    args['page'] = p.page(page_num)
 
     if args['search_term']:
         # kludgy way of doing things
