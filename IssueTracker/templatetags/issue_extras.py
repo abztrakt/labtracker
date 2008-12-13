@@ -154,8 +154,8 @@ def invSpecUpdate(parser, token):
     return InventorySpecificUpdate(issue)
 
 @register.inclusion_tag('issue/list_block.html', takes_context=True)
-def issueList(context, list):
-    print list
+def issueList(context, list, grouper=None):
     return { 'object_list': list, 
+            'grouper': grouper,
             'omethod': context['omethod'],
             'orderby': context['orderby'] }
