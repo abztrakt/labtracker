@@ -2,8 +2,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('IssueTracker.views',
      url(r'^$', 'index', name="issueIndex"),
-     url(r'^all/$', 'allUnresolved', name='viewAll'),
-     url(r'^all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
      (r'^(?P<issue_id>\d+)/fetch/$', 'fetch'),
      url(r'^new/$', 'createIssue', name='createIssue'),
 
@@ -15,9 +13,11 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^history/(?P<item_id>\d+)/$', 'history', name="IssueTracker-history"),
      url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
          name="IssueTracker-history-page"),
+)
 
-     #(r'^report/(?P<report_id>\d+)/$', 'report'),
-     #(r'^report/$', 'reportList'),
+urlpatterns += patterns("IssueTracker.views.reports",
+     url(r'^all/$', 'allUnresolved', name='viewAll'),
+     url(r'^all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
 )
 
 urlpatterns += patterns('IssueTracker.views.search',

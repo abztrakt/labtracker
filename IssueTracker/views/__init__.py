@@ -274,23 +274,6 @@ def viewIssue(request, issue_id):
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))
 
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def reportList(request):
-    """
-    Currently does nothing but will list out all the available queries to 
-    list available reports
-    """
-    return render_to_response('list.html', args,
-            context_instance=RequestContext(request))
-
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def report(request, report_id):
-    """
-    View a specific report
-    """
-    return render_to_response('report.html', args,
-            context_instance=RequestContext(request))
-
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
     """
@@ -341,6 +324,24 @@ def createIssue(request):
     }
 
     return render_to_response('create.html', args,
+            context_instance=RequestContext(request))
+
+@permission_required('IssueTracker.can_view', login_url="/login/")
+def history(request, item_id, page=1):
+    """
+    Given an item, will look up the history for the item
+    """
+    item = get_object_or_404(cModels.Item, pk=item_id)
+
+    # with the item, we can look up all the history that the item has had
+    issues = Issue.objects.filter(item=item_id).\
+            order_by('-post_time', 'last_modified')
+
+    print issues
+
+    args = { 'item': item, 'history': issues }
+
+    return render_to_response('history.html', args,
             context_instance=RequestContext(request))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
@@ -398,36 +399,4 @@ def fetch(request, issue_id): #TODO move this to ajax.py
                 context_instance=RequestContext(request))
     else:
         return HttpResponseServerError("Unknown data fromat")
-
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def allUnresolved(request, page=1):
-    """
-    Lists all the Issues 
-    """
-    args = utils.generatePageList(request, 
-            Issue.objects.filter(resolved_state__isnull=True), page)
-
-    return render_to_response("issue_list.html", args,
-            context_instance=RequestContext(request))
-
-@permission_required('IssueTracker.can_view', login_url="/login/")
-def history(request, item_id, page=1):
-    """
-    Given an item, will look up the history for the item
-    """
-    item = get_object_or_404(cModels.Item, pk=item_id)
-
-    # with the item, we can look up all the history that the item has had
-    issues = Issue.objects.filter(item=item_id).\
-            order_by('-post_time', 'last_modified')
-
-    print issues
-
-    args = { 'item': item, 'history': issues }
-
-    return render_to_response('history.html', args,
-            context_instance=RequestContext(request))
-
-
-
 
