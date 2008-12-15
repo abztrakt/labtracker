@@ -1,8 +1,8 @@
 {% extends "base_full.html" %}
 {% load issue_extras %}
-{% block pageCSS %}@import url('/static/css/IssueTracker/view.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="/static/js/IssueTracker/view.js"></script>
-<script type="text/javascript" src="/static/js/prob_types.js"></script>{% endblock %}
+{% block pageCSS %}@import url('{{MEDIA_URL}}css/IssueTracker/view.css');{% endblock %}
+{% block pageHead %}<script type="text/javascript" src="{{MEDIA_URL}}js/IssueTracker/view.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/prob_types.js"></script>{% endblock %}
 
 {% block heading %}Viewing Issue{% endblock %}
 {% block content %}

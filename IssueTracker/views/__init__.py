@@ -233,8 +233,8 @@ def modIssue(request, issue_id):
         postResp['userid'] = user.id
         postResp['status'] = 1
 
-    # FIXME: Needs to deal with error handling here, what happens when user could not have
-    # been removed?
+    # FIXME: Needs to deal with error handling here, what happens when user 
+    # could not have been removed?
 
     if request.is_ajax():
         # means an ajax call and so will do a json response
