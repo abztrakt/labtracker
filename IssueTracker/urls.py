@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('IssueTracker.views',
-     url(r'^$', 'index', name="issueIndex"),
      (r'^(?P<issue_id>\d+)/fetch/$', 'fetch'),
      url(r'^new/$', 'createIssue', name='createIssue'),
 

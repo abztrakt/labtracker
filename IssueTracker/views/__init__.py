@@ -17,13 +17,6 @@ import LabtrackerCore.models as cModels
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
 
-def index(request):
-    """
-    Used for log in as well
-    """
-    return render_to_response('index.html', 
-            context_instance=RequestContext(request))
-
 @permission_required('Issuetracker.add_issue', login_url="/login/")
 def updateIssue(request, issue_id):
     """
@@ -47,7 +40,7 @@ def updateIssue(request, issue_id):
         issue_email.appendSection(
                 Email.EmailSection("[Issue %d updates]" % (issue.pk)))
 
-        if (data.has_key('cc')):
+        if data.has_key('cc'):
             # CC is special in that it only updates this area
             newUsers = set(User.objects.in_bulk(data.getlist('cc')).order_by('id'))
             curUsers = set(issue.cc.all().order_by('id'))
