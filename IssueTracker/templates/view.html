@@ -2,7 +2,8 @@
 {% load issue_extras %}
 {% block pageCSS %}@import url('{{MEDIA_URL}}css/IssueTracker/view.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="{{MEDIA_URL}}js/IssueTracker/view.js"></script>
-<script type="text/javascript" src="{{MEDIA_URL}}js/prob_types.js"></script>{% endblock %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/prob_types.js"></script>
+{% endblock %}
 
 {% block heading %}Viewing Issue{% endblock %}
 {% block content %}
@@ -65,12 +66,20 @@
 <fieldset>
 <!-- add_comment_form, update_issue_form -->
     <ul class="struct">
-        <li><label for='assignee'>Assign To:</label> {{ update_issue_form.assignee }}</li>
-        <li><label for='resolved_state'>Resolve:</label> {{ update_issue_form.resolved_state }}</li>
+		<li>
+			<label for='assignee'>Assign To:</label>
+			{{ update_issue_form.assignee }}
+		</li>
+		<li>
+			<label for='resolved_state'>Resolve:</label> 
+			{{ update_issue_form.resolved_state }}
+		</li>
     </ul>
 	<div class="left">
 		<div>
-			<label for='comment' style='display: block;'>{{ add_comment_form.comment.label }}</label>
+			<label for='comment' style='display: block;'>
+				{{ add_comment_form.comment.label }}
+			</label>
 			{{ add_comment_form.comment }}
 		</div>
 		<div class="none_if_js">
