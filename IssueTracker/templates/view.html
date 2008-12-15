@@ -10,62 +10,62 @@
 <div id="main_issue">
 <div id="issue">
 	<h2 id="title">{{ issue.pk }} - {{ issue.title|escape }}</h2>
-    <div id="info">
-        <ul class="floated struct">
-            <li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
-            <li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
+	<div id="info">
+		<ul class="floated struct">
+			<li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
+			<li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
 			<li><h4>Contacts:</h4> {% contact issue %}</li>
-            <li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
-            <li><h4>Group:</h4>  {{ issue.group }}</li>
-            <li><h4>Item:</h4>  
-                {% if issue.item %}
+			<li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
+			<li><h4>Group:</h4>  {{ issue.group }}</li>
+			<li><h4>Item:</h4>  
+				{% if issue.item %}
 					<a href="{{ issue.item.item.get_absolute_url }}">
-                        {{ issue.item }}
-                    </a>
-                {% else %}
-                    {{ issue.item }}
-                {% endif %}
-            </li>
-            <li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
-            <li><h4>State:</h4>  {{ issue.resolved_state }}</li>
-        </ul>
-        <br class="clear" />
-    </div>
+						{{ issue.item }}
+					</a>
+				{% else %}
+					{{ issue.item }}
+				{% endif %}
+			</li>
+			<li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
+			<li><h4>State:</h4>  {{ issue.resolved_state }}</li>
+		</ul>
+		<br class="clear" />
+	</div>
 	<div id="specInfo">
 		{% invspec issue %}
 	</div>
 
-    <br class="clear" />
+	<br class="clear" />
 
 	<h3 class='label'>Description:</h3>
-    <p id="description">{{ issue.description|escape }}</p>
-    <div id="problems">
-        <h3 class='label'>Problems: </h3>
-        {%  if issue.problem_type.all %}
-        <ul class="struct inline">
-            {% for issue in issue.problem_type.all %}
-                <li>{{ issue }}</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        --
-        {% endif %}
-        <br class="clear" />
-    </div>
+	<p id="description">{{ issue.description|escape }}</p>
+	<div id="problems">
+		<h3 class='label'>Problems: </h3>
+		{%  if issue.problem_type.all %}
+		<ul class="struct inline">
+			{% for issue in issue.problem_type.all %}
+				<li>{{ issue }}</li>
+			{% endfor %}
+		</ul>
+		{% else %}
+		--
+		{% endif %}
+		<br class="clear" />
+	</div>
 </div>
 {% for post in comments %}
 <div id='post_{{ post.ip_id }}' class='comment'>
-    <div class='post_date'>{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}</div>
-    <p>
-        {{ post.comment|escape }}
-    </p>
+	<div class='post_date'>{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}</div>
+	<p>
+		{{ post.comment|escape }}
+	</p>
 </div>
 {% endfor %}
 
 <form id='post_comment' method='post' action='{% url IssueTracker-update issue.pk %}'>
 <fieldset>
 <!-- add_comment_form, update_issue_form -->
-    <ul class="struct">
+	<ul class="struct">
 		<li>
 			<label for='assignee'>Assign To:</label>
 			{{ update_issue_form.assignee }}
@@ -74,7 +74,7 @@
 			<label for='resolved_state'>Resolve:</label> 
 			{{ update_issue_form.resolved_state }}
 		</li>
-    </ul>
+	</ul>
 	<div class="left">
 		<div>
 			<label for='comment' style='display: block;'>
@@ -91,7 +91,7 @@
 	</div>
 	<br class="clear" />
 
-    {% include "IssueTracker/issue/prob_tag_block.html" %}
+	{% include "IssueTracker/issue/prob_tag_block.html" %}
 {% if comment_errors %}
 {{ comment_errors }}
 {% endif %}
@@ -104,11 +104,11 @@
 <!-- Right side bar -->
 <div id="right_side_bar">
 	<!-- Stuff involving the CC list -->
-    {% include "IssueTracker/cc_list.html" %}
+	{% include "IssueTracker/cc_list.html" %}
 
-    <div id="history_box">
-        {% include "IssueTracker/issue/history.html" %}
-    </div>
+	<div id="history_box">
+		{% include "IssueTracker/issue/history.html" %}
+	</div>
 </div>
 <br class='clear' />
 {% endblock %}
