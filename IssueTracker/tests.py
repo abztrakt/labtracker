@@ -322,17 +322,15 @@ class UpdateIssueTest(TestCase):
 
         issueUser = self.issue.cc.get(username='zhaoz')
     
-        self.client.get(reverse('IssueTracker-modIssue', args=[1]),
+        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
                             {'action': 'dropcc',
-                            'user': issueUser.pk,
-                            'js': 1})
+                            'user': issueUser.pk})
         self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
 
 
-        self.client.get(reverse('IssueTracker-modIssue', args=[1]),
+        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
                             {'action': 'addcc',
-                            'user': self.user.username,
-                            'js': 1})
+                            'user': self.user.username})
 
         self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
