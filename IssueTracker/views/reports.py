@@ -27,7 +27,7 @@ def groupedList(request, group_by=None, page=1):
     Lists issues, group_by
     """
 
-    if group_by not in ('problem_type','reporter'):
+    if group_by not in ('problem_type','reporter', 'item'):
         return Http404()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True)\
