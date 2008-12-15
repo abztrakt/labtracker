@@ -1,9 +1,7 @@
-from django.http import HttpResponseRedirect, Http404, HttpResponse, \
-        HttpResponseServerError
+from django.http import Http404
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render_to_response, get_object_or_404
-import django.db.models 
+from django.shortcuts import render_to_response
 
 import IssueTracker.utils as utils
 import IssueTracker.models as im
