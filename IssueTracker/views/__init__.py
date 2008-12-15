@@ -337,8 +337,6 @@ def history(request, item_id, page=1):
     issues = Issue.objects.filter(item=item_id).\
             order_by('-post_time', 'last_modified')
 
-    print issues
-
     args = { 'item': item, 'history': issues }
 
     return render_to_response('history.html', args,
