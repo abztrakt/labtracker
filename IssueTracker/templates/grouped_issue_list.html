@@ -2,7 +2,7 @@
 {% load issue_extras %}
 
 {% block issueListContent %}
-{% for name, list in object_list.items %}
+{% for name, list in object_list %}
 	{% issueList list name %}
 {% endfor %}
 

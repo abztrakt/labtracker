@@ -28,13 +28,14 @@ def groupedList(request, group_by=None, page=1):
     if group_by not in ('problem_type','reporter', 'item'):
         return Http404()
 
-    objects = im.Issue.objects.filter(resolved_state__isnull=True)\
-            .order_by(group_by)
+    objects = im.Issue.objects.filter(resolved_state__isnull=True)
 
     args = utils.generateIssueArgs(request, objects)
 
-    # do the group by
+    # Sets do not preserve order, so we must use a list to store the items
     issue_list = {}
+    issue_sets = {}     # need to use this to detect duplicates
+
     for issue in args['issues']:
         field = getattr(issue, group_by)
 
@@ -46,11 +47,28 @@ def groupedList(request, group_by=None, page=1):
 
         for group_name in group_names:
             if issue_list.has_key(group_name):
-                issue_list[group_name].add(issue)
+                # only add if it doesn't already exist in list
+                if not issue_sets[group_name].issuperset([issue]):
+                    issue_list[group_name].append(issue)
+                    issue_sets[group_name].add(issue)
             else:
-                issue_list[group_name] = set([issue,])
+                issue_list[group_name] = [issue,]
+                issue_sets[group_name] = set([issue,])
 
-    args['object_list'] = issue_list
+    items = issue_list.items()
+
+    def tuple_sort(a, b):
+        if a[0] == None:
+            return -1
+        elif b[0] == None:
+            return 1
+
+        return cmp(str(a[0]), str(b[0]))
+
+    items.sort(tuple_sort)
+
+    args['object_list'] = items
 
     return render_to_response("grouped_issue_list.html", args,
             context_instance=RequestContext(request))
+
