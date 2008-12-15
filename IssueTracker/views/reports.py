@@ -11,8 +11,10 @@ def allUnresolved(request, page=1):
     """
     Lists all the Issues 
     """
-    args = utils.generatePageList(request, 
-            im.Issue.objects.filter(resolved_state__isnull=True), page)
+    objects = im.Issue.objects.filter(resolved_state__isnull=True)
+    args = utils.generatePageList(request, objects, page)
+
+    args['no_results'] = args['page'].object_list.count() < 1
 
     return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
@@ -66,6 +68,8 @@ def groupedList(request, group_by=None, page=1):
     items.sort(tuple_sort)
 
     args['object_list'] = items
+
+    args['no_results'] = len(items) < 1
 
     return render_to_response("grouped_issue_list.html", args,
             context_instance=RequestContext(request))
