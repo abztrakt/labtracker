@@ -217,12 +217,7 @@ def modIssue(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     postResp = {}
 
-    if request.method == "POST":
-        # POST means an ajax call and so will do a json response
-        data = request.POST.copy()
-    elif request.method == "GET":
-        # direct call, will need to redirect
-        data = request.GET.copy()
+    data = request.POST.copy()
 
     action = data.get('action')
     if action == "dropcc":
@@ -241,7 +236,7 @@ def modIssue(request, issue_id):
     # FIXME: Needs to deal with error handling here, what happens when user could not have
     # been removed?
 
-    if data.get('js'):
+    if request.is_ajax():
         # means an ajax call and so will do a json response
         return HttpResponse(simplejson.dumps(postResp))
     else:

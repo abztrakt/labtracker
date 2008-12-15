@@ -24,8 +24,7 @@ function dropCC(event) {
         'url': "modIssue/",
         'data': { 
                 'action'    : 'dropcc',
-                'user'      : user_id, 
-                'js'        : 1
+                'user'      : user_id
             },
         'error': function (req, err, e) {
                 errorl.addErr("Was unable to remove user from CC list.");
