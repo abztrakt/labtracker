@@ -1,6 +1,6 @@
-from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
-from django.shortcuts import render_to_response, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
@@ -44,7 +44,8 @@ def search(request, page=1):
                 context_instance=RequestContext(request))
 
     else:
-        return HttpResponseRedirect(reverse('issueIndex'))
+        #return HttpResponseRedirect(reverse('issueIndex'))
+        return HttpResponseRedirect("/")
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def advSearch(request):
