@@ -1,4 +1,5 @@
-from django.core import validators, mail 
+from django.core import mail 
+#from django.core import validators
 from django.conf import settings
 
 class EmailSection(object):
@@ -28,7 +29,9 @@ def isValidEmail(email):
     """
     returns true if email is valid
     """
-    validators.isValidEmail(email, None)
+    # FIXME fix validtaor
+    #validators.isValidEmail(email, None)
+    return True
 
 class Email(object):
     """
