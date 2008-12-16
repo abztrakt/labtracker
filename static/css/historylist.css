@@ -5,4 +5,9 @@ h3, h2 {
 
 #history {
     margin-top: 1em;
+    text-align: left; 
+}
+
+.table {
+    padding-right: 1.5em;	
 }

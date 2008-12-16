@@ -1,7 +1,7 @@
 		<h3 class='label'>History:</h3>
         {% for item in history %}
         <div id='hist_{{ item.ih_id }}' class='history'>
-            <h4>{{item.user}}<span class='date'>{{item.time|date}} {{item.time|time}}</span></h4>
+			<h4>{{item.user}}<br /><span class='date'>{{item.time|date}} {{item.time|time}}</span></h4>
             <div class='action_msg'>{{ item.message|safe }}</div>
         </div>
         {% endfor %}

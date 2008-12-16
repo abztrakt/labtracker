@@ -6,6 +6,7 @@ html, body {
     font-size: 12px;
     margin: 0px; padding: 0px;
     min-width: 1000px;
+    background-color: #bab9b9;
 }
 h3 { padding-top: 0px; margin-top: 0px; }
 h3.label, h4.label { padding: 0px; margin: 0px; }
@@ -16,11 +17,12 @@ a img { border: none; }
  * base template styles *
  ************************/
 #header {
-    height: 2.8em;
+    height: 4.2em;
     margin: 0px;
     margin-bottom: 0.4em;
     padding: 0em 1em;
-    border-bottom: 1px gray dotted;
+    border-bottom: 1px black solid;
+    background-color: white;
 }
 #nav { 
 	float: right;
@@ -29,7 +31,7 @@ a img { border: none; }
 #nav > li {
     height: 1.5em;
     padding: 0.5em 4px;
-    border-bottom: 1px grey solid;
+    margin-top: 1.15em;
 }
 /* #nav li:hover { background: #CCCCCC; } */
 #userInfo { float: left; }
@@ -40,15 +42,16 @@ a img { border: none; }
 div#fast_search {
     float: right;
     margin-right: 1em;
+    margin-top: 1em;
 }
 
 div#fast_search > form input#search_term {
-    background: #FBDAAE;
+    background: #a8ecf0;
 }
 
 div#fast_search > form input.flat {
     padding: 1px;
-    background: #C8A77B;
+    background: #69bad5;
 }
 
 /* Header right under the main header */
@@ -126,15 +129,17 @@ select#id_cc {
 
 
 div.tags {
-    font-weight: bold;
+    font-weight: none;
 }
 
 div.tags div {
-    margin: .5em;
+    margin: 1em .5em;
     padding: .4em;
-    min-height: 2em;
-    width: 100%;
+    min-height: 1.4em;
+    width: 50em;
 }
+
+.floatleft {float:left;}
 
 div.tags li {
     padding: .5em;
@@ -144,9 +149,19 @@ div.tags li {
 	float: left;
 }
 
-div#untagged { background: #DDBB99; }
+div#untagged {
+	background: #DDBB99;
+	margin: 0 0 2em 150px;
+	line-height: 1.2em;
+	border: 1px solid #000000;
+}
 
-div#tagged { background: #FFCCAA; }
+div#tagged {
+	background: #FFCCAA;
+	margin: 1em 0 1.5em 150px;
+	line-height: 1.2em;
+	border: 1px solid #000000;
+}
 
 div.tags h4 {
     padding: 0px;

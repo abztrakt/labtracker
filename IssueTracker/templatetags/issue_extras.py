@@ -56,7 +56,7 @@ class SearchHeader(template.Node):
             else:
                 image = 'asc.png'
             img = '<img src="/static/img/layout/%s" />' % (image)
-            text = img + text
+            text += img
 
         return row % (link % text)
 

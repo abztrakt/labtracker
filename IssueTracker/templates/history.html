@@ -14,11 +14,11 @@
 <table id="history">
 <thead>
     <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Posted</th>
-        <th>Resolved</th>
+        <th class="table">ID</th>
+        <th class="table">Title</th>
+        <th class="table">Modified</th>
+        <th class="table">Posted</th>
+        <th class="table">Resolved</th>
     </tr>
 </thead>
 <tbody>
@@ -29,9 +29,9 @@
         <td>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
         <td>{{ issue.post_time|date }} at {{ issue.post_time|time }} </td>
         {% if issue.resolve_time %}
-            <td>{{ issue.resolve_time|date }} at {{ issue.resolve_time|time }}</td>
+            <td class="table">{{ issue.resolve_time|date }} at {{ issue.resolve_time|time }} </td>
         {% else %}
-            <td>None</td>
+            <td class="table">None </td>
         {% endif %}
     </tr>
     {% endfor %}
