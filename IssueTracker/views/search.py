@@ -33,8 +33,13 @@ def search(request, page=1):
                 return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue_id]))
             except ObjectDoesNotExist, e:
                 # search_term was not an id, search by string
-                issues = issueSearch.titleSearch(term)
-                args =  utils.generatePageList(request, issues, page)
+                pass
+            except ValueError, e:
+                # search_term was not an id, search by string
+                pass
+
+            issues = issueSearch.titleSearch(term)
+            args =  utils.generatePageList(request, issues, page)
 
             args['last_search_term'] = term
 
