@@ -4,7 +4,7 @@ urlpatterns = patterns('IssueTracker.views',
      (r'^(?P<issue_id>\d+)/fetch/$', 'fetch'),
      url(r'^new/$', 'createIssue', name='createIssue'),
 
-     url(r'^(?P<issue_id>\d+)/$', 'viewIssue', name="view"),
+     url(r'^(?P<issue_id>\d+)/$', 'viewIssue', name="IssueTracker-view"),
      url(r'^(?P<issue_id>\d+)/updateIssue/$', 'updateIssue', 
          name='IssueTracker-update'),
      url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', name='IssueTracker-modIssue'),

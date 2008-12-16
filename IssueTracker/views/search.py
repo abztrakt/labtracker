@@ -1,10 +1,12 @@
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import permission_required
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.template import RequestContext
 
-from IssueTracker.models import *
+from django.db.models import ObjectDoesNotExist
+
+import IssueTracker.models as im
 import IssueTracker.search as issueSearch
 import IssueTracker.utils as utils
 
@@ -27,9 +29,9 @@ def search(request, page=1):
                 issue_id = int(term)
 
                 # if this is an issue id, then send them to that view
-                issue = Issue.objects.get(pk=issue_id)
-                return HttpResponseRedirect(reverse('view', args=[issue_id]))
-            except Exception, e:
+                issue = im.Issue.objects.get(pk=issue_id)
+                return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue_id]))
+            except ObjectDoesNotExist, e:
                 # search_term was not an id, search by string
                 issues = issueSearch.titleSearch(term)
                 args =  utils.generatePageList(request, issues, page)

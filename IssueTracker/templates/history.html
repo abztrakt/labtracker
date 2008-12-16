@@ -25,7 +25,7 @@
     {% for issue in history %}
     <tr>
         <td>{{ issue.pk }}</td>
-        <td><a href="{% url view issue.pk %}">{{ issue.title }}</a></td>
+        <td><a href="{% url IssueTracker-view issue.pk %}">{{ issue.title }}</a></td>
         <td>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
         <td>{{ issue.post_time|date }} at {{ issue.post_time|time }} </td>
         {% if issue.resolve_time %}

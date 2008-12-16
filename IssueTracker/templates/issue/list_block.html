@@ -20,7 +20,7 @@
     <tr class="{% cycle 'even' 'odd' %}">
         <td class='r_issue_id'>{{ issue.issue_id }}</td>
 		<td class='r_title'>
-			<a href="{% url view issue.issue_id %}">{{ issue.title }}</a>
+			<a href="{% url IssueTracker-view issue.issue_id %}">{{ issue.title }}</a>
 		</td>
         <td class='r_item'>
         {% if issue.item %}

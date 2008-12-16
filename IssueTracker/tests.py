@@ -136,11 +136,11 @@ class IssueCreationTest(TestCase):
         self.assertTrue(last_pk < issue.pk)
 
         self.failUnlessEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('view', args=[self.issue.pk,]),
+        self.assertRedirects(response, reverse('IssueTracker-view', args=[self.issue.pk,]),
                 status_code=302, target_status_code=200)
 
         # now make sure that we can actually view that issue
-        response = self.client.get(reverse('view', args=[self.issue.pk]))
+        response = self.client.get(reverse('IssueTracker-view', args=[self.issue.pk]))
 
         self.assertTemplateUsed(response, "view.html")
 
@@ -208,7 +208,7 @@ class IssueSearchTest(TestCase):
                 'search_term':  self.issue.pk
             })
 
-        self.assertRedirects(response, reverse('view', args=[self.issue.pk]))
+        self.assertRedirects(response, reverse('IssueTracker-view', args=[self.issue.pk]))
 
     def testQuickSearch(self):
         """

@@ -200,7 +200,7 @@ def updateIssue(request, issue_id):
     else:
         return Http404()
 
-    return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+    return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
 
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def modIssue(request, issue_id):
@@ -234,7 +234,7 @@ def modIssue(request, issue_id):
         return HttpResponse(simplejson.dumps(postResp))
     else:
         # direct call, will need to redirect
-        return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+        return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def viewIssue(request, issue_id):
@@ -297,7 +297,7 @@ def createIssue(request):
 
             if valid:
                 issue = form.save()
-                return HttpResponseRedirect(reverse('view', args=[issue.issue_id]))
+                return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
             
         else:
             # form was not valid, errors should be on form though, so nothing
