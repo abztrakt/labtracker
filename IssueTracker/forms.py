@@ -105,7 +105,7 @@ class CreateIssueForm(ModelForm):
 
     class Meta:
         model = im.Issue
-        fields=('it','group','item','cc','problem_type','title','description',
+        fields = ('it','group','item','cc','problem_type','title','description',
                 'reporter')
 
 class UpdateIssueForm(ModelForm):
@@ -114,7 +114,7 @@ class UpdateIssueForm(ModelForm):
     """
     class Meta:
         model = im.Issue
-        fields=('problem_type','assignee','cc','resolve_time', 'resolved_state', 
+        fields = ('problem_type','assignee','cc','resolve_time', 'resolved_state', 
                 'last_modified')
 
 class AddCommentForm(ModelForm):
@@ -123,4 +123,4 @@ class AddCommentForm(ModelForm):
     """
     class Meta:
         model = im.IssueComment
-        fields=('issue', 'user','comment')
+        fields = ('issue', 'user','comment')

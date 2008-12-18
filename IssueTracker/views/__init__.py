@@ -12,11 +12,10 @@ from django.shortcuts import render_to_response, get_object_or_404
 import simplejson
 
 from IssueTracker.models import *
-import IssueTracker.issue as issue
+from IssueTracker.issue import IssueUpdater
 import LabtrackerCore.models as cModels
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
-
 
 
 @permission_required('IssueTracker.add_issue', login_url="/login/")
@@ -66,23 +65,28 @@ def viewIssue(request, issue_id):
     # get the issue
     issue = get_object_or_404(Issue, pk=issue_id)
 
+    args = {
+            'issue': issue,
+            'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),
+            'comments': IssueComment.objects.filter(issue=issue).order_by('time')
+        }
+
     if request.method == 'POST':
-        issue.processIssueUpdate(request, issue)
+        issueProcessor = IssueUpdater(request, issue)
 
         # if everything passed, redirect to self
-        return HttpResponseRedirect(reverse('IssueTracker-view', 
-                                            args=[issue.issue_id]))
+        if retval:
+            return HttpResponseRedirect(reverse('IssueTracker-view', 
+                                                args=[issue.issue_id]))
+        form = issueProcessor.updateForm
+        commentForm = issueProcessor.commentForm
     else:
-        args = {
-                'issue': issue,
-                'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),
-                'comments': IssueComment.objects.filter(issue=issue).order_by('time')
-            }
-
         form = UpdateIssueForm(instance=issue)
-        args['add_comment_form'] = AddCommentForm()
-        args['update_issue_form'] = form
-        args['problem_types'] = form.fields['problem_type'].queryset
+        commentForm = AddCommentForm()
+
+    args['add_comment_form'] = commentForm
+    args['update_issue_form'] = form
+    args['problem_types'] = form.fields['problem_type'].queryset
 
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))
