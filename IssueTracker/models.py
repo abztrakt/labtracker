@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from LabtrackerCore.models import Item,InventoryType,Group
 from django.contrib.auth.models import User
@@ -53,6 +54,17 @@ class Issue(models.Model):
     resolved_state = models.ForeignKey(ResolveState, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
+
+    def save(self, *args, **kwargs):
+        # check to see if the resolved_state has changed, if so, then change 
+        # resolve_time
+        old = Issue.objects.get(pk=self.pk)
+
+        if old.resolved_state != self.resolved_state:
+            self.resolve_time = datetime.now()
+
+        super(Issue, self).save(*args, **kwargs)
+
 
     def __unicode__(self):
         return "%d - %s" % (self.issue_id, self.title)
