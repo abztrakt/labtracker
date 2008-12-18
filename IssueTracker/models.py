@@ -34,13 +34,14 @@ class Issue(models.Model):
     Therefore, item_id is null=True
     """
 
-    issue_id = models.AutoField(primary_key=True)
+    issue_id = models.AutoField(primary_key=True, editable=False)
+
     it = models.ForeignKey(InventoryType, verbose_name="Inventory Type", blank=True,
             null=True)
     group = models.ForeignKey(Group, null=True, blank=True)
     item = models.ForeignKey(Item, null=True, blank=True)
-
     reporter = models.ForeignKey(User, related_name='reporter')
+
     assignee = models.ForeignKey(User, related_name='assignee', null=True, 
             blank=True)
     cc = models.ManyToManyField(User, related_name="cc_user", null=True, 

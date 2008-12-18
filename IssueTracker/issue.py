@@ -1,198 +1,128 @@
 from django.contrib.auth.models import User
 
-import LabtrackerCore.Email as Email
+from LabtrackerCore.Email import EmailSection
+from IssueTracker.Email import NewIssueEmail
 import IssueTracker.forms as forms
 
-def updateIssueCC(issue, cc_list, email=None):
-    """
-    handle the cc updating for an issue
-    """
-    # CC is special in that it only updates this area
-    newUsers = set(User.objects.in_bulk(cc_list).order_by('id'))
-    curUsers = set(issue.cc.all().order_by('id'))
+class IssueUpdater(object):
 
-    removeCC = []
-    # find items that need to be removed
-    # FIXME this is terrible inefficient, would be better if the 
-    #   newUsers list is shortened
+    def __init__(self, request, issue):
+        self.request = request
+        self.issue = issue
+        self.valid = False
 
-    # find curUsers not in newUsers, remove them
-    for user in curUsers.difference(newUsers):
-        if curUser not in newUsers:
-            removeCC.append(curUser)
-            issue.cc.remove(curUser)
+        self.data = request.POST.copy()
 
-    if removeCC and email:
-        email.appendSection(Email.EmailSection(
-            "Users removed from CC",
-            ", ".join(removeCC)
-        ))
+        self.updateForm = forms.UpdateIssueForm(self.data, instance=issue)
 
-    addCC = []
-    # now curUsers only contains the users that need not be modified
-    # add all newUsers not in curUser to cc list
-    for user in newUsers.difference(curUsers):
-        addCC.append(newUser)
-        issue.cc.add(newUser)
-
-    if addCC and email:
-        issue_email.appendSection(Email.EmailSection(
-            "Users removed from CC", ", ".join(addCC)
-        ))
-
-def updateIssueProblemTypes(issue, ptypes, email=None):
-    """
-    Update an issue's problem types
-    """
-    given_pt = {}
-
-    # for each one that has been sent in args
-    for g_pt in ptypes:
-        given_pt[int(g_pt)] = 1
-
-    # Any problem type that is not given, will need to be marked for removal
-    for pt in issue.problem_type.all():
-        if not given_pt.has_key(pt.pk):
-            given_pt[pt.pk] = -1
+        # validate and bind form
+        if updateIssue.is_valid():
+            self.valid = True
+            updateIssue.save(commit=False)
         else:
-            # if it was given, and already exists, do nothing
-            given_pt[pt.pk] = 0
+            self.valid = False
+            return
 
-    drop_items = []
-    add_items = []
+        if self.data.has_key('resolved_state') and \
+                self.issue.resolved_state != self.updateIssue.resolved_state:
+            # FIXME do in form
+            updateIssue.resolve_time = datetime.datetime.now()
 
-    for pt in given_pt:
-        item = ProblemType.objects.get(pk=pt)
-        if given_pt[pt] == 1:
-            add_items.append(item.name)
-            issue.problem_type.add(item)
-        elif given_pt[pt] == -1:
-            drop_items.append(item.name)
-            issue.problem_type.remove(item)
+        if self.data.has_key('comment'):
+            self.data.__setitem__('user', str(request.user.id))
+            self.data.__setitem__('issue', issue_id)
 
-    hist_msg = ""
-    if add_items:
-        # FIXME use a template
-        email.appendSection(Email.EmailSection(
-            "New Problem Types", ", ".join(add_items)
-        ))
+            self.commentForm = AddCommentForm(self.data)
+            if self.commentForm.is_valid():
+                self.valid = True
+                self.commentForm.save()
 
-        hist_msg += "<span class='label'>Added problems</span>: %s" \
-                % (", ".join(add_items))
+            else:
+                self.valid = False
+                return
 
-        if drop_items:
-            hist_msg += "<br />"
-
-    if drop_items:
-        # FIXME use a template
-        email.appendSection(Email.EmailSection(
-            "Removed Problem Types", ", ".join(drop_items)
-        ))
-
-        hist_msg += "<span class='label'>Removed problems</span>: %s" \
-                % (", ".join(drop_items))
-
-    if hist_msg:
-        utils.updateHistory(request.user, issue, hist_msg)
+        # deal with hooks
+        if issue.it:
+            hook = utils.issueHooks.getUpdateSubmitHook(issue.it.name)
+            if hook:
+                if hook(request, issue):
+                    self.valid = True
+                else:
+                    self.valid = False
+                    return
 
 
-def processIssueUpdate(request, issue):
-    """
-    This is for posting comments, and modifying some things for issues after 
-    they are created.
-    Requires a post request, otherwise nothing is done.
-    """
-    actionStr = []
-    curAssignee = issue.assignee
-    curState = issue.resolved_state
-    data = request.POST.copy()
+    def getEmail(self):
+        """
+        Create the email, and return it
+        """
+        issue_email = NewIssueEmail(self.issue)
+        curAssignee = self.issue.assignee
+        curState = self.issue.resolved_state
 
-    updateIssue = forms.UpdateIssueForm(data, instance=issue)
-    updateIssue = updateIssue.save(commit=False)
+        if self.data.has_key('cc'):
+            issue_email.addCCSection(self.issue.cc.all().order_by('id'),
+                    User.objects.in_bulk(self.data.getlist('cc')).order_by('id'))
 
-    issue_email = Email.Email()
+        if self.data.has_key('assignee') and \
+                (curAssignee != self.updateIssue.assignee):
+            issue_email.addAssigneeSection(curAssignee, self.updateIssue.assignee)
+            
+        if self.data.has_key('problem_type'):
+            issue_email.addProblemTypeSection(self.issue.problem_type.all(),
+                    self.data.getlist('problem_type'))
 
-    issue_email.appendSection(
-            Email.EmailSection("[Issue %d updates]" % (issue.pk)))
+        if self.data.has_key('resolved_state') and \
+                    curState != self.updateIssue.resolved_state:
 
-    if data.has_key('cc'):
-        updateIssueCC(issue, data.getlist('cc'), email=issue_email)
+            issue_email.addResolveStateSection(updateIssue.resolved_state)
 
-    if data.has_key('assignee') and not (curAssignee == updateIssue.assignee):
+        if self.data.has_key('comment'):
+            issue_email.addCommentSection(self.request.user, 
+                                          self.data.get('comment'))
 
-        assigneeSection = Email.EmailSection("Assignee Change")
-        if curAssignee != None:
-            assigneeSection.content = "%s ----> %s" % (curAssignee, 
-                    updateIssue.assignee)
-        else:
-            assigneeSection.content = updateIssue.assignee
-        issue_email.appendSection(assigneeSection)
 
-        actionStr.append("Assigned to %s" % (updateIssue.assignee))
+        issue_email.subject = '[labtracker] %s' % (self.issue.title)
 
-    if data.has_key('problem_type'):
-        updateIssueProblemTypes(issue, data.getlist('problem_type'), 
-                                email=issue_email)
-        
-    if data.has_key('resolved_state') and 
-            (curState != updateIssue.resolved_state):
-
-        updateIssue.resolve_time = datetime.datetime.now()
-
-        resolveSection = Email.EmailSection("Issue Resolve State")
-
-        # FIXME use a template
-        if curState != None:
-            resolveSection.content = "%s ---> %s" % (curState,\
-                                                     updateIssue.resolved_state)
-        else:
-            resolveSection.content = updateIssue.resolved_state
-        issue_email.appendSection(resolveSection)
-
-        actionStr.append("Changed state to %s" % \
-                (updateIssue.resolved_state))
-
-    if (actionStr):
-        updateIssue.save()
-        for action in actionStr:
-            utils.updateHistory(request.user, issue, action)
-
-    if data.has_key('comment'):
-        data['user'] = str(request.user.id)
-        data['issue'] = issue_id
-
-        newComment = AddCommentForm(data)
-        if newComment.is_valid():
-            newComment = newComment.save()
-
-            issue_email.appendSection(Email.EmailSection(
-                "Comment from %s" % (request.user.username), 
-                data['comment']
-            ))
-        else:
-            pass
-            # Form not valid
-            #args['add_comment_form'] = newComment
-    
-    # deal with hooks
-    if issue.it:
-        hook = utils.issueHooks.getUpdateSubmitHook(issue.it.name)
-        if not hook(request, issue):
-            return Http404()
-
-    # Send issue_email
-
-    if not issue_email.empty():
-        # get the cc list
-        cc_list = issue.cc.all()
-
-        issue_email.subject = '[labtracker] %s' % (issue.title)
-
-        for user in cc_list:
+        for user in issue.cc.all():
             issue_email.addCC(user.email)
 
-        issue_email.send()
+        return issue_email
 
-    else:
-        return Http404()
+    def getUpdateActionString(self):
+        """
+        Caller is in charge of calling updateHistory on the actionStrings
+        """
+
+        if not self.is_valid():
+            return None
+
+        curAssignee = self.issue.assignee
+        curState = self.issue.resolved_state
+
+        actionStrings = []
+
+        if self.data.has_key('assignee') and \
+                (curAssignee != self.updateIssue.assignee):
+            actionStrings.append("Assigned to %s" % (updateIssue.assignee))
+
+        if data.has_key('problem_type'):
+            # get histmsg from addProblemTypeSection here
+            pass
+
+        if data.has_key('resolved_state') and \
+                    curState != self.updateIssue.resolved_state:
+
+            actionStrings.append("Changed state to %s" % \
+                    (updateIssue.resolved_state))
+
+        #for action in actionStr:
+            #utils.updateHistory(request.user, issue, action)
+        return actionStrings
+
+    def save(self):
+        self.updateIssue.save()
+
+    def is_valid(self):
+        return self.valid
 
