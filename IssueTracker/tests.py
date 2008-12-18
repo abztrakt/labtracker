@@ -328,6 +328,7 @@ class UpdateIssueTest(TestCase):
         self.failUnless(comment is not None)
 
         self.assertEqual(len(mail.outbox), 1)
+        self.failUnlessEqual(None, self.issue.resolve_time)
 
     def testAddCC(self):
         """
@@ -345,6 +346,7 @@ class UpdateIssueTest(TestCase):
         self.issue = iModels.Issue.objects.get(pk=self.issue.pk)
         self.failUnlessEqual(num_cc+1, self.issue.cc.count())
         self.failUnlessEqual(1, self.issue.cc.filter(username=self.user.username).count())
+        self.failUnlessEqual(None, self.issue.resolve_time)
 
         # test removal
 
@@ -353,6 +355,7 @@ class UpdateIssueTest(TestCase):
                             'user': self.user.pk})
         self.failUnlessEqual(num_cc, self.issue.cc.count())
         self.failUnlessEqual(0, self.issue.cc.filter(username=self.user.pk).count())
+        self.failUnlessEqual(None, self.issue.resolve_time)
 
 
 
@@ -369,6 +372,7 @@ class UpdateIssueTest(TestCase):
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
         self.failUnlessEqual(self.user, issue.assignee)
+        self.failUnlessEqual(None, issue.resolve_time)
 
         # test getting an issue with an assignee, and changing it
         issue = iModels.Issue.objects.filter(assignee__isnull=False)[0]
@@ -378,6 +382,9 @@ class UpdateIssueTest(TestCase):
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
         self.failUnlessEqual(self.user, issue.assignee)
+
+        # make sure that the resolved time has not changed
+        self.failUnlessEqual(None, issue.resolve_time)
 
     def testChangeProblemType(self):
         """ 
@@ -392,13 +399,17 @@ class UpdateIssueTest(TestCase):
         issue = iModels.Issue.objects.filter(resolved_state__isnull=True,item__isnull=True)[0]
 
         resolution = iModels.ResolveState.objects.all()[0]
+        curTime = datetime.now()
 
-        args = { 'resolved_state': resolution.pk, }
-
-        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), args)
+        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), 
+                         { 'resolved_state': resolution.pk, })
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
         self.failUnlessEqual(resolution, issue.resolved_state)
+
+        self.failIfEqual(None, issue.resolve_time)
+
+        self.failUnless(issue.resolve_time >= curTime)
 
         # TODO test the timestamp
 
