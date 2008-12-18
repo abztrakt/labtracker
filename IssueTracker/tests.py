@@ -389,16 +389,16 @@ class UpdateIssueTest(TestCase):
         """
         test resolving an issue
         """
-        issue = iModels.Issue.objects.filter(resolved_state__isnull=False)[0]
+        issue = iModels.Issue.objects.filter(resolved_state__isnull=True,item__isnull=True)[0]
 
         resolution = iModels.ResolveState.objects.all()[0]
 
-        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
-                        'resolved_state'          : resolution.pk
-                    })
+        args = { 'resolved_state': resolution.pk, }
+
+        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), args)
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
-        self.failUnlessEqual(resolution, issue.resolve_state)
+        self.failUnlessEqual(resolution, issue.resolved_state)
 
         # TODO test the timestamp
 
