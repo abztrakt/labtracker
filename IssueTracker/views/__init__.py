@@ -76,6 +76,7 @@ def viewIssue(request, issue_id):
 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
+            issueProcessor.save()
             email = issueProcessor.getEmail()
             email.send()
 
