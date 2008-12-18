@@ -22,10 +22,11 @@ class IssueUpdater(object):
             self.updateForm.save(commit=False)
         else:
             self.valid = False
-            return
+            raise ValueError("form invalid")
 
         if self.data.has_key('resolved_state') and \
-                self.issue.resolved_state != self.updateForm.resolved_state:
+                self.issue.resolved_state != \
+                    self.updateForm.cleaned_data['resolved_state']:
             # FIXME do in form
             self.updateForm.resolve_time = datetime.datetime.now()
 
@@ -40,7 +41,7 @@ class IssueUpdater(object):
 
             else:
                 self.valid = False
-                return
+                raise ValueError("form invalid")
 
         # deal with hooks
         if issue.it:
@@ -50,8 +51,7 @@ class IssueUpdater(object):
                     self.valid = True
                 else:
                     self.valid = False
-                    return
-
+                    raise ValueError("form invalid")
 
     def getEmail(self):
         """
