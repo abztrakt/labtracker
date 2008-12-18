@@ -30,7 +30,7 @@ def isValidEmail(email):
     returns true if email is valid
     """
     # FIXME fix validtaor
-    #validators.isValidEmail(email, None)
+    # validators.isValidEmail(email, None)
     return True
 
 class Email(object):
