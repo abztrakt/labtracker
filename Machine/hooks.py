@@ -108,16 +108,16 @@ def issueUpdateViewSubmit(request, issue):
     return True
 
 @issueHook("updateForm")
-def issueForm(request, issue):
+def issueForm(issue, request=None):
     """
     return a form
     """
-    data = request.POST.copy()
-
     if issue.item:
         item = issue.item.item
-        
-        form = forms.UpdateMachineForm(data, instance=item)
-        return form
+
+        if request:
+            return forms.UpdateMachineForm(request.POST.copy(), instance=item)
+
+        return forms.UpdateMachineForm(instance=item)
 
     return django.forms.Form()
