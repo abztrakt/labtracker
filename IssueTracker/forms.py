@@ -4,13 +4,11 @@ from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
 
 from IssueTracker import newIssueSignal
-from IssueTracker.models import *
-
-#IssueForm = forms.form_for_model(Issue, formfield_callback=issueCallback)
+import IssueTracker.models as im
 
 class IssueForm(ModelForm):
     class Meta:
-        model = Issue
+        model = im.Issue
 
 """
     modes = {}
@@ -106,7 +104,7 @@ class CreateIssueForm(ModelForm):
         return inst
 
     class Meta:
-        model = Issue
+        model = im.Issue
         fields=('it','group','item','cc','problem_type','title','description',
                 'reporter')
 
@@ -115,7 +113,7 @@ class UpdateIssueForm(ModelForm):
     This form is used for updating issues
     """
     class Meta:
-        model = Issue
+        model = im.Issue
         fields=('problem_type','assignee','cc','resolve_time', 'resolved_state', 
                 'last_modified')
 
@@ -124,5 +122,5 @@ class AddCommentForm(ModelForm):
     This form is used for adding comments to issues
     """
     class Meta:
-        model = IssueComment
+        model = im.IssueComment
         fields=('issue', 'user','comment')
