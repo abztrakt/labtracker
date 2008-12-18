@@ -19,51 +19,44 @@ class IssueHooks(object):
 
         # hook storage is done through a dictionary
         # format is { inventoryType: function }
-        self.create = {}
-        self.createSubmit = {}
 
-        self.view = {}
+        self.hooks = {
+            'create': {},
+            'createSubmit': {},
+            'view': {},
+            'update': {},
+            'updateSubmit': {},
+            'updateForm': {},
+        }
 
-        self.update = {}
-        self.updateSubmit = {}
+    def registerHook(self, type, inv_t, f):
+        self.hooks[type][inv_t] = f
 
-    def _registerHook(self, dict, inv_t, f):
-        dict[inv_t] = f
+    def getHook(self, type, inv_t):
+        if not self.hooks.has_key(type):
+            return None
 
-    def registerCreateHook(self, inv_t, f):
-        self._registerHook(self.create, inv_t, f)
+        dict = self.hooks[type]
 
-    def registerCreateSubmitHook(self, inv_t, f):
-        self._registerHook(self.createSubmit, inv_t, f)
-
-    def registerViewHook(self, inv_t, f):
-        self._registerHook(self.view, inv_t, f)
-
-    def registerUpdateSubmitHook(self, inv_t, f):
-        self._registerHook(self.updateSubmit, inv_t, f)
-
-    def registerUpdateHook(self, inv_t, f):
-        self._registerHook(self.update, inv_t, f)
-
-    def _getHook(self, dict, inv_t):
         if dict.has_key(inv_t):
             return dict[inv_t]
+
         return None
 
     def getCreateHook(self, inv_t):
-        return self._getHook(self.create, inv_t)
+        return self.getHook('create', inv_t)
 
     def getCreateSubmitHook(self, inv_t):
-        return self._getHook(self.createSubmit, inv_t)
+        return self.getHook('createSubmit', inv_t)
 
     def getViewHook(self, inv_t):
-        return self._getHook(self.view, inv_t)
+        return self.getHook('view', inv_t)
 
     def getUpdateSubmitHook(self, inv_t):
-        return self._getHook(self.updateSubmit, inv_t)
+        return self.getHook('updateSubmit', inv_t)
 
     def getUpdateHook(self, inv_t):
-        return self._getHook(self.update, inv_t)
+        return self.getHook('update', inv_t)
 
 issueHooks = IssueHooks()
 
@@ -73,16 +66,7 @@ def issueHook(type, **kwargs):
     """
     def decorate(f):
         inv_t =  f.__module__.split('.')[-2]
-        if type == "create":
-            issueHooks.registerCreateHook(inv_t, f)
-        elif type == "createSubmit":
-            issueHooks.registerCreateSubmitHook(inv_t, f)
-        elif type == "view":
-            issueHooks.registerViewHook(inv_t, f)
-        elif type == "update":
-            issueHooks.registerUpdateHook(inv_t, f)
-        elif type == "updateSubmit":
-            issueHooks.registerUpdateSubmitHook(inv_t, f)
+        issueHooks.registerHook(type, inv_t, f)
 
         return f
     return decorate

@@ -1,3 +1,4 @@
+import django.forms
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from IssueTracker.utils import issueHook
@@ -105,3 +106,18 @@ def issueUpdateViewSubmit(request, issue):
 
     # didn't do any processing, proceed
     return True
+
+@issueHook("updateForm")
+def issueForm(request, issue):
+    """
+    return a form
+    """
+    data = request.POST.copy()
+
+    if issue.item:
+        item = issue.item.item
+        
+        form = forms.UpdateMachineForm(data, instance=item)
+        return form
+
+    return django.forms.Form()
