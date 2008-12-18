@@ -350,22 +350,24 @@ class UpdateIssueTest(TestCase):
         """
         Tests changing the assignee of an issue
         """
-        # FIXME can't get this to change assignee
-        """
-        issue = iModels.Issue.objects.get(pk=3)
-        #comment = iModels.IssueComment.objects.get(issue=issue)
 
-
-        self.client.post('/issue/3/post/', 
-                    {
-                        'assignee'          : 1,
-                        'resolved_state'    : '',
-                        'comment'           : '',
-                        'problem_type'      : issue.problem_type.values()[0]['name'],
+        # test getting an issue with no assignee, and changing it
+        issue = iModels.Issue.objects.filter(assignee__isnull=True)[0]
+        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
+                        'assignee'          : self.user.pk,
                     })
 
-        self.failUnless(issue.assignee!=None)
-        """
+        issue = iModels.Issue.objects.get(pk=issue.pk)
+        self.failUnlessEqual(self.user, issue.assignee)
+
+        # test getting an issue with an assignee, and changing it
+        issue = iModels.Issue.objects.filter(assignee__isnull=False)[0]
+        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
+                        'assignee'          : self.user.pk,
+                    })
+
+        issue = iModels.Issue.objects.get(pk=issue.pk)
+        self.failUnlessEqual(self.user, issue.assignee)
 
     def testChangeProblemType(self):
         """ 
