@@ -333,18 +333,28 @@ class UpdateIssueTest(TestCase):
         """
         adding/removing CC list
         """
-        issueUser = self.issue.cc.get(username='zhaoz')
-    
-        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
-                            {'action': 'dropcc',
-                            'user': issueUser.pk})
-        self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
+        self.issue = iModels.Issue.objects.\
+                filter(group__group__contact__isnull=False,cc__isnull=False).all()[0]
+        # starting count
+        num_cc = self.issue.cc.count()
 
-        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
+        # attempt to add the testUser to the testIssue
+        self.client.post(reverse('IssueTracker-modIssue', args=[self.issue.pk]),
                             {'action': 'addcc',
                             'user': self.user.username})
+        self.issue = iModels.Issue.objects.get(pk=self.issue.pk)
+        self.failUnlessEqual(num_cc+1, self.issue.cc.count())
+        self.failUnlessEqual(1, self.issue.cc.filter(username=self.user.username).count())
 
-        self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
+        # test removal
+
+        self.client.post(reverse('IssueTracker-modIssue', args=[self.issue.pk]),
+                            {'action': 'dropcc',
+                            'user': self.user.pk})
+        self.failUnlessEqual(num_cc, self.issue.cc.count())
+        self.failUnlessEqual(0, self.issue.cc.filter(username=self.user.pk).count())
+
+
 
     def testChangeAssignee(self):
         """
@@ -374,3 +384,24 @@ class UpdateIssueTest(TestCase):
         Tests adding and removing problem types
         """ 
         pass
+
+    def testResolveIssue(self):
+        """
+        test resolving an issue
+        """
+        issue = iModels.Issue.objects.filter(resolved_state__isnull=False)[0]
+
+        resolution = iModels.ResolveState.objects.all()[0]
+
+        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
+                        'resolved_state'          : resolution.pk
+                    })
+
+        issue = iModels.Issue.objects.get(pk=issue.pk)
+        self.failUnlessEqual(resolution, issue.resolve_state)
+
+        # TODO test the timestamp
+
+
+
+
