@@ -71,6 +71,8 @@ def viewIssue(request, issue_id):
             'comments': IssueComment.objects.filter(issue=issue).order_by('time')
         }
 
+    extraForm = None
+
     if request.method == 'POST':
         issueProcessor = IssueUpdater(request, issue)
 
@@ -87,13 +89,19 @@ def viewIssue(request, issue_id):
                                                 args=[issue.issue_id]))
         form = issueProcessor.updateForm
         commentForm = issueProcessor.commentForm
+        extraForm = issueProcessor.extraForm
     else:
         form = UpdateIssueForm(instance=issue)
         commentForm = AddCommentForm()
+        if issue.it:
+            hook = utils.issueHooks.getHook("updateForm", issue.it.name)
+            if hook:
+                extraForm = hook(issue)
 
     args['add_comment_form'] = commentForm
     args['update_issue_form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
+    args['extra_form'] = extraForm
 
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))

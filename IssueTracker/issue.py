@@ -32,7 +32,6 @@ class IssueUpdater(object):
             self.valid = True
         else:
             self.valid = False
-            raise ValueError("form invalid")
 
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
@@ -43,17 +42,21 @@ class IssueUpdater(object):
                 self.valid = True
             else:
                 self.valid = False
-                raise ValueError("form invalid")
 
         # deal with hooks
+        self.extraForm = None
         if issue.it:
-            hook = utils.issueHooks.getUpdateSubmitHook(issue.it.name)
+            hook = utils.issueHooks.getHook("updateForm", issue.it.name)
             if hook:
-                if hook(request, issue):
+                self.extraForm = hook(issue, request)
+                self.has_hook = True
+
+                if self.extraForm.is_valid():
                     self.valid = True
                 else:
                     self.valid = False
-                    raise ValueError("form invalid")
+            else:
+                self.has_hook = False
 
     def getEmail(self):
         """
