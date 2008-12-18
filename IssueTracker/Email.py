@@ -35,8 +35,9 @@ class NewIssueEmail(Email):
         addCC = newUsers.difference(curUsers)
         if addCC:
             self.appendSection(Email.EmailSection(
-                "Users removed from CC", ", ".join(addCC)
+                "Users added to CC", ", ".join(addCC)
             ))
+
 
     def addAssigneeSection(self, cur, new):
         assigneeSection = EmailSection("Assignee Change")
