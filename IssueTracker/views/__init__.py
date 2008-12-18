@@ -75,7 +75,13 @@ def viewIssue(request, issue_id):
         issueProcessor = IssueUpdater(request, issue)
 
         # if everything passed, redirect to self
-        if retval:
+        if issueProcessor.is_valid():
+            email = issueProcessor.getEmail()
+            email.send()
+
+            for action in issueProcessor.getUpdateActionString():
+                utils.updateHistory(request.user, issue, action)
+
             return HttpResponseRedirect(reverse('IssueTracker-view', 
                                                 args=[issue.issue_id]))
         form = issueProcessor.updateForm
