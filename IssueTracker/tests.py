@@ -307,34 +307,20 @@ class UpdateIssueTest(TestCase):
         self.issue = iModels.Issue.objects.\
                 filter(group__group__contact__isnull=False).all()[0]
 
-    def tearDown(self):
-        self.user.delete()
-
-    def testUpdateIssue(self):
-        """
-        Tests adding/removing CC list, adding comment
-        """
         self.client.post(reverse('login'),
                             {'username' : 'testuser',
                              'password' : 't3$tu$ser'})
 
-        issueUser = self.issue.cc.get(username='zhaoz')
-    
-        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
-                            {'action': 'dropcc',
-                            'user': issueUser.pk})
-        self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
+    def tearDown(self):
+        self.user.delete()
 
-
-        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
-                            {'action': 'addcc',
-                            'user': self.user.username})
-
-        self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
-
+    def testAddComment(self):
+        """
+        Tests adding comment
+        """
         self.client.post(reverse('IssueTracker-view', args=[1]),
                         {   'issue': self.issue.pk,
-                            'user': issueUser, 
+                            'user': self.user, 
                             'comment': 'here is a test comment'
                         })
 
@@ -342,6 +328,23 @@ class UpdateIssueTest(TestCase):
         self.failUnless(comment is not None)
 
         self.assertEqual(len(mail.outbox), 1)
+
+    def testAddCC(self):
+        """
+        adding/removing CC list
+        """
+        issueUser = self.issue.cc.get(username='zhaoz')
+    
+        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
+                            {'action': 'dropcc',
+                            'user': issueUser.pk})
+        self.failUnless(self.issue.cc.filter(username=issueUser.username).count()==0)
+
+        self.client.post(reverse('IssueTracker-modIssue', args=[1]),
+                            {'action': 'addcc',
+                            'user': self.user.username})
+
+        self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
     def testChangeAssignee(self):
         """
