@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 
 from LabtrackerCore.Email import EmailSection
@@ -11,17 +13,17 @@ class IssueUpdater(object):
     def __init__(self, request, issue):
         self.request = request
         self.issue_pk = issue.pk
-        self.issue = issue
+
         self.valid = False
 
         self.data = request.POST.copy()
+
+        self.issue = issue
 
         self.updateForm = forms.UpdateIssueForm(self.data, instance=issue)
 
         self.old = {
             'cc':       issue.cc.all().order_by('id'),
-            'assignee': issue.assignee,
-            'state':    issue.resolved_state,
             'ptypes':   self.issue.problem_type.all()
         }
 
@@ -33,7 +35,7 @@ class IssueUpdater(object):
             raise ValueError("form invalid")
 
         if self.data.has_key('resolved_state') and \
-                self.old['state'] != \
+                self.issue.assignee != \
                     self.updateForm.cleaned_data['resolved_state']:
             # FIXME do in form
             self.updateForm.resolve_time = datetime.datetime.now()
@@ -72,21 +74,21 @@ class IssueUpdater(object):
         update_data = self.updateForm.cleaned_data
 
         if self.data.has_key('cc'):
-            issue_email.addCCSection(self.old_cc,
+            issue_email.addCCSection(self.old['cc'],
                     User.objects.in_bulk(self.data.getlist('cc')).order_by('id'))
 
             # need to add the CC users as well
 
         if self.data.has_key('assignee') and \
-                (self.old['assignee'] != update_data['assignee']):
-            issue_email.addAssigneeSection(self.old['assignee'], update_data['assignee'])
+                (self.issue.assignee != update_data['assignee']):
+            issue_email.addAssigneeSection(self.issue.assignee, update_data['assignee'])
             
         if self.data.has_key('problem_type'):
-            issue_email.addProblemTypeSection(self.issue.problem_type.all(),
+            issue_email.addProblemTypeSection(self.old['ptypes'],
                     self.data.getlist('problem_type'))
 
         if self.data.has_key('resolved_state') and \
-                    self.old['state'] != update_data['resolved_state']:
+                    self.issue.resolved_state != update_data['resolved_state']:
             issue_email.addResolveStateSection(update_data['resolved_state'])
 
         if self.data.has_key('comment'):
@@ -114,7 +116,7 @@ class IssueUpdater(object):
         actionStrings = []
 
         if self.data.has_key('assignee') and \
-                (self.old['assignee'] != update_data['assignee']):
+                (self.issue.assignee != update_data['assignee']):
             actionStrings.append("Assigned to %s" % (update_data['assignee']))
 
         if self.data.has_key('problem_type'):
@@ -122,7 +124,7 @@ class IssueUpdater(object):
             pass
 
         if self.data.has_key('resolved_state') and \
-                    self.old['state'] != update_data['resolved_state']:
+                    self.issue.resolved_state != update_data['resolved_state']:
 
             actionStrings.append("Changed state to %s" % \
                     (update_data['resolved_state']))
