@@ -33,6 +33,7 @@ class IssueUpdater(object):
         else:
             self.valid = False
 
+        self.commentForm = None
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
             self.data.__setitem__('issue', issue.pk)
@@ -42,6 +43,8 @@ class IssueUpdater(object):
                 self.valid = True
             else:
                 self.valid = False
+        #else:
+            #self.commentForm = forms.AddCommentForm()
 
         # deal with hooks
         self.extraForm = None
@@ -49,14 +52,12 @@ class IssueUpdater(object):
             hook = utils.issueHooks.getHook("updateForm", issue.it.name)
             if hook:
                 self.extraForm = hook(issue, request)
-                self.has_hook = True
-
-                if self.extraForm.is_valid():
-                    self.valid = True
-                else:
-                    self.valid = False
-            else:
-                self.has_hook = False
+                
+                if self.extraForm:
+                    if self.extraForm.is_valid():
+                        self.valid = True
+                    else:
+                        self.valid = False
 
     def getEmail(self):
         """
@@ -130,8 +131,11 @@ class IssueUpdater(object):
 
     def save(self):
         self.updateForm.save()
-        if self.data.has_key('comment'):
+        if self.commentForm:
             self.commentForm.save()
+
+        if self.extraForm:
+            self.extraForm.save()
 
     def is_valid(self):
         return self.valid

@@ -120,4 +120,4 @@ def issueForm(issue, request=None):
 
         return forms.UpdateMachineForm(instance=item)
 
-    return django.forms.Form()
+    return None

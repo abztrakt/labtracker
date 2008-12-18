@@ -88,7 +88,7 @@ def viewIssue(request, issue_id):
             return HttpResponseRedirect(reverse('IssueTracker-view', 
                                                 args=[issue.issue_id]))
         form = issueProcessor.updateForm
-        commentForm = issueProcessor.commentForm
+        commentForm = issueProcessor.commentForm or AddCommentForm()
         extraForm = issueProcessor.extraForm
     else:
         form = UpdateIssueForm(instance=issue)
