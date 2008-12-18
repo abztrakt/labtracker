@@ -1,3 +1,5 @@
+from django.forms import ValidationError
+from django.forms.fields import email_re
 from django.core import mail 
 #from django.core import validators
 from django.conf import settings
@@ -27,11 +29,9 @@ class EmailSection(object):
 
 def isValidEmail(email):
     """
-    returns true if email is valid
+    returns true if email is valid, false if not
     """
-    # FIXME fix validtaor
-    # validators.isValidEmail(email, None)
-    return True
+    return email not in (u'', '') and email_re.search(email)
 
 class Email(object):
     """
@@ -55,7 +55,8 @@ class Email(object):
         emails.update(cc)
         emails.update(bcc)
         for em in emails:
-            isValidEmail(em)            # raises ValidationError
+            if not isValidEmail(em):
+                raise ValidationError("Invalid Email")
 
         self.to = set(to)               # uniquify
         self.cc = set(cc)
@@ -90,21 +91,26 @@ class Email(object):
         """
         Add a 'to' address
         """
-        isValidEmail(to)            #raises ValidationError
+        if not isValidEmail(to):
+            raise ValidationError("Invalid Email")
+
         self.cc.add(to)
 
     def addBCC(self, to):
         """
         Add a 'to' address
         """
-        isValidEmail(to)            #raises ValidationError
+        if not isValidEmail(to):
+            raise ValidationError("Invalid Email")
         self.bcc.add(to)
 
     def addTo(self, to):
         """
         Add a 'to' address
         """
-        isValidEmail(to)            #raises ValidationError
+        if not isValidEmail(to):
+            raise ValidationError("Invalid Email")
+
         self.to.add(to)
 
     def getEmail(self, auth_user=None, auth_password=None):
