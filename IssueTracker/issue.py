@@ -64,25 +64,27 @@ class IssueUpdater(object):
         curAssignee = self.issue.assignee
         curState = self.issue.resolved_state
 
+        update_data = self.updateForm.cleaned_data
+
         if self.data.has_key('cc'):
             issue_email.addCCSection(self.issue.cc.all().order_by('id'),
                     User.objects.in_bulk(self.data.getlist('cc')).order_by('id'))
 
         if self.data.has_key('assignee') and \
-                (curAssignee != self.updateIssue.assignee):
-            issue_email.addAssigneeSection(curAssignee, self.updateIssue.assignee)
+                (curAssignee != update_data['assignee']):
+            issue_email.addAssigneeSection(curAssignee, update_data['assignee'])
             
         if self.data.has_key('problem_type'):
             issue_email.addProblemTypeSection(self.issue.problem_type.all(),
                     self.data.getlist('problem_type'))
 
         if self.data.has_key('resolved_state') and \
-                    curState != self.updateIssue.resolved_state:
-            issue_email.addResolveStateSection(updateIssue.resolved_state)
+                    curState != update_data['resolved_state']:
+            issue_email.addResolveStateSection(update_data['resolved_state'])
 
         if self.data.has_key('comment'):
             issue_email.addCommentSection(self.request.user, 
-                                          self.data.get('comment'))
+                                          self.commentForm.cleaned_data['comment'])
 
 
         issue_email.subject = '[labtracker] %s' % (self.issue.title)
@@ -102,27 +104,28 @@ class IssueUpdater(object):
 
         curAssignee = self.issue.assignee
         curState = self.issue.resolved_state
+        update_data = self.updateForm.cleaned_data
 
         actionStrings = []
 
         if self.data.has_key('assignee') and \
-                (curAssignee != self.updateIssue.assignee):
-            actionStrings.append("Assigned to %s" % (updateIssue.assignee))
+                (curAssignee != update_data['assignee']):
+            actionStrings.append("Assigned to %s" % (update_data['assignee']))
 
         if self.data.has_key('problem_type'):
             # get histmsg from addProblemTypeSection here
             pass
 
         if self.data.has_key('resolved_state') and \
-                    curState != self.updateIssue.resolved_state:
+                    curState != update_data['resolved_state']:
 
             actionStrings.append("Changed state to %s" % \
-                    (updateIssue.resolved_state))
+                    (update_data['resolved_state']))
 
         return actionStrings
 
     def save(self):
-        self.updateIssue.save()
+        self.updateForm.save()
 
     def is_valid(self):
         return self.valid
