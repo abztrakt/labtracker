@@ -34,12 +34,6 @@ class IssueUpdater(object):
             self.valid = False
             raise ValueError("form invalid")
 
-        if self.data.has_key('resolved_state') and \
-                self.issue.assignee != \
-                    self.updateForm.cleaned_data['resolved_state']:
-            # FIXME do in form
-            self.updateForm.resolve_time = datetime.datetime.now()
-
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
             self.data.__setitem__('issue', issue.pk)
