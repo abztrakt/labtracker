@@ -173,7 +173,6 @@ class IssueCreationTest(TestCase):
         # primary contact should get an email here
         self.assertEqual(len(mail.outbox), 1)
 
-
 class IssueSearchTest(TestCase):
     fixtures = ['dev',]
 
@@ -228,7 +227,6 @@ class IssueSearchTest(TestCase):
         issue_link_re = re.compile(r'<a href="/issue/\d+/">')
 
         self.assertEquals(len(issue_link_re.findall(response.content)), 1)
-
 
 class PasswordChangeTest(TestCase):
     def setUp(self):
@@ -334,7 +332,7 @@ class UpdateIssueTest(TestCase):
 
         self.failUnless(self.issue.cc.filter(username=self.user.username).count()==1)
 
-        self.client.post(reverse('IssueTracker-update', args=[1]),
+        self.client.post(reverse('IssueTracker-view', args=[1]),
                         {   'issue': self.issue.pk,
                             'user': issueUser, 
                             'comment': 'here is a test comment'

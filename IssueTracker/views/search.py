@@ -51,7 +51,6 @@ def search(request, page=1):
                 context_instance=RequestContext(request))
 
     else:
-        #return HttpResponseRedirect(reverse('issueIndex'))
         return HttpResponseRedirect("/")
 
 @permission_required('IssueTracker.can_view', login_url="/login/")
