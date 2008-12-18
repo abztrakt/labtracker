@@ -334,8 +334,10 @@ class UpdateIssueTest(TestCase):
         """
         adding/removing CC list
         """
+
         self.issue = iModels.Issue.objects.\
                 filter(group__group__contact__isnull=False,cc__isnull=False).all()[0]
+
         # starting count
         num_cc = self.issue.cc.count()
 
@@ -356,7 +358,6 @@ class UpdateIssueTest(TestCase):
         self.failUnlessEqual(num_cc, self.issue.cc.count())
         self.failUnlessEqual(0, self.issue.cc.filter(username=self.user.pk).count())
         self.failUnlessEqual(None, self.issue.resolve_time)
-
 
 
     def testChangeAssignee(self):
@@ -410,9 +411,5 @@ class UpdateIssueTest(TestCase):
         self.failIfEqual(None, issue.resolve_time)
 
         self.failUnless(issue.resolve_time >= curTime)
-
-        # TODO test the timestamp
-
-
 
 
