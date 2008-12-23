@@ -1,13 +1,13 @@
 {% extends "base_generic.html" %}
             {% block title %}Issue Tracker{% endblock %}
             {% block b_pageCSS %}
-                @import url('/static/css/main.css');
+				@import url('{{MEDIA_URL}}css/main.css');
                 {% block pageCSS %}
                 {% endblock %}
             {% endblock %}
             {% block b_pageJS %}
-	<script type="text/javascript" src="/static/js/jquery/plugins/jquery.droppy.js"></script>
-	<script type="text/javascript" src="/static/js/base.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.droppy.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
                 {% block pageJS %}
                 {% endblock %}
             {% endblock %}

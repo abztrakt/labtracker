@@ -6,15 +6,15 @@
         {% block title %}LabTracker{% endblock %}
     </title>
     <style type="text/css">
-        @import url('/static/css/global.css');
-        @import url('/static/css/jquery/droppy.css');
+		@import url('{{MEDIA_URL}}css/global.css');
+        @import url('{{MEDIA_URL}}css/jquery/droppy.css');
         {% block b_pageCSS %}{% endblock %}
     </style>
 	<script type="text/javascript">
 		var media_url = "{{ MEDIA_URL }}";
 	</script>
-    <script type="text/javascript" src="/static/js/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/global.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
 	{% block b_pageJS %}{% endblock %}
     {% block pageHead %}{% endblock %}
 </head>
