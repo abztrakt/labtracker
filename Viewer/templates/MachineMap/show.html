@@ -2,8 +2,8 @@
 
 {% block title %}Showing Machine Map -- {{ view.name }}{% endblock %}
 
-    {% block pageHead %}<script type="text/javascript" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/js/Viewer/MachineMap/show.js"></script>
+	{% block pageHead %}<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+		<script type="text/javascript" src="{{MEDIA_URL}}js/Viewer/MachineMap/show.js"></script>
         <script type="text/javascript">
             // need to initialize things, such as available states
             $(document).ready(function () {
@@ -19,7 +19,7 @@
         </script>
     {% endblock %}
     {% block pageCSS %}
-        @import url('/static/css/Viewer/MachineMap/show.css');
+		@import url('{{MEDIA_URL}}css/Viewer/MachineMap/show.css');
         {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 

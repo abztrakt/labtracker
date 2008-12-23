@@ -6,11 +6,11 @@
 {% block heading %}Map Editing - {{view.name}}{% endblock %}
 
 {% block pageHead %}
-        <script type="text/javascript" src="/static/js/jquery/ui.core.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/ui.droppable.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/ui.draggable.min.js"></script>
-        <script type="text/javascript" src="/static/js/jquery/plugins/jquery.n-contextmenu.js"></script>
-        <script type="text/javascript" src="/static/js/Viewer/MachineMap/modify.js"></script>
+		<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.core.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.droppable.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.draggable.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.n-contextmenu.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/Viewer/MachineMap/modify.js"></script>
         <script type="text/javascript">
             // Register the types
 			modMap = new MapEditor('H', 'Rectangle', { {% for size in sizes %}
@@ -19,7 +19,7 @@
         </script>
     {% endblock %}
     {% block pageCSS %}
-        @import url('/static/css/Viewer/MachineMap/modify.css');
+		@import url('{{MEDIA_URL}}css/Viewer/MachineMap/modify.css');
         {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 
