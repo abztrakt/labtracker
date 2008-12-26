@@ -16,9 +16,11 @@ class ActiveDirectoryBackend:
 
             return user
         except User.DoesNotExist:
+            # create the user
             pass
 
-        l = ldap_connect(username, password)
+        # get user info
+        l = self.ldap_connect(username, password)
         result = l.search_ext_s(settings.AD_SEARCH_DN, ldap.SCOPE_SUBTREE, 
                 "sAMAccountName=%s" % username, settings.AD_SEARCH_FIELDS)[0][1]
         l.unbind_s()
@@ -48,7 +50,7 @@ class ActiveDirectoryBackend:
         Creates connection to ldap, user in charge of unbinding
         """
         con = ldap.initialize(settings.AD_LDAP_URL)
-        binddn = "%s@%s" % (username,settings.AD_NT4_DOMAIN)
+        binddn = "%s@%s" % (username, settings.AD_NT4_DOMAIN)
         con.simple_bind_s(binddn, password)
         return con
 
@@ -58,16 +60,14 @@ class ActiveDirectoryBackend:
         except User.DoesNotExist:
             return None
 
-    def is_valid (self,username=None,password=None):
+    def is_valid (self, username=None,password=None):
         # Disallowing null or blank string as password
         # as per comment: http://www.djangosnippets.org/snippets/501/#c868
         if password == None or password == '':
             return False
 
-        binddn = "%s@%s" % (username,settings.AD_NT4_DOMAIN)
         try:
-            l = ldap.initialize(settings.AD_LDAP_URL)
-            l.simple_bind_s(binddn,password)
+            l = self.ldap_connect(username, password)
             l.unbind_s()
             return True
         except ldap.LDAPError:
