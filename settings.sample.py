@@ -78,6 +78,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'labtracker.auth.ActiveDirectoryBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
 ROOT_URLCONF = 'labtracker.urls'
 
 TEMPLATE_DIRS = (
@@ -112,3 +117,16 @@ EMAIL_HOST="localhost"
 EMAIL_PORT=25
 DEFAULT_FROM_EMAIL="labtracker@localhost"
 EMAIL_TEST_RECIPIENT="test@localhost"
+
+### ACTIVE DIRECTORY SETTINGS
+
+# AD_DNS_NAME should set to the AD DNS name of the domain (ie; example.com)  
+# If you are not using the AD server as your DNS, it can also be set to 
+# FQDN or IP of the AD server.
+AD_DNS_NAME = "ldap.auth.server.net"
+AD_LDAP_PORT = 389
+AD_SEARCH_DN = 'searchdn'
+AD_NT4_DOMAIN = 'something.wa.com'           # This is the NT4/Samba domain name
+AD_SEARCH_FIELDS = ['sAMAccountName',]
+
+AD_LDAP_URL = 'ldap://%s:%d' % (AD_DNS_NAME, AD_LDAP_PORT)
