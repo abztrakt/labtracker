@@ -1,7 +1,6 @@
-        <div id="fast_search">
-			<form method="GET" action="{% url issueSearch %}">
-				<input type="text" id="search_term" name="search_term" 
-					class="small_text" value="{{ last_search_term|default:"" }}" />
-                <input type="submit" name="search" value="Search" class="flat" />
-            </form>
-        </div>
+	<form method="get" action="{% url issueSearch %}">
+		<fieldset>
+			<input type="text" id="search_term" name="search_term" class="small_text" value="{{ last_search_term|default:"" }}" />
+			<input type="submit" name="search" value="Search" class="flat" />
+		</fieldset>
+	</form>

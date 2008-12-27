@@ -53,6 +53,12 @@ div#fast-search {
     margin-top: 1em;
 }
 
+div#fast-search fieldset {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
 #search_term {
     background: #a8ecf0;
 }
