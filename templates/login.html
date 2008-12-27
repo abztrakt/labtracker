@@ -9,12 +9,15 @@
 {% if user.is_authenticated %}
 <p>Sorry, you do not have permission to view this page</p>
 {% else %}
-<form method="post" action=".">
-	<ul class="struct">
-		{{ form.as_ul }}
-	</ul>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
+<form method="post" action="." class="center" id="login">
+	<fieldset>
+		<legend>Login</legend>
+		<ul class="struct">
+			{{ form.as_ul }}
+		</ul>
+		<input type="submit" value="login" />
+		<input type="hidden" name="next" value="{{ next }}" />
+	</fieldset>
 </form>
 {% endif %}
 {% endblock %}

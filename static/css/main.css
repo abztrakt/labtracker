@@ -5,7 +5,7 @@ html, body {
     font-size: 12px;
     margin: 0px; padding: 0px;
     min-width: 790px;
-    background-color: #bab9b9;
+    /* background-color: #bab9b9; */
 }
 h3 { padding-top: 0px; margin-top: 0px; }
 h3.label, h4.label { padding: 0px; margin: 0px; }
@@ -37,6 +37,14 @@ a img { border: none; }
 #heading { float: left; }
 #heading h1 { padding: 0px; margin: 0px; }
 #content { padding: 0px 15px 15px 15px; }
+
+form#login {
+	width: 24em;
+}
+
+form#login fieldset {
+	background-color: white;
+}
 
 div#fast_search {
     float: right;
