@@ -3,22 +3,39 @@ html, body {
     font-size: 10px;
 }
 
+img { border: none; }
+
 br.clear { height: 0px; }
 .clear { clear: both; }
 .error { color: red; }
 
-ul.inline { padding: 0px; display: inline; }
 ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
 ul.struct li { margin: 0em; padding: 0px; }
+ul.inline { padding: 0px; display: inline; }
 ul.inline li { margin: 0em; padding: 0px; display: inline; }
 
 span.label { font-weight: bold; }
 
 .left { float: left; }
-
 .right { float: right; }
+.center { 
+	margin-left: auto; 
+	margin-right: auto;
+}
 
-span.date { margin-left: 1em; font-weight: normal; }
+.block_if_js, .inline_if_js {
+    display: none;
+}
+
+.error { 
+	color: red; 
+	font-size: 10px;
+}
+
+span.date { 
+	margin-left: 1em; 
+	font-weight: normal; 
+}
 
 table.plain {
     border-collapse: collapse;

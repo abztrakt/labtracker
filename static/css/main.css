@@ -2,10 +2,9 @@
  * global tag changes *
  **********************/
 html, body {
-    font-family: verdana, sans-serif;
     font-size: 12px;
     margin: 0px; padding: 0px;
-    min-width: 1000px;
+    min-width: 790px;
     background-color: #bab9b9;
 }
 h3 { padding-top: 0px; margin-top: 0px; }
@@ -67,9 +66,6 @@ input.small_text {
     /* height: 12px; */
 }
 
-br.clear { height: 0px; }
-.clear { clear: both; }
-.error { color: red; font-size: 10px; }
 .errorlist { 
     color: red; 
     font-size: 10px; 
@@ -91,16 +87,7 @@ ul.messages > li {
     margin: 0px;
 }
 
-ul.inline { padding: 0px; display: inline; }
-ul.struct { list-style-type: none; margin: 0em; padding: 0px; }
-ul.struct li { margin: 0em; padding: 0px; }
-ul.inline li { margin: 0em; padding: 0px; display: inline; }
-
 span.date { margin-left: 1em; font-weight: normal; }
-
-.block_if_js, .inline_if_js {
-    display: none;
-}
 
 input.flat {
     border: 0px;
@@ -127,7 +114,6 @@ select#id_cc {
     height: 5em;
 }
 
-
 div.tags {
     font-weight: none;
 }
@@ -138,8 +124,6 @@ div.tags div {
     min-height: 1.4em;
     width: 50em;
 }
-
-.floatleft {float:left;}
 
 div.tags li {
     padding: .5em;
@@ -168,11 +152,11 @@ div.tags h4 {
     margin: .2em;
 }
 
-.display_none {
+.display-none {
     display: none !IMPORTANT;
 }
 
-.compact_trigger {
+.compact-trigger {
     cursor: pointer;
 }
 
@@ -180,10 +164,3 @@ span.label {
     font-weight: bold;
 }
 
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
