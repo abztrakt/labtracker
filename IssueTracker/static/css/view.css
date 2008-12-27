@@ -41,20 +41,6 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 	background-color: #ffffff;
 }
 
-#info {
-    padding: .5em 0em;
-    margin-top: 5em;
-    margin-bottom: .5em;
-    background: #d9d9d9;
-    border: 1px #333333 solid;
-}
-#info2 {
-    padding: .75em .5em 1em .75em !important;
-    margin-bottom: .5em;
-    background: #DDFFDD;
-    border: 1px #FFFFFF solid;
-}
-
 #problems {
     padding: .5em;
     background: #FFCCAA;
@@ -79,15 +65,29 @@ div#main_issue { float: left; width: 700px; }
 div#right_side_bar {
     float: left;
     width: 220px;
-    margin: 0px; 
-    padding: 3.8em 0px 0px 0px;
+    padding: 0 0 0 1em;
 }
 
-div#right_side_bar > * {
+div#right_side_bar > div {
     padding: .75em .5em 0em .75em; 
-    margin: 0em 0em 1em 1em;
+	margin-bottom: 1em;
+    /* margin: 0em 0em 1em 1em; */
     border: 1px #000000 solid;
 }
+
+div#right_side_bar > .info:first-child {
+    padding: .5em 0em;
+    margin-top: 5em;
+    background: #D9D9D9;
+    border-color: #333333;
+}
+
+div#right_side_bar > .info {
+    padding: .75em .5em 1em .75em;
+    margin-bottom: .5em;
+    background: #DDFFDD;
+}
+
 
 ul#cc_list li { margin-left: 1em; }
 

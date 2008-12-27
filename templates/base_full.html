@@ -1,42 +1,43 @@
 {% extends "base_generic.html" %}
-            {% block title %}Issue Tracker{% endblock %}
-            {% block b_pageCSS %}
-				@import url('{{MEDIA_URL}}css/main.css');
-                {% block pageCSS %}
-                {% endblock %}
-            {% endblock %}
-            {% block b_pageJS %}
+{% block title %}Issue Tracker{% endblock %}
+{% block b_pageCSS %}
+	@import url("{{MEDIA_URL}}css/main.css");
+	{% block pageCSS %}
+	{% endblock %}
+{% endblock %}
+
+{% block b_pageJS %}
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.droppy.js"></script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
-                {% block pageJS %}
-                {% endblock %}
-            {% endblock %}
+	{% block pageJS %}
+	{% endblock %}
+{% endblock %}
+
 {% block body %}
-        <div id="header">
-            <div id="heading">
-                <h1>{% block heading %}{% endblock %}</h1>
-            </div>
-			{% include "nav.html" %}
-            <br class="clear" />
-			<div id="lowerHeader">
-				{% if user.is_authenticated %}<div id='userInfo'>
-					Logged in as: {{ user.username }}
-				</div>{% endif %}
-				<div id="fast_search">
-				{% include "IssueTracker/fast_search.html" %}
-				</div>
-			</div>
-        </div>
-        <br class="clear" />
-		<div id="pageHeader">
-			{% block pageHeader %}
-			{% endblock %}
+	<div id="header">
+		<div id="heading">
+			<h1>{% block heading %}{% endblock %}</h1>
 		</div>
-        <br class="clear" />
-        <div id="content">
-            {% block content %}{% endblock %}
-        </div>
-        <div id="footer">
-            {% block footer %}{% endblock %}
-        </div>
+		{% include "nav.html" %}
+		<div id="lowerHeader" class="clear">
+			{% if user.is_authenticated %}
+			<div id='userInfo'>
+				Logged in as: {{ user.username }}
+			</div>
+			{% endif %}
+
+			<div id="fast-search" class="clear">
+				{% include "IssueTracker/fast_search.html" %}
+			</div>
+		</div>
+	</div>
+	<div id="pageHeader" class="clear">
+		{% block pageHeader %}{% endblock %}
+	</div>
+	<div id="content" class="clear">
+		{% block content %}{% endblock %}
+	</div>
+	<div id="footer">
+		{% block footer %}{% endblock %}
+	</div>
 {% endblock %}

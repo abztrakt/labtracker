@@ -1,6 +1,5 @@
 {% extends "base_full.html" %}
 {% load issue_extras %}
-{% load comments %}
 {% block pageCSS %}@import url('{{MEDIA_URL}}css/IssueTracker/view.css');{% endblock %}
 {% block pageHead %}<script type="text/javascript" src="{{MEDIA_URL}}js/IssueTracker/view.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/prob_types.js"></script>
@@ -11,35 +10,7 @@
 <div id="main_issue">
 <div id="issue">
 	<h2 id="title">{{ issue.pk }} - {{ issue.title|escape }}</h2>
-	<div id="info">
-		<ul class="floated struct">
-			<li><h4>Reporter:</h4>  {{ issue.reporter }}</li>
-			<li><h4>Time Posted:</h4>  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
-			<li><h4>Contacts:</h4> {% contact issue %}</li>
-			<li class="clear"><h4>Inventory Type</h4>  {{ issue.it }}</li>
-			<li><h4>Group:</h4>  {{ issue.group }}</li>
-			<li><h4>Item:</h4>  
-				{% if issue.item %}
-					<a href="{{ issue.item.item.get_absolute_url }}">
-						{{ issue.item }}
-					</a>
-				{% else %}
-					{{ issue.item }}
-				{% endif %}
-			</li>
-			<li><h4>Assigned to:</h4>  {{ issue.assignee }}</li>
-			<li><h4>State:</h4>  {{ issue.resolved_state }}</li>
-		</ul>
-		<br class="clear" />
-	</div>
-	<div id="specInfo">
-		{% invspec issue %}
-	</div>
 
-	<br class="clear" />
-
-	<h3 class='label'>Description:</h3>
-	<p id="description">{{ issue.description|escape }}</p>
 	<div id="problems">
 		<h3 class='label'>Problems: </h3>
 		{%  if issue.problem_type.all %}
@@ -53,9 +24,9 @@
 		{% endif %}
 		<br class="clear" />
 	</div>
-		
     	
-    <p id="description"><span class='description_label'>Description:<br/></span> {{ issue.description|escape }}</p>
+	<h3 class='label'>Description:</h3>
+	<p id="description">{{ issue.description|escape }}</p>
     
 </div>
 
@@ -73,17 +44,17 @@
 <!-- add_comment_form, update_issue_form -->
 	<ul class="struct">
 		<li>
-			<label for='assignee'>Assign To:</label>
+			<label for='id_assignee'>Assign To:</label>
 			{{ update_issue_form.assignee }}
 		</li>
 		<li>
-			<label for='resolved_state'>Resolve:</label> 
+			<label for='id_resolved_state'>Resolve:</label> 
 			{{ update_issue_form.resolved_state }}
 		</li>
 	</ul>
 	<div class="left">
 		<div>
-			<label for='comment' style='display: block;'>
+			<label for='id_comment' style='display: block;'>
 				{{ add_comment_form.comment.label }}
 			</label>
 			{{ add_comment_form.comment }}
@@ -112,39 +83,42 @@
 
 <!-- Right side bar -->
 <div id="right_side_bar">
-
-    <div id="info">
+    <div class="info">
         <ul class="struct">
-            <li><h4>Reporter:</h4><br />  {{ issue.reporter }}</li>
-            	<br class="clear" />
-	    <li><h4>Time Posted:</h4><br />  {{ issue.post_time|date }} at {{ issue.post_time|time }}</li>
-	</ul>
-	<br class="clear" />
+			<li>
+				<h4>Reporter:</h4><br />
+				{{ issue.reporter }}
+			</li>
+			<li>
+				<h4>Time Posted:</h4><br /> 
+				{{ issue.post_time|date }} at {{ issue.post_time|time }}
+			</li>
+		</ul>
     </div>  
 
-    <div id="info2">
+    <div class="info">
         <ul class="struct">
             <li class="clear"><h4>Inventory Type:</h4><br />  {{ issue.it }}</li>
-            	<br class="clear" />
-	    <li><h4>Group:</h4><br />  {{ issue.group }}</li>
-            	<br class="clear" />
-	    <li><h4>Item:</h4><br />  
-                {% if issue.item %}
-                    <a href="{% url IssueTracker-history issue.item.pk %}">
-                        {{ issue.item }}
-                    </a>
-                {% else %}
-                    {{ issue.item }}
-                {% endif %}
+			<li><h4>Group:</h4><br />  {{ issue.group }}</li>
+			<li><h4>Item:</h4><br />  
+				{% if issue.item %}
+					<a href="{{ issue.item.item.get_absolute_url }}">
+						{{ issue.item }}
+					</a>
+				{% else %}
+					{{ issue.item }}
+				{% endif %}
             </li>
-            	<br class="clear" />
-	    <li><h4>Assigned to:</h4><br />  {{ issue.assignee }}</li>
-            	<br class="clear" />
-	    <li><h4>State:</h4><br />  {{ issue.resolved_state }}</li>
+			<li><h4>Assigned to:</h4><br />  {{ issue.assignee }}</li>
+			<li><h4>State:</h4><br />  {{ issue.resolved_state }}</li>
+			<li><h4>Contacts:</h4> {% contact issue %}</li>
         </ul>
-        
-	<br class="clear" />
-	
+	</div>
+
+	<div class="info" id="specInfo">
+		{% invspec issue %}
+	</div>
+
 	<!-- Stuff involving the CC list -->
 	{% include "IssueTracker/cc_list.html" %}
 

@@ -46,20 +46,22 @@ form#login fieldset {
 	background-color: white;
 }
 
-div#fast_search {
+/* fastsearch */
+div#fast-search {
     float: right;
     margin-right: 1em;
     margin-top: 1em;
 }
 
-div#fast_search > form input#search_term {
+#search_term {
     background: #a8ecf0;
 }
 
-div#fast_search > form input.flat {
+div#fast-search input.flat {
     padding: 1px;
     background: #69bad5;
 }
+/* end fastsearch */
 
 /* Header right under the main header */
 #lowerHeader { margin-top: 2px;}
