@@ -1,26 +1,6 @@
 {% extends "base_full.html" %}
-		{% block title %}{{flatpage.title}}{% endblock %}
-{% block body %}
-        <div id="header">
-            <div id="heading">
-                <h1>{% block heading %}{{flatpage.title}}{% endblock %}</h1>
-            </div>
-			{% include "nav.html" %}
-            <br class="clear" />
-			<div id="lowerHeader">
-				{% if user.is_authenticated %}<div id='userInfo'>
-					Logged in as: {{ user.username }}
-				</div>{% endif %}
-				<div id="fast_search">
-				{% include "IssueTracker/fast_search.html" %}
-				</div>
-			</div>
-        </div>
-        <br class="clear" />
-        <div id="content">
-			{% block content %}{{ flatpage.content }}{% endblock %}
-        </div>
-        <div id="footer">
-            {% block footer %}{% endblock %}
-        </div>
-{% endblock %}
+{% block title %}{{flatpage.title}}{% endblock %}
+
+{% block heading %}{{flatpage.title}}{% endblock %}
+{% block content %}{{ flatpage.content }}{% endblock %}
+
