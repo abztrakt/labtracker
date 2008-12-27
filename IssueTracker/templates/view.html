@@ -40,8 +40,8 @@
 {% endfor %}
 
 <form id='post_comment' method='post' action='{% url IssueTracker-view issue.pk %}'>
-<fieldset>
-<!-- add_comment_form, update_issue_form -->
+	<fieldset>
+	<!-- add_comment_form, update_issue_form -->
 	<ul class="struct">
 		<li>
 			<label for='id_assignee'>Assign To:</label>
@@ -70,11 +70,11 @@
 
 	{% include "IssueTracker/issue/prob_tag_block.html" %}
 
-{% if comment_errors %}{{ comment_errors }}{% endif %}
+	{% if comment_errors %}{{ comment_errors }}{% endif %}
 
-<br class="clear" />
-<input type="submit" name="submit" value="Submit" />
-</fieldset>
+	<br class="clear" />
+	<input type="submit" name="submit" value="Submit" />
+	</fieldset>
 </form>
 <br class="clear" />
 
