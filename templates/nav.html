@@ -1,32 +1,42 @@
             <ul id="nav" class="inline struct">
-                <li>
-                    <a href="/">Home</a>
+                
+				<li class="house">
+                    <a href="/"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/house.gif" alt="house"> Home</a>
                 </li>
-                <li>
-					<a href="#">Issues</a>
+                
+				<li class="sadface">
+					<a href="#"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/sadface.gif" alt="sadface"> Issues</a>
 					<ul>
 						<li><a href="{% url viewAll %}">All Unresolved</a></li>
 						<li><a href="{% url groupView "problem_type" %}">Group By: Problem Type</a></li>
 						<li><a href="{% url groupView "item" %}">Group By: Item</a></li>
 					</ul>
                 </li>
-                <li>
-                    <a href="{% url createIssue %}">New Issue</a>
+				
+                <li class="warning">
+                    <a href="{% url createIssue %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/warning.gif" alt="warning"> New Issue</a>
                 </li>
-                <li>
-                    <a href="{% url viewsIndex %}">Data Views</a> 
+               
+			    <li class="eye">
+                    <a href="{% url viewsIndex %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/eye.gif" alt="eye"> Data Views</a> 
                 </li>
-                {% if user.is_authenticated %}<li>
-                <a href="{% url userPrefs %}">Preferences</a>
+                {% if user.is_authenticated %}
+				
+				<li class="tools">
+                <a href="{% url userPrefs %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/tools.gif" alt="tools"> Preferences</a>
                 </li>
-                <li>
-                    <a href="/admin/">Admin</a>
+                				
+				<li class="people">
+                    <a href="/admin/"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/people.gif" alt="people"> Admin</a>
                 </li>
-                <li>
-                    <a href="{% url logout %}">Logout</a>
+                
+				<li class="door">
+                    <a href="{% url logout %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/door1.gif" alt="doorout"> Logout</a>
                 </li>
-                {% else %}<li>
-                    <a href="{% url login %}">Login</a>
+                {% else %}
+				
+				<li class="door">
+                    <a href="{% url login %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/door2.gif" alt="doorin"> Login</a>
                 </li>
                 {% endif %}
             </ul>
