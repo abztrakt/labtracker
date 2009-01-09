@@ -16,30 +16,16 @@
         </div>
         
 	
-    <!-- Use fancier problem selection if the user has javascript powers -->
-    <div class='tags block_if_js'>
-        <h42>Problems Selected</h42>
-        <div id='tagged'>
-            <ul class='inline'>
-            </ul>
-        </div>
-
-        <h42>Probelms Unused</h42>
-        <div id='untagged'>
-            <ul class='inline'>
-                {% for problem in problem_types %}
-                    <li class='tag'>{{ problem }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>	
-	
-	
-	<div id="desc" class="f_container">
+		<div id="desc" class="f_container">
             <label for="{{form.description.name}}">{{form.description.label}}</label>
             <div>{{form.description}}</div>
             {{ form.description.errors }}
         </div>
+
+		<div class='f_container'>
+				<label for="{{form.problem_type.name}}">{{ form.problem_type.label }}</label>
+				<div>{{ form.problem_type }}</div>
+		</div>
     </div>
 
     <div id="fields" class="left">
@@ -53,7 +39,7 @@
         </div>
         
 	
-	<div class='f_container' id="group_block">
+		<div class='f_container' id="group_block">
             <label for="{{form.group.name}}">{{ form.group.label }}</label>
 			<div>
 				{{ form.group }}
@@ -63,53 +49,42 @@
         </div>
         
 	
-	<div class='f_container' id="item_block">
-            <label for="{{form.item.name}}">{{ form.item.label }}</label>
+		<div class='f_container' id="item_block">
+			<label for="{{form.item.name}}">{{ form.item.label }}</label>
 			<div>
 				{{ form.item }}
-                {% if form.item.errors %}{{ form.item.errors }}
-                {% else %}<ul class="errorlist"></ul>{% endif %}
+				{% if form.item.errors %}{{ form.item.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
-        </div>
-        
-	
-	<div class='none_if_js f_container'>
-            <label for="{{form.problem_type.name}}">{{ form.problem_type.label }}</label>
-            <div>{{ form.problem_type }}</div>
-        </div>
-	
-	
-	<div class='f_container' id='cc_block'>
-            <label for="{{form.cc.name}}">{{ form.cc.label }}</label>
-            <div class='none_if_js'>{{ form.cc }}</div>
-            <div class='block_if_js'> 
-                <div>
-                    <input type="text" id="addCC_user" class="small_text" />
-                    <input type="button" value="Add" name="Add" id="addCC" class="flat" />
-                </div>
-                <ul id='cc_list' class="struct"></ul>
-                {% if form.cc.errors %}{{ form.cc.errors }}
-                {% else %}<ul class="errorlist"></ul>{% endif %}
-            </div>
-        </div>
-	
-	
-	
-    </div>
+		</div>
 
-    <br class="clear" />
-    
-<!-- i took the pinks from here -->
+		<div class='f_container' id='cc_block'>
+			<label for="{{form.cc.name}}">{{ form.cc.label }}</label>
+			<div class='none_if_js'>{{ form.cc }}</div>
+			<div class='block_if_js'> 
+				<div>
+					<input type="text" id="addCC_user" class="small_text" />
+					<input type="button" value="Add" name="Add" id="addCC" class="flat" />
+				</div>
+				<ul id='cc_list' class="struct"></ul>
+				{% if form.cc.errors %}{{ form.cc.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
+		</div>
 
-    <!-- Use fancier problem selection if the user has javascript powers -->
+	</div>
+
+	<br class="clear" />
+
+	<!-- Use fancier problem selection if the user has javascript powers -->
 	<div id="lowerInfo">
 		<div id="invSpecific" class="left">
 		</div>
 	</div>
 
-    <br class="clear" />
+	<br class="clear" />
 
-    <input type="submit" name="submit" value="Submit" />
-    <input type="reset" id="reset" value="Reset" />
+	<input type="submit" name="submit" value="Submit" />
+	<input type="reset" id="reset" value="Reset" />
 </form>
 {% endblock %}
