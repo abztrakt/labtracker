@@ -52,8 +52,6 @@ class TrackerMachineUpdate(TestCase):
                                         kwargs= {'name': self.m.name,}), 
                                 { 'user': self.username, 'status': 'login', })
 
-        print resp.content
-
         self.assertContains(resp, "Inuse")
 
 

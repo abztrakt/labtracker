@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from django.conf import settings
 from django.core import mail
@@ -15,8 +16,6 @@ import LabtrackerCore.models as coreModels
 import Machine.models as mModels
 import IssueTracker
 from IssueTracker import models as iModels
-
-from datetime import datetime
 
 class IssueCreationTest(TestCase):
     fixtures = ['dev',]

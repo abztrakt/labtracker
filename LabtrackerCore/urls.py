@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
 
+import IssueTracker.signals
+
 urlpatterns = patterns('',
     url(r'^$', 'LabtrackerCore.views.userPrefs', name='userPrefs'),
 )

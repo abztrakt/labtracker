@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
-import models
+
+import Machine.hooks
+import Machine.models as models
 
 urlpatterns = patterns('',
     #url(r'^issue/create/$', 'Machine.views.issueCreate'),

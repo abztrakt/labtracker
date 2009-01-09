@@ -1,2 +1,1 @@
-import IssueTracker.signals
 
