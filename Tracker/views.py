@@ -51,12 +51,12 @@ def updateMachine(request, name):
             user = c_models.LabUser(user_id=userhash.hexdigest())
             user.accesses = 1
         except Exception, e:
-            print "Could not get user %s" % e
+            #print "Could not get user %s" % e
             return HttpResponseServerError()
 
         user.save()
         time = datetime.now()
-        print machine.status.all()
+        #print machine.status.all()
 
         for st in flags['drop']:
             machine.status.remove(st)
@@ -65,7 +65,7 @@ def updateMachine(request, name):
             machine.status.add(st)
 
         #m_utils.updateStatus(machine, status, user, time)
-        print machine.status.all()
+        #print machine.status.all()
 
         stat_msg = ", ".join([st.name for st in machine.status.all()])
 
