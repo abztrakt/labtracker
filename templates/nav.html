@@ -1,11 +1,11 @@
             <ul id="nav" class="inline struct">
                 
 				<li class="house">
-                    <a href="/"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/house.gif" alt=""> Home</a>
+					<a href="/"><img src="{{MEDIA_URL}}/img/navicon/house.gif" alt="" /> Home</a>
                 </li>
                 
 				<li class="sadface">
-					<a href="#"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/sadface.gif" alt=""> Issues</a>
+					<a href="#"><img src="{{MEDIA_URL}}/img/navicon/sadface.gif" alt="" /> Issues</a>
 					<ul>
 						<li><a href="{% url viewAll %}">All Unresolved</a></li>
 						<li><a href="{% url groupView "problem_type" %}">Group By: Problem Type</a></li>
@@ -14,29 +14,29 @@
                 </li>
 				
                 <li class="warning">
-                    <a href="{% url createIssue %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/warning.gif" alt=""> New Issue</a>
+					<a href="{% url createIssue %}"><img src="{{MEDIA_URL}}/img/navicon/warning.gif" alt="" /> New Issue</a>
                 </li>
                
 			    <li class="eye">
-                    <a href="{% url viewsIndex %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/eye.gif" alt=""> Data Views</a> 
+				<a href="{% url viewsIndex %}"><img src="{{MEDIA_URL}}/img/navicon/eye.gif" alt="" /> Data Views</a> 
                 </li>
+
                 {% if user.is_authenticated %}
-				
 				<li class="tools">
-                <a href="{% url userPrefs %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/tools.gif" alt=""> Preferences</a>
+					<a href="{% url userPrefs %}"><img src="{{MEDIA_URL}}/img/navicon/tools.gif" alt="" /> Preferences</a>
                 </li>
                 				
 				<li class="people">
-                    <a href="/admin/"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/people.gif" alt=""> Admin</a>
+					<a href="/admin/"><img src="{{MEDIA_URL}}/img/navicon/people.gif" alt="" /> Admin</a>
                 </li>
                 
 				<li class="door">
-                    <a href="{% url logout %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/door1.gif" alt=""> Logout</a>
+					<a href="{% url logout %}"><img src="{{MEDIA_URL}}/img/navicon/door1.gif" alt="" /> Logout</a>
                 </li>
                 {% else %}
 				
 				<li class="door">
-                    <a href="{% url login %}"><img src="http://crushinator.eplt.washington.edu:8081/static/img/navicon/door2.gif" alt=""> Login</a>
+					<a href="{% url login %}"><img src="{{MEDIA_URL}}/img/navicon/door2.gif" alt="" /> Login</a>
                 </li>
                 {% endif %}
             </ul>
