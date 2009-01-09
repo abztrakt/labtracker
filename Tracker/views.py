@@ -1,5 +1,5 @@
 from datetime import datetime
-from md5 import md5
+from hashlib import md5
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,6 +12,22 @@ import LabtrackerCore.models as c_models
 import Machine.models as m_models
 import Machine.utils as m_utils
 
+def getStatus(status):
+    """
+    From given status, determine which status flags need to be updated
+    """
+    flags = {
+        "drop": [],     # status flags to drop
+        "add": []       # status flags to add
+    }
+
+    if status == "login":
+        flags['add'].append(m_models.Status.objects.get(name="Inuse"))
+    elif status == "logout":
+        flags['drop'].append(m_models.Status.objects.get(name="Inuse"))
+
+    return flags
+
 def updateMachine(request, name):
     """
     Update a specific machine's status
@@ -23,7 +39,9 @@ def updateMachine(request, name):
     data = request.REQUEST.copy()
 
     if data.has_key('status') and data.has_key('user'):
-        status = get_object_or_404(m_models.Status, pk=data['status'])
+        # interpret the status
+        flags = getStatus(data.get('status'))
+
         userhash = md5(data['user'])
 
         try:
@@ -38,11 +56,20 @@ def updateMachine(request, name):
 
         user.save()
         time = datetime.now()
-        print machine.status
-        m_utils.updateStatus(machine, status, user, time)
-        print machine.status
+        print machine.status.all()
 
-        return HttpResponse("%s - %s - %s -- %s" % (machine, machine.status, user, time))
+        for st in flags['drop']:
+            machine.status.remove(st)
+
+        for st in flags['add']:
+            machine.status.add(st)
+
+        #m_utils.updateStatus(machine, status, user, time)
+        print machine.status.all()
+
+        stat_msg = ", ".join([st.name for st in machine.status.all()])
+
+        return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
 
     return HttpResponseServerError()
 
