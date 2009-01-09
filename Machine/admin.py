@@ -35,4 +35,5 @@ admin.site.register(mmod.Group, GroupAdmin)
 admin.site.register(mmod.Platform)
 admin.site.register(mmod.Type)
 admin.site.register(mmod.Location)
+admin.site.register(mmod.Status)
 
