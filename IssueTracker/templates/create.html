@@ -2,13 +2,8 @@
 
 {% block pageCSS %}@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
 @import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');{% endblock %}
-{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"> </script>
-<script type="text/javascript">
-	$(function () {
-		$("#id_problem_type").asmSelect();
-	});
-</script>
+{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"> </script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
 {% endblock %}
 
 {% block heading %}New Issue{% endblock %}
@@ -17,21 +12,27 @@
 <form method='post' id="create_issue">
     <div id="text" class="left">
         <div id='title' class="f_container">
-            <label for="{{form.title.name}}" label class="floatleft">{{form.title.label}}</label>
+			<label for="{{form.title.name}}" label class="floatleft">
+				{{form.title.label}}
+			</label>
             <div>{{form.title}}</div>
             {{ form.title.errors }}
         </div>
         
 	
 		<div id="desc" class="f_container">
-            <label for="{{form.description.name}}">{{form.description.label}}</label>
+			<label for="{{form.description.name}}">
+				{{form.description.label}}
+			</label>
             <div>{{form.description}}</div>
             {{ form.description.errors }}
         </div>
 
 		<div class='f_container'>
-				<label for="{{form.problem_type.name}}">{{ form.problem_type.label }}</label>
-				<div>{{ form.problem_type }}</div>
+			<label for="{{form.problem_type.name}}">
+				{{ form.problem_type.label }}
+			</label>
+			<div>{{ form.problem_type }}</div>
 		</div>
     </div>
 

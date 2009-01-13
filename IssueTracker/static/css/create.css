@@ -9,7 +9,6 @@ div.f_container + div.f_container{
 form#create_issue { 
     border: 1px grey dotted;
     background: #BBFFBB;
-    /* width: 73em; */
     padding: 1em;
 }
 
@@ -17,7 +16,6 @@ form#create_issue {
     width: 45em;
     margin: 1em;
     padding: 1em;
-    /* border: 1px #CCCCCC dotted; */
     background: #BBFFBB;
 }
 
@@ -29,7 +27,6 @@ form#create_issue {
     width: 25em;
     margin: 1em;
     padding: 1em;
-    /* border: 1px #CCCCCC dotted; */
     background: #BBFFBB;
 }
 
@@ -44,10 +41,6 @@ textarea#id_description {
 
 #addCC {
     background-color: #99CC99;
-}
-
-#probtypes {
-	width: 25em;
 }
 
 #invSpecific {

@@ -4,6 +4,10 @@ $(document).ready(function() {
     // initialization code
     reset();
 
+	$("#id_problem_type").asmSelect({
+		'removeLabel': 'X'
+	});
+
     // attach hooks
     $('#id_it').change(function () { loadExtra(this.value); updateGroupList(this.value); } );
     $('#id_group').change(function () { updateItemList(this.value); } );
