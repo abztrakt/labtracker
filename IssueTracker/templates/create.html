@@ -1,7 +1,8 @@
 {% extends "base_full.html" %}
 
-{% block pageCSS %}@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
-@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');{% endblock %}
+{% block pageCSS %}
+@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
+@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');{% endblock %}
 {% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"> </script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
 {% endblock %}
@@ -33,6 +34,7 @@
 				{{ form.problem_type.label }}
 			</label>
 			<div>{{ form.problem_type }}</div>
+			<br class="clear" />
 		</div>
     </div>
 

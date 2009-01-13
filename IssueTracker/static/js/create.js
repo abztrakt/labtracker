@@ -5,7 +5,9 @@ $(document).ready(function() {
     reset();
 
 	$("#id_problem_type").asmSelect({
-		'removeLabel': 'X'
+		'removeLabel': 'X',
+		'listClass': 'asmList prob-types',
+		'listItemClass': 'asmListItem prob-types-item'
 	});
 
     // attach hooks

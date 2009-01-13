@@ -47,3 +47,11 @@ textarea#id_description {
 	margin: 1em;
 	padding: 0.2em;
 }
+
+.prob-types {
+}
+
+.prob-types-item {
+	float: left;
+	width: 15em;
+}
