@@ -1,7 +1,15 @@
 {% extends "base_full.html" %}
 
-{% block pageCSS %}@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>{% endblock %}
+{% block pageCSS %}@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
+@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');{% endblock %}
+{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"> </script>
+<script type="text/javascript">
+	$(function () {
+		$("#id_problem_type").asmSelect();
+	});
+</script>
+{% endblock %}
 
 {% block heading %}New Issue{% endblock %}
 
