@@ -57,12 +57,12 @@
 			{{ update_issue_form.resolved_state }}
 		</li>
 	</ul>
-	<div class="left">
+	<div id="main-update" class="left">
 		<div>
 			<label for='id_comment' style='display: block;'>
 				{{ add_comment_form.comment.label }}
 			</label>
-			{{ add_comment_form.comment }}
+			<textarea id="id_comment" name="{{ add_comment_form.comment.name }}"></textarea>
 		</div>
 
 		<div id="prob-type-block">
@@ -73,8 +73,12 @@
 			<br class="clear" />
 		</div>
 	</div>
-	<div class="left" id="itemUpdate">
-		{% if extra_form %}{{ extra_form.as_p }}{% endif %}
+	<div id="itemUpdate">
+		{% if extra_form %}
+		<ul class="struct">
+			{{ extra_form.as_ul }}
+		</ul>
+		{% endif %}
 	</div>
 	<br class="clear" />
 

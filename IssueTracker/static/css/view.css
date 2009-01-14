@@ -107,11 +107,14 @@ div.action_msg {
 }
 
 div#itemUpdate {
+	float: right;
 	margin-left: 1em;
+	width: 40%;
 }
 
 #itemUpdate li {
 	margin-bottom: 1em;
+	list-style-type: none;
 }
 
 .description_label {
@@ -122,4 +125,13 @@ div#itemUpdate {
 .prob-types-item {
 	float: left;
 	width: 15em;
+}
+
+#main-update {
+	width: 55%;
+}
+
+#id_comment {
+	width: 100%;
+	height: 10em;
 }
