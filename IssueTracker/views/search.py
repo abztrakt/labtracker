@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse, NoReverseMatch

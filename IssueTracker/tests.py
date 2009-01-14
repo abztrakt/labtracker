@@ -39,7 +39,7 @@ class IssueCreationTest(TestCase):
                 {'username' : self.user.username, 'password' : self.password})
         
         # successful login should send us to issues
-        self.failUnlessEqual(response.status_code, 302)
+        self.failUnlessEqual(302, response.status_code)
 
     def testAjaxGroups(self):
         """

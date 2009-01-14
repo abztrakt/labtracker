@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import HttpResponseBadRequest
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response
@@ -26,7 +26,7 @@ def groupedList(request, group_by=None, page=1):
     """
 
     if group_by not in ('problem_type','reporter', 'item'):
-        return Http404()
+        return HttpResponseBadRequest()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
 

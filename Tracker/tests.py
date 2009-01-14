@@ -1,3 +1,4 @@
+import socket
 from hashlib import md5
 
 from django.test import TestCase
@@ -15,11 +16,12 @@ class TrackerMachineUpdate(TestCase):
         """
         Create a new machine to test with
         """
+        self.ip = "192.168.2.134"
         self.m = mm.Item(
             name = "test_machine_item",
             location = mm.Location.objects.all()[0],
             type = mm.Type.objects.all()[0],
-            ip = "192.168.2.200",
+            ip = self.ip,
             mac1 = "00:1b:b9:db:25:3d",
             wall_port = "12za3",
             manu_tag = "test",
@@ -50,9 +52,15 @@ class TrackerMachineUpdate(TestCase):
         # attempt an update
         resp = self.client.post(reverse('tracker-machine', 
                                         kwargs= {'name': self.m.name,}), 
-                                { 'user': self.username, 'status': 'login', })
+                                { 'user': self.username, 'status': 'login', },
+                                REMOTE_ADDR=self.ip )
 
         self.assertContains(resp, "Inuse")
 
+        # this update should fail
+        resp = self.client.post(reverse('tracker-machine', 
+                                        kwargs= {'name': self.m.name,}), 
+                                { 'user': self.username, 'status': 'login', }, )
 
+        self.failUnlessEqual(403, resp.status_code)
 

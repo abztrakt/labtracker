@@ -4,7 +4,7 @@ from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404, HttpResponse, \
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse, \
         HttpResponseServerError
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -187,7 +187,7 @@ def fetch(request, issue_id): #TODO move this to ajax.py
     data = request.GET.copy()
 
     if not data.has_key('req'):
-        return Http404()
+        return HttpResponseNotFound()
 
     req = data.get('req')
     format = data.get('format', 'json')

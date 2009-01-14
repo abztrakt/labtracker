@@ -1,7 +1,7 @@
 from PIL import Image
 
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
 from django.template import RequestContext
@@ -22,7 +22,7 @@ def dumpMachines(request, group = None):
     """
 
     if not lset.DEBUG:
-        return Http404()
+        return HttpResponseForbidden()
 
     args = {}
 

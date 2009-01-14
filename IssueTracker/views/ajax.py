@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError, HttpResponseNotFound
 from django.shortcuts import render_to_response, get_object_or_404
 
 import simplejson
@@ -123,6 +123,6 @@ def invSpecCreate(request):
     hook = utils.issueHooks.getCreateHook(inv_type.name)
 
     if hook == None:
-        return Http404()
+        return HttpResponseNotFound()
 
     return HttpResponse(hook(request))

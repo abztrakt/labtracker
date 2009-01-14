@@ -3,7 +3,7 @@ from hashlib import md5
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect, Http404, HttpResponse, HttpResponseServerError
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 
 import simplejson
@@ -34,7 +34,18 @@ def updateMachine(request, name):
     Give machine a new status, update it's time, and user
     The request must include a status, and a user
     """
+
     machine = get_object_or_404(m_models.Item, name=name)
+
+    # make sure that the IP is the same as that in the machine to be updated
+
+    try:
+        pass
+        if request.META['REMOTE_ADDR'] != machine.ip:
+            return HttpResponseForbidden()
+    except:
+        return HttpResponseForbidden()
+
 
     data = request.REQUEST.copy()
 
