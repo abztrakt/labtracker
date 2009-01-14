@@ -66,7 +66,6 @@ class Issue(models.Model):
 
         super(Issue, self).save(*args, **kwargs)
 
-
     def __unicode__(self):
         return "%d - %s" % (self.issue_id, self.title)
 
@@ -113,6 +112,6 @@ class NullForeignKeyTest(TestCase):
     fixtures = ['dev']
     def testNullKey(self): 
         issues = Issue.objects.filter(resolved_state__isnull=True).order_by('-assignee')
-        self.assertEquals(issues.count(), 6)
+        self.assertEquals(7, issues.count())
 
 
