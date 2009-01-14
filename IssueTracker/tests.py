@@ -389,7 +389,37 @@ class UpdateIssueTest(TestCase):
         """ 
         Tests adding and removing problem types
         """ 
-        pass
+        # get some problem types
+        all_ptypes = iModels.ProblemType.objects.all()
+
+        def withPtypeSet(ptypes):
+            #new_ptype = ptypes[0]
+            response = self.client.post(
+                reverse('IssueTracker-view', args=[self.issue.pk]), {
+                            'problem_type'          : [ptype.pk for ptype in ptypes],
+                        })
+
+            self.failUnlessEqual(302, response.status_code)
+
+            self.issue = iModels.Issue.objects.get(pk=self.issue.pk)
+
+            # make sure that it only has one ptype, and is the one we assigned
+            self.failUnlessEqual(len(ptypes), self.issue.problem_type.count())
+
+            ptype_set = set(ptypes)
+            cur_ptypes = set(self.issue.problem_type.all())
+            self.failUnlessEqual(0, len(ptype_set.difference(cur_ptypes)))
+
+        # test with ptypes[0]
+        withPtypeSet([all_ptypes[0]])
+
+        # change the ptypes, involves adding
+        withPtypeSet(all_ptypes[0:3])
+
+        # change the ptypes, involves removing
+        withPtypeSet(all_ptypes[2:3])
+
+
 
     def testResolveIssue(self):
         """
