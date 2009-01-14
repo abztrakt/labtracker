@@ -48,11 +48,7 @@ def getItems(request):
     """
 
     data = request.REQUEST.copy()
-
-    if not data.has_key('group_id'):
-        group_ids = []
-    else:
-        group_ids = data.getlist('group_id')
+    group_ids = data.getlist('group_id')
 
     items = {}
     contacts = set()

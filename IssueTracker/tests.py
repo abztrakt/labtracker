@@ -91,7 +91,7 @@ class IssueCreationTest(TestCase):
         # fetch for empty group first
         data = fetchJSON(group_e)
         items = data['items']
-        self.failUnlessEqual(len(items), 0)
+        self.failUnlessEqual(0, len(items))
 
         # now do the group1
         data = fetchJSON(group_1)
@@ -99,10 +99,10 @@ class IssueCreationTest(TestCase):
         self.assertTrue(len(data_items) > 0)
 
         # make sure that the items returned by json are the same as those in DB
-        items = set([item.pk for item in group_1.items.all()])
+        items = set([item.pk for item in group_1.core.items.all()])
         ret_items = set([data_items[key]["item_id"] for key in data_items.keys()])
 
-        self.assertEquals(len(items.difference(ret_items)), 0)
+        self.assertEquals(0, len(items.difference(ret_items)))
 
     def testCreateIssue(self): 
         """
@@ -357,7 +357,6 @@ class UpdateIssueTest(TestCase):
         self.failUnlessEqual(num_cc, self.issue.cc.count())
         self.failUnlessEqual(0, self.issue.cc.filter(username=self.user.pk).count())
         self.failUnlessEqual(None, self.issue.resolve_time)
-
 
     def testChangeAssignee(self):
         """
