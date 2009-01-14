@@ -1,9 +1,16 @@
 $(document).ready(function() {
-		$("a.dropCC").bind("click", dropCC); 
-		$("form#addCC").bind("submit", addCC); 
-		$('#problem_type_clicker')[0].compactor.setState(0);
-	}
-);
+	$("a.dropCC").bind("click", dropCC); 
+	$("form#addCC").bind("submit", addCC); 
+
+	$("#id_problem_type").asmSelect({
+		'removeLabel': 'X',
+		'listClass': 'asmList prob-types',
+		'listItemClass': 'asmListItem prob-types-item'
+	});
+	
+	console.log("done");
+
+});
 
 
 /**
@@ -34,14 +41,14 @@ function dropCC(event) {
 				// delete the object
 				$(item).parent().remove()
 				reloadHistory();
-			},
+			}
 	});
 }
 
 /**
- * Takes an event, stops default action. Request sent to create a new CC relation, if
- * succesful, will append item to CC list on user side, otherwise appends some errors to
- * local errorl.
+ * Takes an event, stops default action. Request sent to create a new CC 
+ * relation, if succesful, will append item to CC list on user side, otherwise
+ * appends some errors to local errorl.
  *
  * @param event	 The event that triggered addCC
  */
@@ -69,7 +76,9 @@ function addCC(event) {
 				'user'	  : user
 			},
 		'error': function (req, err, e) {
-				errorl.addErr("'" + user + "' could not be added to CC list. Please make sure '" + user + "' exists.");
+				errorl.addErr("'" + user + 
+					"' could not be added to CC list. Please make sure '" + 
+					user + "' exists.");
 			},
 		'success': function (data) {
 				reloadCcList();

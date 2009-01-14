@@ -106,9 +106,6 @@ div.action_msg {
     margin: 0px 0px 0px 2em;
 }
 
-select#id_problem_type {
-}
-
 div#itemUpdate {
 	margin-left: 1em;
 }
@@ -120,4 +117,9 @@ div#itemUpdate {
 .description_label {
    font-weight: bold;
    font-size: 12px;
+}
+
+.prob-types-item {
+	float: left;
+	width: 15em;
 }

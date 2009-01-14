@@ -410,16 +410,9 @@ class UpdateIssueTest(TestCase):
             cur_ptypes = set(self.issue.problem_type.all())
             self.failUnlessEqual(0, len(ptype_set.difference(cur_ptypes)))
 
-        # test with ptypes[0]
-        withPtypeSet([all_ptypes[0]])
-
-        # change the ptypes, involves adding
-        withPtypeSet(all_ptypes[0:3])
-
-        # change the ptypes, involves removing
-        withPtypeSet(all_ptypes[2:3])
-
-
+        withPtypeSet([all_ptypes[0]])   # test with ptypes[0]
+        withPtypeSet(all_ptypes[0:3])   # change the ptypes, involves adding
+        withPtypeSet(all_ptypes[2:3])   # change the ptypes, involves removing
 
     def testResolveIssue(self):
         """

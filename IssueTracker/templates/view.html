@@ -1,8 +1,13 @@
 {% extends "base_full.html" %}
 {% load issue_extras %}
-{% block pageCSS %}@import url('{{MEDIA_URL}}css/IssueTracker/view.css');{% endblock %}
-{% block pageHead %}<script type="text/javascript" src="{{MEDIA_URL}}js/IssueTracker/view.js"></script>
-<script type="text/javascript" src="{{MEDIA_URL}}js/prob_types.js"></script>
+
+{% block pageCSS %}
+@import url('{{MEDIA_URL}}css/jquery/jquery.asmselect.css');
+@import url('{{MEDIA_URL}}css/IssueTracker/view.css');
+{% endblock %}
+
+{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/view.js"></script>
 {% endblock %}
 
 {% block heading %}Viewing Issue{% endblock %}
@@ -59,23 +64,19 @@
 			</label>
 			{{ add_comment_form.comment }}
 		</div>
-		<div class="none_if_js">
-			{{ update_issue_form.problem_type }}
+
+		<div id="prob-type-block">
+			<label for="{{update_issue_form.problem_type.name}}">
+				{{ update_issue_form.problem_type.label }}
+			</label>
+			<div>{{ update_issue_form.problem_type }}</div>
+			<br class="clear" />
 		</div>
 	</div>
 	<div class="left" id="itemUpdate">
 		{% if extra_form %}{{ extra_form.as_p }}{% endif %}
 	</div>
 	<br class="clear" />
-
-	{# {% include "IssueTracker/issue/prob_tag_block.html" %} #}
-	<div id="prob-type-block">
-		<label for="{{update_issue_form.problem_type.name}}">
-			{{ update_issue_form.problem_type.label }}
-		</label>
-		<div>{{ update_issue_form.problem_type }}</div>
-		<br class="clear" />
-	</div>
 
 	{% if comment_errors %}{{ comment_errors }}{% endif %}
 
