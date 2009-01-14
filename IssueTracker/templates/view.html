@@ -68,7 +68,14 @@
 	</div>
 	<br class="clear" />
 
-	{% include "IssueTracker/issue/prob_tag_block.html" %}
+	{# {% include "IssueTracker/issue/prob_tag_block.html" %} #}
+	<div id="prob-type-block">
+		<label for="{{update_issue_form.problem_type.name}}">
+			{{ update_issue_form.problem_type.label }}
+		</label>
+		<div>{{ update_issue_form.problem_type }}</div>
+		<br class="clear" />
+	</div>
 
 	{% if comment_errors %}{{ comment_errors }}{% endif %}
 

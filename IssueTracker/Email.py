@@ -61,8 +61,8 @@ class NewIssueEmail(Email):
         remove = cur_ptypes.difference(new_ptypes)
         add = new_ptypes.difference(cur_ptypes)
 
-        drop_items = map(models.ProblemType.objects.get, remove)
-        add_items = map(models.ProblemType.objects.get, add)
+        drop_items = [models.ProblemType.objects.get(pk=ii.pk).name for ii in remove]
+        add_items = [models.ProblemType.objects.get(pk=ii).name for ii in add]
 
         hist_msg = ""
         if add_items:
@@ -79,7 +79,7 @@ class NewIssueEmail(Email):
 
         if drop_items:
             # FIXME use a template
-            email.appendSection(EmailSection(
+            self.appendSection(EmailSection(
                 "Removed Problem Types", ", ".join(drop_items)
             ))
 

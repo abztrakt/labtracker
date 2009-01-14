@@ -79,7 +79,8 @@ class IssueUpdater(object):
 
         if self.data.has_key('assignee') and \
                 (self.issue.assignee != update_data['assignee']):
-            issue_email.addAssigneeSection(self.issue.assignee, update_data['assignee'])
+            issue_email.addAssigneeSection(self.issue.assignee, 
+                                           update_data['assignee'])
             
         if self.data.has_key('problem_type'):
             issue_email.addProblemTypeSection(self.old['ptypes'],
