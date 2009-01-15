@@ -14,7 +14,6 @@ from IssueTracker.models import Issue
 def getSearchField(request, field_name):
     """ 
     Retrieves a search field and returns it in JSON
-
     """
     field = issueSearch.searchFieldGen(field_name)
 
@@ -31,11 +30,11 @@ def userCheck(request, name):
     resp = { 'exists' : 0, }
     try:
         user = User.objects.get(username=name)
-        resp['exists'] = 1
         resp['id'] = user.id
         resp['active'] = user.is_active
         resp['username'] = user.username
         resp['email'] = user.email
+        resp['exists'] = 1
     except ObjectDoesNotExist, e:
         resp['exists'] = 0
 
@@ -107,8 +106,10 @@ def getGroups(request):
     if type == "xml":
         # TODO XML serialization
         pass
-    else:
+    elif type == "json":
         return HttpResponse(simplejson.dumps(groups))
+    else:
+        return HttpResponseNotFound()
 
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def invSpecCreate(request):

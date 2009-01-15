@@ -5,9 +5,8 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^new/$', 'createIssue', name='createIssue'),
 
      url(r'^(?P<issue_id>\d+)/$', 'viewIssue', name="IssueTracker-view"),
-     #url(r'^(?P<issue_id>\d+)/updateIssue/$', 'updateIssue', 
-         #name='IssueTracker-update'),
-     url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', name='IssueTracker-modIssue'),
+     url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', 
+         name='IssueTracker-modIssue'),
 
      url(r'^history/(?P<item_id>\d+)/$', 'history', name="IssueTracker-history"),
      url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
@@ -26,7 +25,7 @@ urlpatterns += patterns("IssueTracker.views.reports",
 
 urlpatterns += patterns('IssueTracker.views.search',
      url(r'^search/$', 'search', name="issueSearch"),
-     (r'^search/detailed/$', 'advSearch'),
+     # (r'^search/detailed/$', 'advSearch'),
 )
 
 urlpatterns += patterns('IssueTracker.views.ajax',

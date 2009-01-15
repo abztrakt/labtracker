@@ -10,9 +10,7 @@ def issueCreate(request):
     """
     Given request, render what extra stuff is needed for Machines
     """
-    args = {
-        'statusForm' : forms.itemStatusForm(),
-    }
+    args = { 'statusForm' : forms.itemStatusForm(), }
     return render_to_string('issueCreate.html', args,
             context_instance=RequestContext(request))
 
@@ -86,7 +84,6 @@ def issueUpdateViewSubmit(request, issue):
     """
 
     data = request.POST.copy()
-
     user = request.user
 
     if not user.has_perm('IssueTracker.can_change'):
@@ -101,7 +98,6 @@ def issueUpdateViewSubmit(request, issue):
         if form.is_valid():
             form.save()
             return True
-
         return False
 
     # didn't do any processing, proceed
@@ -117,7 +113,5 @@ def issueForm(issue, request=None):
 
         if request:
             return forms.UpdateMachineForm(request.POST.copy(), instance=item)
-
         return forms.UpdateMachineForm(instance=item)
-
     return None

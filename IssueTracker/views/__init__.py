@@ -1,5 +1,7 @@
 import datetime
 
+import simplejson
+
 from django.conf.urls.defaults import *
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
@@ -8,8 +10,6 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
         HttpResponseServerError
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-
-import simplejson
 
 from IssueTracker.models import *
 from IssueTracker.issue import IssueUpdater
@@ -114,7 +114,6 @@ def createIssue(request):
     Currently takes a request, and sets the reporter to whoever is logged in and
     then saves it.
     """
-    # TODO improve the form validation here
 
     if request.method == 'POST':
         data = request.POST.copy()          # need to do this to set some defaults

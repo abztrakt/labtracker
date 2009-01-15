@@ -56,14 +56,14 @@ class IssueCreationTest(TestCase):
         response = self.client.post(url,
                 { 'type': 'json', 'it_id': inv_id })
 
-        self.failUnlessEqual(response.status_code, 200)
+        self.failUnlessEqual(200, response.status_code)
 
         # convert the response content to a python dict
         data = simplejson.JSONDecoder().decode(response.content)
 
         ret_groups = set([data[key]["name"] for key in data.keys()])
         self.assertTrue(len(ret_groups) > 0)
-        self.assertEquals(len(groups.difference(ret_groups)), 0)
+        self.assertEquals(0, len(groups.difference(ret_groups)))
 
     def testAjaxItems(self):
         """
@@ -170,7 +170,7 @@ class IssueCreationTest(TestCase):
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
 
         # primary contact should get an email here
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(1, len(mail.outbox))
 
 class IssueSearchTest(TestCase):
     fixtures = ['dev',]
@@ -225,7 +225,7 @@ class IssueSearchTest(TestCase):
         # test and make sure that the response has only one issue
         issue_link_re = re.compile(r'<a href="/issue/\d+/">')
 
-        self.assertEquals(len(issue_link_re.findall(response.content)), 1)
+        self.assertEquals(1, len(issue_link_re.findall(response.content)))
 
 class PasswordChangeTest(TestCase):
     def setUp(self):
@@ -288,7 +288,8 @@ class EmailTest(TestCase):
         self.email.addTo(settings.EMAIL_TEST_RECIPIENT)
         self.email.send()
 
-        # TODO make sure that it was sent?
+        self.assertEqual(1, len(mail.outbox))
+
 
 class UpdateIssueTest(TestCase):
     fixtures = ['dev',]
@@ -326,7 +327,7 @@ class UpdateIssueTest(TestCase):
         comment = iModels.IssueComment.objects.get(issue=self.issue)
         self.failUnless(comment is not None)
 
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(1, len(mail.outbox))
         self.failUnlessEqual(None, self.issue.resolve_time)
 
     def testAddCC(self):
