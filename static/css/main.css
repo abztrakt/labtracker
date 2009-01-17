@@ -24,14 +24,15 @@ a img { border: none; }
 }
 
 #upper-header {
-	height: 4em;
+	height: 3.5em;
+	padding-bottom: .3em;
 }
 
 #logo {
 	float: left;
 	border: 1px solid #CCC;
 	border-top: 0px;
-	height: 3.3em;
+	height: 100%;
 }
 
 /* nav related styles */
@@ -46,7 +47,8 @@ a img { border: none; }
 
 	border: 1px solid #DDD;
 	border-top: 0px;
-	padding: 2.1em 0.5em 0.3em 0.5em;
+	padding: 1.8em 0.5em 0.4em 0.5em;
+	height: 100%;
 
 	font-size: 0.9em;
 	color: #888888;
@@ -66,7 +68,11 @@ a img { border: none; }
 
 /* END nav related styles */
 
-#user-info { float: left; width: 20em; }
+#user-info { 
+	font-size: 0.8em;
+	float: left; 
+	width: 20em;
+}
 
 #heading { float: left; }
 #heading h1 { padding: 0px; margin: 0px; }
@@ -88,12 +94,12 @@ div#fast-search fieldset {
 }
 
 #search_term {
-    background: #a8ecf0;
+    background: #BAE7B0;
 }
 
 div#fast-search input.flat {
     padding: 1px;
-    background: #69bad5;
+    background: #78C778;
 }
 /* end fastsearch */
 
