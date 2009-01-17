@@ -29,27 +29,6 @@
 
 
 
-.house a.hover { background-color: #76aab0; color: #a3f6ff; }
-.house a {color: #888888;}
-
-.sadface a.hover { background-color: #a11515; color: #ff0000; }
-.sadface a {color: #888888;}
-
-.warning a.hover { background-color: #bdaf3b; color: #fdd700; }
-.warning a {color: #888888;}
-
-.eye a.hover { background-color: #1d3d86; color: #3a84ff; }
-.eye a {color: #888888;}
-
-.tools a.hover { background-color: #b04ab1; color: #fc00ff; }
-.tools a {color: #888888;}
-
-.people a.hover { background-color: #65336e; color: #9a00b6; }
-.people a {color: #888888;}
-
-.door a.hover { background-color: #329234; color: #00ff06; }
-.door a {color: #888888;}
-
 .jquery-droppy ul li a { background-color: #a11515; color: #888888; }
 .jquery-droppy ul a.hover { background-color: #a11515; color: #ff0000}
 .jquery-droppy ul a { 

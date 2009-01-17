@@ -15,11 +15,14 @@
 
 {% block body %}
 	<div id="header">
-		<div id="logo" class="bordered">
-			<img src="{{MEDIA_URL}}/img/labtracker_logo.png" alt="labtracker" />
+		<div id="upper-header">
+			<div id="logo" class="bordered">
+				<img src="{{MEDIA_URL}}/img/labtracker_logo.png" alt="labtracker" />
+			</div>
+			{% include "nav.html" %}
+			<br class="clear" />
 		</div>
-		{% include "nav.html" %}
-		<div id="lowerHeader" class="clear">
+		<div id="lower-header" class="clear">
 			{% if user.is_authenticated %}
 			<div id='userInfo'>
 				Logged in as: {{ user.username }}

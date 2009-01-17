@@ -1,42 +1,42 @@
-            <ul id="nav" class="inline struct">
-                
-				<li class="house">
-					<a href="/"><img src="{{MEDIA_URL}}/img/navicon/house.gif" alt="" /> Home</a>
-                </li>
-                
-				<li class="sadface">
-					<a href="#"><img src="{{MEDIA_URL}}/img/navicon/sadface.gif" alt="" /> Issues</a>
-					<ul>
-						<li><a href="{% url viewAll %}">All Unresolved</a></li>
-						<li><a href="{% url groupView "problem_type" %}">Group By: Problem Type</a></li>
-						<li><a href="{% url groupView "item" %}">Group By: Item</a></li>
-					</ul>
-                </li>
-				
-                <li class="warning">
-					<a href="{% url createIssue %}"><img src="{{MEDIA_URL}}/img/navicon/warning.gif" alt="" /> New Issue</a>
-                </li>
-               
-			    <li class="eye">
-				<a href="{% url viewsIndex %}"><img src="{{MEDIA_URL}}/img/navicon/eye.gif" alt="" /> Data Views</a> 
-                </li>
+<ul id="nav" class="inline struct">
 
-                {% if user.is_authenticated %}
-				<li class="tools">
-					<a href="{% url userPrefs %}"><img src="{{MEDIA_URL}}/img/navicon/tools.gif" alt="" /> Preferences</a>
-                </li>
-                				
-				<li class="people">
-					<a href="/admin/"><img src="{{MEDIA_URL}}/img/navicon/people.gif" alt="" /> Admin</a>
-                </li>
-                
-				<li class="door">
-					<a href="{% url logout %}"><img src="{{MEDIA_URL}}/img/navicon/door1.gif" alt="" /> Logout</a>
-                </li>
-                {% else %}
-				
-				<li class="door">
-					<a href="{% url login %}"><img src="{{MEDIA_URL}}/img/navicon/door2.gif" alt="" /> Login</a>
-                </li>
-                {% endif %}
-            </ul>
+	<li class="home">
+		<a href="/"><img src="{{MEDIA_URL}}/img/navicon/house.gif" alt="" /> Home</a>
+	</li>
+
+	<li class="view-issues">
+		<a href="#"><img src="{{MEDIA_URL}}/img/navicon/sadface.gif" alt="" /> Issues</a>
+		<ul>
+			<li><a href="{% url viewAll %}">All Unresolved</a></li>
+			<li><a href="{% url groupView "problem_type" %}">Group By: Problem Type</a></li>
+			<li><a href="{% url groupView "item" %}">Group By: Item</a></li>
+		</ul>
+	</li>
+
+	<li class="new-issue">
+		<a href="{% url createIssue %}"><img src="{{MEDIA_URL}}/img/navicon/warning.gif" alt="" /> New Issue</a>
+	</li>
+
+	<li class="data-views">
+		<a href="{% url viewsIndex %}"><img src="{{MEDIA_URL}}/img/navicon/eye.gif" alt="" /> Data Views</a> 
+	</li>
+
+	{% if user.is_authenticated %}
+	<li class="prefs">
+		<a href="{% url userPrefs %}"><img src="{{MEDIA_URL}}/img/navicon/tools.gif" alt="" /> Preferences</a>
+	</li>
+
+	<li class="admin">
+		<a href="/admin/"><img src="{{MEDIA_URL}}/img/navicon/people.gif" alt="" /> Admin</a>
+	</li>
+
+	<li class="logout">
+		<a href="{% url logout %}"><img src="{{MEDIA_URL}}/img/navicon/door1.gif" alt="" /> Logout</a>
+	</li>
+	{% else %}
+
+	<li class="login">
+		<a href="{% url login %}"><img src="{{MEDIA_URL}}/img/navicon/door2.gif" alt="" /> Login</a>
+	</li>
+	{% endif %}
+</ul>
