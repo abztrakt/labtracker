@@ -20,18 +20,18 @@
 				<img src="{{MEDIA_URL}}/img/labtracker_logo.png" alt="labtracker" />
 			</div>
 			{% include "nav.html" %}
-			<br class="clear" />
 		</div>
 		<div id="lower-header" class="clear">
 			{% if user.is_authenticated %}
-			<div id='userInfo'>
-				Logged in as: {{ user.username }}
+			<div id='user-info'>
+				Logged in as: <span>{{ user.username }}</span>
 			</div>
 			{% endif %}
 
-			<div id="fast-search" class="clear">
+			<div id="fast-search" class="right">
 				{% include "IssueTracker/fast_search.html" %}
 			</div>
+			<br class="clear" />
 		</div>
 		<div id="heading">
 			<h1>{% block heading %}{% endblock %}</h1>

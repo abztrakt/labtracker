@@ -42,8 +42,6 @@ a img { border: none; }
 
 #nav > li > a {
 	display: block;
-    /* height: 3em; */
-
 	width: 8em;
 
 	border: 1px solid #DDD;
@@ -63,13 +61,13 @@ a img { border: none; }
 }
 
 #nav a:hover {
-	/* border: 1px solid black; */
 	border-color: #888;
 }
 
 /* END nav related styles */
 
-#userInfo { float: left; }
+#user-info { float: left; width: 20em; }
+
 #heading { float: left; }
 #heading h1 { padding: 0px; margin: 0px; }
 #content { padding: 0px 15px 15px 15px; }
@@ -83,12 +81,6 @@ form#login fieldset {
 }
 
 /* fastsearch */
-div#fast-search {
-    float: right;
-    margin-right: 1em;
-    margin-top: 2em;
-}
-
 div#fast-search fieldset {
 	border: 0px;
 	margin: 0px;
