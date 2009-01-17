@@ -15,8 +15,8 @@
 
 {% block body %}
 	<div id="header">
-		<div id="heading">
-			<h1>{% block heading %}{% endblock %}</h1>
+		<div id="logo" class="bordered">
+			<img src="{{MEDIA_URL}}/img/labtracker_logo.png" alt="labtracker" />
 		</div>
 		{% include "nav.html" %}
 		<div id="lowerHeader" class="clear">
@@ -29,6 +29,9 @@
 			<div id="fast-search" class="clear">
 				{% include "IssueTracker/fast_search.html" %}
 			</div>
+		</div>
+		<div id="heading">
+			<h1>{% block heading %}{% endblock %}</h1>
 		</div>
 	</div>
 	<div id="pageHeader" class="clear">
