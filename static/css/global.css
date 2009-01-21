@@ -23,7 +23,7 @@ span.label { font-weight: bold; }
 	margin-right: auto;
 }
 
-.block_if_js, .inline_if_js {
+.block-if-js, .inline-if-js {
     display: none;
 }
 

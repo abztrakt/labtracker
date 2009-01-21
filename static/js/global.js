@@ -8,10 +8,10 @@ $.ajaxSetup({
 });
 
 function initializeJavascript(item) {
-    item.find(".none_if_js").hide();
+    item.find(".none-if-js").hide();
 
-    item.find(".block_if_js").each( function () { this.style.display = "block"; } );
-    item.find(".inline_if_js").each( function () { this.style.display = "inline"; } );
+    item.find(".block-if-js").each( function () { this.style.display = "block"; } );
+    item.find(".inline-if-js").each( function () { this.style.display = "inline"; } );
 }
 
 $(document).ready(function() {

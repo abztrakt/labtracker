@@ -25,7 +25,7 @@ function dropCC(event) {
 
 	user_id = item.id.match(/^cc_(\d+)$/)[1];
 
-	errorl = $('div#cc_box > div.block_if_js > ul.errorl')[0];
+	errorl = $('div#cc_box > div.block-if-js > ul.errorl')[0];
 
 	$.ajax({
 		'url': "modIssue/",
@@ -61,7 +61,7 @@ function addCC(event) {
 		function () { return this.innerHTML == user; } );
 
 
-	errorl = $('div#cc_box > div.block_if_js > ul.errorl')[0];
+	errorl = $('div#cc_box > div.block-if-js > ul.errorl')[0];
 
 	if (findRes.length > 0) {
 		errorl.addErr("User already in CC list");
