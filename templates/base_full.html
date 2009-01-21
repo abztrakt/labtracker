@@ -21,9 +21,11 @@
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
     <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
 
-	{% block pageJS %}
+	{% block mainJS %}
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.droppy.js"></script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
+	{% block pageJS %}
+	{% endblock %}
 	{% endblock %}
 
     {% block pageHead %}{% endblock %}
