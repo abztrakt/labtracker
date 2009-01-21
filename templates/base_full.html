@@ -1,19 +1,37 @@
-{% extends "base_generic.html" %}
-{% block title %}Issue Tracker{% endblock %}
-{% block b_pageCSS %}
-	@import url("{{MEDIA_URL}}css/main.css");
-	{% block pageCSS %}
-	{% endblock %}
-{% endblock %}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+{% block head %}
+    <title>
+        {% block title %}LabTracker{% endblock %}
+    </title>
+    <style type="text/css">
+		@import url('{{MEDIA_URL}}css/global.css');
+        @import url('{{MEDIA_URL}}css/jquery/droppy.css');
+		{% block mainCSS %}
+		@import url("{{MEDIA_URL}}css/main.css");
+		{% block pageCSS %}
+		{% endblock %}
+		{% endblock %}
+    </style>
+	<script type="text/javascript">
+		var media_url = "{{ MEDIA_URL }}";
+	</script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
 
-{% block b_pageJS %}
+	{% block pageJS %}
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.droppy.js"></script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
-	{% block pageJS %}
 	{% endblock %}
-{% endblock %}
 
+    {% block pageHead %}{% endblock %}
+{% endblock %}
+</head>
+<body><div id='wrapper'>
 {% block body %}
+	{% block header %}
 	<div id="header">
 		<div id="upper-header">
 			<div id="logo" class="bordered">
@@ -40,6 +58,8 @@
 	<div id="pageHeader" class="clear">
 		{% block pageHeader %}{% endblock %}
 	</div>
+	{% endblock %}
+
 	<div id="content" class="clear">
 		{% block content %}{% endblock %}
 	</div>
@@ -47,3 +67,6 @@
 		{% block footer %}{% endblock %}
 	</div>
 {% endblock %}
+</div></body>
+</html>
+

@@ -74,8 +74,18 @@ a img { border: none; }
 	width: 20em;
 }
 
-#heading { float: left; }
-#heading h1 { padding: 0px; margin: 0px; }
+#heading { 
+	float: left; 
+	/* color: #333; */
+}
+#heading h1 { 
+	font-size: 1.7em;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	width: 17em;
+	padding: 0.3em 0em 0.3em 1em;
+	margin: 0px;
+}
 #content { padding: 0px 15px 15px 15px; }
 
 form#login {
