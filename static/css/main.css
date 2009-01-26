@@ -94,7 +94,7 @@ a img { border: none; }
 }
 
 #heading.default div {
-	background-image: url("/static/img/icons/home.png");
+	background-image: url("/static/img/icons/house.png");
 }
 
 #heading.tools div {
@@ -106,7 +106,7 @@ a img { border: none; }
 }
 
 #heading.home div {
-	background-image: url("/static/img/icons/home.png");
+	background-image: url("/static/img/icons/house.png");
 }
 
 #heading.data div {
