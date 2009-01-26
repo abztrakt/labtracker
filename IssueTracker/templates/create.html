@@ -3,8 +3,9 @@
 {% block pageCSS %}
 @import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
 @import url('{{ MEDIA_URL }}css/IssueTracker/create.css');{% endblock %}
-{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"> </script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"> </script>
+
+{% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"></script>
 {% endblock %}
 
 {% block heading %}New Issue{% endblock %}
