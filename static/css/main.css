@@ -94,7 +94,11 @@ a img { border: none; }
 }
 
 #heading.default div {
-	background-image: url("/static/img/icons/eye.png");
+	background-image: url("/static/img/icons/home.png");
+}
+
+#heading.tools div {
+	background-image: url("/static/img/icons/tools.png");
 }
 
 #heading.view div {
