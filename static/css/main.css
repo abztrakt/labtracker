@@ -77,16 +77,59 @@ a img { border: none; }
 #heading { 
 	float: left; 
 	/* color: #333; */
-	margin-top: 1em;
-	margin-bottom: 2em;
+	margin-top: 0.7em;
+	margin-bottom: 0.7em;
+	padding-right: 7px;
+
+	/* 77 px high */
+	background: url("/static/img/icons/ring.gif") center right no-repeat;
 }
+
+#heading div { 
+	padding: 18px 63px 18px 0em;
+	height: 41px;		/* 77 - 18 - 18 */
+	background-repeat: no-repeat;
+	background-color: transparent;
+	background-position: center right;
+}
+
+#heading.default div {
+	background-image: url("/static/img/icons/eye.png");
+}
+
+#heading.view div {
+	background-image: url("/static/img/icons/mag.png");
+}
+
+#heading.home div {
+	background-image: url("/static/img/icons/home.png");
+}
+
+#heading.data div {
+	background-image: url("/static/img/icons/eye.png");
+}
+
+#heading.create div {
+	background-image: url("/static/img/icons/warning.png");
+}
+
+#heading.logout div {
+	background-image: url("/static/img/icons/logout.png");
+}
+
+#heading.login div {
+	background-image: url("/static/img/icons/login.png");
+}
+
 #heading h1 { 
 	font-size: 1.7em;
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
+	color: #444;
 	width: 17em;
 	padding: 0.3em 0em 0.3em 1em;
 	margin: 0px;
+	background: white;
 }
 #content { padding: 0px 15px 15px 15px; }
 
