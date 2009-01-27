@@ -63,10 +63,6 @@ a img { border: none; }
 	float: left;
 }
 
-#nav > li:last-child {
-	padding-right: 0em;
-}
-
 #nav a:hover {
 	border-color: #888;
 }
@@ -226,7 +222,7 @@ select#id_cc {
 }
 
 div.tags {
-    font-weight: none;
+    font-weight: normal;
 }
 
 div.tags div {

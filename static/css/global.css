@@ -54,3 +54,11 @@ table.plain td {
 div#feed {
     margin: 20px 20px 20px 0;
 }
+
+div#footer {
+	padding: 0em 1em;
+}
+
+div#debugfooter {
+	font-size: 10px;
+}

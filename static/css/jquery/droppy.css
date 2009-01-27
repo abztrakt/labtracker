@@ -20,7 +20,7 @@
 	/* background-color: #30A8C3; */
 	height: 24px; 
 }
-.jquery-droppy *:hover { background-color: none; }
+.jquery-droppy *:hover { background-color: transparent; }
 .jquery-droppy a { border-right: 1px solid white; 
 	padding: .5em 6px; 
 	line-height: 1; }
