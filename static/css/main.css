@@ -45,7 +45,6 @@ a img { border: none; }
 #nav > li > a {
 	display: block;
 	width: 8.5em;
-	float: right;
 
 	border: 1px solid #DDD;
 	border-top: 0px;
@@ -59,6 +58,9 @@ a img { border: none; }
 
 #nav > li {
     padding: 0em 4px;
+	position: relative;
+	display: block;
+	float: left;
 }
 
 #nav > li:last-child {
