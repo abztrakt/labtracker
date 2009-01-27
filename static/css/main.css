@@ -25,6 +25,7 @@ a img { border: none; }
 
 #upper-header {
 	height: 3.5em;
+	width: 100%;
 	padding-bottom: .3em;
 }
 
@@ -43,7 +44,8 @@ a img { border: none; }
 
 #nav > li > a {
 	display: block;
-	width: 8em;
+	width: 8.5em;
+	float: right;
 
 	border: 1px solid #DDD;
 	border-top: 0px;
@@ -52,6 +54,7 @@ a img { border: none; }
 
 	font-size: 0.9em;
 	color: #888888;
+	text-align: left;
 }
 
 #nav > li {
@@ -76,8 +79,7 @@ a img { border: none; }
 
 #heading { 
 	float: left; 
-	/* color: #333; */
-	margin-top: 0.7em;
+	margin-top: 0;
 	margin-bottom: 0.7em;
 	padding-right: 7px;
 
