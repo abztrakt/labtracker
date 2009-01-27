@@ -23,6 +23,12 @@ a img { border: none; }
     background-color: white;
 }
 
+div#footer {
+	border-top: 1px solid #49C847;
+	margin: 0em 1em;
+	font-size: 10px;
+}
+
 #upper-header {
 	height: 3.5em;
 	width: 100%;
@@ -135,7 +141,11 @@ a img { border: none; }
 	margin: 0px;
 	background: white;
 }
-#content { padding: 0px 15px 15px 15px; }
+
+#content { 
+	min-height: 400px;
+	padding: 0px 15px 15px 15px;
+}
 
 form#login {
 	width: 24em;
