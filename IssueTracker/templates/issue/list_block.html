@@ -10,7 +10,7 @@
 		{% searchcolumn "title" "Title" %}
 		{% searchcolumn "item" "Item Name" %}
 		{% searchcolumn "group" "Group" %}
-		{% searchcolumn "reporter" "Reporter" %}
+		{# {% searchcolumn "reporter" "Reporter" %} #}
 		{% searchcolumn "assignee" "Assignee" %}
 		{% searchcolumn "post_time" "Posted" %}
 		{% searchcolumn "last_modified" "Last Modified" %}
@@ -30,7 +30,7 @@
         {% endif %}
         </td>
         <td class='r_group'>{{ issue.group }}</td>
-        <td class='r_reporter'>{{ issue.reporter }}</td>
+		{# <td class='r_reporter'>{{ issue.reporter }}</td> #}
         <td class='r_assignee'>{{ issue.assignee }}</td>
         <td class='r_post_time'>{{ issue.post_time|date }} at {{ issue.post_time|time }}</td>
         <td class='r_last_modified'>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
