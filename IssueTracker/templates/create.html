@@ -2,7 +2,8 @@
 
 {% block pageCSS %}
 @import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
-@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');{% endblock %}
+@import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
+{% endblock %}
 
 {% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/IssueTracker/create.js"></script>
@@ -16,62 +17,94 @@
     <div id="text" class="left">
         <div id='title' class="f_container">
 			<label for="{{form.title.name}}" label class="floatleft">
-				{{form.title.label}}
+				<!-- {{form.title.label}} -->
+                Subject:
 			</label>
             <div>{{form.title}}</div>
             {{ form.title.errors }}
         </div>
         
-	
-		<div id="desc" class="f_container">
-			<label for="{{form.description.name}}">
-				{{form.description.label}}
-			</label>
-            <div>{{form.description}}</div>
-            {{ form.description.errors }}
-        </div>
-
-		<div class='f_container'>
-			<label for="{{form.problem_type.name}}">
-				{{ form.problem_type.label }}
-			</label>
-			<div>{{ form.problem_type }}</div>
-			<br class="clear" />
-		</div>
-    </div>
-
-    <div id="fields" class="left">
-        <div class='f_container' id="it_block">
-            <label for="{{form.it.name}}">{{ form.it.label }}</label>
-			<div>
-				{{ form.it }}
-                {% if form.it.errors %}{{ form.it.errors }}
-                {% else %}<ul class="errorlist"></ul>{% endif %}
-			</div>
-        </div>
-        
-	
 		<div class='f_container' id="group_block">
-            <label for="{{form.group.name}}">{{ form.group.label }}</label>
+            <label for="{{form.group.name}}">
+            	<!--{{ form.group.label }}-->
+                Location:
+            </label>
 			<div>
 				{{ form.group }}
                 {% if form.group.errors %}{{ form.group.errors }}
                 {% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
         </div>
-        
+    
+    <div class='f_container' id="it_block">
+            <label for="{{form.it.name}}">
+            	<!--{{ form.group.label }}-->
+                Type:
+            </label>
+			<div>
+				{{ form.it }}
+                {% if form.it.errors %}{{ form.it.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
+        </div>    
 	
 		<div class='f_container' id="item_block">
-			<label for="{{form.item.name}}">{{ form.item.label }}</label>
+			<label for="{{form.item.name}}">
+	            <!--{{ form.group.label }}-->
+                Name:
+            </label>
 			<div>
 				{{ form.item }}
 				{% if form.item.errors %}{{ form.item.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
 		</div>
+    
+    <br class="clear" />
+    
+    	<!-- Use fancier problem selection if the user has javascript powers -->
+		<div id="lowerInfo">
+			<div id="invSpecific" class="left">
+			</div>
+		</div>
+    
+    <br class="clear" />
+    
+    
+    	<div class='f_container' id="probs">
+			
+            <label for="{{form.problem_type.name}}">
+				<!--{{ form.problem_type.label }}-->
+                Problems:
+			</label>
+            
+            <div>{{ form.problem_type }}</div>
+
+        </div>
+    
+    <br class="clear" />
+    
+		<div id="desc" class="f_container">
+			<label for="{{form.description.name}}">
+				<!--{{form.description.label}}-->
+                Description:
+			</label>
+            <div>{{form.description}}</div>
+            {{ form.description.errors }}
+        </div>
+
+
+    </div>
+    
+        
+    <div id="fields" class="left">
+       
 
 		<div class='f_container' id='cc_block'>
-			<label for="{{form.cc.name}}">{{ form.cc.label }}</label>
+			<label for="{{form.cc.name}}">
+            <!--{{ form.cc.label }}-->
+            CC:
+            </label>
 			<div class='none-if-js'>{{ form.cc }}</div>
 			<div class='block-if-js'> 
 				<div>
@@ -88,15 +121,13 @@
 
 	<br class="clear" />
 
-	<!-- Use fancier problem selection if the user has javascript powers -->
-	<div id="lowerInfo">
-		<div id="invSpecific" class="left">
-		</div>
-	</div>
 
-	<br class="clear" />
 
-	<input type="submit" name="submit" value="Submit" />
+	
+
+	
+    <input type="submit" name="submit" value="Submit" />
 	<input type="reset" id="reset" value="Reset" />
+    
 </form>
 {% endblock %}

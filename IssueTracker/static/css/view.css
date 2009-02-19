@@ -11,9 +11,39 @@ h4 {
     display: inline;
 }
 
+span.number_color {
+	color:#c91a15;
+	font-size: 12px;
+}
+
+span.main_title {
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: .5em;
+}
+
+span.labeled {
+	font-weight: bold;
+}
+
+span.reporter {
+	color: #6a6a6a;
+	margin-left: .5em;
+}
+
+span.time {
+	color: #c0c0c0;
+	font-size: 10px;
+	margin-left: .5em;
+}
+
+span.label_title {
+	color: #6a6a6a;
+	font-size: 10px;
+}
+
 div.comment {
     max-width: 700px;
-    border: 1px dotted #000;
     margin-bottom: 5px;
 }
 
@@ -29,16 +59,16 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 	margin-top: 1em;
 	max-width: 700px;
 }
-#title {
-	padding-left: .5em;
-}
+
+
+#title { margin-bottom: 1em; }
+
+#desbox { margin-top: 1em;}
 
 #description {
-    padding: .5em;
+	padding-top: .5em;
     min-width: 600px;
-    min-height: 300px;
-    border: 1px #000000 solid;
-	background-color: #ffffff;
+    min-height: auto;
 }
 
 #problems {
@@ -56,16 +86,16 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 
 form#post_comment {
 	width: 700px;
-	border: 1px solid #000000;
-	background-color: #d9d9d9;
+	margin-top: 1em;
 }
+
 div#main_issue { float: left; width: 700px; }
 #description { margin-top: 0px; }
 
 div#right_side_bar {
     float: left;
     width: 220px;
-    padding: 0 0 0 1em;
+    padding: 4.7em 0 0 1em;
 }
 
 div#right_side_bar > div {
@@ -82,18 +112,14 @@ div#right_side_bar > .info:first-child {
     border-color: #333333;
 }
 
-div#right_side_bar > .info {
-    padding: .75em .5em 1em .75em;
-    margin-bottom: .5em;
-    background: #DDFFDD;
-}
-
-
 ul#cc_list li { margin-left: 1em; }
 
 div#history_box {
     min-height: 300px;
-    background-color: #fffb8b;
+}
+
+div#cc_box {
+	padding-bottom: 1em;
 }
 
 input#addCC_user { width: 10em; }
@@ -108,7 +134,7 @@ div.action_msg {
 
 div#itemUpdate {
 	float: right;
-	margin-left: 1em;
+	margin-right: 1em;
 	width: 40%;
 }
 
@@ -135,3 +161,42 @@ div#itemUpdate {
 	width: 100%;
 	height: 10em;
 }
+
+.greybox {
+    background: #ededed;
+	border: 1px solid #cacaca;
+	padding: .5em  0 .5em 1em;
+}
+
+.whitebox {
+    background: #ffffff;
+	border: 1px solid #cacaca;
+	padding: .5em  0 .5em 1em;
+}
+
+.specinfo {
+	float: left;
+	margin-right: 2em;
+}
+
+#prob-type-block { margin-top: 1em;}
+
+.postedcomment { margin-bottom: 1em; }
+
+
+#post_comment fieldset {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+/*
+hbold3 {
+	font-size: 10px;
+	font-weight: bold;
+}
+hgrey4 {
+	color: #c0c0c0;
+	font-size: 10px;
+}
+*/

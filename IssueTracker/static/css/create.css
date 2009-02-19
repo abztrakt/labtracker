@@ -1,5 +1,13 @@
+html, body {
+    background-image: url("/static/img/bg/createbg.jpg");
+	background-attachment: fixed;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
 label {
-    font-size: 1.2em;
+    font-size: 1em;
+	font-weight: bold;
 }
 
 div.f_container + div.f_container{
@@ -7,32 +15,52 @@ div.f_container + div.f_container{
 }
 
 form#create_issue { 
-    border: 1px grey dotted;
-    background: #BBFFBB;
-    padding: 1em;
+    border: none;
+    background: none;
+    padding: none;
 }
 
 #text {
     width: 45em;
-    margin: 1em;
+    margin: 1em .5em 1em 0em;
     padding: 1em;
-    background: #BBFFBB;
+    background: #ededed;
+	border: 1px solid #cacaca;
 }
 
 #desc {
 	margin-bottom: 0px;
+	margin-top: 1em;
 }
 
 #fields {
-    width: 25em;
-    margin: 1em;
-    padding: 1em;
-    background: #BBFFBB;
+    width: 12em;
+    margin-top: 5.25em;
+    padding: .5em;
+    background: none;
+	border: 1px solid #cacaca; 
+	
 }
 
 textarea#id_description {
     width: 100%;
     overflow: auto;
+}
+
+
+#it_block {
+	float: left;
+	margin-right: 2em;
+}
+
+#group_block {
+	float: left;
+	margin-right: 2em;
+}
+
+#item_block {
+	float: left;
+	margin-right: 2em;
 }
 
 #id_cc {
@@ -44,11 +72,21 @@ textarea#id_description {
 }
 
 #invSpecific {
-	margin: 1em;
-	padding: 0.2em;
+	margin-top: 1.5em;
 }
+
+#probs {
+	margin-top: 1.5em;
+}
+
 
 .prob-types-item {
 	float: left;
 	width: 15em;
 }
+
+.floatleft {
+	float: left
+}
+
+
