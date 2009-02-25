@@ -1,4 +1,4 @@
-/settings.py
-/tags
-/*.sqlite
-/*.pyc
+settings.py
+tags
+*.sqlite
+*.pyc
