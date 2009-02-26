@@ -1,13 +1,13 @@
 $(document).ready(function() {
 	$("a.dropCC").bind("click", dropCC); 
-	$("form#addCC").bind("submit", addCC); 
+	$("#ccForm").bind("submit", addCC); 
+	$("#addCC").bind("click", addCC); 
 
 	$("#id_problem_type").asmSelect({
 		'removeLabel': 'X',
 		'listClass': 'asmList prob-types',
 		'listItemClass': 'asmListItem prob-types-item'
 	});
-	
 });
 
 
@@ -66,6 +66,8 @@ function addCC(event) {
 		return false;
 	}
 
+	console.log("in addCC");
+
 	$.ajax({
 		'url':'modIssue/',
 		'type': 'POST',
@@ -79,7 +81,7 @@ function addCC(event) {
 					user + "' exists.");
 			},
 		'success': function (data) {
-				reloadCcList();
+				reloadCCList();
 
 				// reload the history
 				reloadHistory();
@@ -113,7 +115,7 @@ function reloadHistory() {
 /**
  * Reload the CC list, removes everything and request a new box from server
  */
-function reloadCcList() {
+function reloadCCList() {
 	$('#cc_box').empty();
 	$.ajax({
 		'url'	   : 'fetch/',
