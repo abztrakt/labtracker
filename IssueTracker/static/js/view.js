@@ -8,8 +8,6 @@ $(document).ready(function() {
 		'listItemClass': 'asmListItem prob-types-item'
 	});
 	
-	console.log("done");
-
 });
 
 
