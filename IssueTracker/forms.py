@@ -7,6 +7,15 @@ from IssueTracker import newIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
+DEFAULT_DESCRIPTION = """Summary of Problem:
+
+What behavior did you observe?
+
+What did you expect to see?
+
+What are the steps to reproduce the problem (if reproducable)?
+"""
+
 class CreateIssueForm(ModelForm):
     """
     This form is used for creating issues
@@ -20,6 +29,11 @@ class CreateIssueForm(ModelForm):
     problem_type = forms.ModelMultipleChoiceField(
             queryset=im.ProblemType.objects.all().order_by('name'),
             help_text="Select one or more problems"
+        )
+
+    description = forms.CharField(
+            widget = forms.Textarea,
+            initial = DEFAULT_DESCRIPTION
         )
 
     def save(self, *args, **kwargs):
