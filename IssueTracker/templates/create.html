@@ -23,23 +23,10 @@
             <div>{{form.title}}</div>
             {{ form.title.errors }}
         </div>
-        
-		<div class='f_container' id="group_block">
-            <label for="{{form.group.name}}">
-            	<!--{{ form.group.label }}-->
-                Location:
-            </label>
-			<div>
-				{{ form.group }}
-                {% if form.group.errors %}{{ form.group.errors }}
-                {% else %}<ul class="errorlist"></ul>{% endif %}
-			</div>
-        </div>
     
-    <div class='f_container' id="it_block">
+        <div class='f_container' id="it_block">
             <label for="{{form.it.name}}">
-            	<!--{{ form.group.label }}-->
-                Type:
+            	{{ form.it.label }}:
             </label>
 			<div>
 				{{ form.it }}
@@ -47,11 +34,21 @@
                 {% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
         </div>    
+        
+		<div class='f_container' id="group_block">
+            <label for="{{form.group.name}}">
+            	{{ form.group.label }}:
+            </label>
+			<div>
+				{{ form.group }}
+                {% if form.group.errors %}{{ form.group.errors }}
+                {% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
+        </div>
 	
 		<div class='f_container' id="item_block">
 			<label for="{{form.item.name}}">
-	            <!--{{ form.group.label }}-->
-                Name:
+	            {{ form.item.label }}:
             </label>
 			<div>
 				{{ form.item }}
@@ -76,7 +73,7 @@
             <label for="{{form.problem_type.name}}">
 				{{ form.problem_type.label }}:
 			</label>
-            <span class="help">Select one or more problems</span>
+            <span class="help">{{ form.problem_type.help_text }}</span>
             
             <div>{{ form.problem_type }}</div>
         </div>
