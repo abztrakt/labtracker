@@ -307,9 +307,7 @@ class UpdateIssueTest(TestCase):
         self.issue = iModels.Issue.objects.\
                 filter(group__group__contact__isnull=False).all()[0]
 
-        self.client.post(reverse('login'),
-                            {'username' : 'testuser',
-                             'password' : 't3$tu$ser'})
+        self.client.login(username='testuser', password=self.password)
 
     def tearDown(self):
         self.user.delete()
