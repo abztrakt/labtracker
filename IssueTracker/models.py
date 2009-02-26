@@ -47,7 +47,8 @@ class Issue(models.Model):
             blank=True)
     cc = models.ManyToManyField(User, related_name="cc_user", null=True, 
             blank=True, verbose_name="CC", db_table="IssueTracker_email_cc")
-    problem_type = models.ManyToManyField(ProblemType, null=True, blank=True)
+    problem_type = models.ManyToManyField(ProblemType, null=True, blank=True,
+            help_text="Select one or more problems.", verbose_name="problems")
     post_time = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True, null=True)
     resolve_time = models.DateTimeField(null=True, blank=True)
