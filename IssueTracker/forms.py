@@ -5,11 +5,23 @@ from django.forms.forms import BaseForm      #, SortedDictFromList
 
 from IssueTracker import newIssueSignal
 import IssueTracker.models as im
+import LabtrackerCore.models as lm
 
 class CreateIssueForm(ModelForm):
     """
     This form is used for creating issues
     """
+    it = forms.ModelChoiceField(
+            queryset = lm.InventoryType.objects.all(),
+            initial = lm.InventoryType.objects.all()[0],
+            label = "Type"
+        )
+
+    problem_type = forms.ModelMultipleChoiceField(
+            queryset=im.ProblemType.objects.all().order_by('name'),
+            help_text="Select one or more problems"
+        )
+
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
 

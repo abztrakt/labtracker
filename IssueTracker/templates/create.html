@@ -82,8 +82,7 @@
     
 		<div id="desc" class="f_container">
 			<label for="{{form.description.name}}">
-				<!--{{form.description.label}}-->
-                Description:
+                {{ form.description.label}}
 			</label>
             <div>{{form.description}}</div>
             {{ form.description.errors }}
@@ -94,12 +93,9 @@
     
         
     <div id="fields" class="left">
-       
-
 		<div class='f_container' id='cc_block'>
 			<label for="{{form.cc.name}}">
-            <!--{{ form.cc.label }}-->
-            CC:
+                {{ form.cc.label }}:
             </label>
 			<div class='none-if-js'>{{ form.cc }}</div>
 			<div class='block-if-js'> 
