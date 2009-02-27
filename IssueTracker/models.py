@@ -53,7 +53,7 @@ class Issue(models.Model):
     last_modified = models.DateTimeField(auto_now=True, null=True)
     resolve_time = models.DateTimeField(null=True, blank=True)
     resolved_state = models.ForeignKey(ResolveState, null=True, blank=True)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, verbose_name="Summary")
     description = models.TextField()
 
     def save(self, *args, **kwargs):

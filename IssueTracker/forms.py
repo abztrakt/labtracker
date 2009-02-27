@@ -7,13 +7,16 @@ from IssueTracker import newIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
-DEFAULT_DESCRIPTION = """Summary of Problem:
+DEFAULT_DESCRIPTION = """Description of Problem:
 
 What behavior did you observe?
 
 What did you expect to see?
 
 What are the steps to reproduce the problem (if reproducable)?
+ 1. 
+ 2.
+ 3.
 """
 
 class CreateIssueForm(ModelForm):

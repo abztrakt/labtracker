@@ -8,10 +8,15 @@ html, body {
 label {
     font-size: 1em;
 	font-weight: bold;
+    color: #555;
+}
+
+label.required {
+    color: black;
 }
 
 div.f_container + div.f_container{
-    margin-top: 2em;
+    margin-top: 1em;
 }
 
 form#create_issue { 
@@ -79,14 +84,12 @@ textarea#id_description {
 	margin-top: 1.5em;
 }
 
-
 .prob-types-item {
 	float: left;
 	width: 15em;
 }
 
-.floatleft {
-	float: left
+
+#title label {
+    margin-right: 1em;
 }
-
-

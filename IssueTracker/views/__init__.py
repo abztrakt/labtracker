@@ -140,7 +140,8 @@ def createIssue(request):
 
             if valid:
                 issue = form.save()
-                return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
+                return HttpResponseRedirect(reverse('IssueTracker-view', \
+                        args=[issue.issue_id]))
             
         else:
             # form was not valid, errors should be on form though, so nothing
