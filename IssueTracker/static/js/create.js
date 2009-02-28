@@ -53,16 +53,6 @@ function reset() {
 	});
 }
 
-function appendError(list, msg) {
-	var error = $('<li>' + msg + '</li>');
-	list.empty().append(error);
-	setTimeout( function () {
-		error.fadeOut('slow', function () { 
-			error.remove(); 
-		});
-	}, 5000);
-}
-
 /**
  * updateGroupList will fetch the groups for a given inventory type and append 
  * it to the id_item list
@@ -149,6 +139,9 @@ function updateItemList(group_id, cb) {
 	});
 }
 
+/**
+ * Handler for clicking on addCC
+ */
 function addCC(event) {
 	event.preventDefault();
 	var btn = event.target;

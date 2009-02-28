@@ -30,6 +30,16 @@ $(document).ready(function() {
     }
 );
 
+function appendError(list, msg) {
+	var error = $('<li>' + msg + '</li>');
+	list.empty().append(error);
+	setTimeout( function () {
+		error.fadeOut('slow', function () { 
+			error.remove(); 
+		});
+	}, 5000);
+}
+
 var django_date_parser = {
 	'id':		'django_date',
 	'is':		function (s) {
