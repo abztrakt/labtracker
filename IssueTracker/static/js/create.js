@@ -238,8 +238,7 @@ function validateForm(form) {
  * Submit form handler
  */
 function submitIssue(eve) {
-    var form = $(eve.target);
-    if (!validateForm(form)) {
+    if (!validateForm($(eve.target))) {
         eve.preventDefault();
     }
 }
