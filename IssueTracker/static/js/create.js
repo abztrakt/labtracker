@@ -17,6 +17,7 @@ $(document).ready(function() {
 	$('#id_it').change(function (e, cb) { loadExtra(this.value); updateGroupList(this.value, cb); } );
 	groups.change(function (e, cb) { updateItemList(this.value, cb); } );
 	$('#reset').click(function () { reset(); } );
+    $('#create_issue').submit(submitIssue);
 
 	// on initialize, we need to see if things are already set in it/group/item
 	var values = {
@@ -210,4 +211,35 @@ function addUserToCCList(id, username) {
 	var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
 			username + "</span>");
 	$("ul#cc_list").append(li);
+}
+
+/**
+ * Validates the create issue form
+ * @returns true if validates, false otherwise
+ */
+function validateForm(form) {
+    var req = $.map(form.find('.required'), function (item) {
+                return "#" + $(item).attr('for');
+            });
+
+    var validated = true;
+    for (var ii in req) {
+        var field = $(req[ii]);
+        if ($.trim(field[0].value) === "") { 
+            validated = false;
+            appendError(field.next("ul.errorlist"), "This field is required.");
+        }
+    }
+
+    return validated;
+}
+
+/**
+ * Submit form handler
+ */
+function submitIssue(eve) {
+    var form = $(eve.target);
+    if (!validateForm(form)) {
+        eve.preventDefault();
+    }
 }
