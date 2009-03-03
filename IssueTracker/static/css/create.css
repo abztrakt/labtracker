@@ -3,6 +3,8 @@ html, body {
 	background-attachment: fixed;
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	background-position: right;
+	background-repeat: repeat-y;
 }
 
 label {
@@ -16,7 +18,8 @@ label.required {
 }
 
 div.f_container + div.f_container{
-    margin-top: 1em;
+    margin-top: 2em;
+
 }
 
 form#create_issue { 
@@ -84,12 +87,17 @@ textarea#id_description {
 	margin-top: 1.5em;
 }
 
+
 .prob-types-item {
 	float: left;
 	width: 15em;
 }
 
+.floatleft {
+	float: left
 
 #title label {
     margin-right: 1em;
 }
+
+

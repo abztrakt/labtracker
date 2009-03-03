@@ -11,7 +11,7 @@
 
 /* Essentials - configure this */
 
-.jquery-droppy ul { width: 130px; }
+.jquery-droppy ul { width: 101px; border: solid 1px #dddddd; margin-left: .4em;}
 .jquery-droppy ul ul { left: 131px; }
 
 /* Everything else is theming */
@@ -29,11 +29,11 @@
 
 
 
-.jquery-droppy ul li a { background-color: #a11515; color: #888888; }
-.jquery-droppy ul a.hover { background-color: #a11515; color: #ff0000}
+.jquery-droppy ul li a { background-color: #ffffff; color: #da3841; }
+.jquery-droppy ul a.hover { background-color: #cd1f1d; color: #ffffff}
 .jquery-droppy ul a { 
-	margin-left: .35em;
-	padding-left: 2.4em;
+	margin-left: 0em;
+	padding-left: .7em;
 	/* border-bottom: 1px solid white; */
 	border-bottom: none;
 	border-right: none; 

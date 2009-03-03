@@ -63,10 +63,11 @@ div#footer {
 }
 
 #nav > li {
-    padding: 0em 4px;
+    margin: 0em 4px;
 	position: relative;
 	display: block;
 	float: left;
+    background-color: #ffffff;
 }
 
 #nav a:hover {

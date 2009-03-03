@@ -1,3 +1,10 @@
+html, body {
+    background-image: url("/static/img/bg/viewbg.jpg");
+	background-attachment: fixed;
+	background-position: right;
+	background-repeat: repeat-y;
+}
+
 ul.floated { margin: 0em 0em; padding: 0px; }
 ul.floated li {
     float: left;
@@ -40,6 +47,16 @@ span.time {
 span.label_title {
 	color: #6a6a6a;
 	font-size: 10px;
+}
+
+.boldblacklabel {
+	font-weight: bold;
+	font-size: 10px;
+}
+
+.comment_opt {
+	float: left;
+	margin: 0 1em 1em 0;
 }
 
 div.comment {
@@ -124,8 +141,7 @@ div#cc_box {
 
 input#addCC_user { width: 10em; }
 
-input#addCC {
-}
+input#addCC { background-color: #99CC99; }
 
 div.action_msg {
     padding: 0px;
@@ -181,8 +197,11 @@ div#itemUpdate {
 
 #prob-type-block { margin-top: 1em;}
 
-.postedcomment { margin-bottom: 1em; }
-
+.postedcomment { margin-bottom: 1em; }.comment_box {
+    background: #ededed;
+	border: 1px solid #cacaca;
+	padding: .5em  0 .5em 1em;
+	margin-bottom: 1em; }
 
 #post_comment fieldset {
 	border: 0px;
