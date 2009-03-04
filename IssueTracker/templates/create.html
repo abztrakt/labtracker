@@ -17,10 +17,7 @@
     <div id="text" class="left">
         <div id='title' class="f_container">
 
-            <label for="id_{{form.title.name}}" class="left {% if form.title.field.required %}required{% endif %}">
-				{{form.title.label}}:
-            </label>
-			<label for="{{form.title.name}}" label class="floatleft">
+			<label for="{{form.title.name}}" label class="floatleft" class="left {% if form.title.field.required %}required{% endif %}">
 				<!-- {{form.title.label}} -->
                 Subject:
 			</label>
@@ -73,7 +70,7 @@
 
             </label>
 			<div>
-	            {{ form.item }}:
+	            {{ form.item }}
 				{% if form.item.errors %}{{ form.item.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>

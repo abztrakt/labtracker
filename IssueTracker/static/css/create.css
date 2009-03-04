@@ -10,7 +10,6 @@ html, body {
 label {
     font-size: 1em;
 	font-weight: bold;
-    color: #555;
 }
 
 label.required {
