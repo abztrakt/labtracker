@@ -1,4 +1,4 @@
-html, body {
+body {
     background-image: url("/static/img/bg/createbg.jpg");
 	background-attachment: fixed;
 	background-position: bottom right;
@@ -12,13 +12,8 @@ label {
 	font-weight: bold;
 }
 
-label.required {
-    color: black;
-}
-
 div.f_container + div.f_container{
     margin-top: 2em;
-
 }
 
 form#create_issue { 
@@ -49,29 +44,13 @@ form#create_issue {
 	
 }
 
-textarea#id_description {
+#id_description {
     width: 100%;
     overflow: auto;
 }
 
-
-#it_block {
-	float: left;
+.item-selector {
 	margin-right: 2em;
-}
-
-#group_block {
-	float: left;
-	margin-right: 2em;
-}
-
-#item_block {
-	float: left;
-	margin-right: 2em;
-}
-
-#id_cc {
-    height: 5em;
 }
 
 #addCC {
@@ -86,22 +65,12 @@ textarea#id_description {
 	margin-top: 1.5em;
 }
 
-
 .prob-types-item {
 	float: left;
 	width: 15em;
 }
 
-.floatleft {
-	float: left;
-}
-
 #title label {
     margin-right: 1em;
-}
-
-.help {
-	color: #6a6a6a;
-	
 }
 

@@ -19,15 +19,14 @@
             <label for="id_{{form.title.name}}" class="left {% if form.title.field.required %}required{% endif %}">
 				{{form.title.label}}:
 			</label>
-            <div class="floatleft">
+            <div class="left">
                 {{form.title}}
 				{% if form.title.errors %}{{ form.title.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
             </div>
         </div>
         
-        
-        <div class='f_container' id="it_block">
+        <div class="f_container clear left item-selector" id="it_block">
             <label for="id_{{form.it.name}}" class="{% if form.it.field.required %}required{% endif %}">
             	{{ form.it.label }}:
             </label>
@@ -37,11 +36,9 @@
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
         </div>    
-        
 
         
-        <div class='f_container' id="group_block">
-
+        <div class="f_container left item-selector" id="group_block">
             <label for="{{form.group.name}}">
             	<!--{{ form.group.label }}-->
                 Group/Location:
@@ -55,7 +52,7 @@
         </div>
     
 	
-		<div class='f_container' id="item_block">
+		<div class="f_container left item-selector" id="item_block">
             <label for="id_{{form.item.name}}" class="{% if form.item.field.required %}required{% endif %}">
 	            {{ form.item.label }}:
             </label>
