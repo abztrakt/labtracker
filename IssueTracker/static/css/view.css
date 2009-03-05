@@ -236,7 +236,6 @@ div.specinforow + div.specinforow {
 	margin-top: 2em;
 }
 
-
 #prob-type-block { margin-top: 1em;}
 
 .postedcomment { margin-bottom: 1em; }
@@ -250,4 +249,17 @@ div.specinforow + div.specinforow {
 
 #invspecView {
 	margin-top: 1em;
+}
+
+#comments {
+	margin-top: 2em;
+}
+
+#comments li {
+	padding: 0.2em;
+}
+
+#comments p {
+	padding: 0em 0.2em;
+	padding: 0.2em;
 }

@@ -139,14 +139,16 @@
 		</fieldset>
 	</form>
 
-	{% for post in comments %}
-	<div id='post_{{ post.pk }}'  class="greybox" class="postedcomment clear">
-		<div class='post_date'>
-			{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}
-		</div>
-		<p>{{ post.comment|escape }}</p>
-	</div>
-	{% endfor %}
+	<ul id="comments" class="struct">
+		{% for post in comments %}
+		<li id='post_{{ post.pk }}'  class="greybox" class="postedcomment clear">
+			<div class='post_date'>
+				{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}
+			</div>
+			<p>{{ post.comment|escape }}</p>
+		</li>
+		{% endfor %}
+	</ul>
 </div>
 
 <!-- Right side bar -->
