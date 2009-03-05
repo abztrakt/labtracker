@@ -15,6 +15,8 @@ ul.struct li { margin: 0em; padding: 0px; }
 ul.inline { padding: 0px; display: inline; }
 ul.inline li { margin: 0em; padding: 0px; display: inline; }
 
+ul.inlineblock li { display: block; float: left; }
+
 span.label { font-weight: bold; }
 
 .left { float: left; }

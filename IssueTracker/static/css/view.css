@@ -29,7 +29,7 @@ span.main_title {
 	margin-left: .5em;
 }
 
-span.labeled {
+.labeled {
 	font-weight: bold;
 }
 
@@ -195,9 +195,38 @@ div#itemUpdate {
 	margin-right: 2em;
 }
 
+ul.specinfo {
+	float: none;
+	margin: 0px;
+}
+
+ul.specinfo > li {
+	padding-top: 1.2em;
+	clear: both;
+}
+
+ul.specinfo > li:first-child {
+	padding-top: 0em;
+}
+
+ul.specinfo > li > ul > li {
+	margin-right: 2em;
+}
+
+div.specinforow {
+	clear: both;
+}
+
+div.specinforow + div.specinforow {
+	margin-top: 2em;
+}
+
+
 #prob-type-block { margin-top: 1em;}
 
-.postedcomment { margin-bottom: 1em; }.comment_box {
+.postedcomment { margin-bottom: 1em; }
+
+.comment_box {
     background: #ededed;
 	border: 1px solid #cacaca;
 	padding: .5em  0 .5em 1em;
@@ -209,13 +238,3 @@ div#itemUpdate {
 	padding: 0px;
 }
 
-/*
-hbold3 {
-	font-size: 10px;
-	font-weight: bold;
-}
-hgrey4 {
-	color: #c0c0c0;
-	font-size: 10px;
-}
-*/

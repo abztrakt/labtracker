@@ -274,10 +274,6 @@ div.tags h4 {
     display: none !IMPORTANT;
 }
 
-.compact-trigger {
-    cursor: pointer;
-}
-
 span.label {
     font-weight: bold;
 }

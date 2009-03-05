@@ -15,59 +15,57 @@
 {% block content %}
 <div id="main_issue">
 <div id="issue">
-	<div id="title" class="greybox"><span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span></div>
-
-	<!--<div id="problems">
-		<h3 class='label'>Problems: </h3>
-		{%  if issue.problem_type.all %}
-		<ul class="struct inline">
-			{% for issue in issue.problem_type.all %}
-				<li>{{ issue }}</li>
-			{% endfor %}
-		</ul>
-		{% else %}
-		--
-		{% endif %}
-		<br class="clear" />
-	</div>-->
-    	
+	<div id="title" class="greybox">
+		<span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
+	</div>
         
+	<div class="whitebox">
+		<ul class="specinfo struct">
+			<li>
+				<ul class="struct inlineblock">
+					<li>
+						<h6 class="label-title">Location:</h6>
+						<div class="labeled">{{ issue.group }}</div>
+					</li>
+					<li>
+						<h6 class="label-title">Type:</h6>
+						<div class="labeled">{{ issue.it }}</div>
+					</li>
+					<li>
+						<h6 class="label-title">Name:</h6>
+						<div class="labeled">
+							{% if issue.item %}
+								<a href="{{ issue.item.item.get_absolute_url }}">
+									{{ issue.item }}
+								</a>
+							{% else %}
+								{{ issue.item }}
+							{% endif %}
+						</div>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<ul class="struct inlineblock">
+					<li>
+						<h6 class="label-title">Assigned to:</h6>
+						<div class="labeled">{{ issue.assignee }}</div>
+					</li>
+					<li>
+						<h6 class="label-title">State:</h6>
+						<div class="labeled">{{ issue.resolved_state }}</div>
+					</li>
+					<li>
+						<h6 class="label-title">Contacts:</h6>
+						<div class="labeled">{% contact issue %}</div>
+					</li>
+				</ul>
+			</li>
+		</ul>
 
-<div class="whitebox">
-
-            <div class="specinfo"><span class="label_title">Location:</span><br />  <span class="labeled">{{ issue.group }}</span></div>
-            <div class="specinfo"><span class="label_title">Type:</span><br />  <span class="labeled">{{ issue.it }}</span></span></div>
-			<div class="specinfo"><span class="label_title">Type:</span><br />  <span class="labeled">{{ issue.it }}</span></span></div>
-            <div class="specinfo"><span class="label_title">Group/Location:</span><br />  <span class="labeled">{{ issue.group }}</span></div>
-            
-			<div class="specinfo"><span class="label_title">Name:</span><br />  
-				<span class="labeled">{% if issue.item %}
-					<a href="{{ issue.item.item.get_absolute_url }}">
-						{{ issue.item }}
-					</a>
-				{% else %}
-					{{ issue.item }}
-				{% endif %}</span>
-            </div>
-   <br class="clear" />
-   <br class="clear" />
-			<div class="specinfo"><span class="label_title">Assigned to:</span><br />  <span class="labeled">{{ issue.assignee }}</span></div>
-			<div class="specinfo"><span class="label_title">State:</span><br />  <span class="labeled">{{ issue.resolved_state }}</span></div>
-			<div class="specinfo"><span class="label_title">Contacts:</span><br /> <span class="labeled">{% contact issue %}</span></div>
-   <br class="clear" />
-   <br class="clear" />
-            <div class="specinfo">{% invspec issue %}</div>
-   <br class="clear" />
+		<div class="clear">
+			{% invspec issue %}
 		</div>
-		<br class="clear" />
-		<br class="clear" />
-		<div class="specinfo"><span class="label_title">Assigned to:</span><br />  <span class="labeled">{{ issue.assignee }}</span></div>
-		<div class="specinfo"><span class="label_title">State:</span><br />  <span class="labeled">{{ issue.resolved_state }}</span></div>
-		<div class="specinfo"><span class="label_title">Contacts:</span><br /> <span class="labeled">{% contact issue %}</span></div>
-		<br class="clear" />
-		<br class="clear" />
-		<div class="specinfo">{% invspec issue %}</div>
-		<br class="clear" />
 	</div>
 
 
@@ -87,7 +85,8 @@
 		<br class="clear" />
 	</div>
 
-	<div id="desbox" class="greybox"><span class="label_title" class='label'>Description:</span>
+	<div id="desbox" class="greybox">
+		<h6 class="label-title" class='label'>Description:</h6>
 		<p id="description">{{ issue.description|escape }}</p>
 	</div>
 </div>
