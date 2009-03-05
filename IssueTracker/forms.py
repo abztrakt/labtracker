@@ -9,9 +9,7 @@ import LabtrackerCore.models as lm
 
 DEFAULT_DESCRIPTION = """Description of Problem:
 
-What behavior did you observe?
-
-What was the expected behaivior?
+What was the expected behavior/output? What did you observe?
 
 What are the steps to reproduce the problem (if reproducable)?
  1. 
