@@ -122,6 +122,7 @@ class IssueCreationTest(TestCase):
         response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
+                'problem_type': [iModels.ProblemType.objects.all()[0].pk,],
                 'status':       ['3'],
                 'description':  "All the machines in the lab are broken."
             })
@@ -164,6 +165,7 @@ class IssueCreationTest(TestCase):
                 'title':        "Issue for %s" % (item.pk),
                 'it':           item.it_id,
                 'item':         item.pk,
+                'problem_type': [iModels.ProblemType.objects.all()[0].pk,],
                 'status':       ['3'],
                 'description':  "Test problem"
             })
@@ -188,13 +190,11 @@ class IssueSearchTest(TestCase):
         
         self.client.login(username=self.user.username, password=self.password)
         title = "Unique Issue XAZZER"
-        response = self.client.post(reverse('createIssue'), {
-                'title':        title,
-                'it':           coreModels.InventoryType.objects.all()[0].pk,
-                'description':  "All the machines in the lab are broken."
-            })
-        issue = iModels.Issue.objects.filter(title=title).reverse()[0]
-        self.issue = issue
+        self.issue = iModels.Issue(it = coreModels.InventoryType.objects.all()[0],
+                    title = title,
+                    reporter = self.user,
+                    description= "All the machines in the lab are broken.")
+        self.issue.save()
 
     def testSearchID(self):
         """
