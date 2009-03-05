@@ -1,5 +1,6 @@
 from django.http import HttpResponseBadRequest
 from django.template import RequestContext
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response
 
@@ -74,3 +75,32 @@ def groupedList(request, group_by=None, page=1):
     return render_to_response("grouped_issue_list.html", args,
             context_instance=RequestContext(request))
 
+@permission_required('IssueTracker.can_view', login_url="/login/")
+def filteredList(request, filter_by=None, filter_val=None, page=1):
+    """
+    Lists issues, filter
+    """
+
+    filter = {}
+
+    if filter_by in ('assignee','reporter'):
+        filter['assignee__username'] = filter_val
+    else:
+        return HttpResponseBadRequest()
+
+    objects = im.Issue.objects.filter(resolved_state__isnull=True, **filter)
+
+    args = utils.generatePageList(request, objects, page)
+
+    args['no_results'] = args['page'].object_list.count() < 1
+
+    return render_to_response("issue_list.html", args,
+            context_instance=RequestContext(request))
+
+@permission_required('IssueTracker.can_view', login_url="/login/")
+def myissues(request, filter_by=None, filter_val=None, page=1):
+    """
+    Lists issues, filter
+    """
+
+    return filteredList(request, 'assignee', request.user.username)

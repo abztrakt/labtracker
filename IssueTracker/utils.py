@@ -114,6 +114,9 @@ def createItemDict(items, field='Item'):
     return list
 
 def generateIssueArgs(request, qdict):
+    """
+    Create issue args for rendering a view issue form
+    """
     data = request.GET.copy()
 
     orderby = data.get('orderby', 'issue_id')

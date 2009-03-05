@@ -20,8 +20,11 @@ urlpatterns += patterns("IssueTracker.views.reports",
      url(r'^report/group/(?P<group_by>\w+)/$', 'groupedList', name='groupView'),
      url(r'^report/group/(?P<group_by>\w+)/(?P<page>\d+)/$', 'groupedList', 
          name='groupView'),
-)
 
+     url(r'^report/myissues/$', 'myissues', name='report-myissues'),
+     url(r'^report/filter/(?P<filter_by>\w+)/(?P<filter_val>\w+)/$', 
+        'filteredList', name='filteredView'),
+)
 
 urlpatterns += patterns('IssueTracker.views.search',
      url(r'^search/$', 'search', name="issueSearch"),
