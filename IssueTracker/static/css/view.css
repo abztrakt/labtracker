@@ -44,9 +44,14 @@ span.time {
 	margin-left: .5em;
 }
 
-span.label_title {
+.label-title {
 	color: #6a6a6a;
 	font-size: 10px;
+}
+
+h6.label-title {
+	padding: 0px;
+	margin: 0px;
 }
 
 .boldblacklabel {
@@ -54,7 +59,7 @@ span.label_title {
 	font-size: 10px;
 }
 
-.comment_opt {
+.comment-opt {
 	float: left;
 	margin: 0 1em 1em 0;
 }
@@ -77,10 +82,13 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 	max-width: 700px;
 }
 
+#title {
+	margin-bottom: 1em;
+}
 
-#title { margin-bottom: 1em; }
-
-#desbox { margin-top: 1em;}
+#desbox {
+	margin-top: 1em;
+}
 
 #description {
 	padding-top: .5em;
@@ -101,28 +109,35 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 #problems ul { display: inline; }
 #problems ul li { margin: 0px 1em 2px; }
 
-form#post_comment {
-	width: 700px;
+#post-comment {
 	margin-top: 1em;
+}
+
+#post-comment fieldset {
+	/*
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	*/
 }
 
 div#main_issue { float: left; width: 700px; }
 #description { margin-top: 0px; }
 
-div#right_side_bar {
+div#right-side-bar {
     float: left;
     width: 220px;
     padding: 4.7em 0 0 1em;
 }
 
-div#right_side_bar > div {
+div#right-side-bar > div {
     padding: .75em .5em 0em .75em; 
 	margin-bottom: 1em;
     /* margin: 0em 0em 1em 1em; */
     border: 1px #000000 solid;
 }
 
-div#right_side_bar > .info:first-child {
+div#right-side-bar > .info:first-child {
     padding: .5em 0em;
     margin-top: 5em;
     background: #D9D9D9;
@@ -229,12 +244,10 @@ div.specinforow + div.specinforow {
 .comment_box {
     background: #ededed;
 	border: 1px solid #cacaca;
-	padding: .5em  0 .5em 1em;
-	margin-bottom: 1em; }
-
-#post_comment fieldset {
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
+	padding: .5em 0 .5em 1em;
+	margin-bottom: 1em;
 }
 
+#invspecView {
+	margin-top: 1em;
+}

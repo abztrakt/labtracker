@@ -14,179 +14,143 @@
 {% block heading %}Viewing Issue{% endblock %}
 {% block content %}
 <div id="main_issue">
-<div id="issue">
-	<div id="title" class="greybox">
-		<span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
-	</div>
-        
-	<div class="whitebox">
-		<ul class="specinfo struct">
-			<li>
-				<ul class="struct inlineblock">
-					<li>
-						<h6 class="label-title">Location:</h6>
-						<div class="labeled">{{ issue.group }}</div>
-					</li>
-					<li>
-						<h6 class="label-title">Type:</h6>
-						<div class="labeled">{{ issue.it }}</div>
-					</li>
-					<li>
-						<h6 class="label-title">Name:</h6>
-						<div class="labeled">
-							{% if issue.item %}
-								<a href="{{ issue.item.item.get_absolute_url }}">
-									{{ issue.item }}
-								</a>
-							{% else %}
-								{{ issue.item }}
-							{% endif %}
-						</div>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<ul class="struct inlineblock">
-					<li>
-						<h6 class="label-title">Assigned to:</h6>
-						<div class="labeled">{{ issue.assignee }}</div>
-					</li>
-					<li>
-						<h6 class="label-title">State:</h6>
-						<div class="labeled">{{ issue.resolved_state }}</div>
-					</li>
-					<li>
-						<h6 class="label-title">Contacts:</h6>
-						<div class="labeled">{% contact issue %}</div>
-					</li>
-				</ul>
-			</li>
-		</ul>
-
-		<div class="clear">
-			{% invspec issue %}
+	<div id="issue">
+		<div id="title" class="greybox">
+			<span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
 		</div>
+			
+		<div class="whitebox">
+			<ul class="specinfo struct">
+				<li>
+					<ul class="struct inlineblock">
+						<li>
+							<h6 class="label-title">Location:</h6>
+							<div class="labeled">{{ issue.group }}</div>
+						</li>
+						<li>
+							<h6 class="label-title">Type:</h6>
+							<div class="labeled">{{ issue.it }}</div>
+						</li>
+						<li>
+							<h6 class="label-title">Name:</h6>
+							<div class="labeled">
+								{% if issue.item %}
+									<a href="{{ issue.item.item.get_absolute_url }}">
+										{{ issue.item }}
+									</a>
+								{% else %}
+									{{ issue.item }}
+								{% endif %}
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<ul class="struct inlineblock">
+						<li>
+							<h6 class="label-title">Assigned to:</h6>
+							<div class="labeled">{{ issue.assignee }}</div>
+						</li>
+						<li>
+							<h6 class="label-title">State:</h6>
+							<div class="labeled">{{ issue.resolved_state }}</div>
+						</li>
+						<li>
+							<h6 class="label-title">Contacts:</h6>
+							<div class="labeled">{% contact issue %}</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<br class="clear" />
+
+			<div id="invspecView">
+				{% invspec issue %}
+			</div>
+		</div>
+
+
 	</div>
 
-
-</div>
-
-    
     	<div id="prob-type-block" class="greybox">
-
 			<label for="{{update_issue_form.problem_type.name}}" class="boldblacklabel">
-
 				{{ update_issue_form.problem_type.label }}:
 			</label>
 			<span class="help">Select one or more problems</span>
 			<div>{{ update_issue_form.problem_type }}</div>
 			<br class="clear" />
 		</div>
-		<br class="clear" />
-	</div>
 
-	<div id="desbox" class="greybox">
-		<h6 class="label-title" class='label'>Description:</h6>
-		<p id="description">{{ issue.description|escape }}</p>
-	</div>
-</div>
-
-<form id='post_comment' method='post' action='{% url IssueTracker-view issue.pk %}' class="whitebox">
-	<fieldset>
-
-	<!-- add_comment_form, update_issue_form -->
-	<ul class="struct">
-		<li>
-			<label for='id_assignee'>Assign To:</label>
-	<span>
-			<div class="comment_opt">
-            <label for='id_assignee' class="boldblacklabel">Assign To:</label><br />
-			{{ update_issue_form.assignee }}
-
-            </div>
-
-			<div class="comment_opt">
-			<label for='id_resolved_state' class="boldblacklabel">Resolve:</label> <br />
-			{{ update_issue_form.resolved_state }}
-
-			</div>
-	</span>
-<br clear="both" />
-	<div id="main-update" class="left">
-		<div>
-
-			<label for='id_comment' style='display: block;' class="boldblacklabel">
-				<!--{{ add_comment_form.comment.label }}--> Write comments:
-			</label>
-			<textarea id="id_comment" name="{{ add_comment_form.comment.name }}"></textarea>
+		<div id="desbox" class="greybox clear">
+			<h6 class="label-title" class='label'>Description:</h6>
+			<p id="description">{{ issue.description|escape }}</p>
 		</div>
 
+	<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
+		<fieldset class="whitebox">
+			<legend>Update Issue:</legend>
 
-	</div>
-	<div id="itemUpdate">
-		{% if extra_form %}
-		<ul class="struct">
-
-			<li>
-				<label for='id_{{update_issue_form.assignee.name}}'>Assign To:</label>
-				{{ update_issue_form.assignee }}
-				{% if update_issue_form.assignee.errors %}{{ update_issue_form.assignee.errors }}
-				{% else %}<ul class="errorlist"></ul>{% endif %}
-			</li>
-			<li>
-				<label for='id_{{update_issue_form.resolved_state.name}}'>Resolve:</label> 
-				{{ update_issue_form.resolved_state }}
-				{% if update_issue_form.resolved_state.errors %}{{ update_issue_form.resolved_state.errors }}
-				{% else %}<ul class="errorlist"></ul>{% endif %}
-			</li>
-		</ul>
-
-		<div id="main-update" class="left">
-			<div>
-				<label for='id_{{add_comment_form.comment.name}}' style='display: block;'>
-					{{ add_comment_form.comment.label }}
-				</label>
-				{{ add_comment_form.comment }}
-				{% if add_comment_form.comment.errors %}{{ add_comment_form.comment.errors }}
-				{% else %}<ul class="errorlist"></ul>{% endif %}
-
-
-			</div>
-		</div>
-
-		<div id="itemUpdate">
-			{% if extra_form %}
+			<!-- add_comment_form, update_issue_form -->
 			<ul class="struct">
-				{{ extra_form.as_ul }}
+				<li>
+					<label class="boldblacklabel" for='id_{{update_issue_form.assignee.name}}'>
+						Assign To:
+					</label>
+					{{ update_issue_form.assignee }}
+					{% if update_issue_form.assignee.errors %}{{ update_issue_form.assignee.errors }}
+					{% else %}<ul class="errorlist"></ul>{% endif %}
+				</li>
+				<li>
+					<label class="boldblacklabel" 
+						for='id_{{update_issue_form.resolved_state.name}}'>
+					Resolve:
+					</label> 
+					{{ update_issue_form.resolved_state }}
+					{% if update_issue_form.resolved_state.errors %}{{ update_issue_form.resolved_state.errors }}
+					{% else %}<ul class="errorlist"></ul>{% endif %}
+				</li>
 			</ul>
-			{% endif %}
+
+			<div id="main-update" class="left clear">
+				<div>
+					<label for='id_comment' style='display: block;' class="boldblacklabel">
+						{{ add_comment_form.comment.label }}:
+					</label>
+					<textarea id="id_comment" name="{{ add_comment_form.comment.name }}">
+					</textarea>
+				</div>
+			</div>
+
+			<div id="itemUpdate">
+				{% if extra_form %}
+				<ul class="struct">
+					{{ extra_form.as_ul }}
+				</ul>
+				{% endif %}
+			</div>
+			<br class="clear" />
+
+			{% if comment_errors %}{{ comment_errors }}{% endif %} 
+
+			<br class="clear" />
+			<input type="submit" name="submit" value="Submit" />
+
+		</fieldset>
+	</form>
+
+	{% for post in comments %}
+	<div id='post_{{ post.pk }}'  class="greybox" class="postedcomment clear">
+		<div class='post_date'>
+			{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}
 		</div>
-		<br class="clear" />
-
-		{% if comment_errors %}{{ comment_errors }}{% endif %} 
-
-		<br class="clear" />
-		<input type="submit" name="submit" value="Submit" />
-    
-	</fieldset>
-</form>
-
-<br class="clear" />
-
-{% for post in comments %}
-<div id='post_{{ post.pk }}'  class="greybox" class="postedcomment">
-
-	<div class='post_date'>{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}</div>
-	<p>
-		{{ post.comment|escape }}
-	</p>
-</div>
-{% endfor %}
-
+		<p>{{ post.comment|escape }}</p>
+	</div>
+	{% endfor %}
 </div>
 
 <!-- Right side bar -->
-<div id="right_side_bar">
+<div id="right-side-bar">
 
 	<!-- Stuff involving the CC list -->
 	<div id="cc_box" class="whitebox">{% include "IssueTracker/cc_list.html" %}</div>
