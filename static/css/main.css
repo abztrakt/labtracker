@@ -20,7 +20,7 @@ a img { border: none; }
     margin: 0px;
     margin-bottom: 0.4em;
     padding: 0em;
-    background-color: white;
+    background-color: none;
 }
 
 div#footer {

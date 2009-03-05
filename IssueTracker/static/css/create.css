@@ -93,10 +93,15 @@ textarea#id_description {
 }
 
 .floatleft {
-	float: left
+	float: left;
+}
 
 #title label {
     margin-right: 1em;
 }
 
+.help {
+	color: #6a6a6a;
+	
+}
 

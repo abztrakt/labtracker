@@ -23,14 +23,15 @@
 			</label>
 
 
-
-
-            <div>
+            <div class="floatleft">
                 {{form.title}}
 				{% if form.title.errors %}{{ form.title.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
             </div>
+            <br class="clear" />
         </div>
+        
+        
         <div class='f_container' id="it_block">
 
             <label for="{{form.it.name}}">

@@ -11,7 +11,7 @@
 
 /* Essentials - configure this */
 
-.jquery-droppy ul { width: 101px; border: solid 1px #dddddd; margin-left: .4em;}
+.jquery-droppy ul { width: 101px; border: solid 1px #dddddd; margin-left: 1px;}
 .jquery-droppy ul ul { left: 131px; }
 
 /* Everything else is theming */
