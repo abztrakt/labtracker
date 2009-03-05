@@ -11,12 +11,15 @@ DEFAULT_DESCRIPTION = """Description of Problem:
 
 What behavior did you observe?
 
-What did you expect to see?
+What was the expected behaivior?
 
 What are the steps to reproduce the problem (if reproducable)?
  1. 
  2.
  3.
+
+Have you attempted to fix the problem? How?
+
 """
 
 class CreateIssueForm(ModelForm):
