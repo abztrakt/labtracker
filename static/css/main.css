@@ -24,7 +24,7 @@ a img { border: none; }
 }
 
 div#footer {
-	border-top: 1px solid #49C847;
+	border-top: none;
 	margin: 0em 1em;
 	font-size: 10px;
 }

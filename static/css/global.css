@@ -4,6 +4,25 @@ html, body {
 	margin: 0;
 }
 
+A:link {
+	text-decoration: none;
+	color: #289f25;
+}
+
+A:visited {
+	text-decoration: none;
+	color: #47c844;
+}
+
+A:active {
+	text-decoration: none;
+	color: #47c844;
+}
+
+A:hover {
+	text-decoration: underline;
+}
+
 img { border: none; }
 
 br.clear { height: 0px; }

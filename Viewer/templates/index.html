@@ -1,14 +1,18 @@
 {% extends "base_full.html" %}
 
+{% block pageCSS %}
+@import url('{{ MEDIA_URL }}css/Viewer/index.css');
+{% endblock %}
+
 {% block heading-class %}data{% endblock %}
 {% block heading %}Available Views{% endblock %}
 {% block content %}
-    <ul>
+    <ul class="indentlist">
     {% for type, view_list in views %}
         <li>{{ type }}
             <ul>
             {% for view in view_list %}
-            <li>
+            <li class="indentlist">
                 <a href="{{view.get_absolute_url}}">{{ view.name }}</a> |
                 <a href="{{view.get_absolute_edit_url}}">edit</a>
             </li>

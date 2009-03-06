@@ -1,0 +1,10 @@
+html, body {
+    background-image: url("/static/img/bg/bluebg.jpg");
+	background-attachment: fixed;
+	background-position: right;
+	background-repeat: repeat-y;
+}
+
+.indentlist {
+	list-style-type: none;
+}

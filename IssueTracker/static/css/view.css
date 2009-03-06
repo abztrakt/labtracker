@@ -1,5 +1,5 @@
 html, body {
-    background-image: url("/static/img/bg/viewbg.jpg");
+    background-image: url("/static/img/bg/redbg.jpg");
 	background-attachment: fixed;
 	background-position: right;
 	background-repeat: repeat-y;
@@ -47,6 +47,7 @@ span.time {
 .label-title {
 	color: #6a6a6a;
 	font-size: 10px;
+	font-weight: normal;
 }
 
 h6.label-title {
@@ -226,6 +227,7 @@ ul.specinfo > li:first-child {
 
 ul.specinfo > li > ul > li {
 	margin-right: 2em;
+	float: left;
 }
 
 div.specinforow {
