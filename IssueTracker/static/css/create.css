@@ -74,3 +74,13 @@ form#create_issue {
     margin-right: 1em;
 }
 
+#relatedList ul {
+    font-size: 0.9em;
+    margin-left: 0.1em;
+    padding-left: 1em;
+}
+
+#relatedList ul li {
+    margin: 0;
+    padding: 0;
+}

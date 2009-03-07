@@ -14,8 +14,12 @@ $(document).ready(function() {
 	var groups = $('#id_group');
 
 	// attach hooks
-	$('#id_it').change(function (e, cb) { loadExtra(this.value); updateGroupList(this.value, cb); } );
+	$('#id_it').change(function (e, cb) { 
+        loadExtra(this.value); 
+        updateGroupList(this.value, cb); }
+    );
 	groups.change(function (e, cb) { updateItemList(this.value, cb); } );
+    items.change(itemChange);
 	$('#reset').click(function () { reset(); } );
     $('#create_issue').submit(submitIssue);
 
@@ -30,6 +34,7 @@ $(document).ready(function() {
 			groups.children("option[value="+values.group+"]").attr('selected', 'selected');
 			updateItemList(groups[0].value, function () {
 				items.children("option[value="+values.item+"]").attr('selected', 'selected');
+                items.change();
 			});
 		}
 	});
@@ -241,4 +246,14 @@ function submitIssue(eve) {
     if (!validateForm($(eve.target))) {
         eve.preventDefault();
     }
+}
+
+/**
+ * Do things when item selected is changed
+ */
+function itemChange(eve) {
+    var list = $(eve.target);
+    var value = list[0].value;
+
+    $("#relatedList").load("/issue/partial/" + value + "/");
 }

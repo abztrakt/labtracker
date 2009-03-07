@@ -1,5 +1,5 @@
 <ul>
     {% for issue in object.unresolved_issues %}
-    <li>{{ issue.title }}</li>
+    <li><a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></li>
     {% endfor %}
 </ul>
