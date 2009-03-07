@@ -1,8 +1,7 @@
 import os, sys
 
-
-sys.path.append('/var/django_apps')
-sys.path.append('/var/django_apps/labtracker')
+sys.path.append('/var/www')
+sys.path.append('/var/www/labtracker')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'labtracker.settings'
 

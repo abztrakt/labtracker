@@ -2,3 +2,4 @@ settings.py
 tags
 *.sqlite
 *.pyc
+labtracker.wsgi
