@@ -12,7 +12,7 @@ label {
 	font-weight: bold;
 }
 
-div.f_container + div.f_container{
+div.f-container + div.f-container{
     margin-top: 2em;
 }
 
