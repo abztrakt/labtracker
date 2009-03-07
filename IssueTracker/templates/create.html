@@ -71,21 +71,22 @@
 			</div>
 		</div>
     
-    <br class="clear" />
+        <br class="clear" />
     
-        	<div class='f_container' id="probs">
-				<label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %}">
-					{{ form.problem_type.label }}:
+        <div class='f_container' id="probs">
+            <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %}">
+                {{ form.problem_type.label }}:
 			</label>
             <span class="help">{{ form.problem_type.help_text }}</span>
             
-            <div>{{ form.problem_type }}
+            <div>
+                {{ form.problem_type }}
                 {% if form.problem_type.errors %}{{ form.problem_type.errors }}
                 {% else %}<ul class="errorlist"></ul>{% endif %}
             </div>
         </div>
     
-    <br class="clear" />
+        <br class="clear" />
     
 		<div id="desc" class="f_container">
             <label for="id_{{form.description.name}}" class="{% if form.description.field.required %}required{% endif %}">
@@ -102,7 +103,6 @@
         
     <div id="fields" class="left">
        
-
 		<div class='f_container' id='cc_block'>
             <label for="id_{{form.cc.name}}" class="{% if form.cc.field.required %}required{% endif %}">
                 {{ form.cc.label }}:
@@ -122,7 +122,6 @@
 	</div>
 
 	<br class="clear" />
-
 
     <input type="submit" name="submit" value="Submit" />
 	<input type="reset" id="reset" value="Reset" />
