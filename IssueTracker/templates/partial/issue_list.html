@@ -1,0 +1,5 @@
+<ul>
+    {% for issue in object.unresolved_issues %}
+    <li>{{ issue.title }}</li>
+    {% endfor %}
+</ul>

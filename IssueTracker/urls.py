@@ -1,3 +1,4 @@
+from labtracker.LabtrackerCore import models as lm
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('IssueTracker.views',
@@ -11,9 +12,8 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^history/(?P<item_id>\d+)/$', 'history', name="IssueTracker-history"),
      url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
          name="IssueTracker-history-page"),
-)
-
-urlpatterns += patterns("IssueTracker.views.reports",
+     
+) + patterns("IssueTracker.views.reports",
      url(r'^report/all/$', 'allUnresolved', name='viewAll'),
      url(r'^report/all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
 
@@ -23,15 +23,13 @@ urlpatterns += patterns("IssueTracker.views.reports",
 
      url(r'^report/myissues/$', 'myissues', name='report-myissues'),
      url(r'^report/filter/(?P<filter_by>\w+)/(?P<filter_val>\w+)/$', 
-        'filteredList', name='filteredView'),
-)
-
-urlpatterns += patterns('IssueTracker.views.search',
+        'filteredList', name='filteredView'), 
+     
+) + patterns('IssueTracker.views.search',
      url(r'^search/$', 'search', name="issueSearch"),
-     # (r'^search/detailed/$', 'advSearch'),
-)
+     # (r'^search/detailed/$', 'advSearch'), 
 
-urlpatterns += patterns('IssueTracker.views.ajax',
+) + patterns('IssueTracker.views.ajax',
     (r'^checkuser/(?P<name>\w+)/$', 'userCheck'),
 
     (r'^search/field/(?P<field_name>\w+)/$', 'getSearchField'),
@@ -39,4 +37,10 @@ urlpatterns += patterns('IssueTracker.views.ajax',
     (r'^groups/$', 'getGroups'),
     (r'^items/$', 'getItems'),
     (r'^invSpec/create/$', 'invSpecCreate'),
+
+) + patterns('django.views.generic',
+    (r'partial/(?P<object_id>\d+)/$', 'list_detail.object_detail', 
+        { 'queryset': lm.Item.objects.all(), 
+            "template_name": "partial/issue_list.html" }),
 )
+

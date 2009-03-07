@@ -51,6 +51,12 @@ class Item(models.Model):
     it = models.ForeignKey(InventoryType, editable=False)
     name = models.CharField(max_length=60, unique=True)
 
+    def unresolved_issues(self):
+        """
+        return all unresolved issues for an item
+        """
+        return self.issue_set.filter(resolved_state__isnull=True)
+
     def __unicode__(self):
         """
         Will take the actual item name from whatever the Namespace_namespace
