@@ -1,0 +1,7 @@
+html, body {
+    background-image: url("/static/img/bg/greenbg.jpg");
+	background-attachment: fixed;
+	background-position: right;
+	background-repeat: repeat-y;
+}
+

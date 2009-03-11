@@ -101,35 +101,35 @@ div#footer {
 }
 
 #heading.default div {
-	background-image: url("/static/img/icons/house.png");
+	background-image: url("/static/img/icons/house.gif");
 }
 
 #heading.tools div {
-	background-image: url("/static/img/icons/tools.png");
+	background-image: url("/static/img/icons/tools.gif");
 }
 
 #heading.view div {
-	background-image: url("/static/img/icons/mag.png");
+	background-image: url("/static/img/icons/mag.gif");
 }
 
 #heading.home div {
-	background-image: url("/static/img/icons/house.png");
+	background-image: url("/static/img/icons/house.gif");
 }
 
 #heading.data div {
-	background-image: url("/static/img/icons/eye.png");
+	background-image: url("/static/img/icons/eye.gif");
 }
 
 #heading.create div {
-	background-image: url("/static/img/icons/warning.png");
+	background-image: url("/static/img/icons/warning.gif");
 }
 
 #heading.logout div {
-	background-image: url("/static/img/icons/logout.png");
+	background-image: url("/static/img/icons/logout.gif");
 }
 
 #heading.login div {
-	background-image: url("/static/img/icons/login.png");
+	background-image: url("/static/img/icons/login.gif");
 }
 
 #heading h1 { 

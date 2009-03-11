@@ -1,4 +1,7 @@
 {% extends "base_full.html" %}
+{% block pageCSS %}@import url("{{MEDIA_URL}}css/flatpage.css"); {% endblock %}
+
+
 {% block title %}{{flatpage.title}}{% endblock %}
 
 {% block heading-class %}home{% endblock %}
