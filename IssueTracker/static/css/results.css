@@ -5,13 +5,20 @@ html, body {
 	background-repeat: repeat-y;
 }
 
+#heading h1 { 
+	color: #c91a15;
+}
+
 table.issue_results {
 	border-collapse: collapse;
 	width: 100%;
+	max-width: 1000px;
+	margin-left: 1px;
+	margin-top: -2px;
 }
 
 table.issue_results th {
-	border-bottom: 1px solid #777;
+	border-bottom: 1px solid #ccc;
 	padding: 0 1em 0 .7em;
 	text-align: left;
 }
@@ -51,4 +58,8 @@ th.r_last_modified, th.r_post_time {
 th.r_assignee, th.r_reporter {
 	padding: 0px;
 	width: 6em;
+}
+
+h4 {
+	color: #C91A15;
 }

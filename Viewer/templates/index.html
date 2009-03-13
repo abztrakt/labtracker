@@ -7,7 +7,8 @@
 {% block heading-class %}data{% endblock %}
 {% block heading %}Available Views{% endblock %}
 {% block content %}
-    <ul class="indentlist">
+	<div class="box">
+    <ul class="indentlist" >
     {% for type, view_list in views %}
         <li>{{ type }}
             <ul>
@@ -21,4 +22,5 @@
         </li>
     {% endfor %}
     </ul>
+    </div>
 {% endblock %}

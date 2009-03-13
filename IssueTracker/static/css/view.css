@@ -5,6 +5,10 @@ html, body {
 	background-repeat: repeat-y;
 }
 
+#heading h1 { 
+	color: #c91a15;
+}
+
 ul.floated { margin: 0em 0em; padding: 0px; }
 ul.floated li {
     float: left;
@@ -161,7 +165,7 @@ input#addCC { background-color: #99CC99; }
 
 div.action_msg {
     padding: 0px;
-    margin: 0px 0px 0px 2em;
+    margin: 0px 0px 0px 1em;
 }
 
 div#itemUpdate {
@@ -265,3 +269,9 @@ div.specinforow + div.specinforow {
 	padding: 0em 0.2em;
 	padding: 0.2em;
 }
+
+.date {
+	color: #acacac;
+}
+
+

@@ -5,3 +5,14 @@ html, body {
 	background-repeat: repeat-y;
 }
 
+#heading h1 { 
+	color: #2fa62c;
+}
+
+.box {
+	margin-top: 1em;
+	padding: 0.5em;
+    background-color: #EDEDED;
+	border: 1px solid #cacaca;
+	max-width: 800px;
+}

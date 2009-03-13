@@ -7,6 +7,10 @@ body {
 	background-repeat: repeat-y;
 }
 
+#heading h1 { 
+	color: #f8c31c;
+}
+
 label {
     font-size: 1em;
 	font-weight: bold;

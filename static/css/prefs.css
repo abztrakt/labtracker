@@ -5,6 +5,10 @@ html, body {
 	background-repeat: repeat-y;
 }
 
+#heading h1 { 
+	color: #c62fbb;
+}
+
 h1 {
     padding-top: 0px;
     margin-top: 0px;
@@ -29,9 +33,10 @@ h4.section {
 #user_nav {
     float: left;
     width: 10em;
-    margin: 1.5em 0.5em 0.5em 0.5em;
+    margin: 4.25em 0.5em 0.5em 0em;
     padding: 0.5em;
-    background-color: #EAC99D;
+    background-color: #ffffff;
+	border: 1px solid #cacaca;
 }
 
 #user_nav a {
@@ -46,8 +51,11 @@ h4.section {
 }
 
 #pref_content {
-    margin: 0.5em;
-    margin-left: 13em;
+    margin: 1em 0.5em 0.5em 12em;
+    padding: 0.5em;
+    background-color: #EDEDED;
+	border: 1px solid #cacaca;
+	max-width: 800px;
 }
 
 
