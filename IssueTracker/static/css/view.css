@@ -139,7 +139,7 @@ div#right-side-bar > div {
     padding: .75em .5em 0em .75em; 
 	margin-bottom: 1em;
     /* margin: 0em 0em 1em 1em; */
-    border: 1px #000000 solid;
+    /* border: 1px #000000 solid; */
 }
 
 div#right-side-bar > .info:first-child {
@@ -232,6 +232,7 @@ ul.specinfo > li:first-child {
 ul.specinfo > li > ul > li {
 	margin-right: 2em;
 	float: left;
+	min-width: 100px;
 }
 
 div.specinforow {

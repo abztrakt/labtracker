@@ -7,6 +7,8 @@ body {
 	background-repeat: repeat-y;
 }
 
+#maincontent {max-width: 674px;}
+
 #heading h1 { 
 	color: #f8c31c;
 }
@@ -17,7 +19,8 @@ label {
 }
 
 div.f-container + div.f-container{
-    margin-top: 2em;
+    margin-top: 1.5em;
+	min-width: 100px;
 }
 
 form#create_issue { 
@@ -27,8 +30,8 @@ form#create_issue {
 }
 
 #text {
-    width: 45em;
-    margin: 1em .5em 1em 0em;
+    width: 100%;
+    margin: 1em 1em 1em 0em;
     padding: 1em;
     background: #ededed;
 	border: 1px solid #cacaca;
@@ -40,9 +43,9 @@ form#create_issue {
 }
 
 #fields {
-    width: 12em;
-    margin-top: 5.25em;
-    padding: .5em;
+    width: 206px;
+    margin-top: 4.65em;
+    padding: .75em;
     background: none;
 	border: 1px solid #cacaca; 
 	
@@ -66,7 +69,7 @@ form#create_issue {
 }
 
 #probs {
-	margin-top: 1.5em;
+	margin-top: 1.25em;
 }
 
 .prob-types-item {
@@ -75,7 +78,7 @@ form#create_issue {
 }
 
 #title label {
-    margin-right: 1em;
+    margin-right: .5em;
 }
 
 #relatedList ul {
@@ -88,3 +91,5 @@ form#create_issue {
     margin: 0;
     padding: 0;
 }
+
+h3 .boldblacklabel {margin-bottom: clear;}

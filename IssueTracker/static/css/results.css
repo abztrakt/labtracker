@@ -12,7 +12,7 @@ html, body {
 table.issue_results {
 	border-collapse: collapse;
 	width: 100%;
-	max-width: 1000px;
+	max-width: 931px;
 	margin-left: 1px;
 	margin-top: -2px;
 }
@@ -62,4 +62,6 @@ th.r_assignee, th.r_reporter {
 
 h4 {
 	color: #C91A15;
+	margin-top: 3em;
+	margin-bottom: 1em;
 }

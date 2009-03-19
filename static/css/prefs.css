@@ -5,6 +5,8 @@ html, body {
 	background-repeat: repeat-y;
 }
 
+#maincontent { max-width: 700px}
+
 #heading h1 { 
 	color: #c62fbb;
 }
@@ -15,8 +17,10 @@ h1 {
 }
 
 h2 {
+	font-size: 14px;
     padding-top: 0px;
     margin-top: 0px;
+	color: #C62FBB;
 }
 
 h4.section {
@@ -39,9 +43,11 @@ h4.section {
 	border: 1px solid #cacaca;
 }
 
+/*
 #user_nav a {
-    color: black;
+    color: black; 
 }
+*/
 
 #user_nav ul {
 }
@@ -51,8 +57,8 @@ h4.section {
 }
 
 #pref_content {
-    margin: 1em 0.5em 0.5em 12em;
-    padding: 0.5em;
+    margin: 1em 0em 1em 12em;
+    padding: 1em;
     background-color: #EDEDED;
 	border: 1px solid #cacaca;
 	max-width: 800px;
