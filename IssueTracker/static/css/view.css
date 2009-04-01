@@ -264,6 +264,7 @@ div.specinforow + div.specinforow {
 
 #comments li {
 	padding: 0.2em;
+	margin-top: 1em;
 }
 
 #comments p {
@@ -274,5 +275,13 @@ div.specinforow + div.specinforow {
 .date {
 	color: #acacac;
 }
+
+.margintop {margin-top: 1em;}
+
+.floatright {float: right}
+
+
+#id_problems_type options {}
+
 
 

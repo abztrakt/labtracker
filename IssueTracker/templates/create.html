@@ -76,13 +76,21 @@
         <br class="clear" />
     
         <div class='f-container' id="probs">
-            <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %}">
-                <!-- {{ form.problem_type.label }}: -->
+            <label for="" class="{% if form.problem_type.field.required %}required{% endif %} selectlable">
+               
                 Problems:
 			</label>
-            <span class="help">{{ form.problem_type.help_text }}</span>
             
-            <div>
+            <span class="help unselcted">{{ form.problem_type.help_text }}</span>
+            
+            <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %} unselectedlable">
+                <!-- {{ form.problem_type.label }}: -->
+                Unselected:
+			</label>
+            
+        <br class="clear" />    
+            
+            <div id="listofprobs">
                 {{ form.problem_type }}
                 {% if form.problem_type.errors %}{{ form.problem_type.errors }}
                 {% else %}<ul class="errorlist"></ul>{% endif %}

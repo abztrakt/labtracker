@@ -75,7 +75,8 @@
 	</div>
 
     	<div id="prob-type-block" class="greybox">
-			<label for="{{update_issue_form.problem_type.name}}" class="boldblacklabel">
+			
+            <label for="{{update_issue_form.problem_type.name}}" class="boldblacklabel">
 				{{ update_issue_form.problem_type.label }}:
 			</label>
 			<span class="help">Select one or more problems</span>
@@ -90,12 +91,12 @@
 
 	<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
 		<fieldset class="whitebox">
-			<legend>Update Issue:</legend>
+			<!-- <legend>Update Issue:</legend> -->
 
 			<!-- add_comment_form, update_issue_form -->
 			<ul class="struct">
 				<li>
-					<label class="boldblacklabel" for='id_{{update_issue_form.assignee.name}}'>
+					<label class="boldblacklabel spaces" for='id_{{update_issue_form.assignee.name}}'>
 						Assign To:
 					</label>
 					{{ update_issue_form.assignee }}
@@ -103,8 +104,7 @@
 					{% else %}<ul class="errorlist"></ul>{% endif %}
 				</li>
 				<li>
-					<label class="boldblacklabel" 
-						for='id_{{update_issue_form.resolved_state.name}}'>
+					<label class="boldblacklabel margintop" for='id_{{update_issue_form.resolved_state.name}}'>
 					Resolve:
 					</label> 
 					{{ update_issue_form.resolved_state }}
@@ -115,7 +115,7 @@
 
 			<div id="main-update" class="left clear">
 				<div>
-					<label for='id_comment' style='display: block;' class="boldblacklabel">
+					<label for='id_comment' style='display: block;' class="boldblacklabel margintop">
 						{{ add_comment_form.comment.label }}:
 					</label>
 					<textarea id="id_comment" name="{{ add_comment_form.comment.name }}">

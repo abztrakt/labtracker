@@ -43,7 +43,7 @@ form#create_issue {
 }
 
 #fields {
-    width: 206px;
+    width: 200px;
     margin-top: 4.65em;
     padding: .75em;
     background: none;
@@ -93,3 +93,17 @@ form#create_issue {
 }
 
 h3 .boldblacklabel {margin-bottom: clear;}
+
+.asmSelect {
+	float: right;
+	margin-right: 120px;
+	margin-bottom: 100px;
+}
+
+.selectlable { float: left;}
+
+.unselectedlable {float:right;}
+
+.help {float: right; padding: 2px 0 0 5px;}
+
+#listofprobs {}
