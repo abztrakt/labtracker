@@ -81,7 +81,7 @@
                 Problems:
 			</label>
             
-            <span class="help unselcted">{{ form.problem_type.help_text }}</span>
+            <span class="help help2 unselcted">{{ form.problem_type.help_text }}</span>
             
             <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %} unselectedlable">
                 <!-- {{ form.problem_type.label }}: -->
@@ -103,7 +103,7 @@
             <label for="id_{{form.description.name}}" class="{% if form.description.field.required %}required{% endif %}">
                 {{ form.description.label}}:
 			</label>
-            <span class="help">
+            <span class="help help">
                 Remember to look at related issues before filing a bug.
             </span>
             <div>

@@ -283,5 +283,18 @@ div.specinforow + div.specinforow {
 
 #id_problems_type options {}
 
+.width {padding-right: 9px;}
 
+.selectlable { float: left;}
 
+.unselectedlable {float:right;}
+
+.help2 {float: right; padding: 0 10px 0 3px;}
+
+.asmSelect {
+	float: right;
+	margin: 0 117px 100px 0;
+}
+
+#listofprobs {
+	padding-top: 5px;}
