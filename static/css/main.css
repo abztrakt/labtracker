@@ -164,7 +164,8 @@ div#fast-search fieldset {
 }
 
 #search_term {
-    background: #BAE7B0;
+    background: #ffffff;
+	border: 1px solid #d8d8d8;
 }
 
 div#fast-search input.flat {
@@ -209,10 +210,15 @@ span.date { margin-left: 1em; font-weight: normal; }
 
 input.flat {
     border: 0px;
-    background: none;
-    padding: 0px;
+	background-color: #99CC99;
+    padding: 1px;
     margin: 0px;
     font-size: 10px;
+
+}
+
+.flatbox {
+	border: 1px solid #000000;	
 }
 
 ul.errorl {

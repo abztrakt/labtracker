@@ -3,7 +3,7 @@
 		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
 		<div class="block-if-js">
 			<form id="ccForm" action="">
-				<input type="text" id="addCC_user" class="small_text" />
+				<input type="text" id="addCC_user" class="flatbox small_text" />
 				<input type="submit" value="Add" name="Add" id="addCC" class="flat" />
 			</form>
 			<ul id='cc_list' class="struct">{% for cc in issue.cc.all %}

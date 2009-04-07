@@ -103,7 +103,8 @@
 		</div>
 
 	<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
-		<fieldset class="whitebox">
+		<fieldset class="nothing">
+        <div class="whitebox">
 			<!-- <legend>Update Issue:</legend> -->
 
 			<!-- add_comment_form, update_issue_form -->
@@ -146,9 +147,9 @@
 			<br class="clear" />
 
 			{% if comment_errors %}{{ comment_errors }}{% endif %} 
-
+		</div>
 			<br class="clear" />
-			<input type="submit" name="submit" value="Submit" />
+			<input type="submit" name="submit" value="Submit" class="flat" />
 
 		</fieldset>
 	</form>

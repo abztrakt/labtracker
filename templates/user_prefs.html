@@ -15,7 +15,9 @@
 </div>
 
 <div id="maincontent">
+<div id="pref_content_wrapper">
 <div id="pref_content">
+
     {% block messages %}
     {% if messages %}
     <ul class="messages">
@@ -33,9 +35,10 @@
 
 <form method="POST" action="./">
 		<div class="error">{{ emailForm.email.errors }}</div>
-		<p><div class="formwidth">{{ emailForm.email.label }}</div> {{ emailForm.email }}
-		<div></p>
-			<p><input type="submit" value="Change" name="Change" /></p>
+		<p><div class="formwidth">{{ emailForm.email.label }}:</div> {{ emailForm.email }}
+</div>
+        <div></p>
+			<p><input type="submit" value="Change" name="Change" class="flat" /></p>
 		</div>
     </form>
     {% endblock %}
