@@ -170,8 +170,8 @@ div.action_msg {
 
 div#itemUpdate {
 	float: right;
-	margin-right: 1em;
-	width: 40%;
+	margin-right: 0;
+	width: 35.25%;
 }
 
 #itemUpdate li {
@@ -186,7 +186,7 @@ div#itemUpdate {
 
 .prob-types-item {
 	float: left;
-	width: 15em;
+	width: 15.59em;
 }
 
 #main-update {
@@ -194,8 +194,10 @@ div#itemUpdate {
 }
 
 #id_comment {
-	width: 100%;
+	
 	height: 10em;
+	border: 1px solid #000000;
+	width: 376px;
 }
 
 .greybox {
@@ -307,4 +309,37 @@ ul.struct li { margin-bottom: .2em;}
 
 #id_resolved_state { border: 1px solid #000000; width: 100px;}
 
-#id_comment { border: 1px solid #000000; width: 670px;}
+#itemUpdate li { color: #6A6A6A; font-size: 10px; margin-bottom: 3px;}
+
+#itemUpdate label { color: #000000; font-weight: bold; font-size: 10px;}
+
+#itemUpdate ul.struct {margin-top: 23px;}
+
+#id_location { border: 1px solid #000000; padding: 0; margin: 0 0 0 27px;}
+
+#id_ip { border: 1px solid #000000; padding: 0; margin: 0 0 0 11px;}
+
+#id_mac1 { border: 1px solid #000000; padding: 0; margin: 0;}
+
+#id_wall_port { border: 1px solid #000000; padding: 0; margin: 0 0 0 23px;}
+
+#id_status { border: 1px solid #000000; padding: 0; margin: 0 60px 0 38px;}
+
+#invspecView li {
+	font-weight: bold;
+	float:left;
+	margin-right: 2em;
+	width: 110px;
+}
+
+#invspecView h4 {
+	color: #6a6a6a;
+	font-size: 10px;
+	font-weight: normal;
+	margin-right: 50px;
+}
+
+
+
+
+

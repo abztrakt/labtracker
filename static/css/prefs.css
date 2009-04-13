@@ -17,10 +17,10 @@ h1 {
 }
 
 h2 {
-	font-size: 14px;
+	font-size: 12px;
     padding-top: 0px;
     margin-top: 0px;
-	color: #C62FBB;
+	color: #000000;
 }
 
 h4.section {
@@ -29,6 +29,7 @@ h4.section {
 }
 
 .formwidth {
+	font-size: 10px;
 	min-width: 110px;
 	float: left;
 	line-height: 20px;

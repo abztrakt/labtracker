@@ -76,7 +76,7 @@ form#create_issue {
 
 .prob-types-item {
 	float: left;
-	width: 15em;
+	width: 15.59em;
 }
 
 #title label {
@@ -111,7 +111,7 @@ h3 .boldblacklabel {margin-bottom: clear;}
 
 .asmList {margin-bottom: 5px;}
 
-#id_title {	border: 1px solid #000000; width: 598px; }
+#id_title {	border: 1px solid #000000; width: 302px; }
 
 #id_it { border: 1px solid #000000; width: 110px;}
 
@@ -119,3 +119,4 @@ h3 .boldblacklabel {margin-bottom: clear;}
 
 #id_item { border: 1px solid #000000; width: 110px;}
 
+#id_status { border: 1px solid #000000; width: 110px; float: left;}
