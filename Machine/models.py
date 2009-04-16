@@ -125,9 +125,6 @@ class Group(coreModels.Group):
     casting_server = models.IPAddressField()
     gateway = models.IPAddressField()
 
-    items = models.ManyToManyField(Item, null=True, blank=True, 
-                                related_name="machinegroup_items")
-
     def primaryContact(self):
         """
         for this group find primary contact, returns set of users

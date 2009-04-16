@@ -12,9 +12,6 @@ app_name = __name__.split('.')[-3]
 
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
-    groups = models.ManyToManyField(m_models.Group,
-            related_name="view_machinemap_groups"
-        )
 
     def save(self):
         newmap = self.type_id == None
@@ -51,7 +48,6 @@ class MachineMap(base.ViewCore):
         mapped = self.getMappedItems()
         mapped_set = set([m_item.machine for m_item in mapped])
 
-        groups = self.groups.all()
         unmapped = []
 
         for group in groups:
