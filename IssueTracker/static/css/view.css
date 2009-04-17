@@ -291,11 +291,14 @@ div.specinforow + div.specinforow {
 
 .unselectedlable {float:right;}
 
-.help2 {float: right; padding: 0 10px 0 3px;}
+.help2 {float: right; padding: 0; display: block; width: 175px;}
+
+.block {display: block; width: 70px;}
 
 .asmSelect {
 	float: right;
-	margin: 0 117px 100px 0;
+	width: 120px;
+	margin: 0 125px 100px 0;
 	border: 1px solid #000000;
 }
 
@@ -309,21 +312,30 @@ ul.struct li { margin-bottom: .2em;}
 
 #id_resolved_state { border: 1px solid #000000; width: 100px;}
 
+
 #itemUpdate li { color: #6A6A6A; font-size: 10px; margin-bottom: 3px;}
 
-#itemUpdate label { color: #000000; font-weight: bold; font-size: 10px;}
+#itemUpdate label {
+	display: block;
+	width: 85px;
+	padding-top: 2px;
+	float: left;
+	color: #000000; font-weight: bold; font-size: 10px;}
+
+
 
 #itemUpdate ul.struct {margin-top: 23px;}
 
-#id_location { border: 1px solid #000000; padding: 0; margin: 0 0 0 27px;}
 
-#id_ip { border: 1px solid #000000; padding: 0; margin: 0 0 0 11px;}
+#id_location { border: 1px solid #000000; padding: 0; margin: 0;}
+
+#id_ip { border: 1px solid #000000; padding: 0; margin: 0;}
 
 #id_mac1 { border: 1px solid #000000; padding: 0; margin: 0;}
 
-#id_wall_port { border: 1px solid #000000; padding: 0; margin: 0 0 0 23px;}
+#id_wall_port { border: 1px solid #000000; padding: 0; margin: 0;}
 
-#id_status { border: 1px solid #000000; padding: 0; margin: 0 60px 0 38px;}
+#id_status { border: 1px solid #000000; padding: 0; margin: 0 85px 0 0;}
 
 #invspecView li {
 	font-weight: bold;

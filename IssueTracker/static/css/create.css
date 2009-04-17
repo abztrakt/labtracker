@@ -98,16 +98,17 @@ h3 .boldblacklabel {margin-bottom: clear;}
 
 .asmSelect {
 	float: right;
-	margin-right: 120px;
+	margin-right: 135px;
 	margin-bottom: 100px;
 	border: 1px solid #000000;
+	width: 120px;
 }
 
 .selectlable { float: left;}
 
-.unselectedlable {float:right;}
+.unselectedlable {float:right; display: block; width: 80px}
 
-.help2 {float: right; padding: 2px 0 0 5px;}
+.help2 {float: right; padding: 2px 0 0 0; display: block; width: 175px;}
 
 .asmList {margin-bottom: 5px;}
 

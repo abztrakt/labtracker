@@ -1,5 +1,6 @@
 {% extends "base_full.html" %}
-{% block pageCSS %}@import url("{{MEDIA_URL}}css/flatpage.css"); {% endblock %}
+{% block pageCSS %}@import url("{{MEDIA_URL}}css/flatpage.css");
+@import url("{{MEDIA_URL}}css/loginout.css"); {% endblock %}
 
 {% block heading-class %}login{% endblock %}
 {% block heading %}Login{% endblock %}
@@ -11,13 +12,15 @@
 {% if user.is_authenticated %}
 <p>Sorry, you do not have permission to view this page</p>
 {% else %}
-<form method="post" action="." class="center" id="login">
-	<fieldset>
-		<legend>Login</legend>
+<form method="post" action="." class="" id="login">
+	<fieldset class="noborder">
+		<div class="border">
+        <!-- <strong>Login</strong> -->
 		<ul class="struct">
 			{{ form.as_ul }}
 		</ul>
-		<input type="submit" value="login" />
+        </div>
+		<input type="submit" value="login" class="button"/>
 		<input type="hidden" name="next" value="{{ next }}" />
 	</fieldset>
 </form>

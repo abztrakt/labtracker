@@ -111,3 +111,9 @@ span.help {
     font-size: 0.8em;
 }
 
+.blocktext {
+	display: block;
+	width: 70px;
+	padding-top: 2px;
+	float: left;
+}

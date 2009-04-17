@@ -88,7 +88,7 @@
 			
             <span class="help help2">Select one or more problems</span>
             
-             <label for="" class="boldblacklabel unselectedlable" >
+             <label for="" class="boldblacklabel unselectedlable block" >
 				Unselected:
 			</label>
             
@@ -113,7 +113,7 @@
 			<!-- add_comment_form, update_issue_form -->
 			<ul class="struct">
 				<li>
-					<label class="boldblacklabel spaces" for='id_{{update_issue_form.assignee.name}}'>
+					<label class="boldblacklabel spaces blocktext" for='id_{{update_issue_form.assignee.name}}'>
 						Assign To:
 					</label>
 					{{ update_issue_form.assignee }}
@@ -121,7 +121,7 @@
 					{% else %}<ul class="errorlist"></ul>{% endif %}
 				</li>
 				<li>
-					<label class="boldblacklabel margintop width" for='id_{{update_issue_form.resolved_state.name}}'>
+					<label class="boldblacklabel blocktext" for='id_{{update_issue_form.resolved_state.name}}'>
 					Resolve:
 					</label> 
 					{{ update_issue_form.resolved_state }}

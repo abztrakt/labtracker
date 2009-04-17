@@ -33,18 +33,23 @@
 				</select>
 				<a href="#" id="set-shape">Set Shape</a>
 			</li>
-			<li><a href="#" id="save">Save</a></li>
+			<li><a href="#" id="save" >Save</a></li>
+            <br />
+            <h6>*Right click on items for menu</h6>
 		</ul>
     </div>
-    <div id="infoPane" class="right">
+    <div id="infoPane2" class="right">
         <ul class="struct left">
-            <li>Mouse position: <span id="mousePosition" class="info"></span></li>
-            <li>Machine Name: <span id="machineName" class="info"></span></li>
-			<li> * Right click on items for menu</li>
+            <li><h4>Mouse position:</h4> <h5><span id="mousePosition" class="info"></span></li>
+            <br />
+            <li><h4>Machine Name:</h4> <h5><span id="machineName" class="info"></span></li>
+            <br />
+            <li><h4>Groups:</h4> <h5>{% for group in groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</h5></li>
+			
         </ul>
     </div>
     <br class="clear" />
-    <h4 class="label">Groups: {% for group in groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</h4>
+    
 {% endblock %}
 
 {% block content %}

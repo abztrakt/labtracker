@@ -1,7 +1,21 @@
+html, body {
+    background-image: url("/static/img/bg/bluebg.jpg");
+	background-attachment: fixed;
+	background-position: right;
+	background-repeat: repeat-y;
+}
+
+#pageHeader {
+	padding-top: 12px;
+	margin-bottom: 16px;
+}
+
 #cpanel {
-    border: 1px dotted grey;
+    border: 1px solid #cacaca;
+	background-color: #ededed;
     padding: 0.5em;
     margin: 0px 0.5em;
+	margin-left: 15px;
 }
 
 #cpanel li {
@@ -25,8 +39,9 @@ h4.label {
 }
 
 div#unmapped {
-    border: 1px dotted grey;
+    border: 1px solid #cacaca;
     padding: 10px;
+	margin-bottom: 15px;
 }
 
 div#unmapped > h4 {
@@ -72,3 +87,24 @@ div.tools > ul.struct li{
 }
 
 .op { cursor: pointer; }
+
+#infoPane2 {   
+	border: 1px solid #cacaca;
+	background-color: #ededed;
+	padding: 0.4em 1em;
+	width: 20em;
+	margin-right: 15px;
+}
+
+#infoPane2 h4 {	font-size: 0.8em; font-weight: normal; color: #6A6A6A; margin: 0; width: 100px; float: left}
+#infoPane2 h5 {	font-size: 1em; font-weight: bold; color: #000000; margin: 0; width: 50px; float: left}
+#cpanel h6 {	font-size: 0.8em; font-weight: normal; color: #6A6A6A; margin: 5px 0 0 0; float: left}
+#infoPane2 li { margin-bottom: 5px;}
+
+#default-shape {border: 1px solid #000000; padding: 0; margin: 0 5px 0 0;}
+
+#heading.default div {background-image:url(/static/img/icons/eye.gif);}
+
+#heading h1 { color: #1171bd; }
+
+#save {display: block; padding-top: 3px;}

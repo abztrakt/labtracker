@@ -1,0 +1,20 @@
+.border { background-color: #ededed;  border: 1px solid #cacaca; padding: .5em 1em 1em 1em; margin: 8px 0 1em 0; }
+
+.noborder { border: hidden; } 
+
+#login li {margin-top: 8px;}
+
+li label {
+	display: block;
+	width: 70px;
+	padding-top: 2px;
+	float: left;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+li input {width: 150px; border: 1px solid #000000;}
+
+.button {border: none; background-color: #99cc99; padding: 2px;}
+
+#content {padding-left: .5em; }

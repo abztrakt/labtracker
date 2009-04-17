@@ -7,3 +7,5 @@ div.item.status_usable {
 div.item.status_inuse {
     background-color: yellow;
 }
+
+#wrapper { padding-left: 15px; }

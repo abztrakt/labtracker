@@ -59,7 +59,7 @@ h4.section {
 }
 
 #pref_content {
-    padding: 1em;
+    padding: .5em 1em 1em 1em;
     background-color: #EDEDED;
 	border: 1px solid #cacaca;
 	max-width: 800px;
