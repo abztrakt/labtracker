@@ -23,6 +23,12 @@ A:hover {
 	text-decoration: underline;
 }
 
+#upper-header A:hover {
+	text-decoration: none;
+}
+
+
+
 img { border: none; }
 
 br.clear { height: 0px; }
