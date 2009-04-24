@@ -1,0 +1,83 @@
+html, body {
+    background-image: url("/static/img/bg/greenbg.jpg");
+	background-attachment: fixed;
+	background-position: right;
+	background-repeat: repeat-y;
+	color: #6a6a6a;
+}
+
+#maincontent { width: 600px; margin: 100px 0 0 160px;}
+
+#heading {display: none;}
+
+#footer {display: none;}
+
+#top {
+	width: 360px;
+	height: 25px;
+	margin-left: 205px;
+	border-top: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+}
+
+#error {
+	width: 584px;
+	height: 129px;
+	border: 1px solid #cccccc;
+	background-image: url("/static/img/layout/404img.jpg");
+}
+
+#text {
+	width: 325px;
+	margin-left: 205px;
+	border-bottom: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	padding: 25px 15px 15px 20px;
+	line-height: 1.25em;
+}
+
+P1 { font-size: 10px;}
+
+H1 {
+	font-size: 2em;
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+H2 {
+	font-size: 1.5em;
+	margin: 1em 0 0 0;
+}
+
+H3 {
+	font-size: .8em;
+	margin: 3em 0 0 0;
+}
+
+.red a:link {color: #ff0000;}
+.red a:visited {color: #ff0000;}
+.red a:active {color: #ff0000;}
+.red a:hover {color: #ff0000;}
+
+.yellow a:link {color: #ffde00;}
+.yellow a:visited {color: #ffde00;}
+.yellow a:active {color: #ffde00;}
+.yellow a:hover {color: #ffde00;}
+
+.blue a:link {color: #0040b6;}
+.blue a:visited {color: #0040b6;}
+.blue a:active {color: #0040b6;}
+.blue a:hover {color: #0040b6;}
+
+.pink a:link {color: #ee2ce1;}
+.pink a:visited {color: #ee2ce1;}
+.pink a:active {color: #ee2ce1;}
+.pink a:hover {color: #ee2ce1;}
+
+.purple a:link {color: #a629dd;}
+.purple a:visited {color: #a629dd;}
+.purple a:active {color: #a629dd;}
+.purple a:hover {color: #a629dd;}
