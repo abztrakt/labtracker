@@ -29,11 +29,16 @@
 	</li>
 
 	<li class="logout">
+        	{% if user.is_authenticated %}
+			<div id='user-info'>
+				<span>{{ user.username }}</span>
+			</div>
+			{% endif %}
 		<a href="{% url logout %}"><img src="{{MEDIA_URL}}/img/navicon/door1.gif" alt="" /> Logout</a>
 	</li>
 	{% else %}
 
-	<li class="login">
+	<li class="login"> 
 		<a href="{% url login %}"><img src="{{MEDIA_URL}}/img/navicon/door2.gif" alt="" /> Login</a>
 	</li>
 	{% endif %}

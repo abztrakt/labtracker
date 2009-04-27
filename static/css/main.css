@@ -81,9 +81,14 @@ div#footer {
 /* END nav related styles */
 
 #user-info { 
+	background-color:#CCC;
+	display: block;
+	width: 96px;
+	height: 15px;
 	font-size: 0.8em;
+	color: #858585;
 	float: left; 
-	width: 20em;
+	padding: 1px 0 0 8px;
 }
 
 #heading { 
