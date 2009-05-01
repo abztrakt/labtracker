@@ -1,0 +1,36 @@
+/* main.css */
+#content { 
+	margin-top: 120px;
+}
+
+
+
+/* results.css */
+table.issue_results {
+	width: expression(Math.min(parseInt(this.offsetWidth), 931 ) + "px");
+
+}
+
+th.r_title {
+	min-width: 15em;
+	width: expression(Math.min(parseInt(this.offsetWidth), 15 ) + "px"); 
+}
+
+h4 {
+	font-size: 12px;
+	margin-bottom: 2px;
+}
+
+
+
+/* loginout.css */
+.noborder {
+	border: 1px solid #ffffff;
+} 
+
+
+
+/* viewer/index.css */
+.indentlist {
+	margin-left: 10px; /* changed from -30 to 10 for IE (might need for both)*/
+}

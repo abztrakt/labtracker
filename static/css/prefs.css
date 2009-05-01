@@ -26,6 +26,7 @@ h2 {
 h4.section {
     padding: 0px;
     margin: 0px;
+	font-size: 12px; /* added for IE*/
 }
 
 .formwidth {
@@ -66,7 +67,7 @@ h4.section {
 }
 
 #pref_content_wrapper {
-    margin: 1em 0em 1em 12em;
+    margin: 1em 0em 1em .5em; /* margin left from 12 to .5 for IE*/
 	max-width: 800px;
 }
 

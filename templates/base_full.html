@@ -11,10 +11,21 @@
         @import url('{{MEDIA_URL}}css/jquery/droppy.css');
 		{% block mainCSS %}
 		@import url("{{MEDIA_URL}}css/main.css");
+	
+
 		{% block pageCSS %}
 		{% endblock %}
 		{% endblock %}
+		
     </style>
+    
+   		<!--[if IE]>
+		<style type="text/css">
+        @import url("{{MEDIA_URL}}css/ie_main.css");
+		</style>
+        <![endif]-->
+            
+    
 	<script type="text/javascript">
 		var media_url = "{{ MEDIA_URL }}";
 	</script>

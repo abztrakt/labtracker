@@ -60,7 +60,6 @@ div#footer {
 	border-top: 0px;
 	padding: 1.8em 0.5em 0.4em 0.5em;
 	height: 100%;
-
 	font-size: 0.9em;
 	color: #888888;
 	text-align: left;
@@ -155,6 +154,7 @@ div#footer {
 #content { 
 	min-height: 400px;
 	padding: 0px 15px 15px 15px;
+	
 }
 
 form#login {
