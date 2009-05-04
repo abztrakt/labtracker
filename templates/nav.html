@@ -30,9 +30,9 @@
 
 	<li class="logout">
         	{% if user.is_authenticated %}
-			<div id='user-info'>
+			<ul id='user-info'>
 				<span>{{ user.username }}</span>
-			</div>
+			</ul>
 			{% endif %}
 		<a href="{% url logout %}"><img src="{{MEDIA_URL}}/img/navicon/door1.gif" alt="" /> Logout</a>
 	</li>

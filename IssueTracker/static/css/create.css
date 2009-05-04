@@ -27,6 +27,8 @@ form#create_issue {
     border: none;
     background: none;
     padding: none;
+	width: 700px;
+	float: left;
 }
 
 #text {
@@ -45,6 +47,7 @@ form#create_issue {
 #fields {
     width: 200px;
     margin-top: 4.65em;
+	margin-left: 1em;
     padding: .75em;
     background: none;
 	border: 1px solid #cacaca; 
