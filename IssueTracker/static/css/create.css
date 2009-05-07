@@ -29,6 +29,7 @@ form#create_issue {
     padding: none;
 	width: 700px;
 	float: left;
+	margin-bottom: 1em;
 }
 
 #text {

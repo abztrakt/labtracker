@@ -70,8 +70,8 @@
 				{% invspec issue %}
 			</div>
             
+            <br class="clear clear_ie" />
             <br class="clear" />
-            
 		</div>
 
 
@@ -149,7 +149,7 @@
 			</div>
 			<br class="clear" />
 
-			{% if comment_errors %}{{ comment_errors }}{% endif %} 
+			{% if comment_errors %}{{ comment_errors }}{% endif %} <br class="clear" />
 		</div>
 			<br class="clear" />
 			<input type="submit" name="submit" value="Submit" class="flat" />
@@ -167,6 +167,7 @@
 		</li>
 		{% endfor %}
 	</ul>
+    
 </div>
 
 <!-- Right side bar -->
