@@ -12,7 +12,8 @@ app_name = __name__.split('.')[-3]
 
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
-
+    #groups = models.ManyToManyField(m_models.Group, related_name="view_machinemap_groups")
+    
     def save(self):
         newmap = self.type_id == None
         self.type = labtracker.Viewer.utils.getViewType(__name__)
@@ -48,9 +49,10 @@ class MachineMap(base.ViewCore):
         mapped = self.getMappedItems()
         mapped_set = set([m_item.machine for m_item in mapped])
 
+        #groups = self.groups.all()
         unmapped = []
 
-        for group in groups:
+        for group in c_models.Group.objects.all(): #groups:
             items = group.items.all()
             unmapped.extend( set(items).difference(mapped_set) )
 
