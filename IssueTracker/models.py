@@ -50,7 +50,7 @@ class Issue(models.Model):
     problem_type = models.ManyToManyField(ProblemType, null=True, blank=True,
             help_text="Select one or more problems.", verbose_name="problems")
     post_time = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True, null=True)
+    last_modified = models.DateTimeField(default=datetime.now) #auto_now=True, null=True)
     resolve_time = models.DateTimeField(null=True, blank=True)
     resolved_state = models.ForeignKey(ResolveState, null=True, blank=True)
     title = models.CharField(max_length=200, verbose_name="Summary")
