@@ -285,7 +285,7 @@ class EmailTest(TestCase):
         self.email.appendSection(Email.EmailSection('Header', 'Content'))
         self.email.subject = 'subject'
         # to must be list
-        self.email.addTo(settings.EMAIL_TEST_RECIPIENT)
+        self.email.addTo('testemail_person@example.com')
         self.email.send()
 
         self.assertEqual(1, len(mail.outbox))
