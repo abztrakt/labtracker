@@ -17,6 +17,8 @@ class IssueUpdater(object):
         self.valid = False
 
         self.data = request.POST.copy()
+        #slight hack to get things working - will edit later
+        #self.data['last_modified'] = im.DateTimeField(auto_now=True)
 
         self.issue = issue
 

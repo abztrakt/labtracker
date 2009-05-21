@@ -78,8 +78,8 @@ class UpdateIssueForm(ModelForm):
 
     class Meta:
         model = im.Issue
-        fields = ('problem_type','assignee','cc','resolve_time', 'resolved_state', 
-                'last_modified')
+        fields = ['problem_type','assignee','cc','resolve_time', 'resolved_state', 
+                'last_modified']
 
 class AddCommentForm(ModelForm):
     """
@@ -87,4 +87,4 @@ class AddCommentForm(ModelForm):
     """
     class Meta:
         model = im.IssueComment
-        fields = ('issue', 'user','comment')
+        fields = ['issue', 'user','comment']
