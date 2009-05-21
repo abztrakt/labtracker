@@ -1,3 +1,4 @@
+
 {% extends "base_full.html" %}
 
 {% block title %}Modifying Machine Map -- {{ view.name }}{% endblock %}
@@ -22,7 +23,12 @@
         {% include "Viewer/MachineMap/size_css.css" %}
     {% endblock %}
 
+
+
 {% block pageHeader %}
+
+<div id="spmod">
+
     <div id="cpanel" class="left">
 		<ul class="struct">
 			<li>
@@ -50,6 +56,9 @@
     </div>
     <br class="clear" />
     
+   </div>
+    
+    
 {% endblock %}
 
 {% block content %}
@@ -68,5 +77,9 @@
 	{% for size in sizes %}
 	<li><span class='sizename'>{{ size.name }}</span></li>{% endfor %}
 </ul>
+
 {% endblock %}
+
+
+
 

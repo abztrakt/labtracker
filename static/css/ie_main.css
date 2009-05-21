@@ -57,8 +57,6 @@ h4.section {
 
 
 /* view.css*/
-
-
 .ie_gone {
 	display: none;
 }
@@ -72,6 +70,24 @@ ul.specinfo > li {
 	margin-top: 3em;
 }
 
+#prob-type-block {
+	margin-top: 0em;
+}
+
+
+
+/* modify.css */
+#spmod { margin-top: 130px; }
+
+#cpanel { height: 50px; }
+
+#cpanel h6 { margin-left: -180px; }
+
+#infoPane2 {height: 100px;}
+
+#unmapped {margin-top: 10px; }
+
+#map {margin-top: 20px;}
 
 
 /* 404.css */
