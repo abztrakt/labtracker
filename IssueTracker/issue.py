@@ -17,8 +17,6 @@ class IssueUpdater(object):
         self.valid = False
 
         self.data = request.POST.copy()
-        #slight hack to get things working - will edit later
-        #self.data['last_modified'] = im.DateTimeField(auto_now=True)
 
         self.issue = issue
 
@@ -34,7 +32,7 @@ class IssueUpdater(object):
             self.valid = True
         else:
             self.valid = False
-
+        
         self.commentForm = None
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
