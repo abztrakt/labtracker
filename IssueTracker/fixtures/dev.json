@@ -62,29 +62,6 @@
     }
   }, 
   {
-    "pk": 1, 
-    "model": "IssueTracker.issue", 
-    "fields": {
-      "post_time": "2008-05-06 13:11:20", 
-      "group": 3, 
-      "description": "The magneto spherical transponder is not referring to the correct bistromathic stratum.", 
-      "assignee": null, 
-      "cc": [
-        1
-      ], 
-      "problem_type": [
-        3
-      ], 
-      "reporter": 1, 
-      "resolved_state": null, 
-      "it": 1, 
-      "item": null, 
-      "last_modified": "2008-05-06 13:11:20", 
-      "title": "Eating Problems", 
-      "resolve_time": null
-    }
-  }, 
-  {
     "pk": 2, 
     "model": "IssueTracker.issue", 
     "fields": {
@@ -191,66 +168,6 @@
       "item": 2, 
       "last_modified": "2008-10-14 12:37:05", 
       "title": "Need to expand LVM share", 
-      "resolve_time": null
-    }
-  }, 
-  {
-    "pk": 7, 
-    "model": "IssueTracker.issue", 
-    "fields": {
-      "post_time": "2008-12-03 14:02:17", 
-      "group": null, 
-      "description": "testaaa", 
-      "assignee": null, 
-      "cc": [], 
-      "problem_type": [
-        1, 
-        2
-      ], 
-      "reporter": 1, 
-      "resolved_state": null, 
-      "it": 1, 
-      "item": null, 
-      "last_modified": "2008-12-03 14:02:17", 
-      "title": "teststest", 
-      "resolve_time": null
-    }
-  }, 
-  {
-    "pk": 8, 
-    "model": "IssueTracker.issue", 
-    "fields": {
-      "post_time": "2008-12-03 15:10:49", 
-      "group": null, 
-      "description": "there is seomthing wrong with this machine", 
-      "assignee": null, 
-      "cc": [], 
-      "problem_type": [], 
-      "reporter": 1, 
-      "resolved_state": null, 
-      "it": 1, 
-      "item": null, 
-      "last_modified": "2008-12-03 15:10:49", 
-      "title": "adf", 
-      "resolve_time": null
-    }
-  }, 
-  {
-    "pk": 9, 
-    "model": "IssueTracker.issue", 
-    "fields": {
-      "post_time": "2008-12-04 13:03:22", 
-      "group": null, 
-      "description": "test", 
-      "assignee": null, 
-      "cc": [], 
-      "problem_type": [], 
-      "reporter": 1, 
-      "resolved_state": null, 
-      "it": 1, 
-      "item": 4, 
-      "last_modified": "2008-12-04 13:03:22", 
-      "title": "test", 
       "resolve_time": null
     }
   }, 
