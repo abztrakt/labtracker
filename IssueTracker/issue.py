@@ -14,7 +14,7 @@ class IssueUpdater(object):
         self.request = request
         self.issue_pk = issue.pk
 
-        self.valid = False
+        self.valid = True 
 
         self.data = request.POST.copy()
 
@@ -28,21 +28,19 @@ class IssueUpdater(object):
         }
 
         # validate and bind form
-        if self.updateForm.is_valid():
-            self.valid = True
+        if not self.updateForm.is_valid():
+            self.valid = False 
         else:
-            self.valid = False
-        
+            self.valid = True 
+
         self.commentForm = None
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
             self.data.__setitem__('issue', issue.pk)
 
             self.commentForm = forms.AddCommentForm(self.data)
-            if self.commentForm.is_valid():
-                self.valid = True
-            else:
-                self.valid = False
+            if not self.commentForm.is_valid():
+                self.valid = False 
         #else:
             #self.commentForm = forms.AddCommentForm()
 
@@ -54,10 +52,8 @@ class IssueUpdater(object):
                 self.extraForm = hook(issue, request)
                 
                 if self.extraForm:
-                    if self.extraForm.is_valid():
-                        self.valid = True
-                    else:
-                        self.valid = False
+                    if not self.extraForm.is_valid():
+                        self.valid = False 
 
     def getEmail(self):
         """
