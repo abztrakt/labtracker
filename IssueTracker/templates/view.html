@@ -78,10 +78,8 @@
 	</div>
 
 
-
-
+    <form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
     	<div id="prob-type-block" class="greybox">
-			
             <label for="{{update_issue_form.problem_type.name}}" class="boldblacklabel selectlable">
 				{{ update_issue_form.problem_type.label }}:
 			</label>
@@ -98,15 +96,13 @@
 		</div>
 
 
-
-
 		<div id="desbox" class="greybox clear">
 			<h6 class="label-title" class='label'>Description:</h6>
 			<p id="description">{{ issue.description|escape }}</p>
 		</div>
 
-	<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
-		<fieldset class="nothing">
+    <!--<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">--> 
+    <fieldset class="nothing">
         <div class="whitebox">
 			<!-- <legend>Update Issue:</legend> -->
 
