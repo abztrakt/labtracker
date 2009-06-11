@@ -78,9 +78,10 @@ def viewIssue(request, issue_id):
 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
-            issueProcessor.save()
+            #issueProcessor.save() moved this down to enable proper email sending
             email = issueProcessor.getEmail()
             email.send()
+            issueProcessor.save()
 
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)

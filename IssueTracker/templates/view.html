@@ -135,6 +135,11 @@
 					<label for='id_comment' style='display: block;' class="boldblacklabel margintop">
 						{{ add_comment_form.comment.label }}:
 					</label>
+					<div>
+						{% if add_comment_form.comment.errors %}
+						{{ add_comment_form.comment.errors }}
+						{% endif %}
+					</div>
 					<textarea id="id_comment" name="{{ add_comment_form.comment.name }}"></textarea>
 				</div>
 			</div>
