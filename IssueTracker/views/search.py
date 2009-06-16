@@ -45,7 +45,7 @@ def search(request, page=1):
 
             #extra_context['error'] = 'Issue with id "%i" not found.' % term
         else:
-            args = utils.generatePageList(request, Issue.objects.all(), page)
+            args = utils.generatePageList(request, im.Issue.objects.all(), page)
 
         return render_to_response("issue_list.html", args,
                 context_instance=RequestContext(request))

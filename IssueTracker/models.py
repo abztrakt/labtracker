@@ -59,6 +59,8 @@ class Issue(models.Model):
     def save(self, *args, **kwargs):
         # check to see if the resolved_state has changed, if so, then change 
         # resolve_time
+        self.last_modified = datetime.now() # slight hack (if a hack at all) to get last_modified to update correctly.
+
         if self.pk:
             old = Issue.objects.get(pk=self.pk)
 
