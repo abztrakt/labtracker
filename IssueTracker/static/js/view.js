@@ -66,7 +66,7 @@ function addCC(event) {
 		return false;
 	}
 
-	console.log("in addCC");
+    //	console.log("in addCC");
 
 	$.ajax({
 		'url':'modIssue/',
