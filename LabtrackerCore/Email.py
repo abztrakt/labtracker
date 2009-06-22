@@ -3,6 +3,7 @@ from django.forms.fields import email_re
 from django.core import mail 
 #from django.core import validators
 from django.conf import settings
+from django.template.loader import render_to_string
 
 class EmailSection(object):
     """
@@ -79,7 +80,7 @@ class Email(object):
 
     def appendSection(self, section):
         """
-        Add a section to the email
+        Create new section
         """
 
         if not isinstance(section, EmailSection):
@@ -114,7 +115,9 @@ class Email(object):
         self.to.add(to)
 
     def getEmail(self, auth_user=None, auth_password=None):
-        message = "\n\n".join([section.__str__() for section in self.sections])
+        #message = "\n\n".join([section.__str__() for section in self.sections])
+        header_message = ""
+        message = header_message + render_to_string('email/email_message.html', {"all_sections": self.sections })
 
         to = self.to.union(self.cc)
 

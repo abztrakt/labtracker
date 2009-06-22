@@ -1,4 +1,5 @@
 from LabtrackerCore.Email import Email, EmailSection
+from django.template.loader import render_to_string
 import models
 
 class NewIssueEmail(Email):
@@ -66,6 +67,10 @@ class NewIssueEmail(Email):
 
         hist_msg = ""
         if add_items:
+            message = render_to_string('email/email_problemtype.html', { "problem_type": add_items })
+            header = "New Problem Types"
+            
+            """
             # FIXME use a template
             self.appendSection(EmailSection(
                 "New Problem Types", ", ".join(add_items)
@@ -73,11 +78,16 @@ class NewIssueEmail(Email):
 
             hist_msg += "<span class='label'>Added problems</span>: %s" \
                     % (", ".join(add_items))
-
+            """
+            self.appendSection(EmailSection(header, message))
             if drop_items:
                 hist_msg += "<br />"
 
         if drop_items:
+            message = render_to_string('email/email_problemtype.html', { "problem_type": drop_items })
+            header = "Removed Problem Types"
+
+            """
             # FIXME use a template
             self.appendSection(EmailSection(
                 "Removed Problem Types", ", ".join(drop_items)
@@ -85,7 +95,9 @@ class NewIssueEmail(Email):
 
             hist_msg += "<span class='label'>Removed problems</span>: %s" \
                     % (", ".join(drop_items))
+            """
 
+            self.appendSection(EmailSection(header, message))
         return hist_msg
 
 
