@@ -1,0 +1,22 @@
+{% extends "base_full.html" %}
+{% block heading-class %}view{% endblock %}
+{% block heading %}All Inventory Items{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Group</th>
+        <th>Type</th>
+    </tr>
+{% for item in item_list %}
+   <tr>
+       <td>{{ item.item_id }}</td>
+       <td><a href="/machine/detailed/{{ item.item_id }}">{{ item.name }}</a></td>
+       <td>{{ item.group }}</td>
+       <td>{{ item.type }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
