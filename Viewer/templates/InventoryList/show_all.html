@@ -1,4 +1,8 @@
 {% extends "base_full.html" %}
+{% block pageCSS %}
+@import url('{{ MEDIA_URL }}css/Viewer/index.css');
+{% endblock %}
+
 {% block heading-class %}view{% endblock %}
 {% block heading %}All Inventory Items{% endblock %}
 
