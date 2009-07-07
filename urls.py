@@ -7,6 +7,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^$', 'LabtrackerCore.views.dashboard'),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': '%s/static/' % (settings.APP_DIR), 'show_indexes': True}),
 
