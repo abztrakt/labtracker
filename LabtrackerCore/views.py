@@ -42,7 +42,6 @@ def dashboard(request):
 
     #TODO Add general usage statistics here
 
-    #TODO Add a link to accessible flat pages here
     
     return render_to_response('dashboard.html', {'problems': assigned},
             context_instance=RequestContext(request))

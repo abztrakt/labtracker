@@ -17,15 +17,16 @@ from Viewer import models as v_models
 #from Viewer.models import MachineMap
 import Machine
 
-def get_item_list(getattr, getparam,  orderby):
+def get_item_list(request, getattr, getparam,  orderby):
     if getattr:
-        items = core.models.Item.objects.get(getattr + "=" + getparam).order_by(orderby)
+        items = core.models.Item.objects.get(getattr + "=" + getparam)
     else:
-        items = core.models.Item.objects.all().order_by(orderby)
+        items = core.models.Item.objects.all()
 
+    items = core.utils.generateOrderingArgs(request, items)
     item_list = []
 
-    for item in items:
+    for item in items['issues']: # change  to item['objects'] after editing utils.py
         item_dict = {
                 'item_id': item.item_id,
                 'name': item.name,
@@ -39,7 +40,7 @@ def get_item_list(getattr, getparam,  orderby):
     return item_list
 
 def show_all(request):
-    item_list = get_item_list('', '', 'item_id')
+    item_list = get_item_list(request, '', '', 'item_id')
     return render_to_response('InventoryList/show_all.html', {'item_list': item_list}, context_instance=RequestContext(request))
 
 def show_by_group(request, group_id):
@@ -53,7 +54,7 @@ def show_by_group(request, group_id):
 def show_by_type(request, type_id):
     if type_id:
         it = core.models.InventoryType.objects.get(pk=type_id)
-        item_list = get_item_list('it', str(it.inv_id), 'item_id')
+        item_list = get_item_list(request, 'it', str(it.inv_id), 'item_id')
         return render_to_response('InventoryList/show_by_type.html', {'item_list': item_list}, context_instance=RequestContext(request))
     else:
         inventory_types = core.models.InventoryType.objects.all().order_by('name')

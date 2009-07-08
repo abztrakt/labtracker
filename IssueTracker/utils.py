@@ -5,7 +5,7 @@ from django.template import RequestContext
 
 from IssueTracker.models import *
 import LabtrackerCore.models as LabtrackerCore
-
+import LabtrackerCore.utils
 class IssueHooks(object):
     """
     Maintains a set of hooks for inventory types
@@ -114,12 +114,14 @@ def createItemDict(items, field='Item'):
     return list
 
 def generateIssueArgs(request, qdict):
+    return LabtrackerCore.utils.generateOrderingArgs(request, qdict)
     """
     Create issue args for rendering a view issue form
     """
+    """
     data = request.GET.copy()
 
-    orderby = data.get('orderby', 'issue_id')
+    orderby = data.get('orderby', 'pk')
     omethod = data.get('ometh', 'ASC')
     order_symbol = ('-', '')[omethod == 'ASC']
 
@@ -133,14 +135,16 @@ def generateIssueArgs(request, qdict):
     }
 
     return args
+    """
 
 def generatePageList(request, qdict, page_num):
+    return LabtrackerCore.utils.generatePageList(request, qdict, page_num)
     """
     Generates args needed for issue_list template
     Take some arguments from user in data, the page number to show and the 
     returned query items, render out to user
     """
-
+    """
     data = request.GET.copy()
 
     # TODO need user-defined limits
@@ -159,6 +163,7 @@ def generatePageList(request, qdict, page_num):
         args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
 
     return args
+    """
 
 def getIssueContacts(instance):
     """
