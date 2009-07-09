@@ -14,6 +14,7 @@ def allUnresolved(request, page=1):
     """
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
     args = utils.generatePageList(request, objects, page)
+    args['issues'] = args['objects']
 
     args['no_results'] = args['page'].object_list.count() < 1
 
@@ -32,6 +33,7 @@ def groupedList(request, group_by=None, page=1):
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
 
     args = utils.generateIssueArgs(request, objects)
+    args['issues'] = args['objects']
 
     # Sets do not preserve order, so we must use a list to store the items
     issue_list = {}
@@ -91,6 +93,7 @@ def filteredList(request, filter_by=None, filter_val=None, page=1):
     objects = im.Issue.objects.filter(resolved_state__isnull=True, **filter)
 
     args = utils.generatePageList(request, objects, page)
+    args['issues'] = args['objects']
 
     args['no_results'] = args['page'].object_list.count() < 1
 

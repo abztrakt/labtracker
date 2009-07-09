@@ -20,7 +20,7 @@ def generateOrderingArgs(request, qdict):
 
     args = {
         'orderby':  orderby,
-        'issues': objects,
+        'objects': objects,
         'omethod':  ('ASC', 'DESC')[omethod=='ASC'],
         'search_term':  data.get('search_term')
     }
@@ -41,9 +41,9 @@ def generatePageList(request, qdict, page_num):
 
     args = generateOrderingArgs(request, qdict)
 
-    issues = args['issues']
+    objects = args['objects']
 
-    p = Paginator(issues, 30)
+    p = Paginator(objects, 30)
 
     args['page'] = p.page(page_num)
 

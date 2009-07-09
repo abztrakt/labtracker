@@ -26,7 +26,7 @@ def get_item_list(request, getattr, getparam,  orderby):
     items = core.utils.generateOrderingArgs(request, items)
     item_list = []
 
-    for item in items['issues']: # change  to item['objects'] after editing utils.py
+    for item in items['objects']: 
         item_dict = {
                 'item_id': item.item_id,
                 'name': item.name,
@@ -41,7 +41,7 @@ def get_item_list(request, getattr, getparam,  orderby):
 
 def show_all(request):
     item_list = get_item_list(request, '', '', 'item_id')
-    return render_to_response('InventoryList/show_all.html', {'item_list': item_list}, context_instance=RequestContext(request))
+    return render_to_response("InventoryList/show_all.html", {'item_list': item_list}, context_instance=RequestContext(request))
 
 def show_by_group(request, group_id):
     if group_id:

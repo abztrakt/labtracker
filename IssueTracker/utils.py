@@ -117,24 +117,7 @@ def generateIssueArgs(request, qdict):
     return LabtrackerCore.utils.generateOrderingArgs(request, qdict)
     """
     Create issue args for rendering a view issue form
-    """
-    """
-    data = request.GET.copy()
-
-    orderby = data.get('orderby', 'pk')
-    omethod = data.get('ometh', 'ASC')
-    order_symbol = ('-', '')[omethod == 'ASC']
-
-    issues = qdict.order_by(order_symbol + orderby)
-
-    args = {
-        'orderby':  orderby,
-        'issues': issues,
-        'omethod':  ('ASC', 'DESC')[omethod=='ASC'],
-        'search_term':  data.get('search_term')
-    }
-
-    return args
+    (Ported to LabtrackerCore.utils)
     """
 
 def generatePageList(request, qdict, page_num):
@@ -143,26 +126,7 @@ def generatePageList(request, qdict, page_num):
     Generates args needed for issue_list template
     Take some arguments from user in data, the page number to show and the 
     returned query items, render out to user
-    """
-    """
-    data = request.GET.copy()
-
-    # TODO need user-defined limits
-    num_per_page = 100
-
-    args = generateIssueArgs(request, qdict)
-
-    issues = args['issues']
-
-    p = Paginator(issues, 30)
-
-    args['page'] = p.page(page_num)
-
-    if args['search_term']:
-        # kludgy way of doing things
-        args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
-
-    return args
+    (Ported to LabtrackerCore.utils)
     """
 
 def getIssueContacts(instance):
