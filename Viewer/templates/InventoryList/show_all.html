@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block heading-class %}view{% endblock %}
-{% block heading %}All Inventory Items{% endblock %}
+{% block heading %}{% if category %}Items in {{ category }}{% else %} All Inventory Items {% endif %}{% endblock %}
 
 {% block content %}
 <table>

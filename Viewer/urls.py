@@ -7,8 +7,8 @@ urlpatterns = patterns('',
 
 # temporary url add for inventory type views
 # TODO move this to admin
-    url(r'^InventoryList/Type/(?P<type_id>.+)/$', 'Viewer.views.InventoryList.show_by_type', name="Viewer-InventoryList-Types"),
-    url(r'^InventoryList/', 'Viewer.views.InventoryList.show_all', name="Viewer-InventoryList-All"),
+    url(r'^InventoryList/$', 'Viewer.views.InventoryList.show_filter', name="Viewer-InventoryList-All"),
+    url(r'^InventoryList/(\d+)/(\d+)/$', 'Viewer.views.InventoryList.show_all', name="Viewer-InventoryList-Items"),
 
 # for map stuff, will need to have stuff for creating maps
 # TODO move this to admin
