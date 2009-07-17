@@ -1,0 +1,18 @@
+{% extends "base_full.html" %}
+
+{% block content %}
+<table>
+    <tr>
+{% for group in groups %}
+        <th>{{ group.name }}</th>
+{% endfor %}
+    </tr>
+{% for rows in table %}
+    <tr>
+{% for columns in rows %}
+        <td><a href="{{ columns.group_id }}/{{ columns.inv_id }}/">{{ columns.type }}<a></td>
+{% endfor %}
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

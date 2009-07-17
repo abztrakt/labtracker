@@ -8,8 +8,6 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerEr
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-import simplejson
-
 import labtracker.settings as lset
 import LabtrackerCore as core
 import Viewer
@@ -21,14 +19,15 @@ def show_all(request, group_id, it_id):
     # Filter to include both group and inventory type, incorporate later
     group_id = int(group_id)
     it_id = int(it_id)
+
     if (group_id == 0)  and (it_id == 0):
         items = core.models.Item.objects.all()
-    elif it_id == 0:
-        items = core.models.Item.objects.filter(it=it_id)
-    elif group_id == 0:
+    elif (it_id != 0) and (group_id == 0):
+        items = core.models.Item.objects.filter(group=group_id)
+    elif (group_id != 0) and (it_id == 0):
         items = core.models.Item.objects.filter(it=it_id)
     else:
-        items = core.models.Item.objects.filter(it=it_id)
+        items = core.models.Item.objects.filter(group=group_id).filter(it=it_id)
     
     items = core.utils.generateOrderingArgs(request, items)
     item_list = []
@@ -67,12 +66,16 @@ def show_filter(request):
         #Columns
         for group in groups:
             cell = {
+                'type': types.name,
                 'inv_id': types.inv_id,
                 'group_id': group.group_id
             }
+            if core.models.Item.objects.filter(group=group.group_id).filter(it=types.inv_id).count() == 0:
+                cell['type'] = ' ';
             columns.append(cell)
         rows.append(columns)
 
     args['table'] = rows
+    args['groups'] = groups
 
     return render_to_response("InventoryList/show_filter.html", args, context_instance=RequestContext(request))
