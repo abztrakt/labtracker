@@ -1,0 +1,18 @@
+=== INSTALLATION
+
+ Depends on:
+    - py2exe
+    - python 2.6
+
+ Run
+    c:\python26\python.exe setup.py py2exe
+
+ This will compile the python files into Windows executables (.exe)
+
+ The contents of the 'dist' folder will contain all necessary files.
+ 
+ Run 'install.exe' to complete the installation.
+
+=== TROUBLESHOOTING
+
+ TODO
