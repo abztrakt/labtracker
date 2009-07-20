@@ -37,14 +37,14 @@ def show_all(request, group_id, it_id):
                 'item_id': item.item_id,
                 'name': item.name,
                 'type': item.it.name,
+                #Edit to include all possible groups
                 'group_id': item.group_set.values()[0]['group_id'],
                 'group': item.group_set.values()[0]['name']
         }
         item_list.append(item_dict)
 
     args = {'item_list': item_list, 'category': ''}
-    
-    #item_list = get_item_list(request, '', '', 'item_id')
+
     return render_to_response("InventoryList/show_all.html", args, context_instance=RequestContext(request))
 
 def show_filter(request):

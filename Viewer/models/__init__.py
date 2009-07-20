@@ -3,3 +3,5 @@ from base import *
 from MachineMap import *
 #import MachineMap
 import InventoryList
+#import TestType
+

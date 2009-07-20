@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from IssueTracker.models import *
-import LabtrackerCore.models as LabtrackerCore
+import LabtrackerCore.models
 import LabtrackerCore.utils
 class IssueHooks(object):
     """
@@ -89,7 +89,7 @@ def createGroupList(inv_ids, field='Group'):
 
     for inv_id in inv_ids:
         # fetch groups with that invtype
-        groups = LabtrackerCore.Group.objects.filter(it=inv_id)
+        groups = LabtrackerCore.models.Group.objects.filter(it=inv_id)
 
         for group in groups:
             data = forms.models.model_to_dict(group)
