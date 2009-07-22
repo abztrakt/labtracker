@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from LabtrackerCore.forms import EmailForm
@@ -30,19 +30,21 @@ def userPrefs(request):
             context_instance=RequestContext(request))
 
 
-@login_required
 def dashboard(request):
     """
     Displays the (arguably) most useful data on the first page.
     May be customizable in the future.
     """
 
-    # User's assigned issues
-    assigned = Issue.objects.all().filter(assignee=request.user.id).order_by('-post_time')[:5]
+    if request.user.is_authenticated():
+        # User's assigned issues
+        assigned = Issue.objects.all().filter(assignee=request.user.id).order_by('-post_time')[:5]
 
-    #TODO Add general usage statistics here
-
+        #TODO Add general usage statistics here
     
-    return render_to_response('dashboard.html', {'problems': assigned},
-            context_instance=RequestContext(request))
-
+        
+        return render_to_response('dashboard.html', {'problems': assigned},
+                context_instance=RequestContext(request))
+    
+    else:
+        return redirect('/login/')
