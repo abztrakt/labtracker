@@ -124,6 +124,8 @@ class IssueCreationTest(TestCase):
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
                 'problem_type': [iModels.ProblemType.objects.all()[0].pk,],
                 'status':       ['3'],
+                'group':	3, #abritrary group pk that exists
+		'item':		3, #arbitrary item pk that exists
                 'description':  "All the machines in the lab are broken."
             })
 
@@ -167,6 +169,8 @@ class IssueCreationTest(TestCase):
                 'item':         item.pk,
                 'problem_type': [iModels.ProblemType.objects.all()[0].pk,],
                 'status':       ['3'],
+		'group':	3, #arbitrary group pk that exists
+		'item':		3, #arbitrary item pk that exists
                 'description':  "Test problem"
             })
         self.failUnlessEqual(num_issues + 1, iModels.Issue.objects.all().count())
@@ -193,7 +197,9 @@ class IssueSearchTest(TestCase):
         self.issue = iModels.Issue(it = coreModels.InventoryType.objects.all()[0],
                     title = title,
                     reporter = self.user,
-                    description= "All the machines in the lab are broken.")
+                    description= "All the machines in the lab are broken.",
+		    group = mModels.Group.objects.get(pk=3), #arbitrary known group and item primary keys
+		    item = mModels.Item.objects.get(pk=3))
         self.issue.save()
 
     def testSearchID(self):
@@ -417,7 +423,7 @@ class UpdateIssueTest(TestCase):
         """
         test resolving an issue
         """
-        issue = iModels.Issue.objects.filter(resolved_state__isnull=True,item__isnull=True)[0]
+        issue = iModels.Issue.objects.filter(resolved_state__isnull=True)[0] #removed ,item__isnull=True
 
         resolution = iModels.ResolveState.objects.all()[0]
         curTime = datetime.now()
