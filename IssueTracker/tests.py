@@ -322,14 +322,15 @@ class UpdateIssueTest(TestCase):
         """
         Tests adding comment
         """
-        self.client.post(reverse('IssueTracker-view', args=[1]),
+	old_comments = iModels.IssueComment.objects.filter(issue=self.issue)
+        self.client.post(reverse('IssueTracker-view', args=[self.issue.pk]),
                         {   'issue': self.issue.pk,
                             'user': self.user, 
                             'comment': 'here is a test comment'
                         })
 
-        comment = iModels.IssueComment.objects.get(issue=self.issue)
-        self.failUnless(comment is not None)
+        comments = iModels.IssueComment.objects.filter(issue=self.issue)
+        self.assertEqual(old_comments.count() + 1, comments.count())
 
         self.assertEqual(1, len(mail.outbox))
         self.failUnlessEqual(None, self.issue.resolve_time)
