@@ -322,15 +322,15 @@ class UpdateIssueTest(TestCase):
         """
         Tests adding comment
         """
-	old_comments = iModels.IssueComment.objects.filter(issue=self.issue)
+        old_count = iModels.IssueComment.objects.filter(issue=self.issue).count()
         self.client.post(reverse('IssueTracker-view', args=[self.issue.pk]),
                         {   'issue': self.issue.pk,
                             'user': self.user, 
                             'comment': 'here is a test comment'
                         })
 
-        comments = iModels.IssueComment.objects.filter(issue=self.issue)
-        self.assertEqual(old_comments.count() + 1, comments.count())
+        count = iModels.IssueComment.objects.filter(issue=self.issue).count()
+        self.assertEqual(old_count + 1, count)
 
         self.assertEqual(1, len(mail.outbox))
         self.failUnlessEqual(None, self.issue.resolve_time)
