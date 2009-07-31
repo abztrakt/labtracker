@@ -84,3 +84,76 @@ def updateMachine(request, name):
 
     return HttpResponseServerError()
 
+def track(request, action, macs):
+
+    # must be https
+    if not request.is_secure():
+        pass
+        #return HttpResponseForbidden()
+
+    data = request.REQUEST.copy() 
+
+    macs_list = macs.split(',')
+
+    for mac in macs_list:
+        machine = m_models.Item.objects.filter(mac1=mac)
+
+        if len(machine) == 0:
+            machine = m_models.Item.objects.filter(mac2=mac) 
+
+        if len(machine) == 1:
+            break 
+    
+    # make sure we matched a machine
+    if len(machine) == 0:
+        # could not find machine based on mac
+        return HttpResponseServerError()
+
+    if data.has_key('status') and data.has_key('user'):
+         # interpret the status
+        flags = getStatus(data.get('status'))
+
+        userhash = md5(data['user'])
+
+        try:
+            user = c_models.LabUser.objects.get(pk=userhash.hexdigest())
+            user.accesses += 1
+        except ObjectDoesNotExist, e:
+            user = c_models.LabUser(user_id=userhash.hexdigest())
+            user.accesses = 1
+        except Exception, e:
+            #print "Could not get user %s" % e
+            return HttpResponseServerError()
+
+        user.save()
+        time = datetime.now()
+        #print machine.status.all()
+
+        for st in flags['drop']:
+            machine.status.remove(st)
+
+        for st in flags['add']:
+            machine.status.add(st)
+
+        #m_utils.updateStatus(machine, status, user, time)
+        #print machine.status.all()
+
+        stat_msg = ", ".join([st.name for st in machine.status.all()])
+
+        #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
+
+        if action == 'login':
+            # create
+            m_models.History()
+        elif action == 'logout':
+            # grab and save
+            pass
+        elif action == 'ping':
+            # grab and save
+            pass
+        else:
+            # shouldn't match URLs
+            return HttpResponseForbidden()
+        
+        return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
+        #return HttpResponse('success')
