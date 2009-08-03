@@ -98,7 +98,7 @@
 
 		<div id="desbox" class="greybox clear">
 			<h6 class="label-title" class='label'>Description:</h6>
-			<p id="description">{{ issue.description|escape }}</p>
+			<p id="description">{{ issue.description|escape|linebreaks }}</p>
 		</div>
 
     <!--<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">--> 
@@ -163,7 +163,7 @@
 			<div class='post_date'>
 				{{ post.time|date }} at {{ post.time|time }} by {{ post.user }}
 			</div>
-			<p>{{ post.comment|escape }}</p>
+			{{ post.comment|escape|linebreaks }}
 		</li>
 		{% endfor %}
 	</ul>
