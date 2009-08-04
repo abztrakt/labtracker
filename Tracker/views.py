@@ -11,6 +11,7 @@ import simplejson
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
 import Machine.utils as m_utils
+import Tracker.models as t_models
 
 def getStatus(status):
     """
@@ -109,6 +110,8 @@ def track(request, action, macs):
         # could not find machine based on mac
         return HttpResponseServerError()
 
+    machine = machine[0]
+
     if data.has_key('status') and data.has_key('user'):
          # interpret the status
         flags = getStatus(data.get('status'))
@@ -141,20 +144,24 @@ def track(request, action, macs):
         stat_msg = ", ".join([st.name for st in machine.status.all()])
 
         #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
-
+        import pdb
+	pdb.set_trace()
         # TODO we need to do data verification to ensure proper data is submitted
-        logout = Tracker.models.objects.get(logout_time__isnull=true, item=machine)
+	logout = None
+	stats = t_models.Statistics.objects.filter(logout_time__isnull=True, item=machine)
+	if stats.count() == 1:
+	    logout = stats[0]
 
         if action == 'login':
             # create login
-	    # TODO we need to be able to collect netid as well!
+	    # TODO we need to be able to collect netid or regid as well!
 	    
 	    # Track logout if previous session exists
 	    if logout:
                 logout.logout_time = time
 		logout.save()
 
-	    login = Statistics(login_time=time, item=machine)
+	    login = t_models.Statistics(login_time=time, item=machine)
 	    login.save()
             m_models.History()
         elif action == 'logout':

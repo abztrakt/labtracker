@@ -71,7 +71,7 @@ class TrackerMachineUpdate(TestCase):
 
 	resp = self.client.post(reverse('track',
 					kwargs= {'action': 'login', 'macs': self.m.mac1}),
-				{'data': {'user': self.username, 'status': 'login'}})
+				{'user': self.username, 'status': 'login'})
 	
 
 
