@@ -142,14 +142,29 @@ def track(request, action, macs):
 
         #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
 
+        # TODO we need to do data verification to ensure proper data is submitted
+        logout = Tracker.models.objects.get(logout_time__isnull=true, item=machine)
+
         if action == 'login':
-            # create
+            # create login
+	    # TODO we need to be able to collect netid as well!
+	    
+	    # Track logout if previous session exists
+	    if logout:
+                logout.logout_time = time
+		logout.save()
+
+	    login = Statistics(login_time=time, item=machine)
+	    login.save()
             m_models.History()
         elif action == 'logout':
-            # grab and save
+            # create logout for previous login and save
+	    if logout:
+	        logout.logout_time = time
+	        logout.save()
             pass
         elif action == 'ping':
-            # grab and save
+            # create logout for previous login and save
             pass
         else:
             # shouldn't match URLs
@@ -157,3 +172,4 @@ def track(request, action, macs):
         
         return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
         #return HttpResponse('success')
+    return HttpResponseServerError()

@@ -64,3 +64,15 @@ class TrackerMachineUpdate(TestCase):
 
         self.failUnlessEqual(403, resp.status_code)
 
+    def testTrack(self):
+        """
+	Try processing a login/logout request
+	"""
+
+	resp = self.client.post(reverse('track',
+					kwargs= {'action': 'login', 'macs': self.m.mac1}),
+				{'data': {'user': self.username, 'status': 'login'}})
+	
+
+
+
