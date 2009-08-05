@@ -144,8 +144,6 @@ def track(request, action, macs):
         stat_msg = ", ".join([st.name for st in machine.status.all()])
 
         #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
-        import pdb
-	pdb.set_trace()
         # TODO we need to do data verification to ensure proper data is submitted
 	logout = None
 	stats = t_models.Statistics.objects.filter(logout_time__isnull=True, item=machine)

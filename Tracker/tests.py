@@ -69,6 +69,7 @@ class TrackerMachineUpdate(TestCase):
 	Try processing a login/logout request
 	"""
 
+        # Shouldn't action and status be one and the same?
 	resp = self.client.post(reverse('track',
 					kwargs= {'action': 'login', 'macs': self.m.mac1}),
 				{'user': self.username, 'status': 'login'})
