@@ -66,14 +66,24 @@ class TrackerMachineUpdate(TestCase):
 
     def testTrack(self):
         """
-	Try processing a login/logout request
-	"""
+	    Try processing a login/logout request
+	    """
 
-        # Shouldn't action and status be one and the same?
-	resp = self.client.post(reverse('track',
-					kwargs= {'action': 'login', 'macs': self.m.mac1}),
-				{'user': self.username, 'status': 'login'})
+        # Process a login
+        prev_count = tm.Statistics.objects.all().count()
+        resp = self.client.post(reverse('track', kwargs= {'action': 'login', 'macs': self.m.mac1}), {'user': self.username, 'status': 'login'})
+
+        stats = tm.Statistics.objects.all()
+
+        self.assertEqual(stats.count(), prev_count + 1)
+        self.failUnlessEqual(200, resp.status_code)
+        self.assertContains(resp, "Inuse")
 	
+        # Process a logout
+        resp = self.client.post(reverse('track', kwargs= {'action': 'logout', 'macs': self.m.mac1}), {'user': self.username, 'status': 'logout'})
 
+        stats = tm.Statistics.objects.all()
+        self.assertEqual(stats.count(), 1)
+        self.failIfEqual(stats[0].logout_time, None)
 
 
