@@ -4,6 +4,6 @@ urlpatterns = patterns('',
      url(r'^updateMachine/(?P<name>.+)/$', 
         'Tracker.views.updateMachine', name="tracker-machine"),
 
-     url(r'^(?P<action>login|logout|ping)/(?P<macs>.+)/$', 
+     url(r'^Tracker/(?P<action>login|logout|ping)/(?P<macs>.+)/$', 
         'Tracker.views.track', name="track"),
 )

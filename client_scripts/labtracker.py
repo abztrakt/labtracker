@@ -34,7 +34,7 @@ data = urllib.urlencode({'user': user})
 # TODO ensure that the secure url is accessible
 # TODO ensure that the post data (in variable 'data') can be sent
 try:
-    urllib2.urlopen("http://%s/%s/%s" % (LABTRACKER_URL, ACTIONS[0], get_mac()))
+    urllib2.urlopen("http://%s/Tracker/%s/%s" % (LABTRACKER_URL, ACTIONS[0], get_mac()))
 except:
     pass
 
