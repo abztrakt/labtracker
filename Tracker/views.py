@@ -88,8 +88,8 @@ def updateMachine(request, name):
 def track(request, action, macs):
 
     # must be https
-    if not request.is_secure():
-        pass
+#    if not request.is_secure():
+#        pass
         #return HttpResponseForbidden()
 
     data = request.REQUEST.copy() 
@@ -145,28 +145,28 @@ def track(request, action, macs):
 
         #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
         # TODO we need to do data verification to ensure proper data is submitted
-	logout = None
-	stats = t_models.Statistics.objects.filter(logout_time__isnull=True, item=machine)
-	if stats.count() == 1:
-	    logout = stats[0]
+        logout = None
+        stats = t_models.Statistics.objects.filter(logout_time__isnull=True, item=machine)
+        if stats.count() == 1:
+            logout = stats[0]
 
         if action == 'login':
             # create login
 	    # TODO we need to be able to collect netid or regid as well!
 	    
 	    # Track logout if previous session exists
-	    if logout:
+            if logout:
                 logout.logout_time = time
-		logout.save()
+                logout.save()
 
-	    login = t_models.Statistics(login_time=time, item=machine)
-	    login.save()
+            login = t_models.Statistics(login_time=time, item=machine)
+            login.save()
             m_models.History()
         elif action == 'logout':
             # create logout for previous login and save
-	    if logout:
-	        logout.logout_time = time
-	        logout.save()
+            if logout:
+                logout.logout_time = time
+                logout.save()
             pass
         elif action == 'ping':
             # create logout for previous login and save
