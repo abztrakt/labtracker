@@ -36,10 +36,11 @@ def get_mac():
             break
         return mac 
 
-def get_data(): 
+def get_data(status): 
     # get user info from machine
     user = getpass.getuser()
-    data = urllib.urlencode({'user': user})
+    data = urllib.urlencode({'user': user, 'status': status})
+    return data
 
 def track():
     global ACTIONS, options
@@ -49,12 +50,13 @@ def track():
         if options.action in ACTIONS:  
             # TODO ensure that the secure url is accessible
             # TODO ensure that the post data (in variable 'data') can be sent
-            
+
             # with data argument, request is automatically POST
             try:
-                urllib2.Request(url="http://%s/tracker/%s/%s" % (LABTRACKER_URL, 
+                req = urllib2.Request(url="http://%s/tracker/%s/%s/" % (LABTRACKER_URL, 
                                                                 options.action, get_mac()),
-                                data=get_data())
+                                data=get_data(options.action)) # for now, status update is synchronized with actions
+		urllib2.urlopen(req)
             except:
                 pass
         else:
