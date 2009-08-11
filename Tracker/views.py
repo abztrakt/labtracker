@@ -153,10 +153,11 @@ def track(request, action, macs):
         if action == 'login':
             # create login
 	    # TODO we need to be able to collect netid or regid as well!
-	    
-	    # Track logout if previous session exists
+            # If previous session is not closed, track logout.
             if logout:
                 logout.logout_time = time
+                if logout.ping_time:
+                    logout.logout_time = logout.ping_time
                 logout.save()
 
             login = t_models.Statistics(login_time=time, item=machine)
@@ -169,7 +170,10 @@ def track(request, action, macs):
                 logout.save()
             pass
         elif action == 'ping':
-            # create logout for previous login and save
+            # create time for ping, which can be used to track improper logouts
+            if logout:
+                logout.ping_time = time
+                logout.save()
             pass
         else:
             # shouldn't match URLs
