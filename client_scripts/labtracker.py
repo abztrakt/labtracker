@@ -56,7 +56,7 @@ def track():
                 req = urllib2.Request(url="http://%s/tracker/%s/%s/" % (LABTRACKER_URL, 
                                                                 options.action, get_mac()),
                                 data=get_data(options.action)) # for now, status update is synchronized with actions
-		urllib2.urlopen(req)
+                urllib2.urlopen(req)
             except:
                 pass
         else:

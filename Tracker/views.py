@@ -120,15 +120,13 @@ def track(request, action, macs):
 
         try:
             user = c_models.LabUser.objects.get(pk=userhash.hexdigest())
-            user.accesses += 1
         except ObjectDoesNotExist, e:
             user = c_models.LabUser(user_id=userhash.hexdigest())
-            user.accesses = 1
+            user.accesses = 0
         except Exception, e:
             #print "Could not get user %s" % e
             return HttpResponseServerError()
 
-        user.save()
         time = datetime.now()
         #print machine.status.all()
 
@@ -159,6 +157,10 @@ def track(request, action, macs):
                 if logout.ping_time:
                     logout.logout_time = logout.ping_time
                 logout.save()
+
+	    #the user has logged in to a machine one more time
+            user.accesses += 1
+	    user.save()
 
             login = t_models.Statistics(login_time=time, item=machine)
             login.save()
