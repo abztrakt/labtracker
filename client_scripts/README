@@ -13,6 +13,9 @@
  
  Run 'install.exe' to complete the installation.
 
+=== MODULES
+    pywin32
+
 === TROUBLESHOOTING
 
  TODO
