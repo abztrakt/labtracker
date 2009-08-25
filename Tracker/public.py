@@ -23,21 +23,22 @@ def openSeats(request, location=None):
     if location:
         place = locations_all.get(pk=location)
         items_all = items_all.filter(location=place)
-        stats = stats.filter(location=place)
 
-        # Potentially faulty - use Item.status 'Inuse' flag instead
-        open = stats.filter(logout_time__isnull=True).count()
         total = items_all.count()
+        open = total
 
         items_list = []
 
         for item in items_all:
 
-            available = False
+            available = True
 
-            # Check to see if this works
-            if 'Inuse' not in item.status.values():
-                available = True
+            # Inefficient, but we have a fairly small data set.
+            for status in item.status.values():
+                if status['name'] == 'Inuse':
+                    available = False
+                    open = open - 1
+                    break
 
             items_dict = {
                     'name': item.name,
@@ -58,18 +59,28 @@ def openSeats(request, location=None):
 
         return render_to_response('place.html', args, context_instance=RequestContext(request))
     else:
-         # Give list of all locations, availability, and statistics for each location
+        # Give list of all locations, availability, and statistics for each location
         locations_all = m_models.Location.objects.all()
         location_list = []
 
         for place in locations_all:
+            items = items_all.filter(location=place)
+            total = items.count() 
+            open = total
+
+            # VERY INEFFICIENT! Runs in O(n^3) time with potentially large data sets. Can this be made faster?
+            for item in items:
+                for status in item.status.values():
+                    if status['name'] == 'Inuse':
+                        open = open - 1
+                        break
+
             location_dict = {
                     'id': place.ml_id,
                     'location': place.name,
                     'building': place.building,
-                    'total': items_all.filter(location=place).count(),
-# Potentially faulty - use the Item.status 'Inuse' flag instead
-                    'open': stats.filter(location=place, logout_time__isnull=True).count()
+                    'total': total,
+                    'open': open
             }
             location_list.append(location_dict)
 

@@ -14,7 +14,7 @@ Open Workstations: {{ open }} of {{ total }}
 {% for item in items_list %}
     <tr>
         <td>{{ item.name }}</td>
-        <td>{% if available %}Open{% else %}In Use{% endif %}</td>
+        <td>{% if item.available %}Open{% else %}In Use{% endif %}</td>
         <td>{{ item.building }} {{ item.room }}, Floor {{ item.floor }}</td>
     </tr>
 {% endfor %}
