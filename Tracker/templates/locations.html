@@ -1,0 +1,22 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Issues{% endblock %}
+
+
+{% block content %}
+<table>
+    <tr>
+        <th>Lab Location</th>
+        <th>Building</th>
+        <th>Available Seats</th>
+    </tr>
+    {% for place in location_list %}
+    <tr>
+        <td><a href="{{ place.id }}/">{{ place.location }}</a></td>
+        <td>{{ place.building }}</td>
+        <td>{{ place.open }} of {{ place.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

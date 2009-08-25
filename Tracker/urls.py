@@ -6,4 +6,10 @@ urlpatterns = patterns('',
 
      url(r'^(?P<action>login|logout|ping)/(?P<macs>.+)/$', 
         'Tracker.views.track', name="track"),
+
+     url(r'^views/available/(?P<location>.+)/$',
+        'Tracker.public.openSeats', name='open-seats'),
+
+     url(r'^views/available/$',
+        'Tracker.public.openSeats', name='open-seats')
 )

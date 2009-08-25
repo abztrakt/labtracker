@@ -162,7 +162,7 @@ def track(request, action, macs):
             user.accesses += 1
 	    user.save()
 
-            login = t_models.Statistics(login_time=time, item=machine)
+            login = t_models.Statistics(login_time=time, item=machine, location=machine.location)
             login.save()
             m_models.History()
         elif action == 'logout':
