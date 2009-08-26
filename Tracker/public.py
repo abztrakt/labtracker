@@ -66,14 +66,7 @@ def openSeats(request, location=None):
         for place in locations_all:
             items = items_all.filter(location=place)
             total = items.count() 
-            open = total
-
-            # VERY INEFFICIENT! Runs in O(n^3) time with potentially large data sets. Can this be made faster?
-            for item in items:
-                for status in item.status.values():
-                    if status['name'] == 'Inuse':
-                        open = open - 1
-                        break
+            open = total - items.filter(status__name='Inuse').count()
 
             location_dict = {
                     'id': place.ml_id,
