@@ -1,0 +1,45 @@
+[
+  {
+    "pk": 1, 
+    "model": "IssueTracker.resolvestate", 
+    "fields": {
+      "name": "Fixed", 
+      "description": "So Simple"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "IssueTracker.problemtype", 
+    "fields": {
+      "inv": [], 
+      "name": "stolen", 
+      "description": "been stoeld"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.status", 
+    "fields": {
+      "name": "Inuse", 
+      "description": "Machine is being used"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.contact", 
+    "fields": {
+      "is_primary": true, 
+      "mg": 3, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.inventorytype", 
+    "fields": {
+      "namespace": "Machine", 
+      "name": "Machine", 
+      "description": "Machine inventorytype"
+    }
+  } 
+]
