@@ -1,0 +1,27 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Lab Statistics{% endblock %}
+
+{% block content %}
+<h3>Logins per Machine and Distinct Clients</h3>
+<table>
+    <tr>
+        <th>Location</th>
+        <th>Logins</th>
+        <th>Machines</th>
+        <th>Logins per Machine</th>
+        <th>Distinct Clients</th>
+    </tr>
+{% for data in logins %}
+    <tr>
+        <td>{{ data.location }}</td>
+        <td>{{ data.logins }}</td>
+        <td>{{ data.machines }}</td>
+        <td>{{ data.lpm }}</td>
+        <td>{{ data.clients }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+
+{% endblock %}

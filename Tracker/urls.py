@@ -11,5 +11,8 @@ urlpatterns = patterns('',
         'Tracker.public.openSeats', name='open-seats'),
 
      url(r'^views/available/$',
-        'Tracker.public.openSeats', name='open-seats')
+        'Tracker.public.openSeats', name='open-seats'),
+
+     url(r'^views/statistics/$',
+         'Tracker.stats.allStats', name='all-stats')
 )
