@@ -77,3 +77,28 @@ def getStats(stats=None, machines=None, locations=None):
 
     return statistics
 
+def cacheStats():
+    """
+    Make weekly caches of statistics
+    """
+
+    # Define week begin and end
+    today = datetime.date.today().weekday()
+    begin = datetime.date.today()
+    timestamp = time.mktime(begin.timetuple())
+    if today != 6: # Today is not Sunday, otherwise display today's stats
+        timestamp = timestamp - (1 + today) * 24 * 60 * 60
+    
+    end = datetime.datetime.fromtimestamp(timestamp)
+    begin = datetime.datetime.fromtimestamp(timestamp - 7 * 24 * 60 * 60)
+
+    week = t_models.Statistics.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
+
+    stats = getStats(week)
+
+    # Make a row for each location, for each week
+    for location in week:
+        weeklycache = StatsCache(location=location['location'], week_start=begin, week_end=end, min_minutes=location['min_minutes'], max_minutes=location['max_minutes'], total_minutes=location['total_minutes'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+        weeklycache.save()
+
+

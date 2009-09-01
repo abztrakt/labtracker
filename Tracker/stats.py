@@ -30,4 +30,3 @@ def allStats(request):
         }
     
     return render_to_response('labstats.html', args, context_instance=RequestContext(request));
-
