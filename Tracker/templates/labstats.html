@@ -9,16 +9,22 @@
         <th>Location</th>
         <th>Logins</th>
         <th>Machines</th>
-        <th>Logins per Machine</th>
-        <th>Distinct Clients</th>
+        <th>Login / Machine</th>
+        <th>Distinct Logins</th>
+        <th>Distinct / Machine</th>
+        <th>Average Seat Time</th>
+        <th>Maximum Seat Time</th>
     </tr>
-{% for data in logins %}
+{% for data in location_stats %}
     <tr>
         <td>{{ data.location }}</td>
         <td>{{ data.logins }}</td>
         <td>{{ data.machines }}</td>
-        <td>{{ data.lpm }}</td>
-        <td>{{ data.clients }}</td>
+        <td>{{ data.logins_per_machine }}</td>
+        <td>{{ data.distinct_logins }}</td>
+        <td>{{ data.distinct_per_machine }}</td>
+        <td>{{ data.mean_minutes }} min</td>
+        <td>{{ data.max_minutes }} min</td>
     </tr>
 {% endfor %}
 </table>
