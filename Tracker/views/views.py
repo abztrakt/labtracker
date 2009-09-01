@@ -156,6 +156,7 @@ def track(request, action, macs):
                 logout.logout_time = time
                 if logout.ping_time:
                     logout.logout_time = logout.ping_time
+                logout.session_time = logout_time - logout.login_time
                 logout.save()
 
 	    #the user has logged in to a machine one more time
