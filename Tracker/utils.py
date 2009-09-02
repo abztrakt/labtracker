@@ -3,6 +3,8 @@ import Machine.models as m_models
 import Machine.utils as m_utils
 import Tracker.models as t_models
 
+from django.db.models import Avg, Min, Max, Count, StdDev
+
 from sets import Set
 
 def getStats(stats=None, machines=None, locations=None):
@@ -35,44 +37,24 @@ def getStats(stats=None, machines=None, locations=None):
         distinct_clients = [clients_location.add(stat.userid) for stat in location_stats]
 
         # Seat time statistics
-        min = 0
-        max = 0
-        std = 0
-        total = 0
+        data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
 
-        for value in location_stats:
-            time = value.logout_time - value.login_time # Are these integers?
-            # Calculate min
-            if min > time:
-                min = time
-            # Calculate max
-            if max < time:
-                max = time
-            # Calculate total
-            total = total + time
-
-        mean = 0
         logins_per_machine = 0
         distinct_per_machine = 0
 
-        if location_stats:
-            mean = total / len(location_stats)
         if machines_in_location != 0:
             distinct_per_machine = len(distinct_clients) / machines_in_location
             logins_per_machine = login_count / machines_in_location
 
-        data = {
-                'location': location,
-                'min_minutes': min,
-                'max_minutes': max,
-                'mean_minutes': mean,
-                'total_minutes': total,
-                'logins_per_machine': logins_per_machine,
-                'distinct_per_machine': distinct_per_machine,
-                'total_machines': machines_in_location,
-                'total_logins': login_count,
-                'distinct_logins': len(distinct_clients)
-        }
+        # Add to aggregation when we give sqlite3 std. dev. capabilities.
+        data['stddev_time'] = 0
+        ###
+        data['location'] = location
+        data['logins_per_machine'] = logins_per_machine
+        data['distinct_per_machine'] = distinct_per_machine
+        data['total_machines'] = machines_in_location
+        data['total_logins'] = login_count
+        data['distinct_logins'] = len(distinct_clients)
         statistics.append(data)
 
     return statistics

@@ -8,6 +8,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 
 import simplejson
 
+import datetime
+import time
+
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
 import Machine.utils as m_utils
@@ -156,7 +159,7 @@ def track(request, action, macs):
                 logout.logout_time = time
                 if logout.ping_time:
                     logout.logout_time = logout.ping_time
-                logout.session_time = logout_time - logout.login_time
+                logout.session_time = (time.mktime(logout_time.timetuple()) - time.mktime(logout.login_time.timetuple())) / 60 # Measured in minutes
                 logout.save()
 
 	    #the user has logged in to a machine one more time
