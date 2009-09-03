@@ -1,15 +1,14 @@
 from datetime import datetime
 from hashlib import md5
+from decimal import *
+import time as t
+
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 
-import simplejson
-
-import datetime
-import time
 
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
@@ -152,27 +151,30 @@ def track(request, action, macs):
             logout = stats[0]
 
         if action == 'login':
-            # create login
+        # create login
 	    # TODO we need to be able to collect netid or regid as well!
-            # If previous session is not closed, track logout.
+        # If previous session is not closed, track logout.
             if logout:
                 logout.logout_time = time
                 if logout.ping_time:
                     logout.logout_time = logout.ping_time
-                logout.session_time = (time.mktime(logout_time.timetuple()) - time.mktime(logout.login_time.timetuple())) / 60 # Measured in minutes
+                logout.session_time = (t.mktime(logout.logout_time.timetuple()) - t.mktime(logout.login_time.timetuple())) / (60) # Measured in minutes
+                logout.session_time = Decimal("%.2f" % logout.session_time)
                 logout.save()
 
-	    #the user has logged in to a machine one more time
+	        #the user has logged in to a machine one more time
             user.accesses += 1
-	    user.save()
+            user.save()
 
-            login = t_models.Statistics(login_time=time, item=machine, location=machine.location)
+            login = t_models.Statistics(login_time=time, item=machine)
             login.save()
             m_models.History()
         elif action == 'logout':
             # create logout for previous login and save
             if logout:
                 logout.logout_time = time
+                logout.session_time = (t.mktime(logout.logout_time.timetuple()) - t.mktime(logout.login_time.timetuple())) / (60) # Measured in minutes
+                logout.session_time = Decimal("%.2f" % logout.session_time)
                 logout.save()
             pass
         elif action == 'ping':

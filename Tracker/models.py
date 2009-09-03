@@ -18,6 +18,7 @@ class StatsCache(models.Model):
     week_end = models.DateField(verbose_name='End of Week')
     min_minutes = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Minimum Seat Time in Minutes')
     max_minutes = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Maximum Seat Time in Minutes')
+    mean_time = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Average Seat Time in Minutes')
     total_minutes = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Total Seat Time in Minutes')
     total_items = models.IntegerField(verbose_name='Total Items in Location')
     total_logins = models.IntegerField(verbose_name='Total Logins in Location')
