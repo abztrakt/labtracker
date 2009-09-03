@@ -19,12 +19,12 @@
 {% for data in location_stats %}
     <tr>
         <td>{{ data.location }}</td>
-        <td>{{ data.logins }}</td>
-        <td>{{ data.machines }}</td>
+        <td>{{ data.total_logins }}</td>
+        <td>{{ data.total_machines }}</td>
         <td>{{ data.logins_per_machine }}</td>
         <td>{{ data.distinct_logins }}</td>
         <td>{{ data.distinct_per_machine }}</td>
-        <td>{{ data.mean_time }} min</td>
+        <td>{{ data.avg_time }} min</td>
         <td>{{ data.max_time }} min</td>
         <td>{{ data.stdev_time }} min</td>
     </tr>

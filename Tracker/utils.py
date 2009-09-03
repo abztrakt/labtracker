@@ -6,6 +6,7 @@ import Tracker.models as t_models
 from django.db.models import Avg, Min, Max, Count, StdDev
 
 from sets import Set
+from decimal import *
 
 def getStats(stats=None, machines=None, locations=None):
     """
@@ -34,7 +35,7 @@ def getStats(stats=None, machines=None, locations=None):
 
         # Number of distinct clients
         clients_location = Set()
-        distinct_clients = [clients_location.add(stat.userid) for stat in location_stats]
+        distinct_clients = [clients_location.add(stat.netid) for stat in location_stats]
 
         # Seat time statistics
         data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
@@ -43,8 +44,8 @@ def getStats(stats=None, machines=None, locations=None):
         distinct_per_machine = 0
 
         if machines_in_location != 0:
-            distinct_per_machine = len(distinct_clients) / machines_in_location
-            logins_per_machine = login_count / machines_in_location
+            distinct_per_machine = Decimal(len(distinct_clients)) / Decimal(machines_in_location)
+            logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
 
         # Add to aggregation when we give sqlite3 std. dev. capabilities.
         data['stddev_time'] = 0
