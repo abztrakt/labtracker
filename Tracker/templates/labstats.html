@@ -3,6 +3,13 @@
 {% block heading %}Lab Statistics{% endblock %}
 
 {% block content %}
+<h3>Custom Time Frame</h3>
+<p>Input the time interval as YYYY-MM-DD HH:MM:SS. (Year-Month-Day Hours:Minutes:Seconds)</p>
+<form action="" method="POST">
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+<br />
 <h3>Logins per Machine and Distinct Clients</h3>
 <table>
     <tr>
