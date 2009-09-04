@@ -6,7 +6,7 @@ author: Taylor McKay
 import _winreg
 import shutil
 
-PROG_NAME = "labtracker.py"
+PROG_NAME = "tracker.py"
 PROG_PATH = "C:\\Program Files\\Labtracker\\"
 REG_SUB_KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 

@@ -14,3 +14,15 @@ def updateStatus(machine, status, user, time):
     hist = m_models.History(machine=machine, ms=status, 
             user=user, time=time)
     hist.save()
+
+def get_all_macs():
+    """Returns a list of all mac address for machines"""
+    macs = []
+    machines = m_models.Item.objects.all() 
+    
+    for machine in machines:
+        macs.append(machine.mac1)
+        if machine.mac2 is not None or machine.mac2 != '':
+            macs.append(machine.mac2)
+
+    return macs

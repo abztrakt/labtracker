@@ -42,6 +42,15 @@ def get_data(status):
     data = urllib.urlencode({'user': user, 'status': status})
     return data
 
+def _track(url, action, mac, data=None):
+    """Lower level track function, useful for testing"""
+    try:
+        req = urllib2.Request(url="http://%s/tracker/%s/%s/" % (url, action, mac),
+                                data=get_data(action)) 
+        urllib2.urlopen(req)
+    except:
+        pass
+
 def track():
     global ACTIONS, options
     if hasattr(options, "action"):
@@ -52,17 +61,15 @@ def track():
             # TODO ensure that the post data (in variable 'data') can be sent
 
             # with data argument, request is automatically POST
-            try:
-                req = urllib2.Request(url="http://%s/tracker/%s/%s/" % (LABTRACKER_URL, 
-                                                                options.action, get_mac()),
-                                data=get_data(options.action)) # for now, status update is synchronized with actions
-                urllib2.urlopen(req)
-            except:
-                pass
+            _track(LABTRACKER_URL,
+                    options.action,
+                    get_mac(), 
+                    options.action)
         else:
             print 'Action attribute not valid. Actions are %s.' % get_actions_list()
     else:
         print 'Need action argument: %s' % get_actions_list()
+
        
 
 if __name__ == '__main__':

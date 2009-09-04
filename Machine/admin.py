@@ -37,3 +37,6 @@ admin.site.register(mmod.Type)
 admin.site.register(mmod.Location)
 admin.site.register(mmod.Status)
 
+# history here for development, remove for production
+admin.site.register(mmod.History)
+
