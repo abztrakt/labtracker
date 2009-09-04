@@ -40,8 +40,7 @@ def ping():
     # check address
     import urllib2
     if not options.address.startswith('http://'):
-        options.address = 'http://'+options.address
-    urllib2.urlopen(options.address)
+        urllib2.urlopen('http://'+options.address)
 
     while KEEP_PINGING:
         mac_idx = random.randint(0, MACS_LEN-1)
