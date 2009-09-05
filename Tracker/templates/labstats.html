@@ -1,7 +1,17 @@
 {% extends "base_full.html" %}
 
 {% block heading %}Lab Statistics{% endblock %}
-
+{% block pageHead %}
+<style type="text/css">
+.stats_table {
+    border-collapse: collapse;
+}
+.stats_table td {
+    border: #000000 1px solid;
+    width: 85px;
+}
+</style>
+{% endblock %}
 {% block content %}
 <h3>Custom Time Frame</h3>
 <p>Input the time interval as YYYY-MM-DD HH:MM:SS. (Year-Month-Day Hours:Minutes:Seconds)</p>
@@ -10,17 +20,18 @@
     <input type="submit" value="Submit" />
 </form>
 <br />
+{% if location_stats %}
 <h3>Logins per Machine and Distinct Clients</h3>
-<table>
+<table class="stats_table">
     <tr>
         <th>Location</th>
         <th>Logins</th>
         <th>Machines</th>
-        <th>Logins / Machine</th>
+        <th>Logins per Machine</th>
         <th>Distinct Logins</th>
-        <th>Distinct / Machine</th>
-        <th>Avg. Seat Time</th>
-        <th>Max. Seat Time</th>
+        <th>Distinct per Machine</th>
+        <th>Average Seat Time</th>
+        <th>Maximum Seat Time</th>
         <th>Std. Dev. Seat Time</th>
     </tr>
 {% for data in location_stats %}
@@ -37,6 +48,9 @@
     </tr>
 {% endfor %}
 </table>
-
+{% else %}
+<h3>No Data</h3>
+<p>There is no data associated with the specified time frame. Please try again.</p>
+{% endif %}
 
 {% endblock %}

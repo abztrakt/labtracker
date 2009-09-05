@@ -22,11 +22,17 @@ def allStats(request):
     end = None
     form = TimeForm()
 
-    if request.method == 'REQUEST':
-        form = TimeForm(request.REQUEST)
+    # Find a way to cache statistics using the same form submission
+    if request.method == 'POST':
+        form = TimeForm(request.POST)
         if form.is_valid():
             end = form.cleaned_data['time_end']
-            begin = form.cleaned_data['time_begin']
+            begin = form.cleaned_data['time_start']
+            """
+            if form contains process_cache;
+                use begin and end dates to pass into cache function
+                display a confirmation message if successful
+            """
 
     if not begin:
         today = datetime.date.today().weekday()
@@ -45,5 +51,8 @@ def allStats(request):
             'form': form,
             'location_stats': getStats(stats)
         }
- 
+
+    if not stats:
+        args['location_stats'] = None
+
     return render_to_response('labstats.html', args, context_instance=RequestContext(request));

@@ -50,6 +50,7 @@ def getStats(stats=None, machines=None, locations=None):
         # Add to aggregation when we give sqlite3 std. dev. capabilities.
         data['stddev_time'] = 0
         ###
+        data['avg_time'] = "%.2f" % data['avg_time']
         data['location'] = location
         data['logins_per_machine'] = logins_per_machine
         data['distinct_per_machine'] = distinct_per_machine
@@ -60,28 +61,30 @@ def getStats(stats=None, machines=None, locations=None):
 
     return statistics
 
-def cacheStats():
+def cacheStats(begin=None, end=None):
     """
-    Make weekly caches of statistics
+    Makes caches of statistics
     """
 
+    # Default without parameters is the full previous week.
+    if not begin and not end:
     # Define week begin and end
-    today = datetime.date.today().weekday()
-    begin = datetime.date.today()
-    timestamp = time.mktime(begin.timetuple())
-    if today != 6: # Today is not Sunday, otherwise display today's stats
-        timestamp = timestamp - (1 + today) * 24 * 60 * 60
-    
-    end = datetime.datetime.fromtimestamp(timestamp)
-    begin = datetime.datetime.fromtimestamp(timestamp - 7 * 24 * 60 * 60)
+        today = datetime.date.today().weekday()
+        begin = datetime.date.today()
+        timestamp = time.mktime(begin.timetuple())
+        if today != 6: # Today is not Sunday, otherwise display today's stats
+            timestamp = timestamp - (1 + today) * 24 * 60 * 60
+        
+        end = datetime.datetime.fromtimestamp(timestamp)
+        begin = datetime.datetime.fromtimestamp(timestamp - 7 * 24 * 60 * 60)
 
-    week = t_models.Statistics.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
+    data = t_models.Statistics.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
 
-    stats = getStats(week)
+    stats = getStats(data)
 
-    # Make a row for each location, for each week
-    for location in week:
-        weeklycache = StatsCache(location=location['location'], week_start=begin, week_end=end, min_minutes=location['min_minutes'], max_minutes=location['max_minutes'], total_minutes=location['total_minutes'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
-        weeklycache.save()
+    # Make a row for each location, for each time interval
+    for location in data:
+        interval = StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['mean_time'], min_time=location['min_time'], max_min=location['max_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+        interval.save()
 
 
