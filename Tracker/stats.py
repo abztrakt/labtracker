@@ -4,7 +4,7 @@ import Machine.utils as m_utils
 import Tracker.models as t_models
 
 from Tracker.forms import TimeForm
-from Tracker.utils import getStats
+from Tracker.utils import getStats, cacheStats
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -21,6 +21,7 @@ def allStats(request):
     begin = None
     end = None
     form = TimeForm()
+    message = None
 
     # Find a way to cache statistics using the same form submission
     if request.method == 'POST':
@@ -28,11 +29,11 @@ def allStats(request):
         if form.is_valid():
             end = form.cleaned_data['time_end']
             begin = form.cleaned_data['time_start']
-            """
-            if form contains process_cache;
-                use begin and end dates to pass into cache function
-                display a confirmation message if successful
-            """
+            cache = form.cleaned_data['cache_interval']
+
+            if cache:
+                cacheStats(begin, end)
+                message = "Your entry has been successfully cached."
 
     if not begin:
         today = datetime.date.today().weekday()
@@ -49,7 +50,8 @@ def allStats(request):
 
     args = {
             'form': form,
-            'location_stats': getStats(stats)
+            'location_stats': getStats(stats),
+            'message': message
         }
 
     if not stats:

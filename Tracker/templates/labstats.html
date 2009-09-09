@@ -20,6 +20,9 @@
     <input type="submit" value="Submit" />
 </form>
 <br />
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
 {% if location_stats %}
 <h3>Logins per Machine and Distinct Clients</h3>
 <table class="stats_table">

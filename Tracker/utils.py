@@ -48,7 +48,7 @@ def getStats(stats=None, machines=None, locations=None):
             logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
 
         # Add to aggregation when we give sqlite3 std. dev. capabilities.
-        data['stddev_time'] = 0
+        data['stdev_time'] = 0
         ###
         data['avg_time'] = "%.2f" % data['avg_time']
         data['location'] = location
@@ -83,8 +83,8 @@ def cacheStats(begin=None, end=None):
     stats = getStats(data)
 
     # Make a row for each location, for each time interval
-    for location in data:
-        interval = StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['mean_time'], min_time=location['min_time'], max_min=location['max_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+    for location in stats:
+        interval = t_models.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
         interval.save()
 
 
