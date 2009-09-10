@@ -5,7 +5,11 @@ import sys
 import os
 from optparse import OptionParser
 
+DEBUG = False
+
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
+if DEBUG:
+    LABTRACKER_URL = "inspiredlychee.eplt.washington.edu"
 ACTIONS = ('login','logout','ping')
 
 # functions at the module level must be defined

@@ -10,12 +10,11 @@
  This will compile the python files into Windows executables (.exe)
 
  The contents of the 'dist' folder will contain all necessary files.
- 
- Run 'install.exe' to complete the installation.
 
+ Copy the dist folder onto client machines. Using group policy, accessed by typing 'mmc' (without quotes) into the Windows run command, add the tracker.exe to the logon and logoff scripts.  For parameters, pass in '-a login' for the logon script and '-a logout' for the logoff script.
+ 
 === MODULES
     pywin32
 
 === TROUBLESHOOTING
-
- TODO
+    TODO

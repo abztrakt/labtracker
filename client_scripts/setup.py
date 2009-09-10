@@ -1,4 +1,4 @@
 from distutils.core import setup
 import py2exe
 
-setup(console=['install.py'])
+setup(console=['tracker.py'])
