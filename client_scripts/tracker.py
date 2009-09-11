@@ -1,9 +1,14 @@
+#!/usr/bin/env python
+
 import urllib
 import urllib2
 import getpass
 import sys
 import os
 from optparse import OptionParser
+from signal import signal, SIGTERM
+
+# determine platfrom
 
 DEBUG = False 
 
@@ -25,15 +30,15 @@ parser.add_option("-a", "--action", dest="action",
 (options, args) = parser.parse_args()
 
 def get_mac():
-    # windows systems
+    # windows 
     if sys.platform == 'win32':
         for line in os.popen("ipconfig /all"):
             if line.lstrip().startswith('Physical Address'):
                 mac = line.split(':')[1].strip().replace('-',':')
                 break
         return mac
-    # linux/apple systems
-    else:
+    # os x 
+    elif sys.platform == 'darwin':
         for line in os.popen("/sbin/ifconfig"):
             if line.lower().find('ether') > -1:
                 mac = line.split()[1]
@@ -74,7 +79,16 @@ def track():
     else:
         print 'Need action argument: %s' % get_actions_list()
 
-       
+def _mac_sigterm_handler(signum, stack_frame):   
+    options.action = ACTIONS[1]
+    track() # send logout and quit
+    sys.exit(1)
 
 if __name__ == '__main__':
     track() 
+
+    # catch sigterm from launchd
+    if sys.platform = 'darwin':
+        options.action = ACTIONS[0]
+        track()
+        signal(SIGTERM, _mac_sigterm_handler)

@@ -1,9 +1,13 @@
-=== INSTALLATION
+= INSTALLATION =
 
  Depends on:
-    - py2exe
-    - python 2.6
+  - py2exe
+  - python 2.6
+ 
+ Required modules:
+  - pywin32
 
+== Windows ==
  Run
     c:\python26\python.exe setup.py py2exe
 
@@ -12,9 +16,15 @@
  The contents of the 'dist' folder will contain all necessary files.
 
  Copy the dist folder onto client machines. Using group policy, accessed by typing 'mmc' (without quotes) into the Windows run command, add the tracker.exe to the logon and logoff scripts.  For parameters, pass in '-a login' for the logon script and '-a logout' for the logoff script.
- 
-=== MODULES
-    pywin32
 
-=== TROUBLESHOOTING
+== OS X ==
+ Put 'edu.washington.tracker.plist' into '/Library/LaunchAgents/'
+
+ Create the folder 'Labtracker'in '/Library/Application Support/'
+
+ Put 'tracker.py' into '/Library/Application Support/Labtracker/' 
+
+ Make 'tracker.py' executable: 'sudo chmod 755 tracker.py'
+ 
+= TROUBLESHOOTING =
     TODO
