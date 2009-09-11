@@ -5,7 +5,7 @@ import sys
 import os
 from optparse import OptionParser
 
-DEBUG = False
+DEBUG = False 
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
@@ -35,9 +35,9 @@ def get_mac():
     # linux/apple systems
     else:
         for line in os.popen("/sbin/ifconfig"):
-            if line.find('Ether') > -1:
-                mac = line.split()[4]
-            break
+            if line.lower().find('ether') > -1:
+                mac = line.split()[1]
+            	break
         return mac 
 
 def get_data(status): 
