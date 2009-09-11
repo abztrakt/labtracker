@@ -90,5 +90,30 @@
       "view": 2, 
       "size": 1
     }
+  },
+  {
+    "pk": 3,
+    "model": "Viewer.viewcore",
+    "fields": {
+      "name": "Custom Statistics",
+      "shortname": "Custom_Statistics",
+      "description": "Statistics within custom time interval",
+      "type": 2
+    }
+  },
+  {
+    "pk": 2,
+    "model": "Viewer.viewtype",
+    "fields": {
+      "name": "LabStats",
+      "description": "Displays LST Lab Stats"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "Viewer.labstats",
+    "fields": {
+      "view": 3
+    }
   }
 ]

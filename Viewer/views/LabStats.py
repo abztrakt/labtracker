@@ -3,8 +3,8 @@ import Machine.models as m_models
 import Machine.utils as m_utils
 import Tracker.models as t_models
 
-from Tracker.forms import TimeForm
-from Tracker.utils import getStats, cacheStats
+from Viewer.forms import TimeForm
+from Viewer.utils import getStats, cacheStats
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -57,4 +57,4 @@ def allStats(request):
     if not stats:
         args['location_stats'] = None
 
-    return render_to_response('labstats.html', args, context_instance=RequestContext(request));
+    return render_to_response('LabStats/labstats.html', args, context_instance=RequestContext(request));

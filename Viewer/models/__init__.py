@@ -5,3 +5,4 @@ from MachineMap import *
 import InventoryList
 #import TestType
 
+from LabStats import *
