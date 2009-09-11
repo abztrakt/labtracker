@@ -80,10 +80,11 @@ class TrackerMachineUpdate(TestCase):
         self.assertContains(resp, "Inuse")
 	
         # Process a logout
+        prev_count = stats.count()
         resp = self.client.post(reverse('track', kwargs= {'action': 'logout', 'macs': self.m.mac1}), {'user': self.username, 'status': 'logout'})
 
         stats = tm.Statistics.objects.all()
-        self.assertEqual(stats.count(), 1)
+        self.assertEqual(stats.count(), prev_count)
         self.failIfEqual(stats[0].logout_time, None)
 
 

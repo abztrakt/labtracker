@@ -25,6 +25,22 @@
     }
   }, 
   {
+    "pk": 2, 
+    "model": "Machine.status", 
+    "fields": {
+      "name": "Broken", 
+      "description": "Machine has a problem"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.status", 
+    "fields": {
+      "name": "Usable", 
+      "description": "Machine is usable"
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "Machine.contact", 
     "fields": {
@@ -35,11 +51,96 @@
   }, 
   {
     "pk": 1, 
+    "model": "Machine.group", 
+    "fields": {
+      "casting_server": "192.168.2.111", 
+      "is_lab": false, 
+      "gateway": "192.168.2.1", 
+      "items": [
+        1
+      ]
+    }
+  }, 
+  {
+    "pk": 1, 
     "model": "LabtrackerCore.inventorytype", 
     "fields": {
       "namespace": "Machine", 
       "name": "Machine", 
       "description": "Machine inventorytype"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine1"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "WinXP", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.type", 
+    "fields": {
+      "specs": "stff", 
+      "platform": 1, 
+      "description": "", 
+      "name": "Scanning Station", 
+      "model_name": "Dell Optiplex 2002"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Machine.location", 
+    "fields": {
+      "building": "MGH", 
+      "comment": "test", 
+      "room": "101", 
+      "name": "CRC", 
+      "floor": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.group", 
+    "fields": {
+      "items": [
+        1
+      ], 
+      "description": "Computers in MGH", 
+      "it": 1, 
+      "name": "CRC"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "Machine.item", 
+    "fields": {
+      "comment": "", 
+      "status": [
+        1 
+      ], 
+      "mac2": "00:03:24:3A:12:3E", 
+      "mac1": "00:03:24:3A:12:3E", 
+      "uw_tag": "23l4nd923423", 
+      "ip": "128.95.9.2", 
+      "manu_tag": "Test Machine 1", 
+      "warranty_date": "2008-01-07", 
+      "last_modified": "2008-12-03 13:33:50", 
+      "location": 1, 
+      "purchase_date": "2008-01-07", 
+      "stf_date": null, 
+      "date_added": "2008-05-05 16:16:26", 
+      "type": 1, 
+      "wall_port": "234dfda"
     }
   } 
 ]
