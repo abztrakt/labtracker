@@ -88,7 +88,7 @@ if __name__ == '__main__':
     track() 
 
     # catch sigterm from launchd
-    if sys.platform = 'darwin':
+    if sys.platform == 'darwin':
         options.action = ACTIONS[0]
         track()
         signal(SIGTERM, _mac_sigterm_handler)
