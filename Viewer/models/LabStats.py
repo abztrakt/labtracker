@@ -13,10 +13,8 @@ class LabStats(base.ViewCore):
     #XXX Does not follow DRY principle. Use URL resolver when possible.
     def get_absolute_url(self):
         return 'LabStats/'
-
-    @models.permalink
     def get_absolute_edit_url(self):
-        return ('Viewer-LabStats-edit', [str(self.shortname)])
+        return 'LabStats/edit/'
 
     class Meta:
         app_label = "Viewer"

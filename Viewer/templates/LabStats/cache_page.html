@@ -1,0 +1,20 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Lab Statistics{% endblock %}
+{% block pageHead %}
+{% endblock %}
+
+{% block content %}
+<h3>Insert Title</h3>
+
+<table>
+    <tr>
+        <th>Location</th>
+    </tr>
+{% for location in entry %}
+    <tr>
+        <td>{{ location.location }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

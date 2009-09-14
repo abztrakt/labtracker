@@ -18,6 +18,8 @@ urlpatterns = patterns('',
      name="Viewer-MachineMap-edit"),
 
 # for statistics stuff
-    url(r'^LabStats/$', 'Viewer.views.LabStats.allStats', name="Viewer-LabStats-edit")
+    url(r'^LabStats/$', 'Viewer.views.LabStats.showCache', name="Viewer-LabStats-archive"),
+    url(r'^LabStats/edit/$', 'Viewer.views.LabStats.allStats', name="Viewer-LabStats-edit"),
+    url(r'^LabStats/(?P<begin>\.+)/(?P<end>\.+)/$', 'Viewer.views.LabStats.showCache', name="Viewer-LabStats-archive")
 )
 

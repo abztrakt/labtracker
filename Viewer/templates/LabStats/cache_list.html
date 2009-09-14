@@ -1,0 +1,15 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Lab Statistics{% endblock %}
+{% block pageHead %}
+{% endblock %}
+
+{% block content %}
+<h3>Archive of Cached Statistics</h3>
+
+<ul>
+{% for entry in time %}
+    <li><a href="/views/LabStats/{{ entry.time_start }}/{{ entry.time_end }}">{{ entry.time_start }} to {{ entry.time_end }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
