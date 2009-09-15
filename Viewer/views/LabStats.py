@@ -13,6 +13,7 @@ import datetime
 import time
 
 from sets import Set
+from decimal import *
 
 def allStats(request):
     """
@@ -91,10 +92,14 @@ def showCache(request, begin=None, end=None):
         return render_to_response('LabStats/cache_list.html', args, context_instance=RequestContext(request))
     
     else:
-        entry = v_models.StatsCache.objects.filter(time_start=begin).exclude(time_end=end)
+        entry = v_models.StatsCache.objects.filter(time_start=begin, time_end=end)
+        for data in entry:
+            data.logins_per_machine = Decimal(data.total_logins) / Decimal(data.total_items)
+            data.distinct_per_machine = Decimal(data.total_distinct) / Decimal(data.total_items)
 
         args = {
+                'title': begin + " to " + end,
                 'entry': entry
             }
 
-        return render_to_response('Labtracker/cache_page.html', args, context_instance=RequestContext(request))
+        return render_to_response('LabStats/cache_page.html', args, context_instance=RequestContext(request))

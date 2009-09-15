@@ -85,7 +85,7 @@ function addCC(event) {
 
 				// reload the history
 				reloadHistory();
-			},
+			}
 	});
 }
 

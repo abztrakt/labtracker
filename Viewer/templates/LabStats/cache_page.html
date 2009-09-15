@@ -2,18 +2,42 @@
 
 {% block heading %}Lab Statistics{% endblock %}
 {% block pageHead %}
+<style type="text/css">
+.stats_table {
+    border-collapse: collapse;
+}
+.stats_table td {
+    border: #000000 1px solid;
+    width: 85px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
-<h3>Insert Title</h3>
-
-<table>
+<h3>{{ title }}</h3>
+<table class="stats_table">
     <tr>
         <th>Location</th>
-    </tr>
-{% for location in entry %}
-    <tr>
-        <td>{{ location.location }}</td>
+        <th>Logins</th>
+        <th>Machines</th>
+        <th>Logins per Machine</th>
+        <th>Distinct Logins</th>
+        <th>Distinct per Machine</th>
+        <th>Average Seat Time</th>
+        <th>Maximum Seat Time</th>
+        <th>Std. Dev. Seat Time</th>
+    </tr
+{% for data in entry %}
+     <tr>
+        <td>{{ data.location }}</td>
+        <td>{{ data.total_logins }}</td>
+        <td>{{ data.total_items }}</td>
+        <td>{{ data.logins_per_machine }}</td>
+        <td>{{ data.total_distinct }}</td>
+        <td>{{ data.distinct_per_machine }}</td>
+        <td>{{ data.mean_time }} min</td>
+        <td>{{ data.max_time }} min</td>
+        <td>{{ data.stdev_time }} min</td>
     </tr>
 {% endfor %}
 </table>
