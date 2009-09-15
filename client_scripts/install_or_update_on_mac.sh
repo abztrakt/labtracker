@@ -1,10 +1,12 @@
 #!/bin/bash
 
 plist_dir="/Library/LaunchAgents"
-plist_loc="${plist_dir}/edu.washington.tracker.plist"
+plist_file="edu.washington.eplt.labtracker.plist"
+plist_loc="${plist_dir}/${plist_file}"
 
 script_dir="/Library/Application Support/Labtracker"
-script_loc="${script_dir}/tracker.py"
+script_file="tracker.py"
+script_loc="${script_dir}/$script_file"
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -12,7 +14,7 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
    
-cp "./edu.washington.tracker.plist" "$plist_dir"
+cp "./$plist_file" "$plist_dir"
 # check if copy was successful
 if [ ! -f $plist_loc ]; then
     echo "Error: Could not copy to $plist_loc"
@@ -27,7 +29,7 @@ fi
 
 # copy over tracker.py if directory exists
 if [ -e "$script_dir" ]; then
-    cp "./tracker.py" "$script_loc"
+    cp "./$script_file" "$script_loc"
 else # check that directory got created
     echo "Error: Could not make directory $script_dir" 
     exit 1

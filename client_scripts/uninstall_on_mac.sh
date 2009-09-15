@@ -1,10 +1,12 @@
 #!/bin/bash
 
 plist_dir="/Library/LaunchAgents"
-plist_loc="${plist_dir}/edu.washington.tracker.plist"
+plist_file="edu.washington.eplt.labtracker.plist"
+plist_loc="${plist_dir}/${plist_file}"
 
 script_dir="/Library/Application Support/Labtracker"
-script_loc="${script_dir}/tracker.py"
+script_file="tracker.py"
+script_loc="${script_dir}/$script_file"
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
