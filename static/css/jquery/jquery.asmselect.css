@@ -1,5 +1,6 @@
 .asmContainer {
 	/* container that surrounds entire asmSelect widget */
+	width: 685px;
 }
 
 .asmSelect {
