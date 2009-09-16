@@ -18,13 +18,14 @@
  Copy the dist folder onto client machines. Using group policy, accessed by typing 'mmc' (without quotes) into the Windows run command, add the tracker.exe to the logon and logoff scripts.  For parameters, pass in '-a login' for the logon script and '-a logout' for the logoff script.
 
 == OS X ==
- Put 'edu.washington.tracker.plist' into '/Library/LaunchAgents/'
+ Run 
+    sudo ./install_or_update_on_mac.sh
 
- Create the folder 'Labtracker'in '/Library/Application Support/'
+= UNINSTALL =
 
- Put 'tracker.py' into '/Library/Application Support/Labtracker/' 
+== OS X ==
+ Run
+    sudo ./uninstall_on_mac.sh
 
- Make 'tracker.py' executable: 'sudo chmod 755 tracker.py'
- 
 = TROUBLESHOOTING =
     TODO

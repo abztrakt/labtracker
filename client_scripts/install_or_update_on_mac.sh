@@ -1,12 +1,15 @@
 #!/bin/bash
 
-plist_dir="/Library/LaunchAgents"
-plist_file="edu.washington.eplt.labtracker.plist"
-plist_loc="${plist_dir}/${plist_file}"
+dir="/Library/Application Support/Labtracker"
 
-script_dir="/Library/Application Support/Labtracker"
+login_hook_file="mac_login_hook.sh"
+login_hook_loc="${dir}/${login_hook_file}"
+
+logout_hook_file="mac_logout_hook.sh"
+logout_hook_loc="${dir}/${logout_hook_file}"
+
 script_file="tracker.py"
-script_loc="${script_dir}/$script_file"
+script_loc="${dir}/${script_file}"
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -14,32 +17,37 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
    
-cp "./$plist_file" "$plist_dir"
-# check if copy was successful
-if [ ! -f $plist_loc ]; then
-    echo "Error: Could not copy to $plist_loc"
-    exit 1
-fi
-
 # create labtracker dir if necessary
-if [[ ! -e "$script_dir" || ! -d "$script_dir" ]]; then
+if [[ ! -e "$dir" || ! -d "$dir" ]]; then
     # echo 'labtracker dir does not exist'
-    mkdir "$script_dir"
+    mkdir "$dir"
 fi
 
-# copy over tracker.py if directory exists
-if [ -e "$script_dir" ]; then
+# copy over tracker.py and hooks if directory exists
+if [ -e "$dir" ]; then
     cp "./$script_file" "$script_loc"
+    cp "./$login_hook_file" "$login_hook_loc" 
+    cp "./$logout_hook_file" "$logout_hook_loc" 
 else # check that directory got created
-    echo "Error: Could not make directory $script_dir" 
+    echo "Error: Could not make directory $dir" 
     exit 1
 fi
 
 # check that script got copied
-if [ ! -f "$script_loc" ]; then
-    echo "Error: Could not copy to $script_loc" 
+if [[ ! -f "$script_loc" || ! -f "$login_hook_loc" || ! -f "$logout_hook_loc" ]]; then
+    echo "Error: Could not copy to $dir" 
     exit 1
 fi
 
-echo "Successfully installed Labtracker client script"
+# make the scripts executable
+chmod 700 "$script_loc"
+chmod 700 "$login_hook_loc"
+chmod 700 "$logout_hook_loc"
+
+# configure the login/logout hooks
+
+`defaults write com.apple.loginwindow LoginHook "$login_hook_loc"` 
+`defaults write com.apple.loginwindow LogoutHook "$logout_hook_loc"` 
+
+echo "Successfully installed Labtracker client scripts"
 exit 0

@@ -1,12 +1,16 @@
 #!/bin/bash
 
-plist_dir="/Library/LaunchAgents"
-plist_file="edu.washington.eplt.labtracker.plist"
-plist_loc="${plist_dir}/${plist_file}"
+dir="/Library/Application Support/Labtracker"
 
-script_dir="/Library/Application Support/Labtracker"
+login_hook_file="mac_login_hook.sh"
+login_hook_loc="${dir}/${login_hook_file}"
+
+logout_hook_file="mac_logout_hook.sh"
+logout_hook_loc="${dir}/${logout_hook_file}"
+
 script_file="tracker.py"
-script_loc="${script_dir}/$script_file"
+script_loc="${dir}/${script_file}"
+
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -14,37 +18,41 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-# delete plist
-if [ -f $plist_loc ]; then
-    rm "$plist_loc" 
-fi
-
-# check if plist deleted
-if [ -f $plist_loc ]; then
-    echo "Error: Could not remove file $plist_loc"
-    exit 1
-fi
-
-# remove script
+# remove tracker.py 
 if [ -f "$script_loc" ]; then
     rm "$script_loc"
 fi
 
-if [ -f "$script_loc" ]; then
-    echo "Error: Could not remove file $script_loc"
+# remove login hook 
+if [ -f "$login_hook_loc" ]; then
+    rm "$login_hook_loc"
+fi
+
+# remove logout hook 
+if [ -f "$logout_hook_loc" ]; then
+    rm "$logout_hook_loc"
+fi
+
+# make sure we remove the files
+if [[ -f "$script_loc" || -f "$login_hook_loc" || -f "$logout_hook_loc" ]]; then
+    echo "Error: Could not remove some files" 
     exit 1
 fi
 
 # remove script folder
-if [ -e "$script_dir" ]; then
-    rmdir "$script_dir"
+if [ -e "$dir" ]; then
+    rmdir "$dir"
 fi
 
 # check that folder was removed
-if [ -e "$script_dir" ]; then
-    echo "Error: Could not remove directory $script_dir"
+if [ -e "$dir" ]; then
+    echo "Error: Could not remove directory $dir"
     exit 1
 fi
+
+# remove hook configurations
+`defaults delete com.apple.loginwindow LoginHook`
+`defaults delete com.apple.loginwindow LogoutHook`
 
 echo "Successfully uninstalled Labtracker client script"
 exit 0

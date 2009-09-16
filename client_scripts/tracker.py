@@ -6,9 +6,6 @@ import getpass
 import sys
 import os
 from optparse import OptionParser
-from signal import signal, SIGTERM
-
-# determine platfrom
 
 DEBUG = False 
 
@@ -79,16 +76,5 @@ def track():
     else:
         print 'Need action argument: %s' % get_actions_list()
 
-def _mac_sigterm_handler(signum, stack_frame):   
-    options.action = ACTIONS[1]
-    track() # send logout and quit
-    sys.exit(1)
-
 if __name__ == '__main__':
     track() 
-
-    # catch sigterm from launchd
-    if sys.platform == 'darwin':
-        options.action = ACTIONS[0]
-        track()
-        signal(SIGTERM, _mac_sigterm_handler)
