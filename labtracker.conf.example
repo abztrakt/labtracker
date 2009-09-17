@@ -25,6 +25,12 @@
         PubcookieAppID "labtracker"
     </LocationMatch>
 
+    <LocationMatch ^/logout.*$>
+        AuthType UWNetID
+        require valid-user
+        PubcookieEndSession on
+    </LocationMatch>
+
     <Location /PubCookie.reply>
         SetHandler pubcookie-post-reply
     </Location>
