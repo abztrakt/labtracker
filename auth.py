@@ -1,6 +1,7 @@
 import ldap
 
 from django.contrib.auth.models import User, check_password
+from django.contrib.auth.backends import RemoteUserBackend
 from django.conf import settings
 
 class ActiveDirectoryBackend:
@@ -77,3 +78,6 @@ class ActiveDirectoryBackend:
 
         return False
 
+
+class RemoteUserNoCreateBackend(RemoteUserBackend):
+    RemoteUserBackend.create_unknown_user = False

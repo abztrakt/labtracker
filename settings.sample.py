@@ -75,16 +75,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 """
 AUTHENTICATION_BACKENDS = (
-    'labtracker.auth.ActiveDirectoryBackend',
-    'django.contrib.auth.backends.ModelBackend'
+    #'labtracker.auth.ActiveDirectoryBackend',
+    #'labtracker.auth.RemoteUserNoCreateBackend',
+    #'django.contrib.auth.backends.ModelBackend'
+    'django.contrib.auth.backends.RemoteUserBackend',
 )
 """
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ROOT_URLCONF = 'labtracker.urls'
 
