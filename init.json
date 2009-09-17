@@ -143,5 +143,29 @@
       "type": 1, 
       "wall_port": "234dfda"
     }
-  } 
+  }, 
+  {
+    "pk": 1,
+    "model": "Viewer.viewtype",
+    "fields": {
+      "name": "LabStats",
+      "description": "Displays LST Lab Statistics"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "Viewer.viewcore",
+    "fields": {
+      "name": "Custom Statistics",
+      "shortname": "Custom_Statistics",
+      "description": "Define and save statistics from selected time interval.",
+      "type": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "Viewer.labstats",
+    "fields": {
+    }
+  }
 ]

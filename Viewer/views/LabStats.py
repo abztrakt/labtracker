@@ -36,8 +36,7 @@ def allStats(request):
             cache = form.cleaned_data['cache_interval']
 
             if cache:
-                cacheStats(begin, end)
-                message = "Your entry has been successfully cached."
+                message = cacheStats(begin, end)
 
     if not begin:
         today = datetime.date.today().weekday()
@@ -52,9 +51,14 @@ def allStats(request):
 
     stats = stats.filter(login_time__gte=begin)
 
+    if stats:
+        stats = getStats(stats)
+    else:
+        stats = []
+
     args = {
             'form': form,
-            'location_stats': getStats(stats),
+            'location_stats': stats,
             'message': message
         }
 

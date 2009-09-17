@@ -83,12 +83,17 @@ def cacheStats(begin=None, end=None):
 
     data = t_models.Statistics.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
 
-    stats = getStats(data)
+    if data:
+        stats = getStats(data)
+    else:
+        return "There is no data to cache in this interval!"
 
     # Make a row for each location, for each time interval
     for location in stats:
         interval = v_models.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
         interval.save()
+
+    return "Your entry has been successfully saved."
 
 
 def getViewType(name):
