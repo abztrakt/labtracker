@@ -17,7 +17,7 @@ def getStats(stats=None, machines=None, locations=None):
     """
 
     if not stats:
-        stats = t_models.Statistics.objects.all()
+        stats = m_models.History.objects.all()
     if not machines:
         machines = m_models.Item.objects.all()
     if not locations:
@@ -30,7 +30,7 @@ def getStats(stats=None, machines=None, locations=None):
     for location in locations:
 
         items = machines.filter(location=location)
-        location_stats = stats.filter(item__in=items)
+        location_stats = stats.filter(machine__in=items)
         machines_in_location = items.count()
 
         # Login statistics
@@ -38,7 +38,7 @@ def getStats(stats=None, machines=None, locations=None):
 
         # Number of distinct clients
         clients_location = Set()
-        distinct_clients = [clients_location.add(stat.netid) for stat in location_stats]
+        distinct_clients = [clients_location.add(stat.user) for stat in location_stats]
 
         # Seat time statistics
         data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
@@ -47,7 +47,7 @@ def getStats(stats=None, machines=None, locations=None):
         distinct_per_machine = 0
 
         if machines_in_location != 0:
-            distinct_per_machine = Decimal(len(distinct_clients)) / Decimal(machines_in_location)
+            distinct_per_machine = Decimal(len(clients_location)) / Decimal(machines_in_location)
             logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
 
         # Add to aggregation when we give sqlite3 std. dev. capabilities.
@@ -59,7 +59,7 @@ def getStats(stats=None, machines=None, locations=None):
         data['distinct_per_machine'] = distinct_per_machine
         data['total_machines'] = machines_in_location
         data['total_logins'] = login_count
-        data['distinct_logins'] = len(distinct_clients)
+        data['distinct_logins'] = len(clients_location)
         statistics.append(data)
 
     return statistics
@@ -81,7 +81,7 @@ def cacheStats(begin=None, end=None):
         end = datetime.datetime.fromtimestamp(timestamp)
         begin = datetime.datetime.fromtimestamp(timestamp - 7 * 24 * 60 * 60)
 
-    data = t_models.Statistics.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
+    data = m_models.History.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
 
     if data:
         stats = getStats(data)

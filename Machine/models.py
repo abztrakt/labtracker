@@ -146,9 +146,10 @@ class Group(coreModels.Group):
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
     machine = models.ForeignKey(Item)
-    ms = models.ForeignKey(Status)
+    ms = models.ManyToManyField(Status, null=True)
     user = models.ForeignKey(coreModels.LabUser)
-    time = models.DateTimeField(auto_now_add=True)
+    session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True)
+    login_time = models.DateTimeField(auto_now_add=True)
 
 class Contact(models.Model):
     contact_id = models.AutoField(primary_key=True)

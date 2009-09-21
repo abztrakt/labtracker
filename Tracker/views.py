@@ -145,20 +145,19 @@ def track(request, action, macs):
 
         #return HttpResponse("%s - %s - %s -- %s" % (machine, stat_msg, user, time))
         # TODO we need to do data verification to ensure proper data is submitted
+
+        stats = m_models.History.objects.filter(machine=machine, session_time__isnull=True)
+
+        # Test if machine has logged out
         logout = None
-        stats = t_models.Statistics.objects.filter(logout_time__isnull=True, item=machine)
         if stats.count() == 1:
             logout = stats[0]
 
         if action == 'login':
         # create login
-	    # TODO we need to be able to collect netid or regid as well!
         # If previous session is not closed, track logout.
             if logout:
-                logout.logout_time = time
-                if logout.ping_time:
-                    logout.logout_time = logout.ping_time
-                logout.session_time = (t.mktime(logout.logout_time.timetuple()) - t.mktime(logout.login_time.timetuple())) / (60) # Measured in minutes
+                logout.session_time = (t.mktime(time.timetuple()) - t.mktime(logout.login_time.timetuple())) / 60 # Measured in minutes
                 logout.session_time = Decimal("%.2f" % logout.session_time)
                 logout.save()
 
@@ -166,23 +165,26 @@ def track(request, action, macs):
             user.accesses += 1
             user.save()
 
-            login = t_models.Statistics(login_time=time, item=machine)
+            login = m_models.History(login_time=time, machine=machine, user=user)
             login.save()
-            m_models.History()
         elif action == 'logout':
             # create logout for previous login and save
             if logout:
-                logout.logout_time = time
-                logout.session_time = (t.mktime(logout.logout_time.timetuple()) - t.mktime(logout.login_time.timetuple())) / (60) # Measured in minutes
+                logout.session_time = (t.mktime(time.timetuple()) - t.mktime(logout.login_time.timetuple())) / 60
                 logout.session_time = Decimal("%.2f" % logout.session_time)
                 logout.save()
-            pass
         elif action == 'ping':
-            # create time for ping, which can be used to track improper logouts
-            if logout:
-                logout.ping_time = time
-                logout.save()
-            pass
+            # update the latest session time for the given machine
+            try:
+                logout = m_models.History.objects.filter(machine=machine, session_time__isnull=False).order_by('-session_time')[0]
+            except Exception, e:
+                if stats.count() == 1:
+                    logout = stats[0]
+                else:
+                    pass
+            logout.session_time = (t.mktime(time.timetuple()) - t.mktime(logout.login_time.timetuple())) / 60
+            logout.session_time = Decimal("%.2f" % logout.session_time)
+            logout.save()
         else:
             # shouldn't match URLs
             return HttpResponseForbidden()

@@ -20,7 +20,7 @@ def allStats(request):
     Get a summary of lab statistics within time frame.
     Default is current week.
     """
-    stats = t_models.Statistics.objects.all()
+    stats = m_models.History.objects.all()
     data = request.REQUEST.copy()
     begin = None
     end = None
