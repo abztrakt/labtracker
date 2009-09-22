@@ -18,13 +18,11 @@
 		});
 	</script>
 {% endblock %}
-
-{% block mainCSS %}
+{% block pageHead %}
 <link rel="stylesheet" href="{{MEDIA_URL}}css/Viewer/MachineMap/show.css" type="text/css" />
-
-<style type="text/css">
+{% endblock %}
+{% block mainCSS %}
 	{% include "Viewer/MachineMap/size_css.css" %}
-</style>
 {% endblock %}
 
 
