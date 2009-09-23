@@ -49,10 +49,10 @@ class MachineMap(base.ViewCore):
         mapped = self.getMappedItems()
         mapped_set = set([m_item.machine for m_item in mapped])
 
-        #groups = self.groups.all()
+        groups = self.groups.all()
         unmapped = []
 
-        for group in c_models.Group.objects.all(): #groups:
+        for group in groups:
             items = group.items.all()
             unmapped.extend( set(items).difference(mapped_set) )
 
@@ -93,7 +93,7 @@ class MachineMap_Item(models.Model):
         ('V', 'Vertical'),
     )
 
-    machine = models.ForeignKey(m_models.Item)
+    machine = models.ForeignKey(c_models.Item) # Related to LabtrackerCore Item, not Machine Item
     view = models.ForeignKey(MachineMap)
     size = models.ForeignKey(MachineMap_Size)
     xpos = models.IntegerField()
