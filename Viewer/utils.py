@@ -17,7 +17,7 @@ def getStats(stats=None, machines=None, locations=None):
     """
 
     if not stats:
-        stats = m_models.History.objects.all()
+        stats = m_models.History.objects.filter(session_time__isnull=False)
     if not machines:
         machines = m_models.Item.objects.all()
     if not locations:
@@ -30,37 +30,40 @@ def getStats(stats=None, machines=None, locations=None):
     for location in locations:
 
         items = machines.filter(location=location)
-        location_stats = stats.filter(machine__in=items)
+        location_stats = stats.filter(machine__in=items, session_time__isnull=False)
         machines_in_location = items.count()
+        
+        if location_stats:
 
-        # Login statistics
-        login_count = login_count + location_stats.count()
+            # Login statistics
+            login_count = login_count + location_stats.count()
 
-        # Number of distinct clients
-        clients_location = Set()
-        distinct_clients = [clients_location.add(stat.user) for stat in location_stats]
+            # Number of distinct clients
+            clients_location = Set()
+            distinct_clients = [clients_location.add(stat.user) for stat in location_stats]
 
-        # Seat time statistics
-        data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
+            # Seat time statistics
+            data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
 
-        logins_per_machine = 0
-        distinct_per_machine = 0
+            logins_per_machine = 0
+            distinct_per_machine = 0
 
-        if machines_in_location != 0:
-            distinct_per_machine = Decimal(len(clients_location)) / Decimal(machines_in_location)
-            logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
+            if machines_in_location != 0:
+                distinct_per_machine = Decimal(len(clients_location)) / Decimal(machines_in_location)
+                logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
 
-        # Add to aggregation when we give sqlite3 std. dev. capabilities.
-        data['stdev_time'] = 0
-        ###
-        data['avg_time'] = "%.2f" % data['avg_time']
-        data['location'] = location
-        data['logins_per_machine'] = logins_per_machine
-        data['distinct_per_machine'] = distinct_per_machine
-        data['total_machines'] = machines_in_location
-        data['total_logins'] = login_count
-        data['distinct_logins'] = len(clients_location)
-        statistics.append(data)
+            # Add to aggregation when we give sqlite3 std. dev. capabilities.
+            data['stdev_time'] = 0
+            ###
+            data['avg_time'] = "%.2f" % data['avg_time']
+            data['location'] = location
+            data['logins_per_machine'] = logins_per_machine
+            data['distinct_per_machine'] = distinct_per_machine
+            data['total_machines'] = machines_in_location
+            data['total_logins'] = login_count
+            data['distinct_logins'] = len(clients_location)
+        
+            statistics.append(data)
 
     return statistics
 
