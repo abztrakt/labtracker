@@ -1,5 +1,7 @@
 import Viewer.models as vm
 
+from django.conf import settings as lset
+
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
 import Machine.utils as m_utils
@@ -43,7 +45,7 @@ def getStats(stats=None, machines=None, locations=None):
             distinct_clients = [clients_location.add(stat.user) for stat in location_stats]
 
             # Seat time statistics
-            data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))#, stdev_time=StdDev('session_time'))
+            data = location_stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'), avg_time=Avg('session_time'), total_time=Count('session_time'))
 
             logins_per_machine = 0
             distinct_per_machine = 0
@@ -54,6 +56,9 @@ def getStats(stats=None, machines=None, locations=None):
 
             # Add to aggregation when we give sqlite3 std. dev. capabilities.
             data['stdev_time'] = 0
+            if lset.DATABASE_ENGINE == 'mysql':
+                stdev = location_stats.aggregate(stdev_time=StdDev('session_time'))
+                data['stdev_time'] = stdev['stdev_time']
             ###
             data['avg_time'] = "%.2f" % data['avg_time']
             data['location'] = location
