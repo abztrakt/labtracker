@@ -112,9 +112,25 @@ def show(request, view_name):
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
 
+    
+    map_items = []
+
+    for item in view.getMappedItems():
+        item_dict = {
+                'machine': item.machine,
+                'size': item.size,
+                'orientation': item.orientation,
+                'ypos': item.ypos,
+                'xpos': item.xpos,
+                'status': item.machine.item.status.values()
+            }
+        map_items.append(item_dict)
+
+    groups = view.groups.all()
+
     args = {
         'view':     view,
-        'mapped':   view.getMappedItems(),
+        'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
         'status':   Machine.models.Status.objects.all(),
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
