@@ -83,9 +83,9 @@ MIDDLEWARE_CLASSES = (
 """
 AUTHENTICATION_BACKENDS = (
     #'labtracker.auth.ActiveDirectoryBackend',
-    #'labtracker.auth.RemoteUserNoCreateBackend',
-    #'django.contrib.auth.backends.ModelBackend'
-    'django.contrib.auth.backends.RemoteUserBackend',
+    #'labtracker.auth.UWRemoteUserBackend',
+    'django.contrib.auth.backends.ModelBackend'
+    #'django.contrib.auth.backends.RemoteUserBackend',
 )
 """
 
