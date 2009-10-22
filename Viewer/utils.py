@@ -2,11 +2,7 @@ import Viewer.models as vm
 
 from django.conf import settings as lset
 
-import LabtrackerCore.models as c_models
 import Machine.models as m_models
-import Machine.utils as m_utils
-import Tracker.models as t_models
-import Viewer.models as v_models
 
 from django.db.models import Avg, Min, Max, Count, StdDev
 
@@ -51,19 +47,19 @@ def getStats(stats=None, machines=None, locations=None):
             distinct_per_machine = 0
 
             if machines_in_location != 0:
-                distinct_per_machine = Decimal(len(clients_location)) / Decimal(machines_in_location)
-                logins_per_machine = Decimal(login_count) / Decimal(machines_in_location)
+                distinct_per_machine = 1.0 * len(clients_location) / machines_in_location
+                logins_per_machine = 1.0 * login_count / machines_in_location
 
             # Add to aggregation when we give sqlite3 std. dev. capabilities.
             data['stdev_time'] = 0
             if lset.DATABASE_ENGINE == 'mysql':
                 stdev = location_stats.aggregate(stdev_time=StdDev('session_time'))
-                data['stdev_time'] = stdev['stdev_time']
+                data['stdev_time'] = "%.2f" % stdev['stdev_time']
             ###
             data['avg_time'] = "%.2f" % data['avg_time']
             data['location'] = location
-            data['logins_per_machine'] = logins_per_machine
-            data['distinct_per_machine'] = distinct_per_machine
+            data['logins_per_machine'] = "%.2f" % logins_per_machine
+            data['distinct_per_machine'] = "%.2f" % distinct_per_machine
             data['total_machines'] = machines_in_location
             data['total_logins'] = login_count
             data['distinct_logins'] = len(clients_location)
@@ -98,7 +94,7 @@ def cacheStats(begin=None, end=None):
 
     # Make a row for each location, for each time interval
     for location in stats:
-        interval = v_models.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+        interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
         interval.save()
 
     return "Your entry has been successfully saved."
