@@ -19,6 +19,17 @@ class LabStats(base.ViewCore):
     class Meta:
         app_label = "Viewer"
 
+class Tags(models.Model):
+    """
+    Categorical tags for StatsCache row entries
+    """
+    id = models.AutoField(primary_key=True)
+    name = models.SlugField(max_length=60, unique=True)
+    description = models.CharField(max_length=400, blank=True)
+
+    class Meta:
+        app_label = "Viewer"
+
 class StatsCache(models.Model):
     location = models.ForeignKey(Location, verbose_name='Location')
     time_start = models.DateField(verbose_name='Start of Week')
@@ -31,6 +42,9 @@ class StatsCache(models.Model):
     total_items = models.IntegerField(verbose_name='Total Items in Location')
     total_logins = models.IntegerField(verbose_name='Total Logins in Location')
     total_distinct = models.IntegerField(verbose_name='Total Distinct Logins in Location')
+
+    description = models.CharField(max_length=255, verbose_name='Description of Cached Interval')
+    tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval')
 
     class Meta:
         app_label = "Viewer"

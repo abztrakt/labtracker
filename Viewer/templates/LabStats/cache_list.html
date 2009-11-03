@@ -1,5 +1,5 @@
 {% extends "base_full.html" %}
-
+{% load issue_extras %}
 {% block heading %}Lab Statistics{% endblock %}
 {% block pageHead %}
 {% endblock %}
@@ -7,9 +7,22 @@
 {% block content %}
 <h3>Archive of Cached Statistics</h3>
 
-<ul>
-{% for entry in time %}
-    <li><a href="/views/LabStats/{{ entry.time_start }}/{{ entry.time_end }}">{{ entry.time_start }} to {{ entry.time_end }}</a></li>
+<table>
+<thead>
+    <tr>
+        {% searchcolumn "time_start" "Start Time" %}
+        {% searchcolumn "time_end" "End Time" %}
+        <th>Description</th>
+    </tr>
+{% for entry in objects %}
+    <tr>
+        <td><a href="/views/LabStats/{{ entry.time_start|date:"Y-m-d" }}/{{ entry.time_end|date:"Y-m-d" }}">{{ entry.time_start|date:"d-M-Y" }}</a></td>
+        <td><a href="/views/LabStats/{{ entry.time_start|date:"Y-m-d" }}/{{ entry.time_end|date:"Y-m-d" }}">{{ entry.time_end|date:"d-M-Y" }}</a></td>
+        <td></td>
+    </tr>
 {% endfor %}
-</ul>
+</table>
+{% for tag in tags %}
+<p>{{ tag.name }}</p>
+{% endfor %}
 {% endblock %}

@@ -68,7 +68,7 @@ def getStats(stats=None, machines=None, locations=None):
 
     return statistics
 
-def cacheStats(begin=None, end=None):
+def cacheStats(begin=None, end=None, tags=None, description=None):
     """
     Makes caches of statistics
     """
@@ -86,11 +86,14 @@ def cacheStats(begin=None, end=None):
         begin = datetime.datetime.fromtimestamp(timestamp - 7 * 24 * 60 * 60)
 
     data = m_models.History.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
+    exists = vm.StatsCache.objects.filter(time_start=begin, time_end=end)
 
+    if exists.count() > 0:
+        return "This interval already exists!"
     if data:
         stats = getStats(data)
     else:
-        return "There is no data to cache in this interval!"
+        return "There is no data to save in this interval!"
 
     # Make a row for each location, for each time interval
     for location in stats:
@@ -98,7 +101,6 @@ def cacheStats(begin=None, end=None):
         interval.save()
 
     return "Your entry has been successfully saved."
-
 
 def getViewType(name):
     namespace = name.split('.')[-1]

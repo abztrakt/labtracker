@@ -3,6 +3,7 @@ import Machine.models as m_models
 import Machine.utils as m_utils
 import Tracker.models as t_models
 import Viewer.models as v_models
+import LabtrackerCore.utils as utils
 
 from Viewer.forms import TimeForm
 from Viewer.utils import getStats, cacheStats
@@ -74,13 +75,13 @@ def showCache(request, begin=None, end=None):
     if not begin and not end:
         entries = v_models.StatsCache.objects.all().order_by('-time_start')
 
+        """
         time = {}
         for entry in entries:
             entry.time_start = str(entry.time_start)
             entry.time_end = str(entry.time_end)
             if not entry.time_start in time or not (entry.time_end == time[entry.time_start]):
                 time[entry.time_start] = entry.time_end
-
         entries = []
         for key, value in time.iteritems():
             entry = {
@@ -88,18 +89,16 @@ def showCache(request, begin=None, end=None):
                     'time_end': value
                 }
             entries.append(entry)
-
-        args = {
-                'time': entries
-            }
-
+        """
+        args = utils.generatePageList(request, entries, 1)
+        args['tags'] = v_models.Tags.objects.all()
         return render_to_response('LabStats/cache_list.html', args, context_instance=RequestContext(request))
     
     else:
         entry = v_models.StatsCache.objects.filter(time_start=begin, time_end=end)
         for data in entry:
-            data.logins_per_machine = Decimal(data.total_logins) / Decimal(data.total_items)
-            data.distinct_per_machine = Decimal(data.total_distinct) / Decimal(data.total_items)
+            data.logins_per_machine = "%.2f" % (float(data.total_logins) / data.total_items)
+            data.distinct_per_machine = "%.2f" % (float(data.total_distinct) / data.total_items)
 
         args = {
                 'title': begin + " to " + end,
