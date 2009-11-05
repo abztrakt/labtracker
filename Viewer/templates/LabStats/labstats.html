@@ -1,6 +1,23 @@
 {% extends "base_full.html" %}
 
 {% block heading %}Lab Statistics{% endblock %}
+{% block pageJS %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#id_tags, label[for=id_tags]').hide();
+    $('#id_description, label[for=id_description]').hide();
+    $('#id_cache_interval').click(function() {
+        if ($('#id_cache_interval').is(":checked")) {
+            $('#id_tags, label[for=id_tags]').show();
+            $('#id_description, label[for=id_description]').show();
+        } else {
+            $('#id_tags, label[for=id_tags]').hide();
+            $('#id_description, label[for=id_description]').hide();
+        }
+    });
+});
+</script>
+{% endblock %}
 {% block pageHead %}
 <style type="text/css">
 .stats_table {

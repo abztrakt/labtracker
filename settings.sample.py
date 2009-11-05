@@ -78,6 +78,8 @@ MIDDLEWARE_CLASSES = (
     #'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 """
