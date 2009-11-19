@@ -1,0 +1,24 @@
+= INSTALLATION =
+
+Depends on:
+ - Python 2.6
+
+== Windows XP ==
+NOTE: Please make sure that Python 2.6 is installed on the current machine.
+
+1. Move the dist/ folder to a desired location. The contents of the dist/ folder contains all necessary files.
+
+2. Access the Microsoft Management Console via entering 'mmc' (without quotes) in the Windows command line interface. (Start -> Run -> cmd.exe)
+
+3. In the Management Console, using group policy, add the Labtracker client to logon/logoff scripts. This is done via the following:
+	A. Go to File->Add/Remove Snap-in
+	B. Near the bottom of the window that comes up, select Add, then add Group Policy Object Editor under the new window. Click OK on the Add/Remove Snap-in window.
+	C. There will now be an icon in the main MMC window that reads Local Computer Policy. Click on it, then Computer Configuration, then Windows Settings, then Scripts (Startup/Shutdown).
+	D. In Startup, add tracker.exe from the dist/ folder, and use parameters '-a login' for login. In Shutdown, add tracker.exe from the dist/ folder, and use parameters '-a logout' for logoff.
+
+== Apple OS X ==
+
+1. In the Mac terminal, run the following command:
+	sudo ./install_or_update_on_mac.sh
+
+NOTE: The location of install_or_update_on_mac.sh depends on the location of the Labtracker client app folder.
