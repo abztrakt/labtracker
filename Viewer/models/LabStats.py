@@ -46,8 +46,8 @@ class StatsCache(models.Model):
     total_logins = models.IntegerField(verbose_name='Total Logins in Location')
     total_distinct = models.IntegerField(verbose_name='Total Distinct Logins in Location')
 
-    description = models.CharField(max_length=255, verbose_name='Description of Cached Interval')
-    tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval')
+    description = models.CharField(max_length=255, verbose_name='Description of Cached Interval', null=True)
+    tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval', null=True)
 
     class Meta:
         app_label = "Viewer"
