@@ -15,7 +15,10 @@
  */
 $.ui.plugin.add('draggable', 'flag', {
 	start: function (e, ui) { $(this).data('dragging.modmap', true); },
-	stop: function (e, ui) { $(this).data('dragging.modmap', false); }
+
+    /*Mark the Machine dirty for saving*/
+	stop: function (e, ui) { $(this).data('dragging.modmap', false); $(this).data('dirty.modmap', true);
+ }
 });
 
 /**
@@ -521,8 +524,8 @@ $(document).ready(function () {
 						params[prefix + '[y]'] = item.css('top').replace(/\D/g,"");
 						params[prefix + '[size]'] = item.data('size.modmap');
 						params[prefix + '[orient]'] = item.data('orientation.modmap');
-
-						return id;
+               
+                        return id;
 					}
 				);
 			}
@@ -556,7 +559,7 @@ $(document).ready(function () {
 						}
 				});
 			} else {
-				self.getItems().draggable('enable');
+				modMap.getItems().draggable('enable');
 			}
 
 	});
