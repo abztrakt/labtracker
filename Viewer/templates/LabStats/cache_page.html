@@ -2,22 +2,20 @@
 
 {% block heading %}Lab Statistics{% endblock %}
 {% block pageHead %}
-<style type="text/css">
-.stats_table {
-    border-collapse: collapse;
-}
-.stats_table td {
-    border: #000000 1px solid;
-    width: 85px;
-}
-</style>
+
+<!--Add external style sheet--!>
+<!--[if IE]>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/Viewer/LabStats/showie.css" type="text/css" />
+<![endif]-->
+
+<link rel="stylesheet" href="{{MEDIA_URL}}css/Viewer/LabStats/show.css" type="text/css" />
 {% endblock %}
 
 {% block content %}
 <a href="/views/LabStats/">Archives</a>
 <h3>{{ title }}</h3>
 <table class="stats_table">
-    <tr>
+    <tr id="title">
         <th>Location</th>
         <th>Logins</th>
         <th>Machines</th>
@@ -29,7 +27,7 @@
         <th>Std. Dev. Seat Time</th>
 	</tr>
 {% for data in entry %}
-     <tr>
+     <tr id="row">
         <td>{{ data.location }}</td>
         <td>{{ data.total_logins }}</td>
         <td>{{ data.total_items }}</td>
