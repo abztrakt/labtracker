@@ -1,0 +1,19 @@
+#row {
+  background : white;
+  border-bottom:  #BAE889 1px solid;
+ }
+.stats_table {
+   border-collapse: collapse;
+   background: #99DE84;
+ }
+tr:hover td{
+   background: #EAFFCD none repeat scroll 0 0;
+}
+
+.stats_table td {
+   border-top: #BAE889 1px solid;
+   width: 85px;
+}
+
+
+
