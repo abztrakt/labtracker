@@ -19,8 +19,7 @@ file = open(sys.argv[1], "r")
 if not file:
     print "Error: file could not be opened."
     sys.exit(1)
-import pdb
-pdb.set_trace()
+
 it = InventoryType.objects.filter(name='Machine')
 type = Type.objects.filter(name='Unknown')
 platform = Platform.objects.filter(name='Unknown')
@@ -89,9 +88,6 @@ for line in file.readlines():
             machine.ip = item['ip']
 
         machine.save()
-        import pdb
-        pdb.set_trace()
         
-        """ HERE LIES THE ISSUE """
-        m_group.add(machine)
+        m_group.items.add(machine)
         m_group.save()
