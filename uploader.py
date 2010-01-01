@@ -73,6 +73,9 @@ for line in file.readlines():
         item['gateway'] = segments[4]
         item['service_tag'] = segments[5]
         
+        m_group.casting_server = item['cast']
+        m_group.gateway = item['gateway']
+        
         print "name: %s, location: %s, ip: %s, casting server: %s, mac: %s, gateway: %s, service tag: %s" % (item['name'], item['location'], item['ip'], item['cast'], item['mac'], item['gateway'], item['service_tag'])
         
         # save into models
