@@ -236,11 +236,15 @@ function MapEditor (orientation, size, sizes) {
 	/**
 	 * Given name of item updating, update the information pane 
 	 */
-	this.updateInfoPane = function (name) {
-		var infoPane = $('#infoPane');
+	this.updateInfoPane = function (name, e){
+		var infoPane = $('#infoPane2');
+        var mouse_position = infoPane.find('#mousePosition');
+        mouse_position.text("Horizontal:" + e.pageX + " Vertical:" + e.pageY );
 		var machine_name = infoPane.find('#machineName');
 		machine_name.text(name || "");
+        
 	};
+
 
 	/**
 	 * Draw the tool dive around the given item
@@ -329,8 +333,9 @@ function MapEditor (orientation, size, sizes) {
 			.bind('remove.modmap', function (ev) { self.removeToolDiv($(ev.target)); })
 
 			// add to the page, and fade it in
-			.appendTo($('#map')).fadeTo("medium", 0.43);
-	};
+		.appendTo($('#map')).fadeTo("medium", 0.43);
+
+};
 
 	/**
 	 * removeToolDiv
@@ -407,7 +412,7 @@ function MapEditor (orientation, size, sizes) {
 				// make sure that this item is mapped first
 				var item = $(this);
 
-				self.updateInfoPane(self.getItemName(item));
+				self.updateInfoPane(self.getItemName(item),event);
 
 				// # XXX missing parens?
 				if (! item.data('mapped.modmap') || 
