@@ -69,7 +69,11 @@ for line in file.readlines():
         item['name'] = segments[0]
         item['ip'] = segments[1]
         item['cast'] = segments[2]
-        item['mac'] = segments[3]
+        # MAC address is not in standard aa:bb:cc:dd:ee:ff format
+        item['mac'] = segments[3][0:2]
+        for i in range(1, len(segments[3]) / 2):
+            item['mac'] += ":" + segments[3][2*i:2*i+2]
+
         item['gateway'] = segments[4]
         item['service_tag'] = segments[5]
         
