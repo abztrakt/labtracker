@@ -1,5 +1,5 @@
 from django.forms import ValidationError
-from django.forms.fields import email_re
+from django.core.validators import email_re
 from django.core import mail 
 #from django.core import validators
 from django.conf import settings
