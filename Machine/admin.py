@@ -16,7 +16,7 @@ class StatusAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'type','location','ip','mac1','mac2',
             'wall_port','date_added','manu_tag','uw_tag')
-    search_fields = ['name','ip','mac1','wall_port']
+    search_fields = ['name','ip','mac1', 'mac2', 'wall_port']
     list_filter = ['type','date_added']
 
 class GroupAdmin(admin.ModelAdmin):
