@@ -86,13 +86,25 @@ for line in file.readlines():
         # save location into LabtrackerCore.Group, Machine.Group, Machine.Location
         machine = Item.objects.filter(name=item['name'])
 
+        # if machine name doesn't exist, check if MAC exists
         if machine.count() < 1:
-            machine = Item(name=item['name'], type=type, it=it, location=location, ip=item['ip'], mac1=item['mac'], wall_port='unknown', manu_tag=item['service_tag'])
-        else:
-            machine = machine.get(name=item['name'])
-            machine.mac = item['mac']
-            machine.manu_tag = item['service_tag']
-            machine.ip = item['ip']
+            machine = Item.objects.filter(mac1=item['mac'])
+            if (machine.count() == 1) and (item['mac'] == machine[0].mac1): # if MAC exists and matches, overwrite
+                machine = machine.get(mac1=item['mac'])
+                machine.mac = item['mac']
+                machine.manu_tag = item['service_tag']
+                machine.ip = item['ip']
+            else: # MAC doesn't exist or match, then add new machine
+                machine = Item(name=item['name'], type=type, it=it, location=location, ip=item['ip'], mac1=item['mac'], wall_port='unknown', manu_tag=item['service_tag'])
+        else: # else name does exist, check if MAC exists
+            if item['mac'] == machine[0].mac1: # if MACs match, then overwrite
+                machine = machine.get(name=item['name'])
+                machine.mac = item['mac']
+                machine.manu_tag = item['service_tag']
+                machine.ip = item['ip']
+            else: # else MACs are different, do not load and return error message
+                print "error writing %s with MAC address %s. duplicate entry containing same machine name and different MAC address." % (item['name'], item['mac'])
+
 
         machine.save()
         
