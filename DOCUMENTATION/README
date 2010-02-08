@@ -15,12 +15,12 @@ Requirements:
     Labtracker is a project written in Python and django, and should run in any context that
     the django framework will work in (http://docs.djangoproject.com/en/1.1/howto/deployment/).
 
-    - django > 0.96 (currently SVN)
+    - django >= 1.0
     - jQuery >= 1.1.4
     - simplejson 1.7.1 (?)
 
+    - Python >= 2.5
     - apache 2.x
-    - mod_python
     - mysql >=  5.x 
 
 
