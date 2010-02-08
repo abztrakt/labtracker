@@ -1,10 +1,10 @@
 Labtracker:
 
 Synopsis:
-    Labtracker is a tool used to track items. The goal is to track item status through
+    Labtracker is an inventory tracking toolkit. The goal is to track item status through
     their history and be able to draw statisitcs from the change.
 
-    Currently, the only item being tracked are computers, however, the final goal is to be
+    Currently, the only items being tracked are computers, however, the final goal is to be
     able to define the items that you want to track.
 
     In addition, an Issue Tracking application is tied to Labtracker. This application
@@ -12,8 +12,8 @@ Synopsis:
     then be assigned to a registered user to be resolved.
 
 Requirements:
-    Labtracker is a project written in python and django, although it is currently only in
-    a dev state, it will at somepoint run on mod_python and apache.
+    Labtracker is a project written in Python and django, and should run in any context that
+    the django framework will work in (http://docs.djangoproject.com/en/1.1/howto/deployment/).
 
     - django > 0.96 (currently SVN)
     - jQuery >= 1.1.4
