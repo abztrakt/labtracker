@@ -70,10 +70,10 @@ class TrackerMachineUpdate(TestCase):
 	    """
 
         # Process a login
-        prev_count = tm.Statistics.objects.all().count()
+        prev_count = mm.History.objects.all().count()
         resp = self.client.post(reverse('track', kwargs= {'action': 'login', 'macs': self.m.mac1}), {'user': self.username, 'status': 'login'})
 
-        stats = tm.Statistics.objects.all()
+        stats = mm.History.objects.all()
 
         self.assertEqual(stats.count(), prev_count + 1)
         self.failUnlessEqual(200, resp.status_code)
@@ -83,8 +83,9 @@ class TrackerMachineUpdate(TestCase):
         prev_count = stats.count()
         resp = self.client.post(reverse('track', kwargs= {'action': 'logout', 'macs': self.m.mac1}), {'user': self.username, 'status': 'logout'})
 
-        stats = tm.Statistics.objects.all()
+        stats = mm.History.objects.all()
         self.assertEqual(stats.count(), prev_count)
-        self.failIfEqual(stats[0].logout_time, None)
+        #changes! logout_time to session_time
+        self.failIfEqual(stats[0].session_time, None)
 
 
