@@ -1,9 +1,15 @@
 from django.forms import ValidationError
-from django.core.validators import email_re
+#from django.core.validators import email_re
 from django.core import mail 
 #from django.core import validators
 from django.conf import settings
 from django.template.loader import render_to_string
+
+try:
+    from django.core.validators import email_re
+except ImportError:
+    from django.forms.fields import email_re
+
 
 class EmailSection(object):
     """
