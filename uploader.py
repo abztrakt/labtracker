@@ -85,6 +85,7 @@ for line in file.readlines():
         # save into models
         # save location into LabtrackerCore.Group, Machine.Group, Machine.Location
         machine = Item.objects.filter(name=item['name'])
+        invalid = False
 
         # if machine name doesn't exist, check if MAC exists
         if machine.count() < 1:
@@ -103,10 +104,10 @@ for line in file.readlines():
                 machine.manu_tag = item['service_tag']
                 machine.ip = item['ip']
             else: # else MACs are different, do not load and return error message
-                print "error writing %s with MAC address %s. duplicate entry containing same machine name and different MAC address." % (item['name'], item['mac'])
+                invalid = True
+                print "Error writing %s with MAC address %s. Duplicate entry containing same machine name and different MAC address. Existing MAC address in database: %s" % (item['name'], item['mac'], machine[0].mac1)
 
-
-        machine.save()
-        
-        m_group.items.add(machine)
-        m_group.save()
+        if not invalid:
+            machine.save()
+            m_group.items.add(machine)
+            m_group.save()
