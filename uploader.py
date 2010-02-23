@@ -9,7 +9,11 @@ import re
 import sys
 
 # Collect the data and store them into lists containing dictionaries
+FORCE_DELETE = False
 
+def status(item, status):
+    print "name: %s, location: %s, ip: %s, casting server: %s, mac: %s, gateway: %s, service tag: %s" % (item['name'], item['location'], item['ip'], item['cast'], item['mac'], item['gateway'], item['service_tag'])
+    print " %s" % (status)
 if not sys.argv[1]:
     print "Argument: file containing machine data to load into LabTracker."
     sys.exit(1)
@@ -80,34 +84,45 @@ for line in file.readlines():
         m_group.casting_server = item['cast']
         m_group.gateway = item['gateway']
         
-        print "name: %s, location: %s, ip: %s, casting server: %s, mac: %s, gateway: %s, service tag: %s" % (item['name'], item['location'], item['ip'], item['cast'], item['mac'], item['gateway'], item['service_tag'])
         
         # save into models
         # save location into LabtrackerCore.Group, Machine.Group, Machine.Location
         machine = Item.objects.filter(name=item['name'])
         invalid = False
-
         # if machine name doesn't exist, check if MAC exists
         if machine.count() < 1:
             machine = Item.objects.filter(mac1=item['mac'])
             if (machine.count() == 1) and (item['mac'] == machine[0].mac1): # if MAC exists and matches, overwrite
                 machine = machine.get(mac1=item['mac'])
                 machine.mac = item['mac']
+                machine.name = item['name']
                 machine.manu_tag = item['service_tag']
                 machine.ip = item['ip']
+                status(item, "MAC exists, name doesn't exist, overwrite")
             else: # MAC doesn't exist or match, then add new machine
                 machine = Item(name=item['name'], type=type, it=it, location=location, ip=item['ip'], mac1=item['mac'], wall_port='unknown', manu_tag=item['service_tag'])
+                status(item, "MAC doesn't exist, name doesn't exist, add new")
         else: # else name does exist, check if MAC exists
             if item['mac'] == machine[0].mac1: # if MACs match, then overwrite
                 machine = machine.get(name=item['name'])
                 machine.mac = item['mac']
                 machine.manu_tag = item['service_tag']
                 machine.ip = item['ip']
+                status(item, "MAC exists, name exists, overwrite")
             else: # else MACs are different, do not load and return error message
                 invalid = True
-                print "Error writing %s with MAC address %s. Duplicate entry containing same machine name and different MAC address. Existing MAC address in database: %s" % (item['name'], item['mac'], machine[0].mac1)
+                if FORCE_DELETE: # overwrite old machine with new data
+                    print "Force overwriting %s, new MAC: %s, overwritten MAC: %s" % (item['name'], item['mac'], machine[0].mac1)
+                    machine = machine[0]
+                    machine.mac1 = item['mac']
+                    machine.manu_tag = item['service_tag']
+                    machine.ip = item['ip']
+                else:
+                    print "Error writing %s with MAC address %s. Duplicate entry containing same machine name and different MAC address. Existing MAC address in database: %s" % (item['name'], item['mac'], machine[0].mac1)
 
-        if not invalid:
+        if not invalid or FORCE_DELETE:
             machine.save()
             m_group.items.add(machine)
             m_group.save()
+            print "Successfully saved %s, %s" % (machine.name, machine.mac1)
+
