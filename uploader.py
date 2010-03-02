@@ -77,6 +77,17 @@ for line in file.readlines():
         else:
             location = location.get(name=item['location'])
 
+        m_group = Group.objects.filter(name=item['location'])
+        if m_group.count() < 1:
+            m_group = Group(name=item['location'], it=it, casting_server='100.0.0.0', gateway='100.0.0.0')
+            m_group.save()
+        else:
+            m_group = m_group.get(name=item['location'])
+        
+        m_group.casting_server = item['cast']
+        m_group.gateway = item['gateway']
+ 
+
         # save into models
         # save location into LabtrackerCore.Group, Machine.Group, Machine.Location
         machine = Item.objects.filter(name=item['name'])
@@ -117,5 +128,7 @@ for line in file.readlines():
 
         if not invalid or FORCE_DELETE:
             machine.save()
+            m_group.items.add(machine)
+            m_group.save()
             print "Successfully saved %s, %s" % (machine.name, machine.mac1)
 
