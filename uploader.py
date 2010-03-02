@@ -95,7 +95,7 @@ for line in file.readlines():
         # if machine name doesn't exist, check if MAC exists
         if machine.count() < 1:
             machine = Item.objects.filter(mac1=item['mac'])
-            if (machine.count() == 1) and (item['mac'] == machine[0].mac1): # if MAC exists and matches, overwrite
+            if (machine.count() == 1) and (item['mac'] == machine[0].mac1) and not (item['mac'] == "00:00:00:00:00:00"): # if MAC exists and matches, overwrite
                 machine = machine.get(mac1=item['mac'])
                 machine.mac = item['mac']
                 machine.name = item['name']
