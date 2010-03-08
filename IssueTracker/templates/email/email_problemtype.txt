@@ -1,0 +1,3 @@
+{% for problem in problem_type %}
+	* {{ problem }}
+{% endfor %}

@@ -67,7 +67,7 @@ class NewIssueEmail(Email):
 
         hist_msg = ""
         if add_items:
-            message = render_to_string('email/email_problemtype.html', { "problem_type": add_items })
+            message = render_to_string('email/email_problemtype.txt', { "problem_type": add_items })
             header = "New Problem Types"
             
             """
@@ -84,7 +84,7 @@ class NewIssueEmail(Email):
                 hist_msg += "<br />"
 
         if drop_items:
-            message = render_to_string('email/email_problemtype.html', { "problem_type": drop_items })
+            message = render_to_string('email/email_problemtype.txt', { "problem_type": drop_items })
             header = "Removed Problem Types"
 
             """

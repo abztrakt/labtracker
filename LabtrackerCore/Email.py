@@ -123,7 +123,7 @@ class Email(object):
     def getEmail(self, auth_user=None, auth_password=None):
         #message = "\n\n".join([section.__str__() for section in self.sections])
         header_message = ""
-        message = header_message + render_to_string('email/email_message.html', {"all_sections": self.sections })
+        message = header_message + render_to_string('email/email_message.txt', {"all_sections": self.sections })
 
         to = self.to.union(self.cc)
 
