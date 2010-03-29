@@ -118,7 +118,7 @@ for line in file.readlines():
                 status(item, "MAC exists, name doesn't exist, overwrite")
             else: # MAC doesn't exist or match, then add new machine
                 machine = Item(name=item['name'], type=type, it=it, location=location, ip=item['ip'], mac1=item['mac'], mac2=item['mac2'], wall_port='unknown', manu_tag=item['service_tag'], uw_tag=item['uw_tag'])
-                status(item, "MAC doesn't exist, name doesn't exist, add new")
+#                status(item, "MAC doesn't exist, name doesn't exist, add new")
         else: # else name does exist, check if MAC exists
             if item['mac'] == machine[0].mac1: # if MACs match, then overwrite
                 machine = machine.get(name=item['name'])

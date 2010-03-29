@@ -64,9 +64,9 @@ for line in file.readlines():
             item['mac'] = "00:00:00:00:00:00"
 
         item['gateway'] = segments[4]
-        item['service_tag'] = segments[6]
-        if not segments[6]:
-            item['service_tag'] = ""
+        item['service_tag'] = ""
+        if len(segments) > 6:
+            item['service_tag'] = segments[6]
         
         item['location'] = re.findall("^[a-zA-Z0-9]*", segments[0])[0] # currently the only way to truly determine location. may be problematic with access+ locations.
         location = Location.objects.filter(name=item['location'])
