@@ -1,11 +1,22 @@
 div.item.status_broken {
     background-color: black;
+	filter:alpha(opacity=80);
+	-moz-opacity:0.8;
+	-khtml-opacity: 0.8;
+	opacity: 0.8;
 }
 div.item.status_usable {
-    background-color: grey;
+    background-color: white;	filter:alpha(opacity=30);
+	-moz-opacity:0.3;
+	-khtml-opacity: 0.3;
+	opacity: 0.3;
 }
+
 div.item.status_inuse {
-    background-color: yellow;
+    background-color: gray;		filter:alpha(opacity=90);
+	-moz-opacity:0.9;
+	-khtml-opacity: 0.9;
+	opacity: 0.9;
 }
 
 #wrapper { padding-left: 15px; }
