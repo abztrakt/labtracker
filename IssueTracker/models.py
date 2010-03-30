@@ -63,9 +63,8 @@ class Issue(models.Model):
 
         if self.pk:
             old = Issue.objects.get(pk=self.pk)
-
-            if old.resolved_state != self.resolved_state:
-                self.resolve_time = datetime.now()
+            if old.resolved_state != self.resolved_state :
+                    self.resolve_time = datetime.now()
 
         super(Issue, self).save(*args, **kwargs)
 

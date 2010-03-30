@@ -8,6 +8,13 @@ html, body {
 #heading h1 { 
 	color: #c91a15;
 }
+#notice {
+    font-weight: bold;
+    color:green;
+    position: absolute;
+    top: 130px;
+    left: -20px;
+}
 
 ul.floated { margin: 0em 0em; padding: 0px; }
 ul.floated li {

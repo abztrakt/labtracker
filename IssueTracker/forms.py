@@ -64,7 +64,6 @@ class UpdateIssueForm(ModelForm):
         for any fields that don't have an entry, default to old value.
         only update if *explicitly* given
         """
-
         cleaned_data = self.cleaned_data
 
         given_keys = set(self.data.keys())
@@ -75,6 +74,13 @@ class UpdateIssueForm(ModelForm):
             del cleaned_data[key]
 
         return cleaned_data
+
+    def save(self, *args, **kwargs):
+        inst = ModelForm.save(self, *args, **kwargs)
+
+        # send signal
+        newIssueSignal.send(sender=self, instance=inst)
+
 
     class Meta:
         model = im.Issue

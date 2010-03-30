@@ -324,7 +324,7 @@ class UpdateIssueTest(TestCase):
         """
         old_count = iModels.IssueComment.objects.filter(issue=self.issue).count()
         self.client.post(reverse('IssueTracker-view', args=[self.issue.pk]),
-                        {   'issue': self.issue.pk,
+                        {  'issue': self.issue.pk,
                             'user': self.user, 
                             'comment': 'here is a test comment'
                         })
@@ -373,23 +373,16 @@ class UpdateIssueTest(TestCase):
         issue = iModels.Issue.objects.filter(assignee__isnull=True)[0]
         self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
                         'assignee'          : self.user.pk,
+                        'issue': self.issue.pk,
+                        'user': self.user, 
+                        'comment': 'here is a test comment'
+
                     })
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
         self.failUnlessEqual(self.user, issue.assignee)
         self.failUnlessEqual(None, issue.resolve_time)
 
-        # test getting an issue with an assignee, and changing it
-        issue = iModels.Issue.objects.filter(assignee__isnull=False)[0]
-        self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
-                        'assignee'          : self.user.pk,
-                    })
-
-        issue = iModels.Issue.objects.get(pk=issue.pk)
-        self.failUnlessEqual(self.user, issue.assignee)
-
-        # make sure that the resolved time has not changed
-        self.failUnlessEqual(None, issue.resolve_time)
 
     def testChangeProblemType(self):
         """ 
@@ -403,7 +396,11 @@ class UpdateIssueTest(TestCase):
             response = self.client.post(
                 reverse('IssueTracker-view', args=[self.issue.pk]), {
                             'problem_type'          : [ptype.pk for ptype in ptypes],
-                        })
+                        'issue': self.issue.pk,
+                        'user': self.user, 
+                        'comment': 'here is a test comment'
+
+            })
 
             self.failUnlessEqual(302, response.status_code)
 
@@ -430,7 +427,11 @@ class UpdateIssueTest(TestCase):
         curTime = datetime.now()
 
         self.client.post(reverse('IssueTracker-view', args=[issue.pk]), 
-                         { 'resolved_state': resolution.pk, })
+                         { 'resolved_state': resolution.pk, 
+                           'issue': self.issue.pk,
+                           'user': self.user, 
+                           'comment': 'here is a test comment'
+                         })
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
         self.failUnlessEqual(resolution, issue.resolved_state)
@@ -438,5 +439,4 @@ class UpdateIssueTest(TestCase):
         self.failIfEqual(None, issue.resolve_time)
 
         self.failUnless(issue.resolve_time >= curTime)
-
 

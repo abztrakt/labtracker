@@ -70,12 +70,11 @@ def viewIssue(request, issue_id):
             'history': IssueHistory.objects.filter(issue=issue).order_by('-time'),
             'comments': IssueComment.objects.filter(issue=issue).order_by('time')
         }
-
     extraForm = None
 
     if request.method == 'POST':
         issueProcessor = IssueUpdater(request, issue)
-
+       #CHANGE 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
             #issueProcessor.save() moved this down to enable proper history update and email sending
@@ -85,10 +84,10 @@ def viewIssue(request, issue_id):
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)
 
-            issueProcessor.save() #moved down from above.
-
-            return HttpResponseRedirect(reverse('IssueTracker-view', 
-                                                args=[issue.issue_id]))
+        issueProcessor.save() #moved down from above.
+            
+       # return HttpResponseRedirect(reverse('IssueTracker-view', 
+        #                                   args=[issue.issue_id]))
         form = issueProcessor.updateForm
         commentForm = issueProcessor.commentForm or AddCommentForm()
         extraForm = issueProcessor.extraForm
@@ -100,10 +99,13 @@ def viewIssue(request, issue_id):
             if hook:
                 extraForm = hook(issue)
 
+    #CHANGE
     args['add_comment_form'] = commentForm
     args['update_issue_form'] = form
     args['problem_types'] = form.fields['problem_type'].queryset
     args['extra_form'] = extraForm
+    #CHANGE
+    args['valid_form']= commentForm.is_valid()
 
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))

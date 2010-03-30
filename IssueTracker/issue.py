@@ -37,7 +37,6 @@ class IssueUpdater(object):
         if self.data.has_key('comment'):
             self.data.__setitem__('user', request.user.id)
             self.data.__setitem__('issue', issue.pk)
-
             self.commentForm = forms.AddCommentForm(self.data)
             if not self.commentForm.is_valid():
                 self.valid = False 
@@ -127,12 +126,14 @@ class IssueUpdater(object):
         return actionStrings
 
     def save(self):
-        self.updateForm.save()
-        if self.commentForm:
-            self.commentForm.save()
+         if self.commentForm:
+            if self.commentForm.is_valid():
+                self.commentForm.save()
+                self.updateForm.save()
 
-        if self.extraForm:
-            self.extraForm.save()
+                if self.extraForm:
+                    if self.extraForm.is_valid():
+                        self.extraForm.save()
 
     def is_valid(self):
         return self.valid

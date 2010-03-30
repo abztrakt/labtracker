@@ -14,7 +14,8 @@
 {% block heading %}Viewing Issue{% endblock %}
 {% block content %}
 <div id="main_issue">
-	<div id="issue">
+
+       <div id="issue">
 		<div id="title" class="greybox">
 			<span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
 		</div>
@@ -79,6 +80,10 @@
 
 
     <form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
+         <div id = "notice">{% if valid_form %} <ul class="message">Issue is updated successfully</ul>{% endif %}
+         </div>
+
+
     	<div id="prob-type-block" class="greybox">
             <label for="{{update_issue_form.problem_type.name}}" class="boldblacklabel selectlable">
 				{{ update_issue_form.problem_type.label }}:
