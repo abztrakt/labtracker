@@ -1,23 +1,6 @@
 [
   {
     "pk": 1, 
-    "model": "IssueTracker.resolvestate", 
-    "fields": {
-      "name": "Fixed", 
-      "description": "So Simple"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "IssueTracker.problemtype", 
-    "fields": {
-      "inv": [], 
-      "name": "stolen", 
-      "description": "been stoeld"
-    }
-  }, 
-  {
-    "pk": 1, 
     "model": "Machine.status", 
     "fields": {
       "name": "Inuse", 
@@ -63,23 +46,6 @@
   }, 
   {
     "pk": 1, 
-    "model": "LabtrackerCore.inventorytype", 
-    "fields": {
-      "namespace": "Machine", 
-      "name": "Machine", 
-      "description": "Machine inventorytype"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "LabtrackerCore.item", 
-    "fields": {
-      "it": 1, 
-      "name": "Machine1"
-    }
-  }, 
-  {
-    "pk": 1, 
     "model": "Machine.platform", 
     "fields": {
       "name": "WinXP", 
@@ -107,18 +73,6 @@
       "name": "CRC", 
       "floor": 1
     }
-  }, 
-  {
-    "pk": 1, 
-    "model": "LabtrackerCore.group", 
-    "fields": {
-      "items": [
-        1
-      ], 
-      "description": "Computers in MGH", 
-      "it": 1, 
-      "name": "CRC"
-    }
   },
   {
     "pk": 1, 
@@ -143,29 +97,5 @@
       "type": 1, 
       "wall_port": "234dfda"
     }
-  }, 
-  {
-    "pk": 1,
-    "model": "Viewer.viewtype",
-    "fields": {
-      "name": "LabStats",
-      "description": "Displays LST Lab Statistics"
-    }
-  },
-  {
-    "pk": 1,
-    "model": "Viewer.viewcore",
-    "fields": {
-      "name": "Custom Statistics",
-      "shortname": "Custom_Statistics",
-      "description": "Define and save statistics from selected time interval.",
-      "type": 1
-    }
-  },
-  {
-    "pk": 1,
-    "model": "Viewer.labstats",
-    "fields": {
-    }
-  }
+  } 
 ]

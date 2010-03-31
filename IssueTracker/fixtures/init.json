@@ -1,0 +1,19 @@
+[
+  {
+    "pk": 1, 
+    "model": "IssueTracker.resolvestate", 
+    "fields": {
+      "name": "Fixed", 
+      "description": "So Simple"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "IssueTracker.problemtype", 
+    "fields": {
+      "inv": [], 
+      "name": "stolen", 
+      "description": "been stoeld"
+    }
+  }
+]

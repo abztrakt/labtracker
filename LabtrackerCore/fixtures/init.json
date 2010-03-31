@@ -1,0 +1,31 @@
+[
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.group", 
+    "fields": {
+      "items": [
+        1
+      ], 
+      "description": "Computers in MGH", 
+      "it": 1, 
+      "name": "CRC"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.inventorytype", 
+    "fields": {
+      "namespace": "Machine", 
+      "name": "Machine", 
+      "description": "Machine inventorytype"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "LabtrackerCore.item", 
+    "fields": {
+      "it": 1, 
+      "name": "Machine1"
+    }
+  } 
+]
