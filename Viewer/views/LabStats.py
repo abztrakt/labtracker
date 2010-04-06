@@ -75,23 +75,25 @@ def showCache(request, begin=None, end=None):
     if not begin and not end:
         entries = v_models.StatsCache.objects.all().order_by('-time_start')
 
-        """
-        time = {}
-        for entry in entries:
-            entry.time_start = str(entry.time_start)
-            entry.time_end = str(entry.time_end)
-            if not entry.time_start in time or not (entry.time_end == time[entry.time_start]):
-                time[entry.time_start] = entry.time_end
-        entries = []
-        for key, value in time.iteritems():
-            entry = {
-                    'time_start': key,
-                    'time_end': value
-                }
-            entries.append(entry)
-        """
         args = utils.generatePageList(request, entries, 1)
         args['tags'] = v_models.Tags.objects.all()
+        
+        entry_duplicates = {}
+        args['objects'] = list(args['objects'])
+
+        for entry in args['objects']:
+            time = entry.time_start.__str__()
+            if time in entry_duplicates:
+                entry_duplicates[time] = entry_duplicates[time] + 1
+            else:
+                entry_duplicates[time] = 1
+
+        for entry in args['objects']:
+            time = entry.time_start.__str__()
+            if entry_duplicates[time] > 1:
+                entry_duplicates[time] = entry_duplicates[time] - 1
+                args['objects'].remove(entry)
+
         return render_to_response('LabStats/cache_list.html', args, context_instance=RequestContext(request))
     
     else:
