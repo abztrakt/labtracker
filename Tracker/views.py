@@ -99,10 +99,10 @@ def track(request, action, macs):
     macs_list = macs.split(',')
 
     for mac in macs_list:
-        machine = m_models.Item.objects.filter(mac1=mac)
+        machine = m_models.Item.objects.filter(mac1__iexact=mac)
 
         if len(machine) == 0:
-            machine = m_models.Item.objects.filter(mac2=mac) 
+            machine = m_models.Item.objects.filter(mac2__iexact=mac) 
 
         if len(machine) == 1:
             break 
