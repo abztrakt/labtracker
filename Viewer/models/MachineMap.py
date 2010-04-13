@@ -48,7 +48,6 @@ class MachineMap(base.ViewCore):
         """
         mapped = self.getMappedItems()
         mapped_set = set([m_item.machine for m_item in mapped])
-        #change!! change groups to locations
         groups = self.groups.all()
         unmapped = []
 
