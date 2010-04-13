@@ -214,7 +214,7 @@ function MapEditor (orientation, size, sizes) {
 					'top': '0px',
 					'position': 'relative'})
 			.data('mapped.modmap', false)
-			.data('dirty.modmap', true);
+			.data('dirty.modmap', false);
 	};
 
 	/**
@@ -250,6 +250,9 @@ function MapEditor (orientation, size, sizes) {
 	 * Draw the tool dive around the given item
 	 * @param {jQuery} item is the div to draw around
 	 */
+    
+    //change!! drawToolDiv doesn't work..do we need this?
+
 	this.drawToolDiv = function (item) {
 		// mark it early
 		item.data('tools.modmap', true);
@@ -323,7 +326,9 @@ function MapEditor (orientation, size, sizes) {
 				// make sure that the mouse is actually outside the tools box
 				if (self.mouseOut(ev.pageX, ev.pageY, $(item))) {
 					$(this).trigger('remove.modmap');
-					self.updateInfoPane();
+                    //change! enable droppable
+                    //$('div#map').droppable('enable');
+					self.updateInfoPane(self.getItemName(item),ev);
 				}
 			})
 
@@ -333,7 +338,8 @@ function MapEditor (orientation, size, sizes) {
 			.bind('remove.modmap', function (ev) { self.removeToolDiv($(ev.target)); })
 
 			// add to the page, and fade it in
-		.appendTo($('#map')).fadeTo("medium", 0.43);
+         //change!!   
+		//.appendTo($('#map')).fadeTo("medium", 0.43);
 
 };
 
@@ -367,34 +373,38 @@ function MapEditor (orientation, size, sizes) {
 		$('div#map').droppable({
 				accept: "div.item",
 				drop: function (ev, ui) {
-					var item = $(ui.draggable);
-
+                    var item = $(ui.draggable);
 					var item_off = item.offset();
 					var mapped_off = $(this).offset();
-
+                    //change!! if item is unmapped at beginning, mark it mapped
+                    if(item.hasClass('unmapped')){  
+                        item.removeClass('unmapped');
+					    item.addClass('mapped');
+                                           }
 					item.appendTo(this).
 						css({	'left':  item_off.left - mapped_off.left,
 								'top': item_off.top - mapped_off.top,
 								'position': 'absolute' }).
 						data('mapped.modmap', true).
-						data('dirty.modmap', true);
-				}
-			});
+						data('dirty.modmap', true).
+                        //change!! add load.modmap
+                        data('load.modmap',true);
+
+                }				
+			}).children().droppable('disable');
 
 		$('div#unmapped').droppable({
 				accept: "div.item",
-				out: function (ev, ui) {
-					var item = $(ui.draggable);
-					item.removeClass('unmapped');
-					item.addClass('mapped');
-				},
-				over: function (ev, ui) {
-					var item = $(ui.draggable);
-					item.removeClass('mapped');
-					item.addClass('unmapped');
-				},
-				drop: function(ev, ui) {
+				//change!!
+                drop: function(ev, ui) {
 					self.unmapItem($(ui.draggable));
+                    var item = $(ui.draggable);
+                    if(item.hasClass('mapped')){
+                    item.data('dirty.modmap',true);
+                    item.removeClass('mapped');
+					item.addClass('unmapped');
+                    $('div#map').droppable('enable');
+                    }
 				}
 			}).children().droppable('disable');
 	
@@ -406,7 +416,8 @@ function MapEditor (orientation, size, sizes) {
 					var item = $(ui.draggable);
 					// when beginning to drag, kill all 'infowraps' aka tooldiv
 					$('div.tools').trigger('remove.modmap');
-				}
+                }
+
 			})
 			.bind('mouseenter.modmap', function (event) {
 				// make sure that this item is mapped first
@@ -432,7 +443,7 @@ function MapEditor (orientation, size, sizes) {
 				var item = $(eve.target);
 				if (item.data('mapped.modmap')) {
 				} else {
-					self.updateInfoPane();
+					self.updateInfoPane(self.getItemName(item),eve);
 				}
 			})
 			.each( function () { 
@@ -453,8 +464,8 @@ function MapEditor (orientation, size, sizes) {
 						}
 					}
 				}
-
-				item.data('load.modmap', info).data('dirty.modmap', false)
+				item.data('load.modmap', info)
+                    .data('dirty.modmap', false)
 					.data('orientation.modmap', info.orientation)
 					.data('size.modmap', info.size).data('mapped.modmap', info.mapped)
 					.addClass(info.size + " " + info.orientation);
@@ -479,8 +490,8 @@ function MapEditor (orientation, size, sizes) {
 			self.setItemShape(item, target_size);
 		});
 	};
+   	this.init();
 
-	this.init();
 }
 
 var modMap;
@@ -498,11 +509,12 @@ $(document).ready(function () {
 			var dirty_items = modMap.getDirtyItems();
 			var unmapped = [], mapped = [];
 
+            //change!! check the machine mapping status by looking at if it has class mapped or unmapped
 			$.each(dirty_items, function () {
 					var item = $(this);
-					if (item.data('mapped.modmap')) {
+					if (item.hasClass('mapped')) {
 						mapped.push(this);
-					} else if (item.data('load.modmap').mapped) {
+					} else if (item.hasClass('unmapped')) {
 						unmapped.push(this);
 					} else {
 						// original was not mapped and current is not mapped,
@@ -561,6 +573,7 @@ $(document).ready(function () {
 										item.data('load.modmap').mapped = false;
 									}
 								});
+                            alert("Machines Saved Successfully");
 						}
 				});
 			} else {
