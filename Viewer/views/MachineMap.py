@@ -159,8 +159,8 @@ def modify(request, view_name):
 
     if (data.get('save', False)):
         # need to save the computers
-        unmap = data.getlist('unmap')
-        map = data.getlist('map')
+        unmap = data.getlist('unmap[]')
+        map = data.getlist('map[]')
 
         unmap = [int(id) for id in unmap]
         map = [int(id) for id in map]
@@ -255,9 +255,12 @@ def modify(request, view_name):
 
     if not map:
         return HttpResponseServerError("Couldn't find map to load")
-
+    
     groups = view.groups.all()
     map_items = view.getMappedItems()
+
+
+
     args = {
         'groups':   groups,
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
