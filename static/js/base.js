@@ -4,5 +4,5 @@ $(function () {
 		eve.target.select();
 	});
 
-	$('#nav').droppy({speed: 100});
+	$('#nav').droppy();
 });
