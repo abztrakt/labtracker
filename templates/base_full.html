@@ -9,6 +9,7 @@
     <style type="text/css">
 		@import url('{{MEDIA_URL}}css/global.css');
         @import url('{{MEDIA_URL}}css/jquery/droppy.css');
+        @import url('{{MEDIA_URL}}css/dropdown.css');
 		{% block mainCSS %}
 		@import url("{{MEDIA_URL}}css/main.css");
 	
@@ -33,8 +34,8 @@
     <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
 
 	{% block mainJS %}
-	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.droppy.js"></script>
-	<script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
+
+   <script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
 	{% block pageJS %}
 	{% endblock %}
 	{% endblock %}
