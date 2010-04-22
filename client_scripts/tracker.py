@@ -51,7 +51,8 @@ def get_data(status):
 def _track(url, action, mac, data=None):
     """Lower level track function, useful for testing"""
     try:
-        req = urllib2.Request(url="http://%s/tracker/%s/%s/" % (url, action, mac),
+
+        req = urllib2.Request(url="https://%s/tracker/%s/%s/" % (url, action, mac),
                                 data=get_data(action)) 
         urllib2.urlopen(req)
     except:
