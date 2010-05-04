@@ -148,7 +148,7 @@ class History(models.Model):
     machine = models.ForeignKey(Item)
     ms = models.ManyToManyField(Status, null=True)
     user = models.ForeignKey(coreModels.LabUser)
-    session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True)
+    session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     login_time = models.DateTimeField(auto_now_add=True)
 
 class Contact(models.Model):
