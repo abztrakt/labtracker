@@ -6,9 +6,8 @@
 {% block heading %}Map Editing - {{view.name}}{% endblock %}
 
 {% block pageHead %}
-		<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.core.min.js"></script>
-        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.droppable.min.js"></script>
-        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/ui.draggable.min.js"></script>
+		<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery-ui-1.8.custom.min.js"></script>
         <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/plugins/jquery.n-contextmenu.js"></script>
         <script type="text/javascript" src="{{MEDIA_URL}}js/Viewer/MachineMap/modify.js"></script>
         <script type="text/javascript">
@@ -28,6 +27,12 @@
 {% block pageHeader %}
 
 <div id="spmod">
+    <div id="dialog">
+        <p>Save Succeeded!<p>
+    </div>
+    <div id="faildialog">
+        <p>Save Failed. Please Try Again.<p>
+    </div>
 
     <div id="cpanel" class="left">
 		<ul class="struct">
