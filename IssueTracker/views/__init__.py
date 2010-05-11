@@ -77,17 +77,14 @@ def viewIssue(request, issue_id):
        #CHANGE 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
-            #issueProcessor.save() moved this down to enable proper history update and email sending
             email = issueProcessor.getEmail()
+            issueProcessor.save() 
             email.send()
 
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)
 
-        issueProcessor.save() #moved down from above.
-            
-       # return HttpResponseRedirect(reverse('IssueTracker-view', 
-        #                                   args=[issue.issue_id]))
+            return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
         form = issueProcessor.updateForm
         commentForm = issueProcessor.commentForm or AddCommentForm()
         extraForm = issueProcessor.extraForm
