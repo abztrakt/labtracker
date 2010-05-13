@@ -4,7 +4,10 @@ from django.template import RequestContext
 
 from LabtrackerCore.forms import EmailForm
 
+from LabtrackerCore.models import LabUser
 from IssueTracker.models import Issue
+from Machine.models import History
+from hashlib import md5
 
 @login_required
 def userPrefs(request):
@@ -38,12 +41,17 @@ def dashboard(request):
 
     if request.user.is_authenticated():
         # User's assigned issues
-        assigned = Issue.objects.all().filter(assignee=request.user.id).order_by('-post_time')[:5]
+        assigned = Issue.objects.filter(assignee=request.user.id).order_by('-post_time')[:5]
 
         #TODO Add general usage statistics here
-    
-        
-        return render_to_response('dashboard.html', {'problems': assigned},
+        userhash = md5(request.user.username)
+        try:
+            user = LabUser.objects.get(pk=userhash.hexdigest())
+            prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
+        except Exception, e:
+            prev_logins = None
+
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins},
                 context_instance=RequestContext(request))
     
     else:
