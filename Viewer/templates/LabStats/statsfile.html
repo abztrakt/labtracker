@@ -1,0 +1,31 @@
+{% extends "base_full.html" %}
+
+{% block heading %}Statistics File Generator{% endblock %}
+
+{% block pageHead %}
+<style type="text/css">
+.stats_table {
+    border-collapse: collapse;
+}
+.stats_table td {
+    border: #000000 1px solid;
+    width: 85px;
+}
+</style>
+{% endblock %}
+{% block content %}
+<h3>Custom Time Frame</h3>
+<p>Input the time interval as YYYY-MM-DD HH:MM:SS. (Year-Month-Day Hours:Minutes:Seconds)</p>
+<form action="." method="GET">
+{{ form.as_p}}
+<input type="submit" value="Generate" />
+</form>
+<br />
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+{% if  location_stats %}
+<div id='file'>{{response}}</div>
+{% endif %}
+
+{% endblock %}

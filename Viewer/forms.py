@@ -7,3 +7,8 @@ class TimeForm(forms.Form):
     cache_interval = forms.BooleanField(required=False)
     tags = forms.ModelMultipleChoiceField(queryset=vm.Tags.objects.all(), required=False)
     description = forms.CharField(required=False)
+
+class FileTimeForm(forms.Form):
+    time_start = forms.DateTimeField()
+    time_end = forms.DateTimeField()
+    

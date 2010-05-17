@@ -5,16 +5,84 @@ import Tracker.models as t_models
 import Viewer.models as v_models
 import LabtrackerCore.utils as utils
 
-from Viewer.forms import TimeForm
-from Viewer.utils import getStats, cacheStats
+from Viewer.forms import TimeForm, FileTimeForm
+from Viewer.utils import getStats, cacheStats,makeFile
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import datetime
 import time
-
-from sets import Set
+import csv
+from django.http import HttpResponse
+try:
+    set
+except NameError:
+    from sets import Set as set
 from decimal import *
+
+
+def allStatsFile(request):
+    """
+    Get a file of lab statistics within time frame.
+    Default is current week.
+    """
+    stats = m_models.History.objects.all()
+    begin = None
+    end = None
+    form = FileTimeForm()
+    message = None
+    response = None    
+
+    GET_begin = request.GET.get('time_start','')
+    GET_end = request.GET.get('time_end','')
+
+    if GET_begin and GET_end :
+        form = FileTimeForm(request.GET)
+        if form.is_valid():
+            end = form.cleaned_data['time_end']
+            begin = form.cleaned_data['time_start']
+            message = cacheStats(begin, end, False)
+
+    if not begin:
+        today = datetime.date.today().weekday()
+        begin = datetime.date.today()
+        timestamp = time.mktime(begin.timetuple())
+        if today != 6: # today is not sunday, otherwise display today's stats
+            timestamp = timestamp - (1 + today) * 24 * 60 * 60
+            begin = datetime.datetime.fromtimestamp(timestamp)
+        
+    elif end:
+        stats = stats.exclude(login_time__gte=end)
+
+    stats = stats.filter(login_time__gte=begin)
+
+    if stats:
+        stats = makeFile(stats);
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=LabStatistics.csv'
+        writer = csv.writer(response)
+        for entry in stats:
+            writer.writerow([entry['user'],entry['machine'],entry['location'],entry['login_time'],entry['session_time'],entry['type'],entry['platform']])
+        return response
+       
+    else:
+        stats = []
+
+        args = {
+            'form': form,
+            'location_stats': stats,
+            'message': message,
+            'response':response,
+        }
+
+    if not stats:
+        args['location_stats'] = None
+
+    return render_to_response('LabStats/statsfile.html', args, context_instance=RequestContext(request))
+
+
+
+
 
 def allStats(request):
     """

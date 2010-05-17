@@ -11,6 +11,23 @@ except NameError:
     from sets import Set
 from decimal import *
 
+def makeFile(histories=None):
+    """
+    Generate the stats file from the given qDicts
+    """
+    stats = []
+    for history in histories:
+        data= {'user': history.user,
+                'machine':  history.machine,
+                'location': history.machine.location,
+                'login_time': history.login_time,
+                'session_time': history.session_time,
+                'type': history.machine.type,
+                'platform' : history.machine.type.platform}
+        stats.append(data);
+    return stats
+
+
 def getStats(stats=None, machines=None, locations=None):
     """
     Generate general statistics from given qDicts
@@ -101,7 +118,7 @@ def getStats(stats=None, machines=None, locations=None):
 
     return statistics
 
-def cacheStats(begin=None, end=None, tags=None, description=None):
+def cacheStats(begin=None, end=None,labStats=True,tags=None, description=None):
     """
     Makes caches of statistics
     """
@@ -120,22 +137,20 @@ def cacheStats(begin=None, end=None, tags=None, description=None):
 
     data = m_models.History.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
     exists = vm.StatsCache.objects.filter(time_start=begin, time_end=end)
+    #change!! 
+    #The call is from LabStats or StatsFile
+    if labStats:
+        if exists.count() > 0:
+            return "This interval already exists!"
+        if data:
+            stats = getStats(data)
+        else:
+            return "There is no data to save in this interval!"
 
-    if exists.count() > 0:
-        return "This interval already exists!"
-    if data:
-        stats = getStats(data)
+        return "Your entry has been successfully saved."
     else:
-        return "There is no data to save in this interval!"
-
-    # Make a row for each location, for each time interval
-    for location in stats:
-        #Because 'All labs' is not a location instance
-        if not location['location'] == "All labs":
-            interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
-            interval.save()
-
-    return "Your entry has been successfully saved."
+        if not data:
+            return "There is no file can be generated in this interval!"
 
 def getViewType(name):
     namespace = name.split('.')[-1]
