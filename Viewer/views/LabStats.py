@@ -14,13 +14,16 @@ import datetime
 import time
 import csv
 from django.http import HttpResponse
+from django.contrib.auth.decorators import permission_required
+
 try:
     set
 except NameError:
     from sets import Set as set
 from decimal import *
 
-
+# User must have same permissions to add statistics in order to download them. (At this time, only staff)
+@permission_required('Viewer.add_labstats', login_url='/login/')
 def allStatsFile(request):
     """
     Get a file of lab statistics within time frame.
