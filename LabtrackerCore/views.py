@@ -42,14 +42,15 @@ def dashboard(request):
     if request.user.is_authenticated():
         # User's assigned issues
         assigned = Issue.objects.filter(assignee=request.user.id).order_by('-post_time')[:5]
-
+        prev_logins = None
         #TODO Add general usage statistics here
-        userhash = md5(request.user.username)
-        try:
-            user = LabUser.objects.get(pk=userhash.hexdigest())
-            prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
-        except Exception, e:
-            prev_logins = None
+        if request.user.is_staff:
+            userhash = md5(request.user.username)
+            try:
+                user = LabUser.objects.get(pk=userhash.hexdigest())
+                prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
+            except Exception, e:
+                pass
 
         return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins},
                 context_instance=RequestContext(request))
