@@ -36,8 +36,13 @@ def allStatsFile(request):
     message = None
     response = None    
 
-    GET_begin = request.GET.get('time_start','')
-    GET_end = request.GET.get('time_end','')
+    GET_begin_date = request.GET.get('time_start_0','') 
+    GET_begin_time = request.GET.get('time_start_1','')
+    GET_begin = GET_begin_date + ' ' + GET_begin_time
+
+    GET_end_date = request.GET.get('time_end_0','')
+    GET_end_time = request.GET.get('time_end_1','')
+    GET_end = GET_end_date + ' ' + GET_end_time
 
     if GET_begin and GET_end :
         form = FileTimeForm(request.GET)
@@ -59,10 +64,11 @@ def allStatsFile(request):
 
     stats = stats.filter(login_time__gte=begin)
 
+    
     if stats:
         stats = makeFile(stats);
         response = HttpResponse(mimetype='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=LabStatistics.csv'
+        response['Content-Disposition'] = 'attachment; filename=LabStat'+GET_begin_date + '__'+GET_end_date+' .csv'
         writer = csv.writer(response)
         for entry in stats:
             writer.writerow([entry['user'],entry['machine'],entry['location'],entry['login_time'],entry['session_time'],entry['type'],entry['platform']])

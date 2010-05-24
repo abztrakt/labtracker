@@ -1,5 +1,18 @@
 {% extends "base_full.html" %}
 
+{%block pageCSS %}
+@import url('/media_admin/css/widgets.css');
+{%endblock%}
+
+{%block pageJS %}
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <script type="text/javascript" src="/media_admin/js/core.js"></script>
+    <script type="text/javascript" src="/media_admin/js/admin/RelatedObjectLookups.js"></script>
+    {{form.media}}
+{% endblock %}
+
+
+
 {% block heading %}Statistics File Generator{% endblock %}
 
 {% block pageHead %}
@@ -21,8 +34,12 @@
 <input type="submit" value="Generate" />
 </form>
 <br />
+<p>CSV file format:<p>
+<p>[ Username(hashed) ], [ Machine Name ], [ Location ], [ Login Time ], [ Session Time ], [ Machine Type ], [ Platform ]
+<br />
 {% if message %}
-<p>{{ message }}</p>
+<br />
+<h3>{{ message }}</h3>
 {% endif %}
 {% if  location_stats %}
 <div id='file'>{{response}}</div>
