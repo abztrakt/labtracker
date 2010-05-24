@@ -2,11 +2,12 @@ var initialized = false;    // is page ready?
 
 var timer = null;       // This is the interval timer
 var last_call = Date.now()/1000;
+var view = null;       //the map name
 
 var options = {
+    'view': view,          //the view name
     'timer':    5000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
-
     'sizes': [],
     'orientations': ['H', 'V'],
 
@@ -24,6 +25,7 @@ function init(opts) {
     $.extend(options, opts);
 
     initialized = true;
+    view = options.view;
     timer = setInterval(updateMachines, options.timer);
 }
 
@@ -44,7 +46,7 @@ function updateMachines() {
     } else {
         // do ajax update
         $.ajax({
-            'url':          '/views/MachineMap/CRC_Map/',
+            'url':          '/views/MachineMap/' + view + '/',
             'type':         'GET',
             //'ifModified':   true,
             'dataType':     'json',
@@ -163,4 +165,5 @@ function switchState(item, state) {
 
     return switchClass(item, options.states[state], states);
 }
-
+  
+  

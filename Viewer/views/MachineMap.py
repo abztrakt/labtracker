@@ -35,7 +35,6 @@ def show(request, view_name):
     """
     Spits out a lab map
     """
-
     view = get_object_or_404(v_models.MachineMap, shortname=view_name)
 
     def getJSONData(last=None):
@@ -59,13 +58,13 @@ def show(request, view_name):
                     machine_info = True
                 else:
                     mapped_info = item.last_modified > last
-                    machine_info = item.machine.last_modified > last
+                    #machine_info = item.last_modified > last
             else:
                 machine_info = True
                 mapped_info = True
 
-            if machine_info:
-                data['state'] = item.machine.status.name.lower()
+            #if machine_info:
+            #data['state'] = item.machine.item.status.values()
 
             if mapped_info:
                 data['x'] = item.xpos
@@ -86,7 +85,6 @@ def show(request, view_name):
         data = request.GET.copy()
 
         ret = {}
-
         last = data.get('last', None)
         if last:
             try:
@@ -207,7 +205,7 @@ def modify(request, view_name):
             orientation = iteminfo['orient']
             if (orientation):
                 item.orientation = orientation
-
+            
             item.save()
 
 

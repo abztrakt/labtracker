@@ -6,9 +6,10 @@
 	<script type="text/javascript" src="{{MEDIA_URL}}js/Viewer/MachineMap/show.js"></script>
 	<script type="text/javascript">
 		// need to initialize things, such as available states
-		$(document).ready(function () {
+        $(document).ready(function () {
 			init({
-				'timer': 5000,
+				'view': '{{map.name}}',
+                'timer': 5000,
 				'refresh': 0,
 				'states': { {% for st in status %}
 					'{{st.name|lower}}': 'status_{{st.name|lower}}'{% if not forloop.last %},{% endif %}{% endfor %}
