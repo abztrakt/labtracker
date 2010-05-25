@@ -71,7 +71,7 @@ def getItems(request):
 
     dict = {
         "contacts": [c for c in contacts],
-        "items": items,
+        "items": [(i, items[i]['name']) for i in items]
     }
 
     if type == "xml":

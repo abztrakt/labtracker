@@ -131,18 +131,12 @@ function updateItemList(group_id, cb) {
 				// for each of the items, append to the list
 				var id_item = $('#id_item');
 				id_item[0].options.length = 1;
-				var items = [];
-				$.each(data.items, function (ii, val) {
-						items.push([val.name, val])
-					}
-				);
-				items = items.sort();
+				items = data.items.sort();
 				$.each(items, function (ii, val) {
-						id_item.append("<option value='" + val[1].item_id + "'>" + 
-							val[0] + "</option>");
+						id_item.append("<option value='" + val[0] + "'>" + 
+							val[1] + "</option>");
 					}
 				);
-
 				id_item[0].selectedIndex = 0;
 
 				if (cb) { cb(); }
