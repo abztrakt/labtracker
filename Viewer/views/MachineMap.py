@@ -63,8 +63,13 @@ def show(request, view_name):
                 machine_info = True
                 mapped_info = True
 
-            #if machine_info:
-            #data['state'] = item.machine.item.status.values()
+            #Always update machine states
+            states = item.machine.item.status.values()
+            data['state'] = [] 
+            for each_state in states:
+                data['state'].append(each_state['name'].lower());
+
+
 
             if mapped_info:
                 data['x'] = item.xpos
@@ -76,6 +81,7 @@ def show(request, view_name):
                 data['name'] = item.machine.name,
                 ret_data[item.machine.pk] = data
 
+        
         return ret_data
         
     if request.is_ajax():
@@ -112,15 +118,18 @@ def show(request, view_name):
 
     
     map_items = []
-
+   
     for item in view.getMappedItems():
+        status = []
+        for each_state in item.machine.item.status.values():
+            status.append(each_state['name'].lower())
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
                 'orientation': item.orientation,
                 'ypos': item.ypos,
                 'xpos': item.xpos,
-                'status': item.machine.item.status.values()
+                'status':status, 
             }
         map_items.append(item_dict)
 
