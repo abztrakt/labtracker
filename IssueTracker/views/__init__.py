@@ -151,6 +151,8 @@ def createIssue(request):
     else:
         form = CreateIssueForm()
 
+    form.fields['item'].queryset = form.fields['item'].queryset.order_by('it', 'name')
+
     args = {
         'form': form,
         'problem_types': form.fields['problem_type'].queryset

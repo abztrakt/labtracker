@@ -131,8 +131,11 @@ function updateItemList(group_id, cb) {
 				// for each of the items, append to the list
 				var id_item = $('#id_item');
 				id_item[0].options.length = 1;
-				items = data.items.sort();
-				$.each(items, function (ii, val) {
+				data.items = data.items.sort( function (a, b) {
+                        return (a[1] > b[1]) ? 1 : -1;
+                    }
+                );
+				$.each(data.items, function (ii, val) {
 						id_item.append("<option value='" + val[0] + "'>" + 
 							val[1] + "</option>");
 					}
