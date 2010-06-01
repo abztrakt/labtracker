@@ -5,7 +5,7 @@ from IssueTracker import models as im, newIssueSignal, forms, Email
 
 def sendCreateIssueEmail(sender, instance=None, **kwargs):
     """
-    Send an email for issue creation to the group contact
+    Send an email for issue creation to the reporter, group contact, and CC
     """
     # retrieve the group from Instance
     if instance.group == None and instance.item == None:
@@ -13,11 +13,12 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
 
     contacts = [c.email for c in utils.getIssueContacts(instance)]
 
-    if len(contacts) == 0:
-        return
-    
     # send an email to this contact
     em = Email.NewIssueEmail(instance)
+    em.addTo(instance.reporter.email)
+    #em.addProblemTypeSection()
+    em.addCommentSection(instance.reporter, instance.description)
+
     for email in contacts:
         em.addTo(email)
     em.send()
