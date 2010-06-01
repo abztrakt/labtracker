@@ -1,5 +1,4 @@
 {% for section in all_sections %}
 {{ section.header }}:
-
 {{ section.content }}
 {% endfor %}

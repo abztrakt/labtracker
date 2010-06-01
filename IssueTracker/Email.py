@@ -43,7 +43,7 @@ class NewIssueEmail(Email):
     def addAssigneeSection(self, cur, new):
         assigneeSection = EmailSection("Assignee Change")
         if cur != None:
-            assigneeSection.content = "%s ----> %s" % (cur, new)
+            assigneeSection.content = "Reassigned from %s to %s." % (cur, new)
         else:
             assigneeSection.content = new
         self.appendSection(assigneeSection)
@@ -113,7 +113,7 @@ class NewIssueEmail(Email):
 
         # FIXME use a template
         if curState != None:
-            resolveSection.content = "%s ---> %s" % (curState, state)
+            resolveSection.content = "Resolved from %s to %s." % (curState, state)
         else:
             resolveSection.content = curState
         self.appendSection(resolveSection)
