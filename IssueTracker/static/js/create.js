@@ -136,8 +136,8 @@ function updateItemList(group_id, cb) {
                     }
                 );
 				$.each(data.items, function (ii, val) {
-						id_item.append("<option value='" + val[0] + "'>" + 
-							val[1] + "</option>");
+						id_item.append(["<option value='", val[0], "'>",
+							val[1], "</option>"].join(""));
 					}
 				);
 				id_item[0].selectedIndex = 0;
