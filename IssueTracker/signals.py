@@ -14,7 +14,7 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
     contacts = [c.email for c in utils.getIssueContacts(instance)]
 
     # send an email to this contact
-    em = Email.NewIssueEmail(instance)
+    em = Email.NewIssueEmail(instance, "[Issue %d NEW]" % instance.pk)
     em.addTo(instance.reporter.email)
     em.addProblemTypeSection("", sender['problem_type'].data)
     em.addCommentSection(instance.reporter, instance.description)

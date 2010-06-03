@@ -4,15 +4,21 @@ import models
 
 class NewIssueEmail(Email):
 
-    def __init__(self, issue, *args, **kwargs):
+    def __init__(self, issue, title=None, *args, **kwargs):
         kwargs['subject'] = "[Issue %d updates]" % (issue.pk)
+
+        if title:
+            kwargs['subject'] = title
 
         super(NewIssueEmail, self).__init__(*args, **kwargs)
 
         self.issue = issue
 
-        self.appendSection(
-                EmailSection("[Issue %d updates]" % (issue.pk)))
+        if title:
+            self.appendSection(EmailSection(title))
+        else:
+            self.appendSection(
+                    EmailSection("[Issue %d updates]" % (issue.pk)))
 
 
     def addCCSection(self, old_cc, new_cc):
@@ -55,7 +61,9 @@ class NewIssueEmail(Email):
         # XXX addProblemTypeSection shouldn't return a hist_msg
         given_pt = {}
 
-        cur_ptypes = set(cur_ptypes)
+        # cur_ptypes is given as objects
+        # new_ptypes is given as pk
+        cur_ptypes = set([str(ptype.pk) for ptype in cur_ptypes])
         new_ptypes = set(new_ptypes)
 
         # Any problem type that is not given, will need to be marked for removal
@@ -80,11 +88,10 @@ class NewIssueEmail(Email):
                     % (", ".join(add_items))
             """
             self.appendSection(EmailSection(header, message))
-            if drop_items:
-                hist_msg += "<br />"
 
         if drop_items:
             message = render_to_string('email/email_problemtype.txt', { "problem_type": drop_items })
+            hist_msg += "<br />"
             header = "Removed Problem Types"
 
             """
