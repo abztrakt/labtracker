@@ -70,7 +70,9 @@ class NewIssueEmail(Email):
         remove = cur_ptypes.difference(new_ptypes)
         add = new_ptypes.difference(cur_ptypes)
 
-        drop_items = [models.ProblemType.objects.get(pk=ii.pk).name for ii in remove]
+        import pdb
+        pdb.set_trace()
+        drop_items = [models.ProblemType.objects.get(pk=ii).name for ii in remove]
         add_items = [models.ProblemType.objects.get(pk=ii).name for ii in add]
 
         hist_msg = ""
