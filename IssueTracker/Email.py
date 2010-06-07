@@ -10,7 +10,7 @@ class NewIssueEmail(Email):
         if title:
             kwargs['subject'] = title
 
-        super(NewIssueEmail, self).__init__(*args, **kwargs)
+        super(NewIssueEmail, self).__init__(sections=[], *args, **kwargs)
 
         self.issue = issue
 
