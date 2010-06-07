@@ -29,12 +29,12 @@ def allStatsFile(request):
     Get a file of lab statistics within time frame.
     Default is current week.
     """
-    stats = m_models.History.objects.all()
     begin = None
     end = None
     form = FileTimeForm()
+    data = None
+    response = None
     message = None
-    response = None    
 
     GET_begin_date = request.GET.get('time_start_0','') 
     GET_begin_time = request.GET.get('time_start_1','')
@@ -44,48 +44,47 @@ def allStatsFile(request):
     GET_end_time = request.GET.get('time_end_1','')
     GET_end = GET_end_date + ' ' + GET_end_time
 
-    if GET_begin and GET_end :
+    if not GET_begin == ' ' and not GET_end == ' ':
         form = FileTimeForm(request.GET)
         if form.is_valid():
             end = form.cleaned_data['time_end']
-            begin = form.cleaned_data['time_start']
-            message = cacheStats(begin, end, False)
-
-    if not begin:
-        today = datetime.date.today().weekday()
-        begin = datetime.date.today()
-        timestamp = time.mktime(begin.timetuple())
-        if today != 6: # today is not sunday, otherwise display today's stats
-            timestamp = timestamp - (1 + today) * 24 * 60 * 60
-            begin = datetime.datetime.fromtimestamp(timestamp)
-        
-    elif end:
-        stats = stats.exclude(login_time__gte=end)
-
-    stats = stats.filter(login_time__gte=begin)
-
-    
-    if stats:
-        stats = makeFile(stats);
-        response = HttpResponse(mimetype='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=LabStat'+GET_begin_date + '__'+GET_end_date+' .csv'
-        writer = csv.writer(response)
-        for entry in stats:
-            writer.writerow([entry['user'],entry['machine'],entry['location'],entry['login_time'],entry['session_time'],entry['type'],entry['platform']])
-        return response
+            begin = form.cleaned_data['time_start'];
+     
+            
+            data = m_models.History.objects.select_related().filter(login_time__gte=begin).exclude(login_time__gte=end)
+            
+        if data == None:
+            message =  "There is not data can be generated in this interval!"
+        else:
+            stats = []
+            for history in data:
+                data= {'user': history.user,
+                        'machine':  history.machine,
+                        'location': history.machine.location,
+                        'login_time': history.login_time,
+                        'session_time': history.session_time,
+                        'type': history.machine.type,
+                        'platform' : history.machine.type.platform}
+                stats.append(data)
+            response = HttpResponse(mimetype='text/csv')
+            response['Content-Disposition'] = 'attachment; filename=LabStat'+GET_begin_date + '__'+GET_end_date+' .csv'
+            writer = csv.writer(response)
+            
+            for entry in stats :
+                writer.writerow(entry[user],entry[machine],entry[location],entry[login_time],entry[session_time],entry[type],entry[platform])
+                
+                
+            return response
        
-    else:
-        stats = []
+    
 
-        args = {
-            'form': form,
-            'location_stats': stats,
-            'message': message,
-            'response':response,
-        }
 
-    if not stats:
-        args['location_stats'] = None
+    args = {
+        'form': form,
+        'response':response,
+        'message': message,
+    }
+
 
     return render_to_response('LabStats/statsfile.html', args, context_instance=RequestContext(request))
 
