@@ -50,30 +50,34 @@ def allStatsFile(request):
             end = form.cleaned_data['time_end']
             begin = form.cleaned_data['time_start'];
      
-            
-            data = m_models.History.objects.select_related().filter(login_time__gte=begin).exclude(login_time__gte=end)
-            
-        if data == None:
+           
+            history = m_models.History.objects.values_list('user','login_time','session_time','machine').filter(login_time__gte=begin).exclude(login_time__gte=end)
+            m_type = m_models.Type.objects.values_list('mt_id','name','platform').all()
+            m_platform = m_models.Platform.objects.values_list('platform_id','name').all()
+            m_machine = m_models.Item.objects.values_list('item_id','name','type','location').all()
+            m_location = m_models.Location.objects.values_list('ml_id','name').all()
+ 
+        if history == None:
             message =  "There is not data can be generated in this interval!"
         else:
             stats = []
-            for history in data:
-                data= {'user': history.user,
-                        'machine':  history.machine,
-                        'location': history.machine.location,
-                        'login_time': history.login_time,
-                        'session_time': history.session_time,
-                        'type': history.machine.type,
-                        'platform' : history.machine.type.platform}
-                stats.append(data)
             response = HttpResponse(mimetype='text/csv')
             response['Content-Disposition'] = 'attachment; filename=LabStat'+GET_begin_date + '__'+GET_end_date+' .csv'
             writer = csv.writer(response)
+
+            for entry in m_location:
+                machine_history = [ m for m in m_machine if m[3] == entry[0]]
+                for each_m in machine_history:
+                    type = [t for t in m_type if t[0] == each_m[2]][0]#return a tuple
+                     
+                    platform = [p[1] for p in m_platform if p[0] == type[2]][0]
+                    location_history = [h for h in history if h[3]==each_m[0]]
+                    for each in location_history:
+                        stats.append([each[0],each_m[1],entry[1],each[1],each[2],type[1],platform])
             
-            for entry in stats :
-                writer.writerow(entry[user],entry[machine],entry[location],entry[login_time],entry[session_time],entry[type],entry[platform])
-                
-                
+            stats = sorted(stats, key= lambda s : s[3])
+            for each in stats:
+                writer.writerow([each[0],each[1],each[2],each[3],each[4],each[5],each[6]]) 
             return response
        
     
