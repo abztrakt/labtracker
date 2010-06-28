@@ -81,7 +81,7 @@ function applyMachineUpdates(data) {
 
             // status will be wrong... mark as unusable?
             $('#map').append(item);
-            data[ii].state = "broken";
+            data[ii].state = "unusable";
         }
 
         applyToMachine(item, data[ii]);
