@@ -42,8 +42,8 @@ def show(request, view_name):
         PRE: Takes a datetime object and will gets machines added after that date
         POST: Returns machine information in JSON format
         """
-        items = view.getMappedItems()
-
+        items = view.getMappedItems().exclude(last_modified__lte=last,machine__item__last_modified__lte=last)
+        
         ret_data = {}
 
         for item in items:
@@ -58,17 +58,19 @@ def show(request, view_name):
                     machine_info = True
                 else:
                     mapped_info = item.last_modified > last
-                    #machine_info = item.last_modified > last
+                    machine_info = item.machine.item.last_modified > last
             else:
                 machine_info = True
                 mapped_info = True
 
-            #Always update machine states
-            states = item.machine.item.status.values()
-            data['state'] = [] 
-            for each_state in states:
-                data['state'].append(each_state['name'].lower());
-
+            if machine_info:
+                states = [a for (a,) in item.machine.item.status.values_list('name')]
+                if 'Inuse' in states:
+                    data['state'] = 'unusable'
+                elif 'Usable' in states:
+                    data['state']= 'usable'
+                else:
+                    data['state'] = 'unusable'
 
 
             if mapped_info:
@@ -120,9 +122,14 @@ def show(request, view_name):
     map_items = []
    
     for item in view.getMappedItems():
-        status = []
-        for each_state in item.machine.item.status.values():
-            status.append(each_state['name'].lower())
+        states = [a for (a,) in item.machine.item.status.values_list('name')]
+        if 'Inuse' in states:
+            status = 'unusable'
+        elif 'Usable' in states:
+            status = 'usable'
+        else:
+            status = 'unusable'
+
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
@@ -139,7 +146,7 @@ def show(request, view_name):
         'view':     view,
         'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
-        'status':   Machine.models.Status.objects.all(),
+        'status':   ['usable','unusable'],
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
                 "name":     view_name,
