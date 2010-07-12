@@ -90,9 +90,10 @@ def updateMachine(request, name):
 def track(request, action, macs):
 
     # must be https
-    if not request.is_secure():
-        pass
-        return HttpResponseForbidden()
+    #if not request.is_secure():
+        # WTF is this pass doing here, ericwu?
+        #pass
+        #return HttpResponseForbidden()
 
     data = request.REQUEST.copy() 
 
