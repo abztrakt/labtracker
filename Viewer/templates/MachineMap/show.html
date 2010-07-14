@@ -12,7 +12,7 @@
                 'timer': 5000,
 				'refresh': 0,
 				'states': { {% for st in status %}
-					'{{st.name|lower}}': 'status_{{st.name|lower}}'{% if not forloop.last %},{% endif %}{% endfor %}
+					'{{st|lower}}': 'status_{{st|lower}}'{% if not forloop.last %},{% endif %}{% endfor %}
 				},
 				'sizes': [{% for size in sizes %}'{{ size.name }}'{% if not forloop.last %}, {%endif%}{%endfor%}]
 			});
