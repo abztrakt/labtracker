@@ -139,6 +139,9 @@ def track(request, action, macs):
         for st in flags['add']:
             machine.status.add(st)
 
+	#To get last_modified update
+	machine.save()
+	
         #m_utils.updateStatus(machine, status, user, time)
         #print machine.status.all()
 
