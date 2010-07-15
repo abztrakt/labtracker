@@ -151,6 +151,9 @@ class History(models.Model):
     session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     login_time = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+	return "%s-%s-%s" % (self.machine.location,self.machine.name,self.login_time)
+
 class Contact(models.Model):
     contact_id = models.AutoField(primary_key=True)
     mg = models.ForeignKey(Group)
