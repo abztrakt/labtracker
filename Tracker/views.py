@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
-
+from django.db.models import Q
 
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
@@ -98,12 +98,15 @@ def track(request, action, macs):
     data = request.REQUEST.copy() 
 
     macs_list = macs.split(',')
-
+    
     for mac in macs_list:
-        machine = m_models.Item.objects.filter(mac1__iexact=mac)
+	mac = mac.replace('-',':')
+	mac_temp = mac.replace(':','-')
+	machine = m_models.Item.objects.filter(Q(mac1__iexact=mac)|Q(mac1__iexact=mac_temp))
 
+	
         if len(machine) == 0:
-            machine = m_models.Item.objects.filter(mac2__iexact=mac) 
+            machine = m_models.Item.objects.filter(Q(mac2__iexact=mac)|Q(mac2__iexact=mac_temp)) 
 
         if len(machine) == 1:
             break 
