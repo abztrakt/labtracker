@@ -1,10 +1,13 @@
 {% extends "base_full.html" %}
+{% load adminmedia %}
 
 {%block pageCSS %}
 @import url('/media_admin/css/widgets.css');
 {%endblock%}
 
 {%block pageJS %}
+    <script type="text/javascript">window.__admin_media_prefix__="{%filter escapejs %}{% admin_media_prefix %}{%endfilter%}"</script>
+
     <script type="text/javascript" src="/admin/jsi18n/"></script>
     <script type="text/javascript" src="/media_admin/js/core.js"></script>
     <script type="text/javascript" src="/media_admin/js/admin/RelatedObjectLookups.js"></script>
