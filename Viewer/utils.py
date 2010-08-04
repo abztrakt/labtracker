@@ -4,29 +4,10 @@ from django.conf import settings as lset
 
 import Machine.models as m_models
 
-from django.db.models import Avg,Min, Max, Count, StdDev
-try:
-    set
-except NameError:
-    from sets import Set
+from django.db.models import Avg, Min, Max, Count, StdDev
+
+from sets import Set
 from decimal import *
-
-def makeFile(histories=None):
-    """
-    Generate the stats file from the given qDicts
-    """
-    stats = []
-    for history in histories:
-        data= {'user': history.user,
-                'machine':  history.machine,
-                'location': history.machine.location,
-                'login_time': history.login_time,
-                'session_time': history.session_time,
-                'type': history.machine.type,
-                'platform' : history.machine.type.platform}
-        stats.append(data);
-    return stats
-
 
 def getStats(stats=None, machines=None, locations=None):
     """
@@ -43,14 +24,6 @@ def getStats(stats=None, machines=None, locations=None):
     statistics = []
     login_count = 0
 
-
-    #CHANGE
-    #generate stats for all locations
-    all_logins = 0
-    all_machines = 0
-    all_clients_count = 0
-    all_data = stats.aggregate(min_time=Min('session_time'), max_time=Max('session_time'),avg_time=Avg('session_time'),total_time=Count('session_time'))
-
     # Generate stats for each location
     for location in locations:
 
@@ -64,7 +37,7 @@ def getStats(stats=None, machines=None, locations=None):
             login_count = login_count + location_stats.count()
 
             # Number of distinct clients
-            clients_location = set()
+            clients_location = Set()
             distinct_clients = [clients_location.add(stat.user) for stat in location_stats]
 
             # Seat time statistics
@@ -93,32 +66,9 @@ def getStats(stats=None, machines=None, locations=None):
         
             statistics.append(data)
 
-            #CHANGE get stats for all labs;
-            #total_login
-            all_machines = all_machines + machines_in_location
-            all_logins = all_logins + login_count
-            all_clients_count = all_clients_count + len(clients_location)
-    all_logins_per_machine =1.0 *  all_logins / all_machines
-    all_distinct_per_machine = 1.0 * all_clients_count / all_machines
-
-    all_data['avg_time'] = "%.2f" % all_data['avg_time']
-    all_data['location'] = "All labs"
-    all_data['logins_per_machine'] = "%.2f" % all_logins_per_machine 
-    all_data['distinct_per_machine'] = "%.2f" % all_distinct_per_machine
-    all_data['total_machines'] = all_machines
-    all_data['total_logins'] = all_logins
-    all_data['distinct_logins'] = "%.2f" % all_distinct_per_machine
-    all_data['stdev_time'] = 0
-    if lset.DATABASE_ENGINE == 'mysql':
-        stdev = stats.aggregate(stdev_time=StdDev('session_time'))
-        all_data['stdev_time'] = "%.2f" % stdev['stdev_time']
-
-    statistics.append(all_data)
-
-
     return statistics
 
-def cacheStats(begin=None, end=None,labStats=True,tags=None, description=None):
+def cacheStats(begin=None, end=None, tags=None, description=None):
     """
     Makes caches of statistics
     """
@@ -137,20 +87,20 @@ def cacheStats(begin=None, end=None,labStats=True,tags=None, description=None):
 
     data = m_models.History.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
     exists = vm.StatsCache.objects.filter(time_start=begin, time_end=end)
-    #change!! 
-    #The call is from LabStats or StatsFile
-    if labStats:
-        if exists.count() > 0:
-            return "This interval already exists!"
-        if data:
-            stats = getStats(data)
-        else:
-            return "There is no data to save in this interval!"
 
-        return "Your entry has been successfully saved."
+    if exists.count() > 0:
+        return "This interval already exists!"
+    if data:
+        stats = getStats(data)
     else:
-        if not data:
-            return "There is no file can be generated in this interval!"
+        return "There is no data to save in this interval!"
+
+    # Make a row for each location, for each time interval
+    for location in stats:
+        interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+        interval.save()
+
+    return "Your entry has been successfully saved."
 
 def getViewType(name):
     namespace = name.split('.')[-1]

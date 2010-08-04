@@ -6,7 +6,7 @@ import Viewer.models as v_models
 import LabtrackerCore.utils as utils
 
 from Viewer.forms import TimeForm, FileTimeForm
-from Viewer.utils import getStats, cacheStats,makeFile
+from Viewer.utils import getStats, cacheStats
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
