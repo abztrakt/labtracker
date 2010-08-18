@@ -137,10 +137,20 @@ def allStats(request):
     else:
         stats = []
 
+    if not end:
+       end = datetime.date.today()
+       if not begin == end:
+           begin = begin.date() 
+    else:
+       end = end.date()
+       begin = begin.date()
+
     args = {
             'form': form,
             'location_stats': stats,
-            'message': message
+            'message': message,
+	    'begin': begin,
+            'end':end,
         }
 
     if not stats:
