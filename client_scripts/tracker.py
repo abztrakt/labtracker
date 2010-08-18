@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import urllib
-import urllib2
+#import urllib2
 import getpass
 import sys
 import os
@@ -51,12 +51,12 @@ def get_data(status):
 def _track(url, action, mac, data=None):
     """Lower level track function, useful for testing"""
     try:
-
+	import urllib2
         req = urllib2.Request(url="https://%s/tracker/%s/%s/" % (url, action, mac),
                                 data=get_data(action)) 
         urllib2.urlopen(req)
     except:
-        pass
+        urllib.urlopen("http://%s/tracker/%s/%s/" % (url,action,mac),get_data(action))
 
 def track():
     global ACTIONS, options
