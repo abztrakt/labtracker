@@ -11,7 +11,7 @@ DEFAULT_DESCRIPTION = """Description of Problem:
 
 What was the expected behavior/output? What did you observe?
 
-What are the steps to reproduce the problem (if reproducable)?
+What are the steps to reproduce the problem (if reproducible)?
  1. 
  2.
  3.
