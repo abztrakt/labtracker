@@ -11,7 +11,9 @@ DEBUG = False
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "inspiredlychee.eplt.washington.edu"
+    LABTRACKER_URL = "web5.eplt.washington.edu"
+    import httplib
+    httplib.HTTPConnection.debuglevel = 1
 ACTIONS = ('login','logout','ping')
 
 # functions at the module level must be defined
