@@ -139,7 +139,7 @@ def getIssueContacts(instance):
     contacts = []
 
     if instance.group:
-        g_contacts = instance.group.group.primaryContact()
+        g_contacts = instance.group.group.contacts()
         contacts = [contact.user for contact in g_contacts]
 
     contacts = set(contacts)

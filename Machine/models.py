@@ -131,6 +131,12 @@ class Group(coreModels.Group):
         """
         return self.contact_set.filter(is_primary=True)
 
+    def contacts(self):
+        """
+        Returns the set of all contacts for this group
+        """
+        return self.contact_set.filter()
+
     def __unicode__(self):
         return self.group.name
 
