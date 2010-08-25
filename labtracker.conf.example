@@ -1,23 +1,64 @@
 <VirtualHost *:80>
+    ServerName labtracker.eplt.washington.edu
+    ServerAdmin cstimmel@uw.edu
+
+    LogLevel Error
+
+    KeepAlive Off
+
 	RewriteEngine on
 	RewriteCond %{REQUEST_URI} ^/(login.*)|^/(admin.*)
 	RewriteRule ^/(.*) https://%{SERVER_NAME}/$1 [R,L]
-	
-	WSGIScriptAlias / /var/django/labtracker/labtracker.wsgi
 
-	<Location /static>
-		SetHandler None
-	</Location>
-	<LocationMatch "\.(jpg|css|png|gif|js)$">
-		SetHandler None
-	</LocationMatch>
+    DocumentRoot /var/django/labtracker
+    <Directory /var/django/labtracker>
+        Options +ExecCGI
+        Order allow,deny
+        Allow from all
+    </Directory>
 
+    Alias /static/ /var/django/labtracker/static/
+    Alias /media_admin/ /usr/local/lib/python2.6/dist-packages/django/contrib/admin/media/
+
+    WSGIDaemonProcess labtracker user=www-data group=www-data processes=2 threads=5
+    WSGIProcessGroup labtracker
+    AddHandler wsgi-script .wsgi
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !^/media_admin/(.*)$
+    RewriteCond %{REQUEST_FILENAME} !^/static/(.*)$
+    RewriteRule ^(.*)$ /labtracker.wsgi/$1 [QSA,L]
 </VirtualHost>
 
 <VirtualHost *:443>
+    ServerName labtracker.eplt.washington.edu
+    ServerAdmin cstimmel@uw.edu
+
+    LogLevel Error
+
     SSLEngine on
-    SSLCertificateFile    /etc/ssl/certs/server.pem
-    SSLCertificateKeyFile /etc/ssl/private/server.key
+    SSLCertificateFile    /etc/ssl/certs/labtracker.pem
+    SSLCertificateKeyFile /etc/ssl/private/labtracker.key
+
+    DocumentRoot /var/django/labtracker
+    <Directory /var/django/labtracker>
+        Options +ExecCGI
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static/ /var/django/labtracker/static/
+    Alias /media_admin/ /usr/local/lib/python2.6/dist-packages/django/contrib/admin/media/
+
+    WSGIDaemonProcess labtracker-ssl user=www-data group=www-data processes=2 threads=5
+    WSGIProcessGroup labtracker-ssl
+    AddHandler wsgi-script .wsgi
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !^/media_admin/(.*)$
+    RewriteCond %{REQUEST_FILENAME} !^/static/(.*)$
+    RewriteRule ^(.*)$ /labtracker.wsgi/$1 [QSA,L]
+
+    KeepAlive Off
 
 	<LocationMatch ^/login.*$>
         AuthType UWNetID
@@ -34,16 +75,5 @@
     <Location /PubCookie.reply>
         SetHandler pubcookie-post-reply
     </Location>
-	
-	WSGIScriptAlias / /var/django/labtracker/labtracker.wsgi
-	
-    <Location /static>
-        SetHandler None
-    </Location>
-    <LocationMatch "\.(jpg|css|png|gif|js)$">
-        SetHandler None
-    </LocationMatch>
-    
-    Alias /media_admin/ "/usr/lib/python2.5/site-packages/django/contrib/admin/media/"
 </VirtualHost>
 
