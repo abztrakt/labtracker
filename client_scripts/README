@@ -15,7 +15,11 @@
 
  The contents of the 'dist' folder will contain all necessary files.
 
- Copy the dist folder onto client machines. Using group policy, accessed by typing 'mmc' (without quotes) into the Windows run command, add the tracker.exe to the logon and logoff scripts.  For parameters, pass in '-a login' for the logon script and '-a logout' for the logoff script.
+ Copy the dist folder onto client machines. Using group policy, accessed by typing 'mmc' 
+(without quotes - you may need to add the "Group Policy Object Editor" snap in by going to 
+File > Add/Remove Snap-In) into the Windows run command, add the tracker.exe to the logon 
+and logoff scripts (User Configuration > Windows Settings > Scripts).  For parameters, pass 
+in '-a login' for the logon script and '-a logout' for the logoff script.
 
 == OS X ==
  Run 

@@ -57,7 +57,7 @@ def _track(url, action, mac, data=None):
         req = urllib2.Request(url="https://%s/tracker/%s/%s/" % (url, action, mac),
                                 data=get_data(action)) 
         urllib2.urlopen(req)
-    except:
+    except ImportError:
         urllib.urlopen("http://%s/tracker/%s/%s/" % (url,action,mac),get_data(action))
 
 def track():
