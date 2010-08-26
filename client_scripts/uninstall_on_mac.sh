@@ -1,16 +1,24 @@
 #!/bin/bash
 
 dir="/Library/Application Support/Labtracker"
+ihookdir="/etc/hooks"
 
-login_hook_file="mac_login_hook.sh"
-login_hook_loc="${dir}/${login_hook_file}"
+login_hook_file="LI03mac_login_hook.sh"
+if [[ -e "$ihookdir" || -d "$ihookdir" ]]; then # if ihookdir exists, use it
+	login_hook_loc="${ihookdir}/${login_hook_file}"
+else # else treat this like it will be the only LoginHook
+	login_hook_loc="${dir}/${login_hook_file}"
+fi
 
-logout_hook_file="mac_logout_hook.sh"
-logout_hook_loc="${dir}/${logout_hook_file}"
+logout_hook_file="LO98mac_logout_hook.sh"
+if [[ -e "$ihookdir" || -d "$ihookdir" ]]; then # if ihookdir exists, use it
+	logout_hook_loc="${ihookdir}/${logout_hook_file}"
+else # else treat this like it will be the only LogoutHook
+	logout_hook_loc="${dir}/${logout_hook_file}"
+fi
 
 script_file="tracker.py"
 script_loc="${dir}/${script_file}"
-
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -51,8 +59,10 @@ if [ -e "$dir" ]; then
 fi
 
 # remove hook configurations
-`defaults delete com.apple.loginwindow LoginHook`
-`defaults delete com.apple.loginwindow LogoutHook`
+if [[ ! -e "$ihookdir" || ! -d "$ihookdir" ]]; then # if not using iHook, unregister the hook scripts
+	`defaults delete com.apple.loginwindow LoginHook`
+	`defaults delete com.apple.loginwindow LogoutHook`
+fi
 
 echo "Successfully uninstalled Labtracker client script"
 exit 0
