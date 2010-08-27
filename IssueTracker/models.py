@@ -3,6 +3,10 @@ from django.db import models
 from LabtrackerCore.models import Item,InventoryType,Group
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django import dispatch
+from IssueTracker import changedAssigneeSignal
+
+changed_assignee = dispatch.Signal(providing_args=["old_assignee"])                
 
 class ResolveState(models.Model):
     """
@@ -62,9 +66,15 @@ class Issue(models.Model):
         self.last_modified = datetime.now() # slight hack (if a hack at all) to get last_modified to update correctly.
 
         if self.pk:
+            print "HI!"
             old = Issue.objects.get(pk=self.pk)
             if old.resolved_state != self.resolved_state :
                     self.resolve_time = datetime.now()
+            print old.assignee
+            print self.assignee
+            if old.assignee and self.assignee and old.assignee != self.assignee:
+                print "THERE!"
+                changedAssigneeSignal.send(sender=self, old_assignee = old.assignee)
 
         super(Issue, self).save(*args, **kwargs)
 

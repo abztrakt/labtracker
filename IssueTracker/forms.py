@@ -3,7 +3,6 @@ from django import forms, dispatch
 from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
 
-from IssueTracker import newIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
@@ -43,9 +42,6 @@ class CreateIssueForm(ModelForm):
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
 
-        # send signal
-        newIssueSignal.send(sender=self, instance=inst)
-
         return inst
 
     class Meta:
@@ -77,10 +73,6 @@ class UpdateIssueForm(ModelForm):
 
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
-
-        # send signal
-        newIssueSignal.send(sender=self, instance=inst)
-
 
     class Meta:
         model = im.Issue

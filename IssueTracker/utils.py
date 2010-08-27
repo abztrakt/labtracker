@@ -141,6 +141,8 @@ def getIssueContacts(instance):
     if instance.group:
         g_contacts = instance.group.group.contacts()
         contacts = [contact.user for contact in g_contacts]
+        if instance.assignee:
+            contacts.append(instance.assignee)
 
     contacts = set(contacts)
 

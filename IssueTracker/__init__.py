@@ -1,3 +1,3 @@
 from django import dispatch
 
-newIssueSignal = dispatch.Signal(providing_args=["instance",])
+changedAssigneeSignal = dispatch.Signal(providing_args=["old_assignee",])
