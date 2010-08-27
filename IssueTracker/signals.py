@@ -17,10 +17,8 @@ def sendCreateIssueEmail(sender, instance=None, **kwargs):
         return
 
     contacts = [c.email for c in utils.getIssueContacts(instance)]
-    print contacts
     if previousAssigneeForIssue != None and previousAssigneeForIssue != '' and previousAssigneeForIssue.email not in contacts:
         contacts.append(previousAssigneeForIssue.email)
-    print contacts
 
     # send an email to this contact
     em = Email.NewIssueEmail(instance, "[Issue %d NEW]" % instance.pk)
@@ -40,7 +38,6 @@ def preSaveIssueEmail(sender, old_assignee=None, **kwargs):
     We might not even need this, but I'll leave it here for a little bit...
     """
     global previousAssigneeForIssue
-    print old_assignee
     previousAssigneeForIssue = old_assignee
 
 changedAssigneeSignal.connect(preSaveIssueEmail)
