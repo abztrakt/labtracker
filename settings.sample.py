@@ -127,6 +127,9 @@ EMAIL_HOST="localhost"
 EMAIL_PORT=25
 DEFAULT_FROM_EMAIL="labtracker@localhost"
 EMAIL_TEST_RECIPIENT="test@localhost"
+#All E-mails sent will have the subject with this prefixed in brackets.
+#E.G.: [LabTracker],[MyIssueTracker]
+EMAIL_SUBJECT_PREFIX="LabTracker"
 
 """
 ### ACTIVE DIRECTORY SETTINGS
