@@ -117,10 +117,7 @@ class NewIssueEmail(Email):
         resolveSection = EmailSection("Issue Resolve State")
 
         # FIXME use a template
-        if curState != None:
-            resolveSection.content = "Resolved from %s to %s." % (state, curState)
-        else:
-            resolveSection.content = curState
+        resolveSection.content = "Resolved from %s to %s." % (curState, state)
         self.appendSection(resolveSection)
 
     def addCommentSection(self, user, comment):

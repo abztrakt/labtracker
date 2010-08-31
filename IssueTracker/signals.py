@@ -2,10 +2,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 
 from IssueTracker import utils
-from IssueTracker import changedAssigneeSignal, changedIssueSignal, forms, Email
-from IssueTracker.models import Issue, IssueComment
-
-previousAssigneeForIssue = ""
+from IssueTracker import changedIssueSignal, forms, Email
+from IssueTracker.models import Issue, IssueComment, ResolveState
 
 def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     """
@@ -16,8 +14,6 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
         return
 
     contacts = [c.email for c in utils.getIssueContacts(instance)]
-    if previousAssigneeForIssue != None and previousAssigneeForIssue != '' and previousAssigneeForIssue.email not in contacts:
-        contacts.append(previousAssigneeForIssue.email)
 
     # send an email to this contact
     em = Email.NewIssueEmail(instance, "New issue Reported")
@@ -32,27 +28,34 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
 
 post_save.connect(sendCreateIssueEmail, sender=Issue)
 
-def stateChangeNotifications(sender, old_issue=None, **kwargs):
+def stateChangeNotifications(sender, data=None, **kwargs):
     """
     Sends notification e-mails on state changes for an issue
     """
     if sender.group == None and sender.item == None:
         return
-
+    print data
+    sender = Issue.objects.get(pk=sender.pk)
+    if data['assignee'] != '':
+        new_assignee = User.objects.get(pk=data['assignee'])
     contacts = [c.email for c in utils.getIssueContacts(sender)]
-    if old_issue.assignee != None and old_issue.assignee.email not in contacts:
-        contacts.append(old_issue.assignee.email)
+    if data['assignee'] != '' and new_assignee.email not in contacts:
+        contacts.append(new_assignee.email)
 
     # send an email to this contact
     em = Email.NewIssueEmail(sender)
     em.addTo(sender.reporter.email)
-    #This broke, need to fix -Yusuke
-    #em.addProblemTypeSection("", instance.problem_type.all())
-    if old_issue.assignee != sender.assignee:
-        em.addAssigneeSection(str(old_issue.assignee),str(sender.assignee))
-    em.addResolveStateSection(old_issue.resolved_state)
-    #em.addCommentSection(sender.reporter, sender.description)
-
+    # Check for a change in assignee
+    if new_assignee != sender.assignee:
+        em.addAssigneeSection(str(sender.assignee),str(new_assignee))
+    # Check for a change in resolved state
+    if data['resolved_state'] != '':
+        resolved_state = ResolveState.objects.get(pk=data['resolved_state']) 
+        if resolved_state != sender.resolved_state:
+            em.addResolveStateSection(resolved_state)
+    #Add Comment if exists
+    if data['comment'] != '':
+        em.addCommentSection(User.objects.get(pk=data['user']), data['comment'])
     for email in contacts:
         em.addTo(email)
     em.send()

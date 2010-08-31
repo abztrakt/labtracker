@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms, dispatch
 from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
-
+from IssueTracker import changedIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
@@ -51,7 +51,7 @@ class CreateIssueForm(ModelForm):
 
 class UpdateIssueForm(ModelForm):
     """
-    This form is used for updating issues
+    This form is used for updating issue
 
     This form will only update items *explicitily* given to it
     """
@@ -66,12 +66,13 @@ class UpdateIssueForm(ModelForm):
         all_keys = set(cleaned_data.keys())
 
         # get keys that not given, delete them from cleaned_data
+        #import pdb; pdb.set_trace()
         for key in all_keys.difference(given_keys):
             del cleaned_data[key]
-
         return cleaned_data
 
     def save(self, *args, **kwargs):
+        changedIssueSignal.send(sender=self.instance, data=self.data)
         inst = ModelForm.save(self, *args, **kwargs)
 
     class Meta:
