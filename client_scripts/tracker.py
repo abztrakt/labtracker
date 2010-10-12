@@ -33,8 +33,10 @@ def get_mac():
     if sys.platform == 'win32':
         for line in os.popen("ipconfig /all"):
             if line.lstrip().startswith('Physical Address'):
-                mac = line.split(':')[1].strip().replace('-',':')
-                break
+                possible_mac = line.split(':')[1].strip().replace('-',':')
+            # On machines with multiple active interfaces, we want to send the MAC associated with the IPv4 Address
+            elif line.lstrip().startswith('IPv4 Address'):
+                mac = possible_mac
         return mac
     # os x 
     elif sys.platform == 'darwin':
