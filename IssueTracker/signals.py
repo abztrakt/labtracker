@@ -34,7 +34,7 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     """
     if sender.group == None and sender.item == None:
         return
-    print data
+    #print data
     sender = Issue.objects.get(pk=sender.pk)
     if data['assignee'] != '':
         new_assignee = User.objects.get(pk=data['assignee'])
