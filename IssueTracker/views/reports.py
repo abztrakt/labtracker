@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response
 
+import Machine.models as mac
 import IssueTracker.utils as utils
 import IssueTracker.models as im
 
@@ -21,6 +22,30 @@ def allUnresolved(request, page=1):
     return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
 
+def allBroken(request, page=1):
+    """
+    Lists all the Issues 
+    """
+    objects = im.Issue.objects.filter(resolved_state__isnull=True)
+    args = utils.generatePageList(request, objects, page)
+    args['issues'] = args['objects']
+    issues_list = {'Issues on Unusable Machines':[]}
+    for issue in args['issues']:
+        a = issue.item.item_id
+        m = mac.Item.objects.get(item_id=a)
+        c= m.status.values_list()
+        unusable = False
+        for status in c:
+            if status[0] == 3:
+                unusable = True
+        if not unusable:
+            issues_list['Issues on Unusable Machines'].append(issue)
+    args['object_list'] = issues_list.items() 
+    args['no_results'] = args['page'].object_list.count() < 1
+    return render_to_response("grouped_issue_list.html", args,
+            context_instance=RequestContext(request))
+
+
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def groupedList(request, group_by=None, page=1):
     """
@@ -34,14 +59,12 @@ def groupedList(request, group_by=None, page=1):
 
     args = utils.generateIssueArgs(request, objects)
     args['issues'] = args['objects']
-
     # Sets do not preserve order, so we must use a list to store the items
     issue_list = {}
     issue_sets = {}     # need to use this to detect duplicates
-
     for issue in args['issues']:
         field = getattr(issue, group_by)
-
+        
         if type(field).__name__ == "ManyRelatedManager":
             qs = field.get_query_set()
             group_names = [item.name for item in qs]

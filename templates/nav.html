@@ -2,10 +2,11 @@
 	<li class="view-issues">
 		<a href="{% url viewAll %}"><img src="{{MEDIA_URL}}/img/navicon/sadface.gif" alt="" /> Issues</a>
 		<ul>
-			<li><a href="{% url viewAll %}">All Unresolved</a></li>
+            <li><a href="{% url viewAll %}">All Unresolved</a></li>
 			{% if user.is_authenticated %}
 			<li><a href="{% url report-myissues %}">My Assigned Issues</a></li>
 			{% endif %}
+            <li><a href="{% url brokenView %}">Issues on Unusable Machines</a></li>
 			<li><a href="{% url groupView "problem_type" %}">Group By: Problem Type</a></li>
 			<li><a href="{% url groupView "item" %}">Group By: Item</a></li>
 		</ul>
