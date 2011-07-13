@@ -42,6 +42,7 @@ def stateChangeNotifications(sender, data=None, **kwargs):
         return
     #print data
     sender = Issue.objects.get(pk=sender.pk)
+    new_assignee = ''
     if data['assignee'] != '':
         new_assignee = User.objects.get(pk=data['assignee'])
     contacts = [c.email for c in utils.getIssueContacts(sender)]
