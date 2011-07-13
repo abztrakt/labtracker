@@ -50,7 +50,10 @@ def stateChangeNotifications(sender, data=None, **kwargs):
 
     # send an email to this contact
     em = Email.NewIssueEmail(sender)
-    em.addTo(sender.reporter.email)
+    try:
+        em.addTo(sender.reporter.email)
+    except:
+        pass
     # Check for a change in assignee
     if new_assignee != sender.assignee:
         em.addAssigneeSection(str(sender.assignee),str(new_assignee))
@@ -63,7 +66,10 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     if data['comment'] != '':
         em.addCommentSection(User.objects.get(pk=data['user']), data['comment'])
     for email in contacts:
-        em.addTo(email)
+        try:
+            em.addTo(email)
+        except:
+            pass
     em.send()
 
 changedIssueSignal.connect(stateChangeNotifications)
