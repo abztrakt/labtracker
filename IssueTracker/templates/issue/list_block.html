@@ -1,5 +1,4 @@
 {% load issue_extras %}
-
 {% if grouper %}
 <h4>{{ grouper|title }}</h4>
 {% endif %}
@@ -16,7 +15,7 @@
 		{% searchcolumn "last_modified" "Last Modified" %}
 	</tr>
 </thead>
-<tbody>{% for issue in object_list %}
+<tbody>{% for issue in pagination_page.object_list %}
     <tr class="{% cycle 'even' 'odd' %}">
         <td class='r_issue_id'>{{ issue.issue_id }}</td>
 		<td class='r_title'>
@@ -37,3 +36,18 @@
     </tr>{% endfor %}
 </tbody>
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if pagination_page.has_previous %}
+            <a href="?page={{ pagination_page.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ pagination_page.number }} of {{ pagination_page.paginator.num_pages }}.
+        </span>
+
+        {% if pagination_page.has_next %}
+            <a href="?page={{ pagination_page.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>

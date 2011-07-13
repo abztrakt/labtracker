@@ -14,8 +14,10 @@ def allUnresolved(request, page=1):
     """
     objects = im.Issue.objects.filter(resolved_state__isnull=True).reverse()
     
+    
     args = utils.generatePageList(request, objects, page)
     args['issues'] = args['objects']
+    x = args['objects']
     
     args['no_results'] = args['page'].object_list.count() < 1
 
@@ -53,7 +55,7 @@ def groupedList(request, group_by=None, page=1):
             if issue_list.has_key(group_name):
                 # only add if it doesn't already exist in list
                 if not issue_sets[group_name].issuperset([issue]):
-                    issue_list[group_name].append(issue)
+                    Issue_list[group_name].append(issue)
                     issue_sets[group_name].add(issue)
             else:
                 issue_list[group_name] = [issue,]

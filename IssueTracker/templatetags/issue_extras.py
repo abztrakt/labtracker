@@ -1,6 +1,6 @@
 from django import template
 from django.core.urlresolvers import reverse
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from IssueTracker import utils
 
 import re
@@ -155,7 +155,7 @@ def invSpecUpdate(parser, token):
 
 @register.inclusion_tag('issue/list_block.html', takes_context=True)
 def issueList(context, list, grouper=None):
-    return { 'object_list': list, 
+    return { 'pagination_page': list, 
             'grouper': grouper,
             'omethod': context['omethod'],
             'orderby': context['orderby'] }

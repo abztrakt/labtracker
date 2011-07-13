@@ -1,5 +1,5 @@
 import LabtrackerCore as core
-from django.core.paginator import Paginator 
+from django.core.paginator import Paginator, EmptyPage, InvalidPage 
 
 def getInventoryType(name):
     namespace = name.split('.')[-2]
@@ -33,19 +33,33 @@ def generatePageList(request, qdict, page_num):
     Take some arguments from user in data, the page number to show and the 
     returned query items, render out to user
     """
-
-    data = request.GET.copy()
+    #Doesn't even get used???
+    #data = request.GET.copy()
 
     # TODO need user-defined limits
-    num_per_page = 100
+    # num_per_page = 100
 
     args = generateOrderingArgs(request, qdict)
 
+    #ALL of the objects (issues)
     objects = args['objects']
-
+    
+    #Paginate ALL of the objects (issues in this case)
     p = Paginator(objects, 30)
 
-    args['page'] = p.page(page_num)
+    #Attempt to grab a page number, if not available, go to first page
+    try:
+        page = int(request.GET.get('page','1'))
+    except ValueError:
+        page = 1
+
+    try:
+        args['page'] = p.page(page)
+    except (EmptyPage, InvalidPage):
+        args['page'] = p.page(p.num_pages)
+
+    #Page number... ABOVE, ARGGGGGG
+    #args['page'] = p.page(page_num)
 
     if args['search_term']:
         # kludgy way of doing things
