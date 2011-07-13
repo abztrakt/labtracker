@@ -52,7 +52,7 @@ def groupedList(request, group_by=None, page=1):
     Lists issues, group_by
     """
 
-    if group_by not in ('problem_type','reporter', 'item', 'location', 'group'):
+    if group_by not in ('problem_type','reporter', 'item', 'location', 'group', 'machine_type'):
         return HttpResponseBadRequest()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
@@ -71,6 +71,8 @@ def groupedList(request, group_by=None, page=1):
             group_names.append(location)
         elif group_by == 'group':
             group_names.append(str(issue.group))
+        elif group_by == 'machine_type':
+            group_names.append(str(m.type))
         else:
             field = getattr(issue, group_by)
             
