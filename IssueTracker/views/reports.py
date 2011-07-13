@@ -52,7 +52,7 @@ def groupedList(request, group_by=None, page=1):
     Lists issues, group_by
     """
 
-    if group_by not in ('problem_type','reporter', 'item'):
+    if group_by not in ('problem_type','reporter', 'item', 'location'):
         return HttpResponseBadRequest()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
@@ -63,13 +63,20 @@ def groupedList(request, group_by=None, page=1):
     issue_list = {}
     issue_sets = {}     # need to use this to detect duplicates
     for issue in args['issues']:
-        field = getattr(issue, group_by)
-        
-        if type(field).__name__ == "ManyRelatedManager":
-            qs = field.get_query_set()
-            group_names = [item.name for item in qs]
+        if group_by == 'location':
+            group_names = []
+            a = issue.item.item_id
+            m = mac.Item.objects.get(item_id=a)
+            location= str(m.location) 
+            group_names.append(location)
         else:
-            group_names = [field]
+            field = getattr(issue, group_by)
+            
+            if type(field).__name__ == "ManyRelatedManager":
+                qs = field.get_query_set()
+                group_names = [item.name for item in qs]
+            else:
+                group_names = [field]
 
         for group_name in group_names:
             if issue_list.has_key(group_name):
