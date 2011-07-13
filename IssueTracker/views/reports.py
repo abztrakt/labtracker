@@ -52,7 +52,7 @@ def groupedList(request, group_by=None, page=1):
     Lists issues, group_by
     """
 
-    if group_by not in ('problem_type','reporter', 'item', 'location'):
+    if group_by not in ('problem_type','reporter', 'item', 'location', 'group'):
         return HttpResponseBadRequest()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True)
@@ -63,12 +63,14 @@ def groupedList(request, group_by=None, page=1):
     issue_list = {}
     issue_sets = {}     # need to use this to detect duplicates
     for issue in args['issues']:
+        group_names = []
+        a = issue.item.item_id
+        m = mac.Item.objects.get(item_id=a)
         if group_by == 'location':
-            group_names = []
-            a = issue.item.item_id
-            m = mac.Item.objects.get(item_id=a)
             location= str(m.location) 
             group_names.append(location)
+        elif group_by == 'group':
+            group_names.append(str(issue.group))
         else:
             field = getattr(issue, group_by)
             
