@@ -17,13 +17,19 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
 
     # send an email to this contact
     em = Email.NewIssueEmail(instance, "New issue Reported")
-    em.addTo(instance.reporter.email)
+    try:
+        em.addTo(instance.reporter.email)
+    except:
+        pass
     em.addProblemTypeSection("", instance.problem_type.all())
     em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
              + instance.description)
 
     for email in contacts:
-        em.addTo(email)
+        try:
+            em.addTo(email)
+        except:
+            pass
     em.send()
 
 post_save.connect(sendCreateIssueEmail, sender=Issue)
