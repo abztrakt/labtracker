@@ -31,11 +31,11 @@ def allBroken(request, page=1):
     args['issues'] = args['objects']
     issues_list = {'Issues on Unusable Machines':[]}
     for issue in args['issues']:
-        a = issue.item.item_id
-        m = mac.Item.objects.get(item_id=a)
-        c= m.status.values_list()
+        iss_id = issue.item.item_id
+        machine = mac.Item.objects.get(item_id=iss_id)
+        statuses= machine.status.values_list()
         unusable = False
-        for status in c:
+        for status in statuses:
             if status[0] == 3:
                 unusable = True
         if not unusable:
@@ -64,17 +64,17 @@ def groupedList(request, group_by=None, page=1):
     issue_sets = {}     # need to use this to detect duplicates
     for issue in args['issues']:
         group_names = []
-        a = issue.item.item_id
-        m = mac.Item.objects.get(item_id=a)
+        iss_id = issue.item.item_id
+        machine = mac.Item.objects.get(item_id=iss_id)
         if group_by == 'location':
-            location= str(m.location) 
+            location= str(machine.location) 
             group_names.append(location)
         elif group_by == 'group':
             group_names.append(str(issue.group))
         elif group_by == 'machine_type':
-            group_names.append(str(m.type))
+            group_names.append(str(machine.type))
         elif group_by == 'platform':
-            group_names.append(str(m.type.platform))
+            group_names.append(str(machine.type.platform))
         else:
             field = getattr(issue, group_by)
             
