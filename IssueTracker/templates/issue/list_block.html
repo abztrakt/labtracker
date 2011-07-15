@@ -15,7 +15,10 @@
 		{% searchcolumn "last_modified" "Last Modified" %}
 	</tr>
 </thead>
-<tbody>{% for issue in pagination_page.object_list %}
+<tbody>
+
+{% if pagination_page.object_list %}
+    {% for issue in pagination_page.object_list %}
     <tr class="{% cycle 'even' 'odd' %}">
         <td class='r_issue_id'>{{ issue.issue_id }}</td>
 		<td class='r_title'>
@@ -33,9 +36,33 @@
         <td class='r_assignee'>{{ issue.assignee }}</td>
         <td class='r_post_time'>{{ issue.post_time|date }} at {{ issue.post_time|time }}</td>
         <td class='r_last_modified'>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
-    </tr>{% endfor %}
+    </tr>
+    {% endfor %}
+{% else %}
+    {% for issue in pagination_page %}
+    <tr class="{% cycle 'even' 'odd' %}">
+        <td class='r_issue_id'>{{ issue.issue_id }}</td>
+		<td class='r_title'>
+			<a href="{% url IssueTracker-view issue.issue_id %}">{{ issue.title }}</a>
+		</td>
+        <td class='r_item'>
+        {% if issue.item %}
+			<a href="{{ issue.item.item.get_absolute_url }}">{{ issue.item }}</a>
+        {% else %}
+			{{ issue.item }}
+        {% endif %}
+        </td>
+        <td class='r_group'>{{ issue.group }}</td>
+		{# <td class='r_reporter'>{{ issue.reporter }}</td> #}
+        <td class='r_assignee'>{{ issue.assignee }}</td>
+        <td class='r_post_time'>{{ issue.post_time|date }} at {{ issue.post_time|time }}</td>
+        <td class='r_last_modified'>{{ issue.last_modified|date }} at {{ issue.last_modified|time }}</td>
+    </tr>
+    {% endfor %}
+{% endif %}
 </tbody>
 </table>
+{% if pagination_page.object_list %}
 <div class="pagination">
     <span class="step-links">
         {% if pagination_page.has_previous %}
@@ -51,3 +78,4 @@
         {% endif %}
     </span>
 </div>
+{% endif %}

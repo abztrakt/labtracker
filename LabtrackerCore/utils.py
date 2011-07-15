@@ -58,9 +58,6 @@ def generatePageList(request, qdict, page_num):
     except (EmptyPage, InvalidPage):
         args['page'] = p.page(p.num_pages)
 
-    #Page number... ABOVE, ARGGGGGG
-    #args['page'] = p.page(page_num)
-
     if args['search_term']:
         # kludgy way of doing things
         args['extraArgs'] = '&search_term=%s' % ( args['search_term'] )
