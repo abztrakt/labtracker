@@ -22,6 +22,7 @@ def allUnresolved(request, page=1):
     return render_to_response("issue_list.html", args,
             context_instance=RequestContext(request))
 
+@permission_required('IssueTracker.can_view', login_url="/login/")
 def allBroken(request, page=1):
     """
     Lists all the Issues 
