@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 import IssueTracker.utils as utils
 import IssueTracker.models as im
@@ -73,7 +74,20 @@ def groupedList(request, group_by=None, page=1):
     items.sort(tuple_sort)
 
     args['object_list'] = items
+    args['page'] = []
+    for issues in args['object_list']:
+        p = Paginator(issues,30)
+        try: 
+            page = int(request.GET.get('page','1'))
+        except ValueError:
+            page = 1
 
+        try:
+            args['page'].append(p.page(page))
+        except (EmptyPage, InvalidPage):
+            args['page'].append(p.page(p.num_page))
+
+    
     args['no_results'] = len(items) < 1
 
     return render_to_response("grouped_issue_list.html", args,
