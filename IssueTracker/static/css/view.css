@@ -99,14 +99,17 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 }
 
 #desbox {
-	margin-top: 1em;
+	/*
+    margin-top: 1em;
 	margin-bottom: 1em;
+    */
 }
 
 #description {
 	padding-top: .5em;
     min-width: 600px;
     min-height: auto;
+    margin-top: 0;
 }
 
 #problems {
@@ -135,7 +138,6 @@ div.history ul li { padding: 0px; margin: 0em 0em 0em 1em; }
 }
 
 div#main_issue { float: left; width: 700px; }
-#description { margin-top: 0px; }
 
 div#right-side-bar {
     float: left;
@@ -213,6 +215,8 @@ div#itemUpdate {
     background: #ededed;
 	border: 1px solid #cacaca;
 	padding: .5em  0 .5em 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .whitebox {

@@ -74,19 +74,6 @@ def groupedList(request, group_by=None, page=1):
     items.sort(tuple_sort)
 
     args['object_list'] = items
-    args['page'] = []
-    for issues in args['object_list']:
-        p = Paginator(issues,30)
-        try: 
-            page = int(request.GET.get('page','1'))
-        except ValueError:
-            page = 1
-
-        try:
-            args['page'].append(p.page(page))
-        except (EmptyPage, InvalidPage):
-            args['page'].append(p.page(p.num_page))
-
     
     args['no_results'] = len(items) < 1
 

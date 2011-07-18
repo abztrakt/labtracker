@@ -10,14 +10,19 @@ DEFAULT_DESCRIPTION = """Description of Problem:
 
 What was the expected behavior/output? What did you observe?
 
-What are the steps to reproduce the problem (if reproducible)?
+"""
+
+#UNDER CONSTRUCTION: Default 'Steps to reproduce' and 'Attmpts to fix'
+DEFAULT_STEPS = """What are the steps to reproduce the problem (if reproducible)?
  1. 
  2.
  3.
-
-Have you attempted to fix the problem? How?
-
 """
+
+DEFAULT_ATTEMPTS = """
+Have you attempted to fix the problem? How?
+"""
+
 
 class CreateIssueForm(ModelForm):
     """
@@ -37,6 +42,16 @@ class CreateIssueForm(ModelForm):
     description = forms.CharField(
             widget = forms.Textarea,
             initial = DEFAULT_DESCRIPTION
+        )
+
+    steps = forms.CharField(
+            widget = forms.Textarea,
+            initial = DEFAULT_STEPS
+        )
+
+    attempts = forms.CharField(
+            widget = forms.Textarea,
+            initial = DEFAULT_ATTEMPTS
         )
 
     def save(self, *args, **kwargs):
