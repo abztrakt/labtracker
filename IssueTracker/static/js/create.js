@@ -1,5 +1,4 @@
 var groups;
-var list_cc = new Array();
 $(document).ready(function() {
 	// initialization code
 	// reset();
@@ -9,10 +8,14 @@ $(document).ready(function() {
 		'listClass': 'asmList prob-types',
 		'listItemClass': 'asmListItem prob-types-item'
 	});
+    var list_cc = new Array();
     var cc_nodes = $('#id_cc').children();
     for (var i = 0; i <cc_nodes.length;i++) {
         list_cc.push(cc_nodes[i].innerHTML);
     }
+    $('#addCC_user').autocomplete({
+        source: list_cc
+    });
 	var items = $('#id_item');
 	var groups = $('#id_group');
     $('#addCC_user').autocomplete({
