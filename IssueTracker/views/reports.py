@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 import Machine.models as mac
 import IssueTracker.utils as utils
@@ -11,12 +12,14 @@ import IssueTracker.models as im
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def allUnresolved(request, page=1):
     """
-    Lists all the Issues 
+    Lists all the Issues, in-order by newest 
     """
-    objects = im.Issue.objects.filter(resolved_state__isnull=True)
+    objects = im.Issue.objects.filter(resolved_state__isnull=True).reverse()
+    
+    
     args = utils.generatePageList(request, objects, page)
     args['issues'] = args['objects']
-
+    
     args['no_results'] = args['page'].object_list.count() < 1
 
     return render_to_response("issue_list.html", args,
@@ -56,7 +59,7 @@ def groupedList(request, group_by=None, page=1):
     if group_by not in ('problem_type','reporter', 'item', 'location', 'group', 'machine_type', 'platform'):
         return HttpResponseBadRequest()
 
-    objects = im.Issue.objects.filter(resolved_state__isnull=True)
+    objects = im.Issue.objects.filter(resolved_state__isnull=True).reverse()
 
     args = utils.generateIssueArgs(request, objects)
     args['issues'] = args['objects']
@@ -108,7 +111,20 @@ def groupedList(request, group_by=None, page=1):
     items.sort(tuple_sort)
 
     args['object_list'] = items
+    args['page'] = []
+    for issues in args['object_list']:
+        p = Paginator(issues,30)
+        try: 
+            page = int(request.GET.get('page','1'))
+        except ValueError:
+            page = 1
 
+        try:
+            args['page'].append(p.page(page))
+        except (EmptyPage, InvalidPage):
+            args['page'].append(p.page(p.num_page))
+
+    
     args['no_results'] = len(items) < 1
 
     return render_to_response("grouped_issue_list.html", args,
@@ -127,7 +143,7 @@ def filteredList(request, filter_by=None, filter_val=None, page=1):
     else:
         return HttpResponseBadRequest()
 
-    objects = im.Issue.objects.filter(resolved_state__isnull=True, **filter)
+    objects = im.Issue.objects.filter(resolved_state__isnull=True, **filter).reverse()
 
     args = utils.generatePageList(request, objects, page)
     args['issues'] = args['objects']

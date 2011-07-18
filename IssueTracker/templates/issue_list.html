@@ -15,8 +15,8 @@
 {% block heading %}Issues{% endblock %}
 {% block content %}
 {% if not no_results %}
-	{% block issueListContent %}
-	{% issueList page.object_list %}
+	{% block issueListContent %}    
+	{% issueList page %}
 	{% endblock %}
 {% else %}
 <p>
