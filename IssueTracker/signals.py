@@ -16,14 +16,16 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     contacts = [c.email for c in utils.getIssueContacts(instance)]
 
     # send an email to this contact
-    em = Email.NewIssueEmail(instance, "New issue Reported")
+    em = Email.NewIssueEmail(instance, instance.title)
     try:
         em.addTo(instance.reporter.email)
     except:
         pass
     em.addProblemTypeSection("", instance.problem_type.all())
     em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-             + instance.description)
+        + "Group/Location: " + instance.group.name + ".\n"     
+	+ "Machine Name: " + instance.item.name + ".\n"
+	+ instance.description)
 
     for email in contacts:
         try:
