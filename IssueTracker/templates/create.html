@@ -113,6 +113,38 @@
 				{% else %}<ul class="errorlist"></ul>{% endif %}
             </div>
         </div>
+
+        <!--ADDING NEW FIELDS, UNDER CONSTRUCTION -->
+        <!-- STEPS TO REPRODUCING -->
+        <div id="steps" class="f-container">
+            <label for="id_{{form.steps.name}}" class="{% if form.steps.field.required %}required{% endif %}">
+                UNDER CONSTRUCTION: Reproducing steps:
+			</label>
+            <span class="help help">
+                Steps to reproduce problem
+            </span>
+            <div>
+                {{form.steps}}
+				{% if form.steps.errors %}{{ form.steps.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+        
+        <!-- ATTEMPTS AT FIXING -->
+        <div id="Attempts" class="f-container">
+            <label for="id_{{form.attempts.name}}" class="{% if form.attempts.field.required %}required{% endif %}">
+                UNDER CONSTRUCTION: Attempt:
+			</label>
+            <span class="help help">
+                Attempt at a solution to the problem.
+            </span>
+            <div>
+                {{form.attempts}}
+				{% if form.attempts.errors %}{{ form.attempts.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+
     </div>
     
     </div>
