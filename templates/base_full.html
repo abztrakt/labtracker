@@ -12,7 +12,7 @@
         @import url('{{MEDIA_URL}}css/dropdown.css');
 		{% block mainCSS %}
 		@import url("{{MEDIA_URL}}css/main.css");
-	
+	    @import url("{{MEDIA_URL}}js/css/smoothness/jquery-ui-1.8.14.custom.css");
 
 		{% block pageCSS %}
 		{% endblock %}
@@ -32,7 +32,7 @@
 	</script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
     <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
-    <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery-ui-1.8.custom.min.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/js/jquery-ui-1.8.14.custom.min.js"></script>
 	{% block mainJS %}
 
    <script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
