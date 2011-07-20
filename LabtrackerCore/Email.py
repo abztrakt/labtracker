@@ -105,14 +105,14 @@ class Email(object):
         """
         Add a 'to' address
         """
-        if not isValidEmail(to):
+        if isValidEmail(to):
             self.bcc.add(to)
 
     def addTo(self, to):
         """
         Add a 'to' address
         """
-        if not isValidEmail(to):
+        if isValidEmail(to):
             self.to.add(to)
 
     def getEmail(self, auth_user=None, auth_password=None):
