@@ -5,7 +5,7 @@ import models
 
 class NewIssueEmail(Email):
 
-    def __init__(self, issue, title=None, *args, **kwargs):
+    def __init__(self, issue, title='', *args, **kwargs):
 	title = title.replace('@', '[at]')
         kwargs['subject'] = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + " #%d: %s " % (issue.pk, title)
 
