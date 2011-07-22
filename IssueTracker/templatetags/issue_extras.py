@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from IssueTracker import utils
 
+import types
 import re
 
 register = template.Library()

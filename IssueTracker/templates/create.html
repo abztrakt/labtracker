@@ -1,7 +1,7 @@
 {% extends "base_full.html" %}
 
 {% block pageCSS %}
-@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
+@inputmport url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
 @import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
 {% endblock %}
 
@@ -37,7 +37,7 @@
                 {% if form.it.errors %}{{ form.it.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
-        </div>    
+         </div>    
 
         
         <div class="f-container left item-selector" id="group_block">
@@ -114,14 +114,12 @@
             </div>
         </div>
 
-        <!--ADDING NEW FIELDS, UNDER CONSTRUCTION -->
-        <!-- STEPS TO REPRODUCING -->
         <div id="steps" class="f-container">
             <label for="id_{{form.steps.name}}" class="{% if form.steps.field.required %}required{% endif %}">
-                UNDER CONSTRUCTION: Reproducing steps:
+                {{ form.steps.label}}
 			</label>
             <span class="help help">
-                Steps to reproduce problem
+                How was the problem created?
             </span>
             <div>
                 {{form.steps}}
@@ -130,13 +128,12 @@
             </div>
         </div>
         
-        <!-- ATTEMPTS AT FIXING -->
         <div id="Attempts" class="f-container">
             <label for="id_{{form.attempts.name}}" class="{% if form.attempts.field.required %}required{% endif %}">
-                UNDER CONSTRUCTION: Attempt:
+                {{form.attempts}}
 			</label>
             <span class="help help">
-                Attempt at a solution to the problem.
+                How did you attempt to solve the problem?
             </span>
             <div>
                 {{form.attempts}}

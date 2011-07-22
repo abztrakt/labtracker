@@ -106,16 +106,13 @@
 			<p id="description">{{ issue.description|escape|linebreaks }}</p>
 		</div>
 
-        <!-- Adding new descriptive views for the issue, UNDER CONSTRUCTION -->
-        <!-- STEPS TO REPRODUCE BOX -->
         <div id="reproducebox" class="greybox clear">
 			<h6 class="label-title" class='label'>Steps to reproduce:</h6>
-			<p id="description">UNDER CONSTRUCTION: REPRODUCING</p>
+			<p id="steps">{{issue.steps|escape|linebreaks}}</p>
 		</div>
-        <!-- ATTEMPT AT FIXING PROBLEM -->
         <div id="attemptbox" class="greybox clear">
 			<h6 class="label-title" class='label'>Attempts to fix:</h6>
-			<p id="description">UNDER CONSTRUCTION: ATTEMPTS</p>
+			<p id="attempts">{{issue.attempts|escape|linebreaks}}</p>
 		</div>
 
     <!--<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">--> 

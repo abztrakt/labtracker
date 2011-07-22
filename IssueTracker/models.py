@@ -56,6 +56,8 @@ class Issue(models.Model):
     resolved_state = models.ForeignKey(ResolveState, null=True, blank=True)
     title = models.CharField(max_length=200, verbose_name="Summary")
     description = models.TextField()
+    steps = models.TextField(blank=True)
+    attempts = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
         # check to see if the resolved_state has changed, if so, then change 

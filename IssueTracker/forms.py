@@ -6,13 +6,13 @@ from IssueTracker import changedIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
+# Not using these strings, currently setting the fields to empty strings. Might change in future.
 DEFAULT_DESCRIPTION = """Description of Problem:
 
 What was the expected behavior/output? What did you observe?
 
 """
 
-#UNDER CONSTRUCTION: Default 'Steps to reproduce' and 'Attmpts to fix'
 DEFAULT_STEPS = """What are the steps to reproduce the problem (if reproducible)?
  1. 
  2.
@@ -41,17 +41,17 @@ class CreateIssueForm(ModelForm):
 
     description = forms.CharField(
             widget = forms.Textarea,
-            initial = DEFAULT_DESCRIPTION
+            initial = ""
         )
 
     steps = forms.CharField(
             widget = forms.Textarea,
-            initial = DEFAULT_STEPS
+            initial = ""
         )
 
     attempts = forms.CharField(
             widget = forms.Textarea,
-            initial = DEFAULT_ATTEMPTS
+            initial = ""
         )
 
     def save(self, *args, **kwargs):
@@ -62,7 +62,7 @@ class CreateIssueForm(ModelForm):
     class Meta:
         model = im.Issue
         fields = ('it','group','item','cc','problem_type','title','description',
-                'reporter')
+                'reporter','steps','attempts')
 
 class UpdateIssueForm(ModelForm):
     """
