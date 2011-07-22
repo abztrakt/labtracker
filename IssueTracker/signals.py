@@ -16,14 +16,22 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     contacts = [c.email for c in utils.getIssueContacts(instance)]
 
     # send an email to this contact
-    em = Email.NewIssueEmail(instance, "New issue Reported")
-    em.addTo(instance.reporter.email)
+    em = Email.NewIssueEmail(instance, instance.title)
+    try:
+        em.addTo(instance.reporter.email)
+    except:
+        pass
     em.addProblemTypeSection("", instance.problem_type.all())
     em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-             + instance.description)
+        + "Group/Location: " + instance.group.name + ".\n"     
+	+ "Machine Name: " + instance.item.name + ".\n"
+	+ instance.description)
 
     for email in contacts:
-        em.addTo(email)
+        try:
+            em.addTo(email)
+        except:
+            pass
     em.send()
 
 post_save.connect(sendCreateIssueEmail, sender=Issue)
@@ -36,6 +44,7 @@ def stateChangeNotifications(sender, data=None, **kwargs):
         return
     #print data
     sender = Issue.objects.get(pk=sender.pk)
+    new_assignee = ''
     if data['assignee'] != '':
         new_assignee = User.objects.get(pk=data['assignee'])
     contacts = [c.email for c in utils.getIssueContacts(sender)]
@@ -44,7 +53,10 @@ def stateChangeNotifications(sender, data=None, **kwargs):
 
     # send an email to this contact
     em = Email.NewIssueEmail(sender)
-    em.addTo(sender.reporter.email)
+    try:
+        em.addTo(sender.reporter.email)
+    except:
+        pass
     # Check for a change in assignee
     if new_assignee != sender.assignee:
         em.addAssigneeSection(str(sender.assignee),str(new_assignee))
@@ -57,7 +69,10 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     if data['comment'] != '':
         em.addCommentSection(User.objects.get(pk=data['user']), data['comment'])
     for email in contacts:
-        em.addTo(email)
+        try:
+            em.addTo(email)
+        except:
+            pass
     em.send()
 
 changedIssueSignal.connect(stateChangeNotifications)

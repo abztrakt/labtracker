@@ -14,6 +14,7 @@ urlpatterns = patterns('IssueTracker.views',
          name="IssueTracker-history-page"),
      
 ) + patterns("IssueTracker.views.reports",
+     url(r'^report/all/broken/$', 'allBroken', name='brokenView'),
      url(r'^report/all/$', 'allUnresolved', name='viewAll'),
      url(r'^report/all/(?P<page>\d+)/$', 'allUnresolved', name='viewAll'),
 
