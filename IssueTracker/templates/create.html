@@ -116,7 +116,7 @@
 
         <div id="steps" class="f-container">
             <label for="id_{{form.steps.name}}" class="{% if form.steps.field.required %}required{% endif %}">
-                {{ form.steps.label}}
+                {{form.steps.label}}:
 			</label>
             <span class="help help">
                 How was the problem created?
@@ -130,7 +130,7 @@
         
         <div id="Attempts" class="f-container">
             <label for="id_{{form.attempts.name}}" class="{% if form.attempts.field.required %}required{% endif %}">
-                {{form.attempts}}
+                {{form.attempts.label}}:
 			</label>
             <span class="help help">
                 How did you attempt to solve the problem?
