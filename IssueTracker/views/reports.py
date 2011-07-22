@@ -29,8 +29,7 @@ def groupedList(request, group_by=None, page=1):
     """
     Lists issues, group_by
     """
-
-    if group_by not in ('problem_type','reporter', 'item'):
+    if group_by not in ('problem_type','reporter', 'item','group'):
         return HttpResponseBadRequest()
 
     objects = im.Issue.objects.filter(resolved_state__isnull=True).reverse()
@@ -44,7 +43,6 @@ def groupedList(request, group_by=None, page=1):
 
     for issue in args['issues']:
         field = getattr(issue, group_by)
-
         if type(field).__name__ == "ManyRelatedManager":
             qs = field.get_query_set()
             group_names = [item.name for item in qs]
