@@ -47,13 +47,22 @@ class CreateIssueForm(ModelForm):
     steps = forms.CharField(
             widget = forms.Textarea,
             initial = ""
+            # required = False
         )
 
     attempts = forms.CharField(
             widget = forms.Textarea,
             initial = ""
+            #required = None
         )
 
+    other_tickets = forms.CharField(
+            widget = forms.Textarea,
+            initial = ""
+        )
+    steps.required = False
+    attempts.required = False
+    other_tickets.required = False
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
 
