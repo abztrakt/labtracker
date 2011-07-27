@@ -1,7 +1,7 @@
 {% extends "base_full.html" %}
 
 {% block pageCSS %}
-@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
+@inputmport url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
 @import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
 {% endblock %}
 
@@ -37,7 +37,7 @@
                 {% if form.it.errors %}{{ form.it.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
-        </div>    
+         </div>    
 
         
         <div class="f-container left item-selector" id="group_block">
@@ -125,6 +125,35 @@
 				{% else %}<ul class="errorlist"></ul>{% endif %}
             </div>
         </div>
+
+        <div id="steps" class="f-container">
+            <label for="id_{{form.steps.name}}" class="{% if form.steps.field.required %}required{% endif %}">
+                {{form.steps.label}}:
+			</label>
+            <span class="help help">
+                How was the problem created?
+            </span>
+            <div>
+                {{form.steps}}
+				{% if form.steps.errors %}{{ form.steps.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+        
+        <div id="Attempts" class="f-container">
+            <label for="id_{{form.attempts.name}}" class="{% if form.attempts.field.required %}required{% endif %}">
+                {{form.attempts.label}}:
+			</label>
+            <span class="help help">
+                How did you attempt to solve the problem?
+            </span>
+            <div>
+                {{form.attempts}}
+				{% if form.attempts.errors %}{{ form.attempts.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+
     </div>
     
     </div>

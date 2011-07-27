@@ -11,6 +11,7 @@ $(document).ready(function() {
 	});
 
 	var items = $('#id_item');
+    var assignees = $('#id_assignees');
 	var groups = $('#id_group');
 
 	// attach hooks
@@ -18,8 +19,10 @@ $(document).ready(function() {
         loadExtra(this.value); 
         updateGroupList(this.value, cb); }
     );
-	groups.change(function (e, cb) { updateItemList(this.value, cb); } );
+	groups.change(function (e, cb) { updateItemList(this.value, cb); 
+                                     updateContactList(this.value, cb)} );
     items.change(itemChange);
+    assignees.change(assigneeChange);
 	$('#reset').click(function () { reset(); } );
     $('#create_issue').submit(submitIssue);
 
@@ -141,6 +144,44 @@ function updateItemList(group_id, cb) {
 					}
 				);
 				id_item[0].selectedIndex = 0;
+
+				if (cb) { cb(); }
+			}
+	});
+}
+
+/**
+ * updateItemList will fetch the items for a given group and append it to the
+ * id_item list
+ * @param group_id	  The id of the group to fetch items for, if null then show all
+ *
+ */
+function updateContactList(group_id, cb) {
+	var id_assignee = $('#id_assignee')[0];
+	id_assignee.selectedIndex = 0;
+	id_assignee.options.length = 1;
+
+	$.ajax({
+		"url"		: URL_BASE + "items/",
+		"data"		: { "type": "json", "group_id" : group_id },
+		"error"		: function (xhr, text, err) {
+				appendError($('#assignee_block .errorlist'), 
+					"Error occurred while retrieving assignees: " + text);
+			},
+		"success"	: function (data) {
+				// for each of the items, append to the list
+				var id_assignee = $('#id_assignee');
+				id_assignee[0].options.length = 1;
+				data.assignees = data.assignees.sort( function (a, b) {
+                        return (a[1] > b[1]) ? 1 : -1;
+                    }
+                );
+				$.each(data.assignees, function (ii, val) {
+						id_assignee.append(["<option value='", val[0], "'>",
+							val[1], "</option>"].join(""));
+					}
+				);
+				id_assignee[0].selectedIndex = 0;
 
 				if (cb) { cb(); }
 			}
