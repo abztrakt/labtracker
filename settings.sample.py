@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'labtracker.IssueTracker',
     'labtracker.Viewer',
     'labtracker.Tracker',
+    'south',
 )
 
 LOGIN_URL="/issue/login/"
