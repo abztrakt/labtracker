@@ -66,6 +66,18 @@
 			</div>
 		</div>
     
+		<div class="f-container left item-selector" id="item_block">
+            <label for="id_{{form.assignee.name}}" class="{% if form.assignee.field.required %}required{% endif %}">
+	            <!--{{ form.assignee.label }}:-->
+                Name:
+            </label>
+			<div>
+	            {{ form.assignee }}
+				{% if form.assingee.errors %}{{ form.assignee.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
+		</div>
+
     <br class="clear" />
     
     	<!-- Use fancier problem selection if the user has javascript powers -->

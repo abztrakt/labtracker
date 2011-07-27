@@ -46,7 +46,7 @@ class CreateIssueForm(ModelForm):
 
     class Meta:
         model = im.Issue
-        fields = ('it','group','item','cc','problem_type','title','description',
+        fields = ('it','group','item','assignee','cc','problem_type','title','description',
                 'reporter')
 
 class UpdateIssueForm(ModelForm):
