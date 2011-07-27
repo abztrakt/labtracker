@@ -76,6 +76,12 @@ form#create_issue {
 	border: 1px solid #000000;
 }
 
+#id_other_tickets {
+    margin-top: .9em;
+    width: 25%;
+    overflow: auto;
+    border: 1px solid #000000;
+}
 
 .item-selector {
 	margin-right: 2em;

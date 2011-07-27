@@ -46,32 +46,30 @@ class CreateIssueForm(ModelForm):
 
     steps = forms.CharField(
             widget = forms.Textarea,
-            initial = ""
-            # required = False
+            initial = "",
+            required = False
         )
 
     attempts = forms.CharField(
             widget = forms.Textarea,
-            initial = ""
-            #required = None
+            initial = "",
+            required = False
         )
 
-    other_tickets = forms.CharField(
-            widget = forms.Textarea,
-            initial = ""
+    other_tickets = forms.IntegerField(
+            widget = forms.TextInput,
+            initial = "",
+            required = False,
         )
-    steps.required = False
-    attempts.required = False
-    other_tickets.required = False
+
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
-
         return inst
 
     class Meta:
         model = im.Issue
         fields = ('it','group','item','cc','problem_type','title','description',
-                'reporter','steps','attempts')
+                'reporter','steps','attempts','other_tickets')
 
 class UpdateIssueForm(ModelForm):
     """

@@ -100,20 +100,45 @@
             <br class="clear ie_gone" />
 		</div>
 
-
-		<div id="desbox" class="greybox clear">
+        <div id="desbox" class="greybox clear">
 			<h6 class="label-title" class='label'>Description:</h6>
 			<p id="description">{{ issue.description|escape|linebreaks }}</p>
+
 		</div>
 
         <div id="reproducebox" class="greybox clear">
 			<h6 class="label-title" class='label'>Steps to reproduce:</h6>
-			<p id="steps">{{issue.steps|escape|linebreaks}}</p>
+			<p id="steps">
+                {% if issue.steps %}
+                    {{ issue.steps|escape|linebreaks }}
+                {% else %}
+                    No steps given.
+                {% endif %}
+            </p>
 		</div>
         <div id="attemptbox" class="greybox clear">
 			<h6 class="label-title" class='label'>Attempts to fix:</h6>
-			<p id="attempts">{{issue.attempts|escape|linebreaks}}</p>
+			<p id="attempts">
+                {% if issue.attempts %}
+                    {{ issue.attempts|escape|linebreaks }}
+                {% else %}
+                    No attempts given.
+                {% endif %}
+            </p>
 		</div>
+
+        <div id="other_tickets" class="greybox clear">
+			<h6 class="label-title" class='label'>Related ticket:</h6>
+			<p id="other_tix">
+                {% if issue.other_tickets %}
+                     <a href="http://rt.cac.washington.edu/Ticket/Display.html?id={{issue.other_tickets}}">http://rt.cac.washington.edu/Ticket/Display.html?id={{issue.other_tickets}}</a>
+                {% else %}
+                    No related ticket given.
+                {% endif %}
+
+            </p>
+		</div>
+		
 
     <!--<form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">--> 
     <fieldset class="nothing">
