@@ -11,7 +11,7 @@ class BaseItemForm(ModelForm):
 class BaseGroupForm(ModelForm):
     class Meta:
         model = coreModels.Group
-        fields = ['name', 'description', 'item']
+        fields = ['name', 'description', 'items']
 
 class EmailForm(ModelForm):
     class Meta:
