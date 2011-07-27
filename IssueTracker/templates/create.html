@@ -142,6 +142,21 @@
             </div>
         </div>
 
+        <div id="other_tickets" class="f-container">
+            <label for="id_{{form.other_tickets.name}}" class="{% if form.other_tickets.field.required %}required{% endif %}">
+                RT ticket:
+			</label>
+            <span class="help help">
+                If there is an associated RT ticket related to the issue, add the issue number below (optional):
+            </span>
+            <div>
+                {{form.other_tickets}}
+				{% if form.other_tickets.errors %}{{ form.other_tickets.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+
+
     </div>
     
     </div>

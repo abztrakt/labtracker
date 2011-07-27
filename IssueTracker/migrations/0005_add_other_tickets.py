@@ -7,12 +7,16 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        pass    
+        #"Write your forwards methods here."
+        pass
 
     def backwards(self, orm):
-        for issue in orm.Issue.objects.all():
-            issue.description = issue.description + "\n\n" + issue.steps + "\n\n" + issue.attempts
-            issue.save()
+        #"Write your backwards methods here."
+        for i in orm.Issue.objects.all():
+            if issue.other_tickets:
+                issue.description = issue.description + "\n\n Related RT: " + issue.other_tickets
+                issue.save()
+
 
     models = {
         'IssueTracker.issue': {
@@ -26,6 +30,7 @@ class Migration(DataMigration):
             'it': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['LabtrackerCore.InventoryType']", 'null': 'True', 'blank': 'True'}),
             'item': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['LabtrackerCore.Item']"}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'other_tickets': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'post_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'problem_type': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['IssueTracker.ProblemType']", 'null': 'True', 'blank': 'True'}),
             'reporter': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reporter'", 'to': "orm['auth.User']"}),
