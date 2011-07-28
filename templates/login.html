@@ -12,7 +12,7 @@
 {% if user.is_authenticated %}
 <p>You are now successfully logged in.</p>
 {% else %}
-<form method="post" action="." class="" id="login">
+<form method="post" action="." class="" id="login">{% csrf_token %}
 	<fieldset class="noborder">
 		<div class="border">
         <!-- <strong>Login</strong> -->

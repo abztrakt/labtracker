@@ -79,7 +79,7 @@
 	</div>
 
 
-    <form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">
+    <form id="post-comment" method="post" action="{% url IssueTracker-view issue.pk %}">{% csrf_token %}
          <div id = "notice">{% if valid_form %} <ul class="message">Issue is updated successfully</ul>{% endif %}
          </div>
 
