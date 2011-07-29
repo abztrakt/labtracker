@@ -21,10 +21,20 @@ class IssueUpdater(object):
         self.issue = issue
 
         self.updateForm = forms.UpdateIssueForm(self.data, instance=issue)
+        if self.issue.assignee:
+            assigner = self.issue.assignee
+        else:
+            assigner = None 
+        if self.issue.resolved_state:
+            resolver= self.issue.resolved_state
+        else:
+            resolver = None
 
         self.old = {
             'cc':       issue.cc.all().order_by('id'),
-            'ptypes':   self.issue.problem_type.all()
+            'ptypes':   self.issue.problem_type.all(),
+            'assignee': assigner,
+            'resolved': resolver,
         }
 
         # validate and bind form
@@ -73,8 +83,8 @@ class IssueUpdater(object):
             # need to add the CC users as well
 
         if self.data.has_key('assignee') and \
-                (self.issue.assignee != update_data['assignee']):
-            issue_email.addAssigneeSection(self.issue.assignee, 
+                (self.old['assignee'] !=update_data['assignee']): 
+            issue_email.addAssigneeSection(self.old['assignee'],
                                            update_data['assignee'])
             
         if self.data.has_key('problem_type'):
@@ -82,7 +92,7 @@ class IssueUpdater(object):
                     self.data.getlist('problem_type'))
 
         if self.data.has_key('resolved_state') and \
-                    self.issue.resolved_state != update_data['resolved_state']:
+                    self.old['resolved'] != update_data['resolved_state']:
             issue_email.addResolveStateSection(update_data['resolved_state'])
 
         if self.data.has_key('comment'):
@@ -106,19 +116,42 @@ class IssueUpdater(object):
             raise ValueError("Invalid update, cannot get action string")
 
         update_data = self.updateForm.cleaned_data
-
+        
         actionStrings = []
+       # import pdb; pdb.set_trace()
 
-        if self.data.has_key('assignee') and \
-                (self.issue.assignee != update_data['assignee']):
+        if self.data.has_key('assignee')and \
+               (self.old['assignee'] != update_data['assignee']):
             actionStrings.append("Assigned to %s" % (update_data['assignee']))
 
-        if self.data.has_key('problem_type'):
+        if self.data.has_key('problem_type') and (str(self.old['ptypes']) != str(update_data['problem_type'])):
+            old_problems = self.old['ptypes']
+            problems = update_data['problem_type']
+            problems1 = problems
+            count = -1
+            for problem in problems:
+                count += 1
+                for old_problem in old_problems:
+                    if str(old_problem) != str(problem):
+                        count1 = 1
+                        for p in problems1:
+                            if str(old_problem) == str(p):
+                                count1 =0
+                        if count1== 1:
+                            actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+                        else:
+                            actionStrings.append("Added the problem type %s" % (problems.values()[count]['name'])) 
+          #  for old in old_problems:       
+           #     count1 = 1
+            #    for p in problems1:
+             #       if str(old) == str(p):
+              #          count1 =0
+               #     if count1== 1:
+                #        actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+        # actionStrings.append("Removed the problem type %s" % (problems.values()[0]['name']))
             # get histmsg from addProblemTypeSection here
-            pass
-
         if self.data.has_key('resolved_state') and \
-                    self.issue.resolved_state != update_data['resolved_state']:
+                    self.old['resolved']!= update_data['resolved_state']:
 
             actionStrings.append("Changed state to %s" % \
                     (update_data['resolved_state']))

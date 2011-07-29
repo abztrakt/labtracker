@@ -80,7 +80,6 @@ def viewIssue(request, issue_id):
             email = issueProcessor.getEmail()
             issueProcessor.save() 
             email.send()
-
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)
 
