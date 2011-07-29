@@ -36,6 +36,33 @@ Welcome back, {{user.username}}!
 {% endfor %}
 </table>
 {% endif %}
+
+{% if recent_issues %}
+<h2>5 most recently created issues:</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Item Name</th>
+        <th>Group</th>
+        <th>Posted</th>
+        <th>Last Modified</th>
+    </tr>
+{% for report in recent_issues %}
+    <tr>
+        <td>{{ report.issue_id }}</td>
+        <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
+        <td>{{ report.it}}</td>
+        <td>{{ report.group }}</td>
+        <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
+        <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+
+
+
 {% if prev_logins %}
 <h2>Your most recent login times</h2>
 <table>

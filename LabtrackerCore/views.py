@@ -42,6 +42,8 @@ def dashboard(request):
     if request.user.is_authenticated():
         # User's assigned issues
         assigned = Issue.objects.filter(assignee=request.user.id).order_by('-post_time')[:5]
+        recent_issues = Issue.objects.all().order_by('-post_time')[:5]
+        
         prev_logins = None
         #TODO Add general usage statistics here
         if request.user.is_staff:
@@ -52,7 +54,7 @@ def dashboard(request):
             except Exception, e:
                 pass
 
-        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins},
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues},
                 context_instance=RequestContext(request))
     
     else:
