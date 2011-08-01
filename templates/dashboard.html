@@ -13,6 +13,27 @@ Welcome back, {{user.username}}!
 {% endblock %}
 
 {% block content %}
+
+{% if all_locations%}
+<h2>Statistics of each location:</h2>
+<table>
+    <tr>
+        <th>Location</th>
+        <th>% Usuable (Usuable/Total)</th>
+        <th>% With issues (Broken,Usuable/Total)</th>
+        <th>% In-Usable (Broken, Not-usable/ Total)</th>
+    </tr>
+{% for location in all_locations.items %}
+    <tr>
+        <td>{{ location.0 }}</td>
+        <td>{{ location.1.PercTotal}}%  ({{ location.1.Usable }} / {{ location.1.Total }})</td>
+        <td>{{ location.1.PercBroken}}% ({{ location.1.Broken }} / {{ location.1.Total }})</td>
+        <td>{{ location.1.PercUnusable}}%   ({{ location.1.Unusable }} / {{location.1.Total}})</td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+
 {% if problems %}
 <h2>Your most recently assigned issues</h2>
 <table>
