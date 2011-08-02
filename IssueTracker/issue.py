@@ -1,5 +1,5 @@
 import datetime
-
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from LabtrackerCore.Email import EmailSection
@@ -86,7 +86,6 @@ class IssueUpdater(object):
                 (self.old['assignee'] !=update_data['assignee']): 
             issue_email.addAssigneeSection(self.old['assignee'],
                                            update_data['assignee'])
-            
         if self.data.has_key('problem_type'):
             issue_email.addProblemTypeSection(self.old['ptypes'],
                     self.data.getlist('problem_type'))
@@ -98,8 +97,13 @@ class IssueUpdater(object):
         if self.data.has_key('comment'):
             issue_email.addCommentSection(self.request.user, 
                                           self.commentForm.cleaned_data['comment'])
-
-        issue_email.subject = '[labtracker] %s' % (self.issue.title)
+        
+        title = self.issue.title
+        try:
+            title = title.replace('@', '[at]')
+        except:
+            pass
+        issue_email.subject = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + ' Change to Issue: %s' % (title)
 
         for user in self.issue.cc.all():
             issue_email.addCC(user.email)
