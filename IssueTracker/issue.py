@@ -75,7 +75,7 @@ class IssueUpdater(object):
         issue_email = NewIssueEmail(issue)
 
         update_data = self.updateForm.cleaned_data
-
+               
         if self.data.has_key('cc'):
             issue_email.addCCSection(self.old['cc'],
                     User.objects.in_bulk(self.data.getlist('cc')).order_by('id'))
@@ -99,7 +99,6 @@ class IssueUpdater(object):
             issue_email.addCommentSection(self.request.user, 
                                           self.commentForm.cleaned_data['comment'])
 
-
         issue_email.subject = '[labtracker] %s' % (self.issue.title)
 
         for user in self.issue.cc.all():
@@ -118,6 +117,7 @@ class IssueUpdater(object):
         update_data = self.updateForm.cleaned_data
         
         actionStrings = []
+        
        # import pdb; pdb.set_trace()
 
         if self.data.has_key('assignee')and \
@@ -128,28 +128,23 @@ class IssueUpdater(object):
             old_problems = self.old['ptypes']
             problems = update_data['problem_type']
             problems1 = problems
-            count = -1
             for problem in problems:
-                count += 1
+                count = 0
+                count1 = 0
                 for old_problem in old_problems:
+                    count1 = count1+1 
                     if str(old_problem) != str(problem):
-                        count1 = 1
-                        for p in problems1:
-                            if str(old_problem) == str(p):
-                                count1 =0
-                        if count1== 1:
-                            actionStrings.append("Removed the problem type %s" % (str(old_problem)))
-                        else:
-                            actionStrings.append("Added the problem type %s" % (problems.values()[count]['name'])) 
-          #  for old in old_problems:       
-           #     count1 = 1
-            #    for p in problems1:
-             #       if str(old) == str(p):
-              #          count1 =0
-               #     if count1== 1:
-                #        actionStrings.append("Removed the problem type %s" % (str(old_problem)))
-        # actionStrings.append("Removed the problem type %s" % (problems.values()[0]['name']))
-            # get histmsg from addProblemTypeSection here
+                        count = count+1 
+                if count ==count1: 
+                    actionStrings.append("Added the problem type %s" % (str(problem)))
+            for old_problem in old_problems:
+                count1 = 1
+                for p in problems1:
+                    if str(old_problem) == str(p):
+                        count1 =0
+                if count1== 1:
+                    actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+
         if self.data.has_key('resolved_state') and \
                     self.old['resolved']!= update_data['resolved_state']:
 
