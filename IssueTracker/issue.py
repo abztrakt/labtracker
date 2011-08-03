@@ -122,8 +122,6 @@ class IssueUpdater(object):
         
         actionStrings = []
         
-       # import pdb; pdb.set_trace()
-
         if self.data.has_key('assignee')and \
                (self.old['assignee'] != update_data['assignee']):
             actionStrings.append("Assigned to %s" % (update_data['assignee']))

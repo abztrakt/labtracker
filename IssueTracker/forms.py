@@ -81,7 +81,6 @@ class UpdateIssueForm(ModelForm):
         all_keys = set(cleaned_data.keys())
 
         # get keys that not given, delete them from cleaned_data
-        #import pdb; pdb.set_trace()
         for key in all_keys.difference(given_keys):
             del cleaned_data[key]
         return cleaned_data

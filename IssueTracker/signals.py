@@ -59,7 +59,6 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     except:
         pass
     # Check for a change in assignee
-    import pdb;pdb.set_trace() 
     if new_assignee != sender.assignee:
         em.addAssigneeSection(str(sender.assignee),str(new_assignee))
     # Check for a change in resolved state
