@@ -70,7 +70,7 @@
 		<div class="f-container left item-selector" id="item_block">
             <label for="id_{{form.assignee.name}}" class="{% if form.assignee.field.required %}required{% endif %}">
 	            <!--{{ form.assignee.label }}:-->
-                Name:
+                Assign to:
             </label>
 			<div>
 	            {{ form.assignee }}
@@ -180,6 +180,9 @@
             <label for="id_{{form.cc.name}}" class="{% if form.cc.field.required %}required{% endif %}">
                 {{ form.cc.label }}:
             </label>
+            <span class="help help">
+                CC's will be saved when you submit the Issue
+            </span>
 			<div class='none-if-js'>{{ form.cc }}</div>
 			<div class='block-if-js'> 
 				<div>

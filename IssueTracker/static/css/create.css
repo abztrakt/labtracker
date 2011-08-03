@@ -90,6 +90,10 @@ form#create_issue {
 	margin-right: 2em;
 }
 
+#cc_block > label {
+    display: inline;
+}
+
 #addCC {
     background-color: #99CC99;
 }
@@ -134,7 +138,7 @@ h3 .boldblacklabel {margin-bottom: clear;}
 
 .selectlable { float: left;}
 
-.unselectedlable {float:right; display: block; width: 80px}
+.unselectedlable {float:right; display: block; width: 80px; font-weight: normal;}
 
 .help2 {float: right; padding: 2px 0 0 0; display: block; width: 175px;}
 
