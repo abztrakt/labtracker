@@ -2,6 +2,14 @@ $(document).ready(function() {
 	$("a.dropCC").bind("click", dropCC); 
 	$("#ccForm").bind("submit", addCC); 
 	$("#addCC").bind("click", addCC); 
+    var list_cc = new Array();
+    var cc_nodes = $('#id_cc').children();
+    for (var i = 0; i <cc_nodes.length;i++) {
+        list_cc.push(cc_nodes[i].innerHTML);
+    }
+    $('#addCC_user').autocomplete({
+        source: list_cc
+    });
 
 	$("#id_problem_type").asmSelect({
 		'removeLabel': 'X',
