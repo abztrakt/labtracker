@@ -16,6 +16,7 @@ body {
 label {
     font-size: 1em;
 	font-weight: bold;
+    display: block;
 }
 
 div.f-container + div.f-container{
