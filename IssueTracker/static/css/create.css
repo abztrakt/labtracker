@@ -27,9 +27,9 @@ form#create_issue {
     border: none;
     background: none;
     padding: none;
-	width: 700px;
-	float: left;
+	width:700px; 
 	margin-bottom: 1em;
+    float: left;
 }
 
 #text {
@@ -51,8 +51,10 @@ form#create_issue {
 	margin-left: 1em;
     padding: .75em;
     background: none;
-	border: 1px solid #cacaca; 
-	
+	border: 1px solid #cacaca;
+    position: absolute;
+    left: 720px;
+    top:8.75em;
 }
 
 #id_description {
@@ -76,6 +78,12 @@ form#create_issue {
 	border: 1px solid #000000;
 }
 
+#id_other_tickets {
+    margin-top: .9em;
+    width: 25%;
+    overflow: auto;
+    border: 1px solid #000000;
+}
 
 .item-selector {
 	margin-right: 2em;

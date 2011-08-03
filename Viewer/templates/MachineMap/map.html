@@ -1,5 +1,5 @@
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('{{ map_url }}');">
-        {% for item in mapped %}<div id="{{ item.machine.pk }}_{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}}{% for status in item.status %} status_{{item.status|lower }}{% endfor %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
+        {% for item in mapped %}<div id="{{ item.machine.pk }}_{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
         {% endfor %}
     </div>

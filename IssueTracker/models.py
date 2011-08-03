@@ -21,12 +21,10 @@ class ProblemType(models.Model):
     """
     Issues have mulitple probme types associated to them
     """
-
     pb_id = models.AutoField(primary_key=True)
     inv = models.ManyToManyField(InventoryType, blank=True, null=True)
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=400)
-
     def __unicode__(self):
         return self.name
 
@@ -58,6 +56,7 @@ class Issue(models.Model):
     description = models.TextField()
     steps = models.TextField(blank=True)
     attempts = models.TextField(blank=True)
+    other_tickets = models.IntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # check to see if the resolved_state has changed, if so, then change 

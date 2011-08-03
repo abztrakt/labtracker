@@ -10,7 +10,7 @@ class Migration(DataMigration):
         pass    
 
     def backwards(self, orm):
-        for issue in orm.Issues.objects.all():
+        for issue in orm.Issue.objects.all():
             issue.description = issue.description + "\n\n" + issue.steps + "\n\n" + issue.attempts
             issue.save()
 
