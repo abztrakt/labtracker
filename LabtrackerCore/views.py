@@ -79,20 +79,18 @@ def dashboard(request):
                 all_locations[location]['Unusable'] += 1
                 all_locations['OVERALL']['Unusable'] += 1
 
-        # Calculate the percentages at each location (including OVERALL)
+        # Calculate the percentages at each location (including OVERALL) and then drop any that have a 0 Total
+        empty_locations = []
         for location in all_locations:
             try:
                 all_locations[location]['PercTotal'] = 100.0*(all_locations[location]['Usable'])/all_locations[location]['Total']
-            except ZeroDivisionError:
-                all_locations[location]['PercTotal'] = 0
-            try:
                 all_locations[location]['PercBroken'] = 100.0*(all_locations[location]['Broken'])/all_locations[location]['Total']
-            except ZeroDivisionError:
-                all_locations[location]['PercBroken'] = 0
-            try:
                 all_locations[location]['PercUnusable'] = 100.0*(all_locations[location]['Unusable'])/all_locations[location]['Total']
             except ZeroDivisionError:
-                all_locations[location]['PercUnusable'] = 0
+                empty_locations.append(location)
+
+        for location in empty_locations:
+            del all_locations[location]
 
         prev_logins = None
         if request.user.is_staff:
