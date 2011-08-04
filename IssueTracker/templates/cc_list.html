@@ -1,6 +1,10 @@
     <div id="cc_box">
 		<h4 class='boldblacklabel'>CC:</h4>
-		{# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
+		<span class="help help">
+                CC's will be saved when you submit changes to the Issue
+        </span>
+
+        {# If javascript is enabled the form will be hidden, otherwise the normal ul and stuff will appear #}
 		<div class="none-if-js"> 
 			{{ update_issue_form.cc }}
 		</div>
