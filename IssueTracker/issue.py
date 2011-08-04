@@ -39,7 +39,6 @@ class IssueUpdater(object):
             'assignee': assigner,
             'resolved': resolver,
         }
-        import pdb; pdb.set_trace()
         # validate and bind form
         if not self.updateForm.is_valid():
             self.valid = False 
@@ -79,9 +78,9 @@ class IssueUpdater(object):
 
         update_data = self.updateForm.cleaned_data
             # need to add the CC users as well
-       # if self.data.has_key('cc'):
-        #    issue_email.addCCSection(self.old['cc'],
-         #          update_data['cc']) 
+        if self.data.has_key('cc'):
+            issue_email.addCCSection(self.old['cc'],
+                   update_data['cc']) 
 
             # need to add the CC users as well
 
@@ -100,7 +99,6 @@ class IssueUpdater(object):
         if self.data.has_key('comment'):
             issue_email.addCommentSection(self.request.user, 
                                           self.commentForm.cleaned_data['comment'])
-        import pdb; pdb.set_trace() 
         title = self.issue.title
         try:
             title = title.replace('@', '[at]')
@@ -120,29 +118,36 @@ class IssueUpdater(object):
 
         if not self.is_valid():
             raise ValueError("Invalid update, cannot get action string")
-        import pdb; pdb.set_trace()
         update_data = self.updateForm.cleaned_data
         actionStrings = []
         if self.data.has_key('cc') and (str(self.old['cc']) != str(update_data['cc'])):
             old_cc_list = self.old['cc']
             cc_list = update_data['cc']
             cc_list1 = cc_list
-            for cc in cc_list:
-                count = 0
-                count1 = 0
+            if cc_list:
+                for cc in cc_list:
+                    if not old_cc_list:
+                        actionStrings.append("Added %s to the CC list" % (str(cc)))
+                    else:
+                        count = 0
+                        count1 = 0
+                        for old_cc in old_cc_list:
+                            count1 = count1+1 
+                            if str(old_cc) != str(cc):
+                                count = count+1 
+                        if count ==count1: 
+                            actionStrings.append("Added %s to the CC list" % (str(cc)))
+            if old_cc_list:
                 for old_cc in old_cc_list:
-                    count1 = count1+1 
-                    if str(old_cc) != str(cc):
-                        count = count+1 
-                if count ==count1: 
-                    actionStrings.append("Added %s to the CC list" % (str(cc)))
-            for old_cc in old_cc_list:
-                count1 = 1
-                for cc in cc_list1:
-                    if str(old_cc) == str(cc):
-                        count1 =0
-                if count1== 1:
-                    actionStrings.append("Removed %s to the CC list" % (str(old_cc)))
+                    count1 = 1
+                    if not cc_list1:
+                        actionStrings.append("Removed %s to the CC list" % (str(old_cc)))
+                    else:
+                        for cc in cc_list1:
+                            if str(old_cc) == str(cc):
+                                count1 =0
+                        if count1== 1:
+                            actionStrings.append("Removed %s to the CC list" % (str(old_cc)))
 
 
         if self.data.has_key('assignee')and \
@@ -153,22 +158,30 @@ class IssueUpdater(object):
             old_problems = self.old['ptypes']
             problems = update_data['problem_type']
             problems1 = problems
-            for problem in problems:
-                count = 0
-                count1 = 0
+            if problems:
+                for problem in problems:
+                    if not old_problems:
+                        actionStrings.append("Added the problem type %s" % (str(problem)))
+                    else:
+                        count = 0
+                        count1 = 0
+                        for old_problem in old_problems:
+                            count1 = count1+1 
+                            if str(old_problem) != str(problem):
+                                count = count+1 
+                        if count ==count1: 
+                            actionStrings.append("Added the problem type %s" % (str(problem)))
+            if old_problems:
                 for old_problem in old_problems:
-                    count1 = count1+1 
-                    if str(old_problem) != str(problem):
-                        count = count+1 
-                if count ==count1: 
-                    actionStrings.append("Added the problem type %s" % (str(problem)))
-            for old_problem in old_problems:
-                count1 = 1
-                for p in problems1:
-                    if str(old_problem) == str(p):
-                        count1 =0
-                if count1== 1:
-                    actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+                    count1 = 1
+                    if not problems1:
+                        actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+                    else:
+                        for p in problems1:
+                            if str(old_problem) == str(p):
+                                count1 =0
+                        if count1== 1:
+                            actionStrings.append("Removed the problem type %s" % (str(old_problem)))
 
         if self.data.has_key('resolved_state') and \
                     self.old['resolved']!= update_data['resolved_state']:

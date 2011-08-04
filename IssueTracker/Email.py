@@ -29,25 +29,30 @@ class NewIssueEmail(Email):
         handle the cc updating for an issue
         """
         # CC is special in that it only updates this area
-        curUsers = set(old_cc)
-        newUsers = set(new_cc)
-
+        if old_cc:
+            curUsers = set(str(user) for user in old_cc)
+        else:
+            curUsers = set()
+        if new_cc:
+            newUsers = set(str(user) for user in new_cc)
+        else:
+            newUsers = set()
         # get
         removeCC = curUsers.difference(newUsers)
+        removeList = ", ".join(removeCC) 
         if removeCC:
-            self.appendSection(Email.EmailSection(
-                "Users removed from CC",
-                ", ".join(removeCC)
-            ))
+            removeSection = EmailSection("Users removed from CC list")
+            removeSection.content = "%s" % (removeList)
+            self.appendSection(removeSection)
 
         # now curUsers only contains the users that need not be modified
         # add all newUsers not in curUser to cc list
         addCC = newUsers.difference(curUsers)
+        addList = ", ".join(addCC)
         if addCC:
-            self.appendSection(Email.EmailSection(
-                "Users added to CC", ", ".join(addCC)
-            ))
-
+            addSection = EmailSection("Users added to CC list")
+            addSection.content = "%s" % (addList) 
+            self.appendSection(addSection)
 
     def addAssigneeSection(self, cur, new):
         assigneeSection = EmailSection("Assignee Change")
