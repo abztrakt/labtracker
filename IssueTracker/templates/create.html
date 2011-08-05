@@ -14,7 +14,7 @@
 {% block heading %}New Issue{% endblock %}
 
 {% block content %}
-<form method='post' id="create_issue">
+<form method="POST" id="create_issue">{% csrf_token %}
     <div id="maincontent">
     <div id="text" class="left">
         <div id='title' class="f-container">
