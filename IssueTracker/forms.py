@@ -46,23 +46,30 @@ class CreateIssueForm(ModelForm):
 
     steps = forms.CharField(
             widget = forms.Textarea,
-            initial = ""
+            initial = "",
+            required = False
         )
 
     attempts = forms.CharField(
             widget = forms.Textarea,
-            initial = ""
+            initial = "",
+            required = False
+        )
+
+    other_tickets = forms.IntegerField(
+            widget = forms.TextInput,
+            initial = "",
+            required = False,
         )
 
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
-
         return inst
 
     class Meta:
         model = im.Issue
-        fields = ('it','group','item','cc','problem_type','title','description',
-                'reporter','steps','attempts')
+        fields = ('it','group','item','assignee','cc','problem_type','title','description',
+                'reporter','steps','attempts','other_tickets')
 
 class UpdateIssueForm(ModelForm):
     """
@@ -81,7 +88,6 @@ class UpdateIssueForm(ModelForm):
         all_keys = set(cleaned_data.keys())
 
         # get keys that not given, delete them from cleaned_data
-        #import pdb; pdb.set_trace()
         for key in all_keys.difference(given_keys):
             del cleaned_data[key]
         return cleaned_data

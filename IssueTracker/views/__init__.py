@@ -74,13 +74,12 @@ def viewIssue(request, issue_id):
 
     if request.method == 'POST':
         issueProcessor = IssueUpdater(request, issue)
-       #CHANGE 
+        #CHANGE 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
             email = issueProcessor.getEmail()
             issueProcessor.save() 
             email.send()
-
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)
 

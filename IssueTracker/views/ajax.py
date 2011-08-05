@@ -65,7 +65,6 @@ def getItems(request):
             items.update(utils.createItemDict(group.items.all()))
             cons = group.group.primaryContact()
             contacts = contacts.union(set([c.user.username for c in cons]))
-
     # get the items in the group
     type = data.get("type", "json")
 

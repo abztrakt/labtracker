@@ -16,3 +16,26 @@ html, body {
 	border: 1px solid #cacaca;
 	max-width: 800px;
 }
+
+table#stats{
+    border-collapse: collapse;
+}
+table#stats th{
+    border-bottom: 1px solid #000000;
+    padding: 0 1em 0 .7em;
+    text-align: left;
+}
+
+table#stats td{
+    border: 1px solid #000000;
+    padding: 0.6em 0 0.6em .8em;
+}
+.problem{
+    background-color: #EE0000;
+    color: white;
+    font-weight: bold;
+}
+
+.ok{
+    background-color: #00CD00;
+}

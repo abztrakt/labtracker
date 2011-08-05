@@ -1,8 +1,9 @@
 {% extends "base_full.html" %}
 
 {% block pageCSS %}
-@inputmport url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
+@import url('{{ MEDIA_URL }}css/jquery/jquery.asmselect.css');
 @import url('{{ MEDIA_URL }}css/IssueTracker/create.css');
+@import url("{{MEDIA_URL}}js/jquery/jquery-1.8.14/css/smoothness/jquery-ui-1.8.14.custom.css");
 {% endblock %}
 
 {% block pageJS %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.asmselect.js"></script>
@@ -66,6 +67,18 @@
 			</div>
 		</div>
     
+		<div class="f-container left item-selector" id="item_block">
+            <label for="id_{{form.assignee.name}}" class="{% if form.assignee.field.required %}required{% endif %}">
+	            <!--{{ form.assignee.label }}:-->
+                Assign to:
+            </label>
+			<div>
+	            {{ form.assignee }}
+				{% if form.assingee.errors %}{{ form.assignee.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+			</div>
+		</div>
+
     <br class="clear" />
     
     	<!-- Use fancier problem selection if the user has javascript powers -->
@@ -77,7 +90,7 @@
         <br class="clear" />
     
         <div class='f-container' id="probs">
-            <label for="" class="{% if form.problem_type.field.required %}required{% endif %} selectlable">
+            <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %} selectlable">
                
                 Problems:
 			</label>
@@ -142,25 +155,34 @@
             </div>
         </div>
 
+        <div id="other_tickets" class="f-container">
+            <label for="id_{{form.other_tickets.name}}" class="{% if form.other_tickets.field.required %}required{% endif %}">
+                RT ticket:
+			</label>
+            <span class="help help">
+                If there is an associated RT ticket related to the issue, add the issue number below (optional):
+            </span>
+            <div>
+                {{form.other_tickets}}
+				{% if form.other_tickets.errors %}{{ form.other_tickets.errors }}
+				{% else %}<ul class="errorlist"></ul>{% endif %}
+            </div>
+        </div>
+
+
     </div>
     
     </div>
         
-   
-
-	<br class="clear" />
-
-    <input type="submit" name="submit" value="Submit" class="flat" />
-	<input type="reset" id="reset" value="Reset" class="flat" />
-    
-</form>
-
-    <div id="fields" class="left">
+   <div id="fields" class="left">
        
 		<div class='f-container' id='cc_block'>
             <label for="id_{{form.cc.name}}" class="{% if form.cc.field.required %}required{% endif %}">
                 {{ form.cc.label }}:
             </label>
+            <span class="help help">
+                CC's will be saved when you submit the Issue
+            </span>
 			<div class='none-if-js'>{{ form.cc }}</div>
 			<div class='block-if-js'> 
 				<div>
@@ -179,6 +201,15 @@
             </div>
         </div>
 	</div>
+
+
+	<br class="clear" />
+
+    <input type="submit" name="submit" value="Submit" class="flat" />
+	<input type="reset" id="reset" value="Reset" class="flat" />
+    
+
+    </form>
 
 <br class='clear' />
 

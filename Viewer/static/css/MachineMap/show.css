@@ -5,14 +5,14 @@ i/*div.item.status_broken {
 	-khtml-opacity: 0.8;
 	opacity: 0.8;
 }*/
-div.item.status_usable {
+div.item.status_unusable {
     background-color: white;	filter:alpha(opacity=30);
 	-moz-opacity:0.3;
 	-khtml-opacity: 0.3;
 	opacity: 0.3;
 }
 
-div.item.status_unusable {
+div.item.status_usable {
     background-color: gray;		filter:alpha(opacity=60);
 	-moz-opacity:0.6;
 	-khtml-opacity: 0.6;
