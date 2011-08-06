@@ -1,4 +1,5 @@
 var start = 0;
+var txt = '';
 var groups;
 var list_mac = new Array(); 
 $(document).ready(function() {
@@ -48,37 +49,27 @@ $(document).ready(function() {
 
 	// when a user is added to the cc list
 	$('#addCC').bind('click', addCC);
-    $('#addMac').bind('click', addMachine);
 	// bind the enter key to hit addCC
 	$('#addCC_user').keypress(function (e) { if (e.which == 13) { addCC(e); } });
+    $('#machineTxt').bind('autocompleteselect', function(event, ui){
+        event.preventDefault();
+        var user = ui.item.value;
+        $('#machineTxt')[0].value= user;
+        // check to see if user exists in the select 
+        var option = $('#id_item').children('option:contains("'+user+'")');
+
+        if (option.length == 1) {
+            
+            // Select the user in the cc list
+            option.attr('selected', 'selected');
+            $('#macText')[0].innerHTML= 'You have selected the Machine: '+ option[0].innerHTML;
+            $("#relatedList").load("/issue/partial/" + option[0].value + "/");
+        } else {
+            errorl.addErr("Could not select the chosen Machine, does it exist?");
+        }
+    });
 	loadCC();
 });
-
-function addMachine(event) {
-    event.preventDefault();
-	var btn = event.target;
-
-	var input = $("input#machineTxt")
-	var user = input[0].value;
-	var js_block = $(btn).parent().parent();
-
-	// make sure this user is not bogus
-	var errorl = js_block.children('.errorlist')[0];
-
-	// check to see if user exists in the select 
-	var option = $('#id_item').children('option:contains("'+user+'")');
-
-	if (option.length == 1) {
-		
-		// Select the user in the cc list
-	    option.attr('selected', 'selected');
-        $('#macText')[0].innerHTML= 'You have selected the Machine: '+ option[0].innerHTML;
-        $("#relatedList").load("/issue/partial/" + option[0].value + "/");
-        input[0].value = "";
-    } else {
-		errorl.addErr("Could not add user to CC list, does user exist?");
-	}
-}
 
 function auto() {
     var mac_nodes = $('#id_item').children();
