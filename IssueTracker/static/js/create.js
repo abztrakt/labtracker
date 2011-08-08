@@ -1,4 +1,6 @@
+var start = 0;
 var groups;
+var list_mac = new Array(); 
 $(document).ready(function() {
 	// initialization code
 	// reset();
@@ -16,11 +18,8 @@ $(document).ready(function() {
     $('#addCC_user').autocomplete({
         source: list_cc
     });
-	var items = $('#id_item');
+    var items = $('#id_item');
 	var groups = $('#id_group');
-    $('#addCC_user').autocomplete({
-        source: list_cc
-    });
 	// attach hooks
 	$('#id_it').change(function (e, cb) { 
         loadExtra(this.value); 
@@ -49,13 +48,46 @@ $(document).ready(function() {
 
 	// when a user is added to the cc list
 	$('#addCC').bind('click', addCC);
-
 	// bind the enter key to hit addCC
 	$('#addCC_user').keypress(function (e) { if (e.which == 13) { addCC(e); } });
+    $('#machineTxt').bind('autocompleteselect', function(event, ui){
+        event.preventDefault();
+        var user = ui.item.value;
+        $('#machineTxt')[0].value= user;
+        // check to see if user exists in the select 
+        var option = $('#id_item').children('option:contains("'+user+'")');
 
+        if (option.length == 1) {
+            
+            // Select the user in the cc list
+            option.attr('selected', 'selected');
+            $('#macText')[0].innerHTML= 'You have selected the Machine: '+ option[0].innerHTML;
+            $("#relatedList").load("/issue/partial/" + option[0].value + "/");
+        } else {
+            errorl.addErr("Could not select the chosen Machine, does it exist?");
+        }
+    });
 	loadCC();
 });
 
+function auto() {
+    var mac_nodes = $('#id_item').children();
+    for (var i = 1; i <mac_nodes.length;i++) {
+        list_mac.push(mac_nodes[i].innerHTML);
+    }
+    $('#machineTxt').autocomplete({
+        source: list_mac 
+    });
+}
+
+function machineAutoComplete() {
+    list_mac = [];
+    var mac_nodes = $('#id_item').children();
+    for (var i = 1; i <mac_nodes.length;i++) {
+        list_mac.push(mac_nodes[i].innerHTML);
+    }
+    $('#machineTxt').autocomplete("option", "source", list_mac);
+}
 /**
  * reset will go and kill all the extra items in both the group and item lists after
  * setting the selectedIndex to 0
@@ -98,11 +130,12 @@ function updateGroupList(it_id, cb) {
 				);
 				id_group[0].selectedIndex = 0;
 				$('#id_group').change();
-
+                
 				if (cb) { cb(); }
+                
 			}
 	});
-}
+    }
 
 /**
  * Given an inventory id, load extra stuff for it
@@ -149,9 +182,16 @@ function updateItemList(group_id, cb) {
 					}
 				);
 				id_item[0].selectedIndex = 0;
-
+                $('#machineTxt')[0].value=''; 
 				if (cb) { cb(); }
-			}
+			    if (start == 0) {
+                    auto();
+                    start = 1;
+                }else {
+                    machineAutoComplete();
+                }
+                $('#macText')[0].innerHTML= 'You have no Machine selected';
+            }
 	});
 }
 
@@ -265,5 +305,4 @@ function itemChange(eve) {
     var list = $(eve.target);
     var value = list[0].value;
 
-    $("#relatedList").load("/issue/partial/" + value + "/");
-}
+    }
