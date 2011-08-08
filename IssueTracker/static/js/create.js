@@ -1,5 +1,4 @@
 var start = 0;
-var txt = '';
 var groups;
 var list_mac = new Array(); 
 $(document).ready(function() {
@@ -131,7 +130,7 @@ function updateGroupList(it_id, cb) {
 				);
 				id_group[0].selectedIndex = 0;
 				$('#id_group').change();
-
+                
 				if (cb) { cb(); }
                 
 			}
@@ -183,7 +182,7 @@ function updateItemList(group_id, cb) {
 					}
 				);
 				id_item[0].selectedIndex = 0;
-
+                $('#machineTxt')[0].value=''; 
 				if (cb) { cb(); }
 			    if (start == 0) {
                     auto();
