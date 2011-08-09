@@ -120,9 +120,13 @@ class IssueUpdater(object):
             raise ValueError("Invalid update, cannot get action string")
         update_data = self.updateForm.cleaned_data
         actionStrings = []
-        if self.data.has_key('cc') and (str(self.old['cc']) != str(update_data['cc'])):
+        if not update_data.has_key('cc'):
+            data = None
+        else:
+            data = update_data['cc']
+        if str(self.old['cc']) != str(data):
             old_cc_list = self.old['cc']
-            cc_list = update_data['cc']
+            cc_list = data 
             cc_list1 = cc_list
             if cc_list:
                 for cc in cc_list:
@@ -141,13 +145,13 @@ class IssueUpdater(object):
                 for old_cc in old_cc_list:
                     count1 = 1
                     if not cc_list1:
-                        actionStrings.append("Removed %s to the CC list" % (str(old_cc)))
+                        actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
                     else:
                         for cc in cc_list1:
                             if str(old_cc) == str(cc):
                                 count1 =0
                         if count1== 1:
-                            actionStrings.append("Removed %s to the CC list" % (str(old_cc)))
+                            actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
 
 
         if self.data.has_key('assignee')and \

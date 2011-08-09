@@ -73,6 +73,8 @@ def viewIssue(request, issue_id):
     extraForm = None
 
     if request.method == 'POST':
+        if not request.POST.get('cc', None):
+            issue.cc.clear()
         issueProcessor = IssueUpdater(request, issue)
         #CHANGE 
         # if everything passed, redirect to self
@@ -82,7 +84,6 @@ def viewIssue(request, issue_id):
             email = issueProcessor.getEmail()
             issueProcessor.save() 
             email.send()
-            
             return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
         form = issueProcessor.updateForm
         commentForm = issueProcessor.commentForm or AddCommentForm()
@@ -94,7 +95,6 @@ def viewIssue(request, issue_id):
             hook = utils.issueHooks.getHook("updateForm", issue.it.name)
             if hook:
                 extraForm = hook(issue)
-
     #CHANGE
     args['add_comment_form'] = commentForm
     args['update_issue_form'] = form
@@ -102,7 +102,6 @@ def viewIssue(request, issue_id):
     args['extra_form'] = extraForm
     #CHANGE
     args['valid_form']= commentForm.is_valid()
-
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))
 
@@ -124,7 +123,6 @@ def createIssue(request):
             inv_t = form.cleaned_data['it']
 
             # need to call hook now and see if it is good
-            hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
 
             if hook:
                 # need to get the item or group here
