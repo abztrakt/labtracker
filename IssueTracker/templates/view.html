@@ -195,7 +195,17 @@
 			<input type="submit" name="submit" value="Submit" class="flat" />
 
 		</fieldset>
-	</form>
+	    <div id="right-side-bar">
+
+            <!-- Stuff involving the CC list -->
+            <div id="cc_box" class="whitebox">{% include "IssueTracker/cc_list.html" %}</div>
+
+            <div id="history_box" class="whitebox">
+                {% include "IssueTracker/issue/history.html" %}
+            </div>
+        </div>
+
+    </form>
 
 	<ul id="comments" class="struct">
 		{% for post in comments %}
@@ -211,15 +221,6 @@
 </div>
 
 <!-- Right side bar -->
-<div id="right-side-bar">
-
-	<!-- Stuff involving the CC list -->
-	<div id="cc_box" class="whitebox">{% include "IssueTracker/cc_list.html" %}</div>
-
-	<div id="history_box" class="whitebox">
-		{% include "IssueTracker/issue/history.html" %}
-	</div>
-</div>
 <br class='clear' />
 
 {% endblock %}

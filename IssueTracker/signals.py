@@ -59,6 +59,12 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     except:
         pass
     # Check for a change in assignee
+    if data['cc'] != '':
+            cc_id = data.getlist('cc')
+            cc_list = [] 
+            for cc in cc_id:
+                cc_list.append(User.objects.get(pk=cc))
+            em.addCCSection(sender.cc.filter(), cc_list)
     if new_assignee != sender.assignee:
         em.addAssigneeSection(str(sender.assignee),str(new_assignee))
     # Check for a change in resolved state

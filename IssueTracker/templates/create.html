@@ -60,14 +60,23 @@
 	            <!--{{ form.item.label }}:-->
                 Name:
             </label>
-			<div>
+            <div class='none-if-js'>
 	            {{ form.item }}
 				{% if form.item.errors %}{{ form.item.errors }}
 				{% else %}<ul class="errorlist"></ul>{% endif %}
 			</div>
+            <div class='block-if-js'>
+                <div>
+                    <input type="text" id="machineTxt" class="small_text flatbox" />
+                </div>
+                <div>
+                    <span id='macText'>You have no Machine selected</span>
+                </div>
+            </div>
+
 		</div>
     
-		<div class="f-container left item-selector" id="item_block">
+		<div class="f-container clear left item-selector" id="assign_block">
             <label for="id_{{form.assignee.name}}" class="{% if form.assignee.field.required %}required{% endif %}">
 	            <!--{{ form.assignee.label }}:-->
                 Assign to:

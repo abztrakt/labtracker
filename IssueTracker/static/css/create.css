@@ -152,4 +152,6 @@ h3 .boldblacklabel {margin-bottom: clear;}
 
 #id_item { border: 1px solid #000000; width: 110px;}
 
+#id_assignee{ border: 1px solid #000000; width: 110px;}
+
 #id_status { border: 1px solid #000000; width: 110px; float: left;}
