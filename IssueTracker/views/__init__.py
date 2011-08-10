@@ -73,8 +73,6 @@ def viewIssue(request, issue_id):
     extraForm = None
 
     if request.method == 'POST':
-        if not request.POST.get('cc', None):
-            issue.cc.clear()
         issueProcessor = IssueUpdater(request, issue)
         #CHANGE 
         # if everything passed, redirect to self
@@ -84,6 +82,9 @@ def viewIssue(request, issue_id):
             email = issueProcessor.getEmail()
             issueProcessor.save() 
             email.send()
+            if not request.POST.get('cc', None):
+                issue.cc.clear()
+
             return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
         form = issueProcessor.updateForm
         commentForm = issueProcessor.commentForm or AddCommentForm()

@@ -1,12 +1,13 @@
 import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
-
 from LabtrackerCore.Email import EmailSection
 from Email import NewIssueEmail
 import models as im
 import forms
 import utils
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class IssueUpdater(object):
 
@@ -124,36 +125,32 @@ class IssueUpdater(object):
             data = None
         else:
             data = update_data['cc']
+
         if str(self.old['cc']) != str(data):
             old_cc_list = self.old['cc']
             cc_list = data 
             cc_list1 = cc_list
             if cc_list:
                 for cc in cc_list:
+                    pkval = cc._get_pk_val
                     if not old_cc_list:
                         actionStrings.append("Added %s to the CC list" % (str(cc)))
                     else:
-                        count = 0
-                        count1 = 0
-                        for old_cc in old_cc_list:
-                            count1 = count1+1 
-                            if str(old_cc) != str(cc):
-                                count = count+1 
-                        if count ==count1: 
+                        try:
+                            old_cc_list.get(pk = pkval)
+                        except ObjectDoesNotExist:
                             actionStrings.append("Added %s to the CC list" % (str(cc)))
             if old_cc_list:
                 for old_cc in old_cc_list:
-                    count1 = 1
+                    pkval = old_cc._get_pk_val
                     if not cc_list1:
                         actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
                     else:
-                        for cc in cc_list1:
-                            if str(old_cc) == str(cc):
-                                count1 =0
-                        if count1== 1:
+                        try:
+                            cc_list1.get(pk = pkval)
+                        except ObjectDoesNotExist:
                             actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
-
-
+        
         if self.data.has_key('assignee')and \
                (self.old['assignee'] != update_data['assignee']):
             actionStrings.append("Assigned to %s" % (update_data['assignee']))
@@ -167,24 +164,20 @@ class IssueUpdater(object):
                     if not old_problems:
                         actionStrings.append("Added the problem type %s" % (str(problem)))
                     else:
-                        count = 0
-                        count1 = 0
-                        for old_problem in old_problems:
-                            count1 = count1+1 
-                            if str(old_problem) != str(problem):
-                                count = count+1 
-                        if count ==count1: 
+                        pkval = problem._get_pk_val
+                        try:
+                            old_problems.get(pk = pkval)
+                        except ObjectDoesNotExist:
                             actionStrings.append("Added the problem type %s" % (str(problem)))
             if old_problems:
                 for old_problem in old_problems:
-                    count1 = 1
                     if not problems1:
                         actionStrings.append("Removed the problem type %s" % (str(old_problem)))
                     else:
-                        for p in problems1:
-                            if str(old_problem) == str(p):
-                                count1 =0
-                        if count1== 1:
+                        pkval = old_problem._get_pk_val
+                        try:
+                            problems1.get(pk = pkval)
+                        except ObjectDoesNotExist:
                             actionStrings.append("Removed the problem type %s" % (str(old_problem)))
 
         if self.data.has_key('resolved_state') and \
