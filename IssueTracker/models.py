@@ -104,7 +104,7 @@ class IssueComment(models.Model):
     issue = models.ForeignKey(Issue)
     user = models.ForeignKey(User)
     time = models.DateTimeField(auto_now_add=True)
-    comment = models.TextField(blank=False)
+    comment = models.TextField(blank=True)
 
 """
 Test Cases
