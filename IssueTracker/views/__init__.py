@@ -124,6 +124,7 @@ def createIssue(request):
             inv_t = form.cleaned_data['it']
 
             # need to call hook now and see if it is good
+            hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
 
             if hook:
                 # need to get the item or group here
