@@ -112,7 +112,7 @@ def show(request, view_name):
         return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
-
+    staff = request.user.is_staff
     map = getMapInfo(view_name)
 
     if not map:
@@ -123,6 +123,12 @@ def show(request, view_name):
    
     for item in view.getMappedItems():
         states = [a for (a,) in item.machine.item.status.values_list('name')]
+        broken = None
+        if staff:
+            if 'Broken' in states:
+                broken = 'broken'
+            else:
+                broken = 'not_broken'
         if 'Inuse' in states:
             status = 'unusable'
         elif 'Usable' in states:
@@ -136,13 +142,15 @@ def show(request, view_name):
                 'orientation': item.orientation,
                 'ypos': item.ypos,
                 'xpos': item.xpos,
-                'status':status, 
+                'status':status,
+                'broken':broken,
             }
         map_items.append(item_dict)
 
     groups = view.groups.all()
 
     args = {
+        'staff':    staff,
         'view':     view,
         'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
