@@ -68,7 +68,7 @@ class Item(coreModels.Item):
     core = models.OneToOneField(coreModels.Item, parent_link=True, 
             editable=False)
     type = models.ForeignKey(Type, verbose_name='Machine Type')
-
+    verified = models.BooleanField()
     status = models.ManyToManyField(Status, related_name="machine_status")
 
     location = models.ForeignKey(Location, verbose_name='Location')
