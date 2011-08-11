@@ -32,12 +32,12 @@ def modIssue(request, issue_id):
     if action == "dropcc":
         user = get_object_or_404(User, pk=int(data['user']))
         issue.cc.remove(user)
-        utils.updateHistory(request.user, issue, "Removed %s from CC list" % (user))
+        utils.updateHistory(request.user, issue, "Removed %s from the CC list" % (user))
         postResp['status'] = 1
     elif action == "addcc":
         user = get_object_or_404(User, username=data['user'])
         issue.cc.add(user)
-        utils.updateHistory(request.user, issue, "Added %s to CC list" % (user))
+        utils.updateHistory(request.user, issue, "Added %s to the CC list" % (user))
         postResp['username'] = user.username
         postResp['userid'] = user.id
         postResp['status'] = 1
@@ -77,11 +77,13 @@ def viewIssue(request, issue_id):
         #CHANGE 
         # if everything passed, redirect to self
         if issueProcessor.is_valid():
+            for action in issueProcessor.getUpdateActionString():
+                utils.updateHistory(request.user, issue, action)
             email = issueProcessor.getEmail()
             issueProcessor.save() 
             email.send()
-            for action in issueProcessor.getUpdateActionString():
-                utils.updateHistory(request.user, issue, action)
+            if not request.POST.get('cc', None):
+                issue.cc.clear()
 
             return HttpResponseRedirect(reverse('IssueTracker-view', args=[issue.issue_id]))
         form = issueProcessor.updateForm
@@ -94,7 +96,6 @@ def viewIssue(request, issue_id):
             hook = utils.issueHooks.getHook("updateForm", issue.it.name)
             if hook:
                 extraForm = hook(issue)
-
     #CHANGE
     args['add_comment_form'] = commentForm
     args['update_issue_form'] = form
@@ -102,7 +103,6 @@ def viewIssue(request, issue_id):
     args['extra_form'] = extraForm
     #CHANGE
     args['valid_form']= commentForm.is_valid()
-
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))
 

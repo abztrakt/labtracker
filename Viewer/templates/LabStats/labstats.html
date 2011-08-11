@@ -46,7 +46,7 @@ $(document).ready(function() {
 <a href="/views/LabStats">Archives</a>
 <h3>Custom Time Frame</h3>
 <p>Input the time interval as YYYY-MM-DD HH:MM:SS. (Year-Month-Day Hours:Minutes:Seconds)</p>
-<form action="" method="POST">
+<form action="" method="POST">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>

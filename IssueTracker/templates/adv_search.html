@@ -5,7 +5,7 @@
 {% block content %}
 <div id="query">
     <div id="query_items">
-        <form id="search" method="POST" action="">
+        <form id="search" method="POST" action="">{% csrf_token %}
             <ul id='query_list' class='struct'>
             </ul>
             <input type='submit' name='action' value='Search' />

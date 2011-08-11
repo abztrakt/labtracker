@@ -1,12 +1,13 @@
 import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
-
 from LabtrackerCore.Email import EmailSection
 from Email import NewIssueEmail
 import models as im
 import forms
 import utils
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class IssueUpdater(object):
 
@@ -29,14 +30,16 @@ class IssueUpdater(object):
             resolver= self.issue.resolved_state
         else:
             resolver = None
-
+        if self.issue.cc.all():
+            ccers = self.issue.cc.all()
+        else:
+            ccers = None
         self.old = {
-            'cc':       issue.cc.all().order_by('id'),
+            'cc':       ccers,
             'ptypes':   self.issue.problem_type.all(),
             'assignee': assigner,
             'resolved': resolver,
         }
-
         # validate and bind form
         if not self.updateForm.is_valid():
             self.valid = False 
@@ -75,10 +78,10 @@ class IssueUpdater(object):
         issue_email = NewIssueEmail(issue)
 
         update_data = self.updateForm.cleaned_data
-               
+            # need to add the CC users as well
         if self.data.has_key('cc'):
             issue_email.addCCSection(self.old['cc'],
-                    User.objects.in_bulk(self.data.getlist('cc')).order_by('id'))
+                   update_data['cc']) 
 
             # need to add the CC users as well
 
@@ -97,16 +100,15 @@ class IssueUpdater(object):
         if self.data.has_key('comment'):
             issue_email.addCommentSection(self.request.user, 
                                           self.commentForm.cleaned_data['comment'])
-        
         title = self.issue.title
         try:
             title = title.replace('@', '[at]')
         except:
             pass
-        issue_email.subject = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + ' Change to Issue: %s' % (title)
-
-        for user in self.issue.cc.all():
-            issue_email.addCC(user.email)
+        issue_email.subject = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + ' Change to the Issue: %s' % (title)
+        if self.data.has_key('cc'):
+            for user in update_data['cc']: 
+                issue_email.addCC(user.email)
 
         return issue_email
 
@@ -117,10 +119,37 @@ class IssueUpdater(object):
 
         if not self.is_valid():
             raise ValueError("Invalid update, cannot get action string")
-
         update_data = self.updateForm.cleaned_data
-        
         actionStrings = []
+        if not update_data.has_key('cc'):
+            data = None
+        else:
+            data = update_data['cc']
+
+        if str(self.old['cc']) != str(data):
+            old_cc_list = self.old['cc']
+            cc_list = data 
+            cc_list1 = cc_list
+            if cc_list:
+                for cc in cc_list:
+                    pkval = cc._get_pk_val
+                    if not old_cc_list:
+                        actionStrings.append("Added %s to the CC list" % (str(cc)))
+                    else:
+                        try:
+                            old_cc_list.get(pk = pkval)
+                        except ObjectDoesNotExist:
+                            actionStrings.append("Added %s to the CC list" % (str(cc)))
+            if old_cc_list:
+                for old_cc in old_cc_list:
+                    pkval = old_cc._get_pk_val
+                    if not cc_list1:
+                        actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
+                    else:
+                        try:
+                            cc_list1.get(pk = pkval)
+                        except ObjectDoesNotExist:
+                            actionStrings.append("Removed %s from the CC list" % (str(old_cc)))
         
         if self.data.has_key('assignee')and \
                (self.old['assignee'] != update_data['assignee']):
@@ -130,22 +159,26 @@ class IssueUpdater(object):
             old_problems = self.old['ptypes']
             problems = update_data['problem_type']
             problems1 = problems
-            for problem in problems:
-                count = 0
-                count1 = 0
+            if problems:
+                for problem in problems:
+                    if not old_problems:
+                        actionStrings.append("Added the problem type %s" % (str(problem)))
+                    else:
+                        pkval = problem._get_pk_val
+                        try:
+                            old_problems.get(pk = pkval)
+                        except ObjectDoesNotExist:
+                            actionStrings.append("Added the problem type %s" % (str(problem)))
+            if old_problems:
                 for old_problem in old_problems:
-                    count1 = count1+1 
-                    if str(old_problem) != str(problem):
-                        count = count+1 
-                if count ==count1: 
-                    actionStrings.append("Added the problem type %s" % (str(problem)))
-            for old_problem in old_problems:
-                count1 = 1
-                for p in problems1:
-                    if str(old_problem) == str(p):
-                        count1 =0
-                if count1== 1:
-                    actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+                    if not problems1:
+                        actionStrings.append("Removed the problem type %s" % (str(old_problem)))
+                    else:
+                        pkval = old_problem._get_pk_val
+                        try:
+                            problems1.get(pk = pkval)
+                        except ObjectDoesNotExist:
+                            actionStrings.append("Removed the problem type %s" % (str(old_problem)))
 
         if self.data.has_key('resolved_state') and \
                     self.old['resolved']!= update_data['resolved_state']:
