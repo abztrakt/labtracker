@@ -124,17 +124,20 @@ def show(request, view_name):
     for item in view.getMappedItems():
         states = [a for (a,) in item.machine.item.status.values_list('name')]
         broken = None
+        verified = None
         if staff:
+            if item.machine.item.verified:
+                verified = 'verified' 
             if 'Broken' in states:
                 broken = 'broken'
             else:
                 broken = 'not_broken'
-        if 'Inuse' in states:
+        if not 'Usable' in states:
             status = 'unusable'
+        elif 'Inuse' in states:
+            status = 'occupied'
         elif 'Usable' in states:
             status = 'usable'
-        else:
-            status = 'unusable'
 
         item_dict = {
                 'machine': item.machine,
@@ -144,6 +147,9 @@ def show(request, view_name):
                 'xpos': item.xpos,
                 'status':status,
                 'broken':broken,
+                'verified': verified,
+                'vypos': item.ypos+2,
+                'vxpos': item.xpos+2,
             }
         map_items.append(item_dict)
 
