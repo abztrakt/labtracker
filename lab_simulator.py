@@ -24,12 +24,17 @@ inuse = Status.objects.get(name='Inuse')
 
 def sim_login_or_logout(item):
     try:
-        item.status.get(name='Inuse')
-        item.status.remove(inuse)
-        tracker._track(LABTRACKER_URL, 'logout', item.mac1)
+        item.status.get(name='Broken')
     except:
-        item.status.add(inuse)
-        tracker._track(LABTRACKER_URL, 'login', item.mac1)
+        try:
+            item.status.get(name='Inuse')
+            item.status.remove(inuse)
+            print "Logging out %s" % item
+            tracker._track(LABTRACKER_URL, 'logout', item.mac1)
+        except:
+            item.status.add(inuse)
+            print "Logging in %s" % item
+            tracker._track(LABTRACKER_URL, 'login', item.mac1)
 
 def main():
     items = Item.objects.all()
@@ -37,7 +42,7 @@ def main():
     while 1:
         item = Item.objects.get(item_id=random.randrange(1,items.count()))
         sim_login_or_logout(item)
-        delay = random.randrange(1,180)
+        delay = random.randrange(1,(5460/items.count()))
         time.sleep(delay)
 
 if __name__ == "__main__":
