@@ -49,7 +49,7 @@
     "fields": {
       "inv": [], 
       "name": "aging", 
-      "description": "too old"
+      "description": "This thing still has a floppy drive!"
     }
   }, 
   {
@@ -73,7 +73,7 @@
         1
       ], 
       "problem_type": [], 
-      "reporter": 1, 
+      "reporter": 2, 
       "resolved_state": 1, 
       "it": 1, 
       "item": 2, 
@@ -96,7 +96,7 @@
       "problem_type": [
         3
       ], 
-      "reporter": 1, 
+      "reporter": 3, 
       "resolved_state": 2, 
       "it": 1, 
       "item": 1, 
@@ -111,7 +111,7 @@
     "fields": {
       "post_time": "2008-07-14 14:58:46", 
       "group": 3, 
-      "description": "asasdf", 
+      "description": "This machine transformed into a giant robot and is fighting with another machine in the lab.", 
       "assignee": 2, 
       "cc": [], 
       "problem_type": [
@@ -123,7 +123,7 @@
       "it": 1, 
       "item": 2, 
       "last_modified": "2008-07-14 14:58:54", 
-      "title": "asef", 
+      "title": "Decepticon attack", 
       "resolve_time": null
     }
   }, 
@@ -133,7 +133,7 @@
     "fields": {
       "post_time": "2008-10-13 14:03:43", 
       "group": 5, 
-      "description": "This has another problem.", 
+      "description": "This has another problem. I don't know what it is.", 
       "assignee": null, 
       "cc": [], 
       "problem_type": [
@@ -185,9 +185,9 @@
     "pk": 2, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
-      "message": "Assigned to cstimmel", 
+      "message": "Assigned to zhaoz", 
       "issue": 2, 
-      "user": 1, 
+      "user": 3, 
       "time": "2008-05-29 15:17:45"
     }
   }, 
@@ -205,7 +205,7 @@
     "pk": 4, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
-      "message": "Assigned to zhaoz", 
+      "message": "Assigned to you", 
       "issue": 2, 
       "user": 1, 
       "time": "2008-05-29 15:19:03"
@@ -235,7 +235,7 @@
     "pk": 7, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
-      "message": "Assigned to cstimmel", 
+      "message": "Assigned to zhaoz", 
       "issue": 4, 
       "user": 1, 
       "time": "2008-07-14 14:58:54"
@@ -245,7 +245,7 @@
     "pk": 8, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
-      "message": "Assigned to zhaoz", 
+      "message": "Assigned to you", 
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-08 14:13:33"
@@ -285,7 +285,7 @@
     "pk": 12, 
     "model": "IssueTracker.issuehistory", 
     "fields": {
-      "message": "Assigned to tmckay05", 
+      "message": "Assigned to craig", 
       "issue": 6, 
       "user": 3, 
       "time": "2008-10-14 12:37:05"
@@ -305,7 +305,7 @@
     "pk": 2, 
     "model": "IssueTracker.issuecomment", 
     "fields": {
-      "comment": "I'm not dealing with this. Ziling can do it.", 
+      "comment": "I'm not dealing with this. You can do it.", 
       "issue": 2, 
       "user": 1, 
       "time": "2008-05-29 15:19:03"
@@ -325,7 +325,7 @@
     "pk": 4, 
     "model": "IssueTracker.issuecomment", 
     "fields": {
-      "comment": "comment", 
+      "comment": "I have no idea what I should be commenting on.", 
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-08 14:13:33"
@@ -345,7 +345,7 @@
     "pk": 6, 
     "model": "IssueTracker.issuecomment", 
     "fields": {
-      "comment": "time stampe update hopefully.", 
+      "comment": "time stamp update hopefully.", 
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-13 14:18:35"
@@ -355,7 +355,7 @@
     "pk": 7, 
     "model": "IssueTracker.issuecomment", 
     "fields": {
-      "comment": "test", 
+      "comment": "I like commenting.", 
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-13 14:21:59"
@@ -365,7 +365,7 @@
     "pk": 8, 
     "model": "IssueTracker.issuecomment", 
     "fields": {
-      "comment": "test2", 
+      "comment": "Seriously, I really like writing comments.", 
       "issue": 3, 
       "user": 1, 
       "time": "2008-10-13 14:24:21"

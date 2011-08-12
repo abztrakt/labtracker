@@ -27,7 +27,7 @@
     "pk": 1, 
     "model": "Machine.platform", 
     "fields": {
-      "name": "WinXP", 
+      "name": "Windows", 
       "description": ""
     }
   }, 
@@ -35,7 +35,15 @@
     "pk": 2, 
     "model": "Machine.platform", 
     "fields": {
-      "name": "Linux ", 
+      "name": "Mac OS X", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Machine.platform", 
+    "fields": {
+      "name": "Linux", 
       "description": ""
     }
   }, 
@@ -43,7 +51,7 @@
     "pk": 1, 
     "model": "Machine.type", 
     "fields": {
-      "specs": "stff", 
+      "specs": "stf", 
       "platform": 1, 
       "description": "", 
       "name": "Scanning Station", 
