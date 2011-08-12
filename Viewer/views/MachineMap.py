@@ -128,9 +128,9 @@ def show(request, view_name):
         if staff:
             if item.machine.item.verified:
                 verified = 'verified' 
-            if 'Broken' in states:
+            if 'Broken' in states and ('Usable' in states):
                 broken = 'broken'
-            else:
+            elif not 'Broken' in states:
                 broken = 'not_broken'
         if not 'Usable' in states:
             status = 'unusable'
