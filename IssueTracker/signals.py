@@ -26,14 +26,21 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     except:
         pass
     em.addProblemTypeSection("", instance.problem_type.all())
-    
-    em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-    + "Assigned to: " + instance.assignee.username + ".\n" 
-    + "Group/Location: " + instance.group.name + ".\n"     
-	+ "Machine Name: " + instance.item.name + ".\n"
-	+ "Description: " + "\n" + instance.description + "\n\n"
-    + "Steps: " + "\n" + instance.steps + "\n\n"
-    + "Attempts: " + "\n" + instance.attempts + "\n\n")
+    if (instance.assignee is None):
+        em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+        + "Group/Location: " + instance.group.name + ".\n"     
+	    + "Machine Name: " + instance.item.name + ".\n"
+	    + "Description: " + "\n" + instance.description + "\n\n"
+        + "Steps: " + "\n" + instance.steps + "\n\n"
+        + "Attempts: " + "\n" + instance.attempts + "\n\n")
+    else:
+        em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+        + "Assigned to: " + instance.assignee.username + ".\n" 
+        + "Group/Location: " + instance.group.name + ".\n"     
+	    + "Machine Name: " + instance.item.name + ".\n"
+	    + "Description: " + "\n" + instance.description + "\n\n"
+        + "Steps: " + "\n" + instance.steps + "\n\n"
+        + "Attempts: " + "\n" + instance.attempts + "\n\n")
 
     for email in contacts:
         try:
