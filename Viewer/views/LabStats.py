@@ -149,7 +149,7 @@ def allStats(request):
             'form': form,
             'location_stats': stats,
             'message': message,
-	    'begin': begin,
+            'begin': begin,
             'end':end,
         }
 
