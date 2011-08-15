@@ -34,8 +34,12 @@ $(document).ready(function() {
 });
 
 $(function() {
-    $('#id_time_start').datetimepicker({ dateFormat: 'yy-mm-dd' });
-    $('#id_time_end').datetimepicker({ dateFormat: 'yy-mm-dd' });
+    $('#id_time_start').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'hh:mm:ss',});
+    $('#id_time_end').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'hh:mm:ss',});
 });
 </script>
 {% endblock %}
