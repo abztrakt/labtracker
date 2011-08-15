@@ -1,17 +1,32 @@
 {% extends "base_full.html" %}
-{% load adminmedia %}
 
 {%block pageCSS %}
-@import url('/media_admin/css/widgets.css');
+@import url("{{MEDIA_URL}}css/smoothness/jquery-ui-1.8.15.custom.css");
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
 {%endblock%}
 
 {%block pageJS %}
-    <script type="text/javascript">window.__admin_media_prefix__="{%filter escapejs %}{% admin_media_prefix %}{%endfilter%}"</script>
-
-    <script type="text/javascript" src="/admin/jsi18n/"></script>
-    <script type="text/javascript" src="/media_admin/js/core.js"></script>
-    <script type="text/javascript" src="/media_admin/js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-timepicker-addon.js"></script>
     {{form.media}}
+
+<script type="text/javascript">
+$(function() {
+    $('#id_time_start').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'hh:mm:ss',
+    });
+    $('#id_time_end').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'hh:mm:ss',
+    });
+});
+</script>
 {% endblock %}
 
 
