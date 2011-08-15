@@ -32,6 +32,16 @@ div.check{
     z-index: 100;
 }
 
+div.list{
+    position: absolute;
+    border: 2px solid black;
+}
+
+div.list li{
+    list-style-type: none;
+    background-color: white;
+}
+
 #staffInfo {
     font-size: 24pt;
     width: 100%;
