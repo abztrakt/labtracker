@@ -26,7 +26,8 @@ function init(opts) {
     hideLists();
     $('.outerItem').bind('click', showInfo);
     $('.close').bind('click', close);
-    $('.list').draggable({ zIndex: zHelper+101 });
+    zDex = 101+zHelper;
+    $('.list').draggable({start: drag });
     initialized = true;
     view = options.view;
     timer = setInterval(updateMachines, options.timer);
@@ -38,6 +39,10 @@ function close(event) {
     $(list_id)[0].style.display = 'none';
 }
 
+function drag(event, ui) {
+    ui.helper[0].style.zIndex= 101+zHelper;
+    zHelper +=2;
+}
 function hideLists() {
     lists = $('.list');
     for( var i = 0; i< lists.length;i++) {

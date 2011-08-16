@@ -169,6 +169,7 @@ def show(request, view_name):
     groups = view.groups.all()
 
     args = {
+        'show':     True,
         'staff':    staff,
         'view':     view,
         'mapped':   map_items,
@@ -182,7 +183,6 @@ def show(request, view_name):
                 },
             'debug' :   lset.DEBUG,
             }
-
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))
 
