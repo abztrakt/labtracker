@@ -229,7 +229,10 @@ function updateAssigneeList(group_id, cb) {
 							val[1], "</option>"].join(""));
 					}
 				);
-				id_assignee[0].selectedIndex = 0;
+                if (data.contacts != 0)
+			        id_assignee[0].selectedIndex = 1;
+                else
+                    id_assignee[0].selectedIndex = 0;
 				$('#id_assignee').change();
                 
 				if (cb) { cb(); }
