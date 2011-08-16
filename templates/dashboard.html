@@ -35,7 +35,7 @@ Welcome back, {{user.username}}!
         </tr>
     {% endfor %}
         <tr class="{% if overall.PercTotal < 95 %}problem{% else %}ok{%endif%}">
-            <td>OVERALL</td>
+            <td><b>OVERALL</b></td>
             <td>{{ overall.PercTotal}}%     ({{ overall.Usable }} / {{ overall.Total }})</td>
             <td>{{ overall.PercBroken}}%   ({{ overall.Broken }} / {{ overall.Total }})</td>
             <td>{{ overall.PercUnusable}}%  ({{ overall.Unusable }} / {{ overall.Total }})</td>
