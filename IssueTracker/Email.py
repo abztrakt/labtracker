@@ -17,13 +17,6 @@ class NewIssueEmail(Email):
 
         self.issue = issue
 
-        if title:
-            self.appendSection(EmailSection(title))
-        else:
-            self.appendSection(
-                    EmailSection("[Issue %d]" % (issue.pk)))
-
-
     def addCCSection(self, old_cc, new_cc):
         """
         handle the cc updating for an issue
