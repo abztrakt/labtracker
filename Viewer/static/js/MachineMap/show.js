@@ -25,9 +25,17 @@ function init(opts) {
     $.extend(options, opts);
     hideLists();
     $('.outerItem').bind('click', showInfo);
+    $('.close').bind('click', close);
+    $('.list').draggable({ zIndex: zHelper+101 });
     initialized = true;
     view = options.view;
     timer = setInterval(updateMachines, options.timer);
+}
+
+function close(event) {
+    var id = event.currentTarget.parentNode.id;
+    var list_id = '#'+id;
+    $(list_id)[0].style.display = 'none';
 }
 
 function hideLists() {

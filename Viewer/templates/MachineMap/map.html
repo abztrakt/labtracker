@@ -17,7 +17,7 @@
             </div>
         {% endif %}
         {% for item in mapped %}
-            <div id="list_{{ item.machine.name }}" class= 'list' style="top: {{item.ypos}}px; left: {{item.list_pos}}px;">
+            <div id="list_{{ item.machine.name }}" value='{{item.machine.name}}'class= 'list' style="top: {{item.ypos}}px; left: {{item.list_pos}}px;">
                 <li><a href='/machine/detailed/{{item.machine.pk}}'>{{ item.name }}</a></li>
                 <li>Type: {{ item.type }}</li>
                 <li>MAC Address 1: {{ item.mac1 }}</li>
@@ -26,5 +26,6 @@
                 <li>Wall Port: {{ item.wall_port }}</li>
                 <li>UW Tag: {{ item.uw_tag }}</li>
                 <li>Manufacture Tag: {{ item.manu_tag }}</li>
+                <img class='close' src='/static/img/Viewer/modmap/x.gif'/>
             </div>
         {% endfor %}

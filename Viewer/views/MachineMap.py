@@ -133,7 +133,7 @@ def show(request, view_name):
                 broken = 'broken'
             elif not 'Broken' in states:
                 broken = 'not_broken'
-            if item.orientation == 'H' and item.size == 'Rectangle':
+            if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
                 list_pos = item.xpos + 35
             else:
                 list_pos = item.xpos + 20

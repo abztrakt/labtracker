@@ -35,13 +35,20 @@ div.check{
 div.list{
     position: absolute;
     border: 2px solid black;
+    padding: 10px;
+    background-color: white;
+
 }
 
 div.list li{
     list-style-type: none;
-    background-color: white;
 }
 
+div.list .close {
+    position: absolute;
+    right: 0%;
+    top: 0%;
+}
 #staffInfo {
     font-size: 24pt;
     width: 100%;
