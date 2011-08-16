@@ -1,5 +1,11 @@
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('{{ map_url }}');">
-        {% for item in mapped %}<div id="{{ item.machine.pk }}_{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
+        {% for item in mapped %}<div id="{{ item.machine.pk }}_{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }} {% if item.broken %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"></div>
         {% endfor %}
+        {% if staff %}
+            <div id='staffInfo'>
+                <div id='brokenExample' class="item mapped Rectangle H broken"></div> 
+                <div id='brokenExplanation'>Broken Machine</div>
+            </div>
+        {% endif %}
     </div>
