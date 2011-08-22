@@ -1,6 +1,6 @@
 .infodiv {
 	float: left;
-	min-width: 30%;
+	min-width: 20%;
 	margin: 1em;
 }
 
@@ -8,8 +8,10 @@
 	padding: 0em 1em;
 }
 
-#machine-info {
+#machine-info dt{
+    font-weight: bold;
 }
 
-#machine-status {
+#machine-statuses dt {
+    font-weight: bold;
 }

@@ -5,28 +5,94 @@
 
 {% block heading %}{{ object.name }} :: Detail{% endblock %}
 {% block content %}
+
 <div id="machine-info" class="infodiv">
-	<h4>Machine Info</h4>
-	<dl>
-		<dt>Machine Name: </dt>
-		<dd>{{ object.name }}</dd>
-	</dl>
+	<h3>Machine Information</h4>
+
+    <dl>
+		{% if object.name %}
+            <dt>Machine Name: </dt>
+		    <dd>{{ object.name }}</dd>
+        {%endif%}
+        {% if object.item.type%}
+            <dt>Type: </dt>
+            <dd>{{ object.item.type}}</dd>
+        {%endif%}
+        {% if object.item.verified%}
+            <dt>Verified: </dt>
+            <dd>{{ object.item.verified}}</dd> 
+        {%endif%}
+        {% if object.item.location%}
+            <dt>Location: </dt>
+            <dd>{{object.item.location}}<dd>
+        {%endif%}
+        {% if object.item.ip%}
+            <dt>IP Address: </dt>
+            <dd>{{ object.item.ip}}</dd>
+        {%endif%}
+        {% if object.item.mac1%}
+           <dt>Mac Address 1: </dt>
+            <dd>{{ object.item.mac1 }}</dd>
+        {%endif%}
+        {% if object.item.mac2%}
+            <dt>Mac Address 2: </dt>
+            <dd>{{ object.item.mac2 }}</dd>
+        {%endif%}
+        {% if object.item.wall_port%}
+            <dt>Wall Port: </dt>
+            <dd> {{object.item.wall_port}}</dd>
+        {%endif%}
+        {% if object.item.manu_tag%}
+            <dt>Manufacturers Tag: </dt>
+            <dd>{{ object.item.manu_tag}}</dd> 
+        {%endif%}
+        {% if object.item.uw_tag%}
+            <dt>UW Tag: </dt>
+            <dd>{{ object.item.uw_tag}}</dd>
+        {%endif%}
+        {% if object.item.purchase_date%}
+            <dt>Purchase Date: </dt>
+            <dd>{{ object.item.purchase_date}}</dd>
+        {%endif%}
+        {% if object.item.warranty_date%}
+            <dt>Warranty Date: </dt>
+            <dd>{{ object.item.warranty_date}}</dd> 
+        {%endif%}
+        {% if object.stf_date%}
+            <dt>Student Tech Fee Contract Expiration: </dt>
+            <dd>{{ object.item.stf_date}}</dd> 
+        {%endif%}
+        {% if object.item.comment%}
+            <dt>Comment: </dt>
+            <dd>{{ object.item.comment}}</dd> 
+        {%endif%} 
+    </dl>
 </div>
 
-<div id="machine-status" class="infodiv">
-	<h4>Machine Status</h4>
-	<dl>
-		<dt>In Use:</dt>
-		<dd>{{ object.status.inuse }}</dd>
+<div id='machine-issues' class='infodiv'>
+    <h3>Issues on {{object.name}}</h4>
+    <ul>
+        {% for issue in object.unresolved_issues %}
+            <li><a href='/issue/{{issue.pk}}'>{{issue.title}}</a></li>
+        {%endfor%}
+    </ul>
 
-		<dt>Usable: </dt>
-		<dd>{{ object.status.usable }}</dd>
-
-		<dt>Broken: </dt>
-		<dd>{{ object.status.broken }}</dd>
-	</dl>
 </div>
-
+<div id='machine-statuses' class='infodiv'>
+    <h3>Machine Statuses</h4>
+    <dt>Statuses: </dt>
+            {% for status in object.status.values%}
+                {% if status.name == 'Broken' %} 
+                    <dd>{{ status.name}}</dd>
+                {% endif %}
+                {% if status.name == 'Inuse' %}
+                    <dd>{{ status.name }}</dd>
+                {% endif %}
+                {%if status.name == 'Usable' %}
+                    <dd>{{ status.name }}</dd>
+                {% endif %}
+            {% endfor %}
+</div>
 <br class="clear" />
 
 <div>
