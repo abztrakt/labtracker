@@ -17,7 +17,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'type','location','ip','mac1','mac2',
             'wall_port','date_added','manu_tag','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
-    list_filter = ['type','location__name','date_added']
+    list_filter = ['type','location__name','date_added','verified',]
 
 class GroupAdmin(admin.ModelAdmin):
     fieldsets = (
