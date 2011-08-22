@@ -18,7 +18,7 @@ class StatusAdmin(admin.ModelAdmin):
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'type','location','ip','mac1','mac2',
-            'wall_port','date_added','manu_tag','uw_tag', 'verified',)
+            'date_added','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
     actions = ['set_to_unverified', 'set_to_verified']
