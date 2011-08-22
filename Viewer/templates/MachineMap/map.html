@@ -17,7 +17,7 @@
             </div>
         {% endif %}
         {% for item in mapped %}
-            <div id="list_{{ item.machine.name }}" value='{{item.machine.name}}'class= 'list' style="top: {{item.ypos}}px; left: {{item.list_pos}}px;">
+            <div id="list_{{ item.machine.name }}" value='{{item.machine.name}}'class= 'list' style="top: {{item.ypos}}px; left: {{item.list_pos}}px; position: absolute;">
                 <li><a href='/machine/detailed/{{item.machine.pk}}'>{{ item.name }}</a></li>
                 <li>Type: {{ item.type }}</li>
                 <li>MAC Address 1: {{ item.mac1 }}</li>
