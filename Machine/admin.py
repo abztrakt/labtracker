@@ -3,6 +3,10 @@ from django.db import models
 
 from Machine import models as mmod
 
+def set_to_unverified(modeladmin, request, queryset):
+    queryset.update(verified=False)
+set_to_unverified.short_description = "Mark selected as unverified"
+
 class ContactInLine(admin.TabularInline):
     model = mmod.Contact
     max_num = 2
@@ -18,6 +22,7 @@ class ItemAdmin(admin.ModelAdmin):
             'wall_port','date_added','manu_tag','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
+    actions = [set_to_unverified]
 
 class GroupAdmin(admin.ModelAdmin):
     fieldsets = (
