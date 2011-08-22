@@ -21,7 +21,7 @@ class ItemAdmin(admin.ModelAdmin):
             'wall_port','date_added','manu_tag','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
-    actions = ['set_to_unverified']
+    actions = ['set_to_unverified', 'set_to_verified']
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)
@@ -31,6 +31,15 @@ class ItemAdmin(admin.ModelAdmin):
             message_bit = "%s items were" % items_updated
         self.message_user(request, "%s successfully marked as unverified." % message_bit)
     set_to_unverified.short_description = "Mark selected as unverified"
+
+    def set_to_verified(self, request, queryset):
+        items_updated = queryset.update(verified=True)
+        if items_updated == 1:
+            message_bit = "1 item was"
+        else:
+            message_bit = "%s items were" % items_updated
+        self.message_user(request, "%s successfully marked as verified." % message_bit)
+    set_to_verified.short_description = "Mark selected as verified"
 
 
 class GroupAdmin(admin.ModelAdmin):
