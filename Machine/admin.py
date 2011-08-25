@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import admin
 from django.db import models
 from django.http import HttpResponseRedirect
@@ -39,7 +41,7 @@ class ItemAdmin(admin.ModelAdmin):
 
             items_updated = 0
             for i in queryset:
-                i.comment += "\n\n" + comment_add
+                i.comment += "\n-- comment appended %s --\n%s" % (datetime.now().ctime(), comment_add)
                 i.save()
                 items_updated += 1
 
