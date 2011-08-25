@@ -59,7 +59,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
@@ -83,7 +83,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
