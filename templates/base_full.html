@@ -10,22 +10,20 @@
 		@import url('{{MEDIA_URL}}css/global.css');
         @import url('{{MEDIA_URL}}css/droppy.css');
         @import url('{{MEDIA_URL}}css/dropdown.css');
-		{% block mainCSS %}
+		@import url('{{MEDIA_URL}}css/smoothness/jquery-ui-1.8.15.custom.css');
+        {% block mainCSS %}
 		@import url("{{MEDIA_URL}}css/main.css");
-	    
-		{% block pageCSS %}
+	    {% block pageCSS %}
 		{% endblock %}
 		{% endblock %}
-		
     </style>
-    
+
    		<!--[if IE]>
 		<style type="text/css">
         @import url("{{MEDIA_URL}}css/ie_main.css");
 		</style>
         <![endif]-->
-            
-    
+                
 	<script type="text/javascript">
 		var media_url = "{{ MEDIA_URL }}";
 	</script>
