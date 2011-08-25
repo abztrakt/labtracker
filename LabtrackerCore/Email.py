@@ -4,6 +4,7 @@ from django.core import mail
 #from django.core import validators
 from django.conf import settings
 from django.template.loader import render_to_string
+import HTMLParser
 
 try:
     from django.core.validators import email_re
@@ -116,10 +117,15 @@ class Email(object):
             self.to.add(to)
 
     def getEmail(self, auth_user=None, auth_password=None):
+        
         #message = "\n\n".join([section.__str__() for section in self.sections])
         header_message = ""
         message = header_message + render_to_string('email/email_message.txt', {"all_sections": self.sections })
-
+        
+        #Unescape HTML entities
+        parser = HTMLParser.HTMLParser()
+        message = parser.unescape(message)
+        
         to = self.to.union(self.cc)
 
         connection = mail.SMTPConnection(username=auth_user, password=auth_password,
