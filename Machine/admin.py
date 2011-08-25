@@ -37,9 +37,18 @@ class ItemAdmin(admin.ModelAdmin):
             if form.is_valid():
                 comment_add = form.cleaned_data['comment_addition']
 
+            items_updated = 0
             for i in queryset:
                 i.comment += "\n\n" + comment_add
                 i.save()
+                items_updated += 1
+
+            if items_updated == 1:
+                message_bit = "comment to 1 item."
+            else:
+                message_bit = "comments to %s items." % items_updated
+            self.message_user(request, "Appended %s" % message_bit)
+
             return HttpResponseRedirect(request.get_full_path())
 
         else:
