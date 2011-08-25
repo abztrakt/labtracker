@@ -12,13 +12,11 @@
     <tr>
         {% searchcolumn "time_start" "Start Time" %}
         {% searchcolumn "time_end" "End Time" %}
-        <th>Description</th>
     </tr>
 {% for entry in objects %}
     <tr>
         <td><a href="/views/LabStats/{{ entry.time_start|date:"Y-m-d" }}/{{ entry.time_end|date:"Y-m-d" }}">{{ entry.time_start|date:"d-M-Y" }}</a></td>
         <td><a href="/views/LabStats/{{ entry.time_start|date:"Y-m-d" }}/{{ entry.time_end|date:"Y-m-d" }}">{{ entry.time_end|date:"d-M-Y" }}</a></td>
-        <td></td>
     </tr>
 {% endfor %}
 </table>
