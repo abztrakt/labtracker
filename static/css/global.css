@@ -23,6 +23,11 @@ A:hover {
 	text-decoration: underline;
 }
 
+#dialog p, #faildialog p {
+    margin: 0;
+    text-align: center;
+}
+
 #upper-header A:hover {
 	text-decoration: none;
 }
