@@ -1,5 +1,9 @@
 from django.contrib import admin
 from django.db import models
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django import forms
 
 from Machine import models as mmod
 
@@ -21,7 +25,28 @@ class ItemAdmin(admin.ModelAdmin):
             'date_added','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
-    actions = ['set_to_unverified', 'set_to_verified']
+    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment']
+
+    class ModifyCommentForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        comment_addition = forms.CharField()
+
+    def append_to_comment(self, request, queryset):
+        if 'append' in request.POST:
+            form = self.ModifyCommentForm(request.POST)
+            if form.is_valid():
+                comment_add = form.cleaned_data['comment_addition']
+
+            for i in queryset:
+                i.comment += "\n\n" + comment_add
+                i.save()
+            return HttpResponseRedirect(request.get_full_path())
+
+        else:
+            # Set up a blank form BUT with the fact that it's an admin action prepopulated in a hidden field.
+            form = self.ModifyCommentForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form}, context_instance=RequestContext(request))
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)

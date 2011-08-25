@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<form action="" method="POST">{% csrf_token %}
+
+{{ mod_comment_form.as_p }}
+
+<input type="hidden" name="action" value="append_to_comment" />
+<input type="submit" name="append" value="append" />
+
+</form>
+{% endblock %}
