@@ -38,6 +38,9 @@ class ItemAdmin(admin.ModelAdmin):
             form = self.ModifyCommentForm(request.POST)
             if form.is_valid():
                 comment_add = form.cleaned_data['comment_submission']
+            else:
+                self.message_user(request, "The submission was not valid. Aborted.")
+                return HttpResponseRedirect(request.get_full_path())
 
             items_updated = 0
             for i in queryset:
@@ -65,6 +68,9 @@ class ItemAdmin(admin.ModelAdmin):
             form = self.ModifyCommentForm(request.POST)
             if form.is_valid():
                 comment_change = form.cleaned_data['comment_submission']
+            else:
+                self.message_user(request, "The submission was not valid. Aborted.")
+                return HttpResponseRedirect(request.get_full_path())
 
             items_updated = 0
             for i in queryset:
