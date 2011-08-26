@@ -5,8 +5,8 @@
 
 {{ mod_comment_form.as_p }}
 
-<input type="hidden" name="action" value="append_to_comment" />
-<input type="submit" name="append" value="append" />
+<input type="hidden" name="action" value="{{ selected_action }}" />
+<input type="submit" name="submit" value="Submit" />
 
 </form>
 {% endblock %}

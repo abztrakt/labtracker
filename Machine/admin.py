@@ -27,17 +27,17 @@ class ItemAdmin(admin.ModelAdmin):
             'date_added','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
-    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment']
+    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment']
 
     class ModifyCommentForm(forms.Form):
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
-        comment_addition = forms.CharField()
+        comment_submission = forms.CharField(widget=forms.Textarea)
 
     def append_to_comment(self, request, queryset):
-        if 'append' in request.POST:
+        if 'submit' in request.POST:
             form = self.ModifyCommentForm(request.POST)
             if form.is_valid():
-                comment_add = form.cleaned_data['comment_addition']
+                comment_add = form.cleaned_data['comment_submission']
 
             items_updated = 0
             for i in queryset:
@@ -57,7 +57,35 @@ class ItemAdmin(admin.ModelAdmin):
             # Set up a blank form BUT with the fact that it's an admin action prepopulated in a hidden field.
             form = self.ModifyCommentForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form}, context_instance=RequestContext(request))
+        selected_action = 'append_to_comment'
+        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, context_instance=RequestContext(request))
+
+    def change_comment(self, request, queryset):
+        if 'submit' in request.POST:
+            form = self.ModifyCommentForm(request.POST)
+            if form.is_valid():
+                comment_change = form.cleaned_data['comment_submission']
+
+            items_updated = 0
+            for i in queryset:
+                i.comment = comment_change
+                i.save()
+                items_updated += 1
+
+            if items_updated == 1:
+                message_bit = "comment for 1 item."
+            else:
+                message_bit = "comments for %s items." % items_updated
+            self.message_user(request, "Changed %s" % message_bit)
+
+            return HttpResponseRedirect(request.get_full_path())
+
+        else:
+            # Set up a blank form BUT with the fact that it's an admin action prepopulated in a hidden field.
+            form = self.ModifyCommentForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        selected_action = 'change_comment'
+        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, context_instance=RequestContext(request))
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)
