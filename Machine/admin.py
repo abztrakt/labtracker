@@ -30,8 +30,10 @@ class ItemAdmin(admin.ModelAdmin):
     actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment']
 
     class ModifyCommentForm(forms.Form):
+        """ The form used by append_to_comment and change_comment admin actions.
+        """
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
-        comment_submission = forms.CharField(widget=forms.Textarea)
+        comment_submission = forms.CharField(widget=forms.Textarea, required=False)
 
     def append_to_comment(self, request, queryset):
         if 'submit' in request.POST:
