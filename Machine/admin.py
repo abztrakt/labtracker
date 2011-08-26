@@ -41,7 +41,8 @@ class ItemAdmin(admin.ModelAdmin):
             if form.is_valid():
                 comment_add = form.cleaned_data['comment_submission']
             else:
-                self.message_user(request, "The submission was not valid. Aborted.")
+                for key in form.errors.keys():
+                    self.message_user(request, "%s: %s" % (key, form.errors[key].as_text()))
                 return HttpResponseRedirect(request.get_full_path())
 
             items_updated = 0
@@ -71,7 +72,8 @@ class ItemAdmin(admin.ModelAdmin):
             if form.is_valid():
                 comment_change = form.cleaned_data['comment_submission']
             else:
-                self.message_user(request, "The submission was not valid. Aborted.")
+                for key in form.errors.keys():
+                    self.message_user(request, "%s: %s" % (key, form.errors[key].as_text()))
                 return HttpResponseRedirect(request.get_full_path())
 
             items_updated = 0
