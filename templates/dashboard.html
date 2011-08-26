@@ -104,7 +104,7 @@ Welcome back, {{user.username}}!
 {% for login in prev_logins %}
     <tr>
         <td>{{ login.machine }}</td>
-        <td>{{ login.login_time|time }}</td>
+        <td>{{ login.login_time|date }} at {{ login.login_time|time }}</td>
         <td>{% if login.session_time %} {{ login.session_time }} minutes {% else %} Currently logged in.{% endif %}</td>
     </tr>
 {% endfor %}
