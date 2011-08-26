@@ -5,7 +5,7 @@ import Machine.models as models
 
 urlpatterns = patterns('',
     #url(r'^issue/create/$', 'Machine.views.issueCreate'),
-    url(r'^list/(?P<location_name>\w+)/$', 'Machine.views.list_by_location'),
+    url(r'^list/(?P<location_id>\w+)/$', 'Machine.views.list_by_location'),
 )
 
 urlpatterns += patterns('django.views.generic.list_detail',
