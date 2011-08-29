@@ -58,6 +58,7 @@ class IssueUpdater(object):
 
         # deal with hooks
         self.extraForm = None
+
         if issue.it:
             hook = utils.issueHooks.getHook("updateForm", issue.it.name)
             if hook:
