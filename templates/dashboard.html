@@ -27,14 +27,14 @@ Welcome back, {{user.username}}!
     </thead>
     <tbody>
     {% for location in all_locations.items %}
-        <tr class="{% if location.1.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr class="{% if location.1.ok %}ok{% else %}problem{%endif%}">
             <td>{{ location.0 }}</td>
             <td>{{ location.1.PercTotal}}%     ({{ location.1.Usable }} / {{ location.1.Total }})</td>
             <td>{{ location.1.PercBroken}}%   ({{ location.1.Broken }} / {{ location.1.Total }})</td>
             <td>{{ location.1.PercUnusable}}%  ({{ location.1.Unusable }} / {{ location.1.Total }})</td>
         </tr>
     {% endfor %}
-        <tr class="{% if overall.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr>
             <td><b>OVERALL</b></td>
             <td>{{ overall.PercTotal}}%     ({{ overall.Usable }} / {{ overall.Total }})</td>
             <td>{{ overall.PercBroken}}%   ({{ overall.Broken }} / {{ overall.Total }})</td>
@@ -45,7 +45,7 @@ Welcome back, {{user.username}}!
 {% endif %}
 
 {% if problems %}
-<h2>Your most recently assigned issues</h2>
+<h2>Your most recently assigned issues:</h2>
 <table>
     <tr>
         <th>ID</th>
@@ -59,7 +59,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
@@ -83,7 +83,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
@@ -95,7 +95,7 @@ Welcome back, {{user.username}}!
 
 
 {% if prev_logins %}
-<h2>Your most recent login times</h2>
+<h2>Your most recent login times:</h2>
 <table>
     <tr>
         <th>Machine</th>

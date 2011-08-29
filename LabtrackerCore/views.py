@@ -83,9 +83,19 @@ def dashboard(request):
         empty_locations = []
         for location in all_locations:
             try:
-                all_locations[location]['PercTotal'] = 100.0*(all_locations[location]['Usable'])/all_locations[location]['Total']
-                all_locations[location]['PercBroken'] = 100.0*(all_locations[location]['Broken'])/all_locations[location]['Total']
-                all_locations[location]['PercUnusable'] = 100.0*(all_locations[location]['Unusable'])/all_locations[location]['Total']
+                all_locations[location]['PercTotal'] = "%.0f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total'])
+                all_locations[location]['PercBroken'] = "%.0f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total'])
+                all_locations[location]['PercUnusable'] = "%.0f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total'])
+
+                #Keep track of css colors for each location threshold. (i.e. green = 95% in one area, etc..)
+                try:
+                    if all_locations[location]['PercTotal'] >= Location.objects.get(name=location).usable_threshold:
+                        all_locations[location]['ok'] = True
+                    else:
+                        all_locations[location]['ok'] = False
+                except Location.DoesNotExist:
+                    pass
+
             except ZeroDivisionError:
                 empty_locations.append(location)
 
