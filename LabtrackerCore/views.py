@@ -101,7 +101,9 @@ def dashboard(request):
             except Exception, e:
                 pass
 
-        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations},
+        overall = all_locations.pop('OVERALL')
+
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations, 'overall': overall,},
                 context_instance=RequestContext(request))
     
     else:

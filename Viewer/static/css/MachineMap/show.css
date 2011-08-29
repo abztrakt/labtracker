@@ -5,11 +5,15 @@ i/*div.item.status_broken {
 	-khtml-opacity: 0.8;
 	opacity: 0.8;
 }*/
-div.item.status_unusable {
+div.item.status_occupied{
     background-color: white;	filter:alpha(opacity=30);
 	-moz-opacity:0.3;
 	-khtml-opacity: 0.3;
 	opacity: 0.3;
+}
+
+div.item.status_unusable{
+    background-color: red;
 }
 
 div.item.status_usable {
@@ -23,20 +27,62 @@ div.item.broken{
     border: 2px solid red;
 }
 
+div.check{
+    position: absolute;
+    z-index: 100;
+}
+
+div.list{
+    position: absolute;
+    border: 2px solid black;
+    padding: 10px;
+    background-color: white;
+
+}
+
+div.list li{
+    list-style-type: none;
+}
+
+div.list .close {
+    position: absolute;
+    right: 0%;
+    top: 0%;
+}
 #staffInfo {
     font-size: 24pt;
     width: 100%;
     position: absolute;
-    top: 472px;
-    left: 440px;
+    top: 476px;
+    left: 410px;
 }
-#brokenExample {
+#brokenExample{
     position: absolute;
     top: 10px;
 }
-#brokenExplanation {
+#brokenExplanation, #verifiedExplanation, #unusableExplanation{
     position: absolute;
     left: 45px;
 }
+#verifiedExample{
+    position:absolute;
+    top: 64px;
+}
+#verifiedPic{
+    position: absolute;
+    top: 66px;
+    z-index: 100;
+    left: 2px;
+}
 
+#verifiedExplanation{
+    top: 54px;
+}
+
+#unusableExample{
+    top: 118px;
+}
+
+#unusableExplanation{
+    top: 108px;
 #wrapper { padding-left: 15px; }

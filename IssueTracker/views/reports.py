@@ -34,15 +34,17 @@ def allBroken(request, page=1):
     args = utils.generatePageList(request, objects, page)
     args['issues'] = args['objects']
     issues_list = {'Issues on Unusable Machines':[]}
+    
     for issue in args['issues']:
         iss_id = issue.item.item_id
         machine = mac.Item.objects.get(item_id=iss_id)
-        statuses= machine.status.values_list()
-        unusable = False
-        for status in statuses:
-            if status[0] == 3:
-                unusable = True
-        if not unusable:
+        usable = False
+        try:
+            machine.status.get(name='Usable') 
+            usable = True
+        except:
+            pass
+        if not usable:
             issues_list['Issues on Unusable Machines'].append(issue)
     args['object_list'] = issues_list.items() 
     args['no_results'] = args['page'].object_list.count() < 1
