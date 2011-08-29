@@ -27,14 +27,14 @@ Welcome back, {{user.username}}!
     </thead>
     <tbody>
     {% for location in all_locations.items %}
-        <tr class="{% if location.1.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr class="{% if location.1.ok %}ok{% else %}problem{%endif%}">
             <td>{{ location.0 }}</td>
             <td>{{ location.1.PercTotal}}%     ({{ location.1.Usable }} / {{ location.1.Total }})</td>
             <td>{{ location.1.PercBroken}}%   ({{ location.1.Broken }} / {{ location.1.Total }})</td>
             <td>{{ location.1.PercUnusable}}%  ({{ location.1.Unusable }} / {{ location.1.Total }})</td>
         </tr>
     {% endfor %}
-        <tr class="{% if overall.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr>
             <td><b>OVERALL</b></td>
             <td>{{ overall.PercTotal}}%     ({{ overall.Usable }} / {{ overall.Total }})</td>
             <td>{{ overall.PercBroken}}%   ({{ overall.Broken }} / {{ overall.Total }})</td>
