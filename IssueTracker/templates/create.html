@@ -19,7 +19,7 @@
     <div id="text" class="left">
         <div id='title' class="f-container">
             <label for="id_{{form.title.name}}" class="left {% if form.title.field.required %}required{% endif %}">
-				{{form.title.label}}:
+				{{form.title.label}}{% if form.title.field.required %}(*){% endif %}:
 			</label>
             <div class="left">
                 {{form.title}}
@@ -30,7 +30,7 @@
         
         <div class="f-container clear left item-selector" id="it_block">
             <label for="id_{{form.it.name}}" class="{% if form.it.field.required %}required{% endif %}">
-            	{{ form.it.label }}:
+            	{{ form.it.label }}{% if form.it.field.required %}(*){% endif %}:
             </label>
 			<div>
 				{{ form.it }}
@@ -43,7 +43,7 @@
         <div class="f-container left item-selector" id="group_block">
             <label for="{{form.group.name}}">
             	<!--{{ form.group.label }}-->
-                Group/Location:
+                Group/Location{% if form.group.field.required %}(*){% endif %}:
             </label>
 			<div>
 				{{ form.group }}
@@ -57,7 +57,7 @@
 		<div class="f-container left item-selector" id="item_block">
             <label for="id_{{form.item.name}}" class="{% if form.item.field.required %}required{% endif %}">
 	            <!--{{ form.item.label }}:-->
-                Name:
+                Name{% if form.item.field.required %}(*){% endif %}:
             </label>
             <div class='none-if-js'>
 	            {{ form.item }}
@@ -78,7 +78,7 @@
 		<div class="f-container clear left item-selector" id="assign_block">
             <label for="id_{{form.assignee.name}}" class="{% if form.assignee.field.required %}required{% endif %}">
 	            <!--{{ form.assignee.label }}:-->
-                Assign to:
+                Assign to{% if form.assignee.field.required %}(*){% endif %}:
             </label>
 			<div>
 	            {{ form.assignee }}
@@ -100,7 +100,7 @@
         <div class='f-container' id="probs">
             <label for="id_{{form.problem_type.name}}" class="{% if form.problem_type.field.required %}required{% endif %} selectlable">
                
-                Problems:
+                Problems{% if form.problem_type.field.required %}(*){% endif %}:
 			</label>
             
             <span class="help help2 unselcted">{{ form.problem_type.help_text }}</span>
@@ -123,7 +123,7 @@
     
 		<div id="desc" class="f-container">
             <label for="id_{{form.description.name}}" class="{% if form.description.field.required %}required{% endif %}">
-                {{ form.description.label}}:
+                {{ form.description.label}}{% if form.description.field.required %}(*){% endif %}:
 			</label>
             <span class="help help">
                 Remember to look at related issues before filing a bug.
@@ -137,7 +137,7 @@
 
         <div id="steps" class="f-container">
             <label for="id_{{form.steps.name}}" class="{% if form.steps.field.required %}required{% endif %}">
-                {{form.steps.label}}:
+                {{form.steps.label}}{% if form.steps.field.required %}(*){% endif %}:
 			</label>
             <span class="help help">
                 How was the problem created?
@@ -151,7 +151,7 @@
         
         <div id="Attempts" class="f-container">
             <label for="id_{{form.attempts.name}}" class="{% if form.attempts.field.required %}required{% endif %}">
-                {{form.attempts.label}}:
+                {{form.attempts.label}}{% if form.attempts.field.required %}(*){% endif %}:
 			</label>
             <span class="help help">
                 How did you attempt to solve the problem?
@@ -165,7 +165,7 @@
 
         <div id="other_tickets" class="f-container">
             <label for="id_{{form.other_tickets.name}}" class="{% if form.other_tickets.field.required %}required{% endif %}">
-                RT ticket:
+                RT ticket{% if form.other_tickets.field.required %}(*){% endif %}:
 			</label>
             <span class="help help">
                 If there is an associated RT ticket related to the issue, add the issue number below (optional):
@@ -186,7 +186,7 @@
        
 		<div class='f-container' id='cc_block'>
             <label for="id_{{form.cc.name}}" class="{% if form.cc.field.required %}required{% endif %}">
-                {{ form.cc.label }}:
+                {{ form.cc.label }}{% if form.cc.field.required %}(*){% endif %}:
             </label>
             <span class="help help">
                 CC's will be saved when you submit the Issue

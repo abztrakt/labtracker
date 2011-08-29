@@ -64,6 +64,7 @@ class CreateIssueForm(ModelForm):
 
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
+        import pdb; pdb.set_trace()
         return inst
 
     class Meta:
