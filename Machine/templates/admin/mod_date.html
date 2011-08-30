@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<form action="" method="POST">{% csrf_token %}
+
+{{ mod_date_form.as_p}}
+
+<input type="hidden" name="action" value="{{ selected_action }}" />
+<input type="submit" name="set" value="Set date" />
+
+</form>
+{% endblock %}
