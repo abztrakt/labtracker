@@ -71,7 +71,8 @@ class ItemAdmin(admin.ModelAdmin):
             form = self.ModifyCommentForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
         selected_action = 'append_to_comment'
-        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, context_instance=RequestContext(request))
+        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, 
+            context_instance=RequestContext(request, {'title': 'Append to Comment',}))
 
     def change_comment(self, request, queryset):
         if 'submit' in request.POST:
@@ -102,7 +103,8 @@ class ItemAdmin(admin.ModelAdmin):
             form = self.ModifyCommentForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
         selected_action = 'change_comment'
-        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, context_instance=RequestContext(request))
+        return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action},
+            context_instance=RequestContext(request, {'title': 'Modify Comment',}))
 
     def change_purchase_date(self, request, queryset):
         if 'set' in request.POST:
@@ -133,7 +135,9 @@ class ItemAdmin(admin.ModelAdmin):
             form = self.ModifyDateForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
         selected_action = 'change_purchase_date'
-        return render_to_response('admin/mod_date.html', {'mod_date_form': form, 'selected_action': selected_action}, context_instance=RequestContext(request))
+        return render_to_response('admin/mod_date.html', {'mod_date_form': form,
+            'selected_action': selected_action},
+            context_instance=RequestContext(request, {'title': 'Modify Date',}))
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)

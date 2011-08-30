@@ -14,6 +14,8 @@
 <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
 {% endblock %}
 
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/admin/">Home</a>{% if title %} &rsaquo; {{ title }}{% endif %}</div>{% endblock %}
+
 {% block content %}
 <p>Enter date in the form YYYY-MM-DD.</p>
 <form action="" method="POST">{% csrf_token %}
