@@ -27,7 +27,8 @@ class ItemAdmin(admin.ModelAdmin):
             'date_added','uw_tag', 'verified',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
-    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment', 'change_purchase_date']
+    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment', 
+        'change_purchase_date']
 
     class ModifyCommentForm(forms.Form):
         """ The form used by append_to_comment and change_comment admin actions.
