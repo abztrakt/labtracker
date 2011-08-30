@@ -1,104 +1,10 @@
 [
   {
-    "pk": 1, 
-    "model": "Viewer.viewtype", 
+    "pk": 1,
+    "model": "Viewer.viewtype",
     "fields": {
-      "name": "MachineMap", 
+      "name": "MachineMap",
       "description": "Maps of Machines"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.viewcore", 
-    "fields": {
-      "shortname": "CRC_Map", 
-      "type": 1, 
-      "name": "CRC Map View", 
-      "groups": [
-        5
-      ], 
-      "description": "CRC Maps of Machines"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.machinemap", 
-    "fields": {
-      "groups": [
-        5
-      ]
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Viewer.machinemap_size", 
-    "fields": {
-      "width": 13, 
-      "height": 28, 
-      "name": "Rectangle", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.machinemap_size", 
-    "fields": {
-      "width": 13, 
-      "height": 13, 
-      "name": "Square", 
-      "description": ""
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "Viewer.machinemap_item", 
-    "fields": {
-      "xpos": 285, 
-      "orientation": "V", 
-      "ypos": 185, 
-      "machine": 4, 
-      "last_modified": "2008-10-21 12:41:44", 
-      "date_added": "2008-06-12 11:52:42", 
-      "view": 2, 
-      "size": 1
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "Viewer.machinemap_item", 
-    "fields": {
-      "xpos": 175, 
-      "orientation": "H", 
-      "ypos": 109, 
-      "machine": 2, 
-      "last_modified": "2008-10-21 12:41:44", 
-      "date_added": "2008-06-12 11:52:42", 
-      "view": 2, 
-      "size": 1
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "Viewer.machinemap_item", 
-    "fields": {
-      "xpos": 254, 
-      "orientation": "H", 
-      "ypos": 109, 
-      "machine": 3, 
-      "last_modified": "2008-10-21 12:41:44", 
-      "date_added": "2008-06-12 11:52:42", 
-      "view": 2, 
-      "size": 1
-    }
-  },
-  {
-    "pk": 3,
-    "model": "Viewer.viewcore",
-    "fields": {
-      "name": "Custom Statistics",
-      "shortname": "Custom_Statistics",
-      "description": "Statistics within custom time interval",
-      "type": 2
     }
   },
   {
@@ -110,10 +16,127 @@
     }
   },
   {
+    "pk": 2,
+    "model": "Viewer.viewcore",
+    "fields": {
+      "shortname": "CRC_Map",
+      "type": 1,
+      "name": "CRC Map View",
+      "groups": [
+        5
+      ],
+      "description": "CRC Maps of Machines"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "Viewer.viewcore",
+    "fields": {
+      "shortname": "Custom_Statistics",
+      "type": 2,
+      "name": "Custom Statistics",
+      "groups": [],
+      "description": "Statistics within custom time interval"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "Viewer.viewcore",
+    "fields": {
+      "shortname": "Commons",
+      "type": 1,
+      "name": "OUGL Commons",
+      "groups": [
+        6
+      ],
+      "description": "OUGL Commons"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "Viewer.machinemap",
+    "fields": {
+      "groups": [
+        5
+      ]
+    }
+  },
+  {
+    "pk": 4,
+    "model": "Viewer.machinemap",
+    "fields": {
+      "groups": [
+        6
+      ]
+    }
+  },
+  {
+    "pk": 1,
+    "model": "Viewer.machinemap_size",
+    "fields": {
+      "width": 13,
+      "height": 28,
+      "name": "Rectangle",
+      "description": ""
+    }
+  },
+  {
+    "pk": 2,
+    "model": "Viewer.machinemap_size",
+    "fields": {
+      "width": 13,
+      "height": 13,
+      "name": "Square",
+      "description": ""
+    }
+  },
+  {
+    "pk": 1,
+    "model": "Viewer.machinemap_item",
+    "fields": {
+      "xpos": 285,
+      "orientation": "V",
+      "ypos": 185,
+      "machine": 4,
+      "last_modified": "2008-10-21 12:41:44",
+      "date_added": "2008-06-12 11:52:42",
+      "view": 2,
+      "size": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "Viewer.machinemap_item",
+    "fields": {
+      "xpos": 175,
+      "orientation": "H",
+      "ypos": 109,
+      "machine": 2,
+      "last_modified": "2008-10-21 12:41:44",
+      "date_added": "2008-06-12 11:52:42",
+      "view": 2,
+      "size": 1
+    }
+  },
+  {
+    "pk": 3,
+    "model": "Viewer.machinemap_item",
+    "fields": {
+      "xpos": 254,
+      "orientation": "H",
+      "ypos": 109,
+      "machine": 3,
+      "last_modified": "2008-10-21 12:41:44",
+      "date_added": "2008-06-12 11:52:42",
+      "view": 2,
+      "size": 1
+    }
+  },
+  {
     "pk": 3,
     "model": "Viewer.labstats",
     "fields": {
-      "view": 3
+      "groups": []
     }
   }
 ]
