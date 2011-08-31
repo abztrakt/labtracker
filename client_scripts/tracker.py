@@ -12,7 +12,7 @@ NO_SSL = False # This should really only be set to True for testing.
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "web5.eplt.washington.edu"
+    LABTRACKER_URL = "walnut.eplt.washington.edu:8000"
     import httplib
     httplib.HTTPConnection.debuglevel = 1
 ACTIONS = ('login','logout','ping')
@@ -45,6 +45,12 @@ def get_mac():
             if line.lower().find('ether') > -1:
                 mac = line.split()[1]
             	break
+        return mac
+    elif sys.platform == 'linux2':
+        for line in os.popen("/sbin/ifconfig"):
+            if line.lower().find('hwaddr') > -1:
+                mac = line.split()[-1]
+                break
         return mac
 
 def get_data(status): 
