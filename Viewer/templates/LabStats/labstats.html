@@ -86,9 +86,9 @@ $(function() {
         <td>{{ data.logins_per_machine }}</td>
         <td>{{ data.distinct_logins }}</td>
         <td>{{ data.distinct_per_machine }}</td>
-        <td>{{ data.avg_time }} min</td>
-        <td>{{ data.max_time }} min</td>
-        <td>{{ data.stdev_time }} min</td>
+        <td>{{ data.avg_time }} min ({{ data.all_avg_time}} min)</td>
+        <td>{{ data.max_time }} min ({{ data.all_max_time}} min)</td>
+        <td>{{ data.stdev_time }} min ({{data.all_stdev_time}} min)</td>
     </tr>
 {% endfor %}
 </table>
