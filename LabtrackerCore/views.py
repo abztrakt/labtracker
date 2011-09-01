@@ -88,10 +88,10 @@ def dashboard(request):
         empty_locations = []
         for location in all_locations:
             try:
-                all_locations[location]['LabLoad'] = "%.0f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable'])
-                all_locations[location]['PercUsable'] = "%.0f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total'])
-                all_locations[location]['PercBroken'] = "%.0f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total'])
-                all_locations[location]['PercUnusable'] = "%.0f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total'])
+                all_locations[location]['LabLoad'] = float("%.02f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable']))
+                all_locations[location]['PercUsable'] = float("%.02f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total']))
+                all_locations[location]['PercBroken'] = float("%.02f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total']))
+                all_locations[location]['PercUnusable'] = float("%.02f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total']))
 
                 #Keep track of css colors for each location threshold. (i.e. green = 95% in one area, etc..)
                 try:
