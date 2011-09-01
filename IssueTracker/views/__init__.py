@@ -123,25 +123,25 @@ def createIssue(request):
         if form.is_valid():
             inv_t = form.cleaned_data['it']
 
+        ### Deprecated for allowing new issue to be created without status selected
             # need to call hook now and see if it is good
-            hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
+        #    hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
+        #    if hook:
+        #        # need to get the item or group here
+        #        group = form.cleaned_data['group']
 
-            if hook:
-                # need to get the item or group here
-                group = form.cleaned_data['group']
+        #        item = None
+        #        if form.cleaned_data['item']:
+        #            item = form.cleaned_data['item'].item
 
-                item = None
-                if form.cleaned_data['item']:
-                    item = form.cleaned_data['item'].item
+        #        valid = hook(request, item=item, group=group)
+        #    else:
+        #        valid = True
 
-                valid = hook(request, item=item, group=group)
-            else:
-                valid = True
-
-            if valid:
-                issue = form.save()
-                return HttpResponseRedirect(reverse('IssueTracker-view', \
-                        args=[issue.issue_id]))
+        #    if valid:
+            issue = form.save()
+            return HttpResponseRedirect(reverse('IssueTracker-view', \
+                    args=[issue.issue_id]))
             
         else:
             # form was not valid, errors should be on form though, so nothing
