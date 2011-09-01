@@ -6,43 +6,46 @@ import models
 class NewIssueEmail(Email):
 
     def __init__(self, issue, title=None, *args, **kwargs):
-        kwargs['subject'] = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + " Issue %d " % (issue.pk)
+        try:
+            title = title.replace('@', '[at]')
+        except:
+            pass
+
+        kwargs['subject'] = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + " #%d: %s " % (issue.pk, title)
 
         super(NewIssueEmail, self).__init__(sections=[], *args, **kwargs)
 
         self.issue = issue
-
-        if title:
-            self.appendSection(EmailSection(title))
-        else:
-            self.appendSection(
-                    EmailSection("[Issue %d]" % (issue.pk)))
-
 
     def addCCSection(self, old_cc, new_cc):
         """
         handle the cc updating for an issue
         """
         # CC is special in that it only updates this area
-        curUsers = set(old_cc)
-        newUsers = set(new_cc)
-
+        if old_cc:
+            curUsers = set(str(user) for user in old_cc)
+        else:
+            curUsers = set()
+        if new_cc:
+            newUsers = set(str(user) for user in new_cc)
+        else:
+            newUsers = set()
         # get
         removeCC = curUsers.difference(newUsers)
+        removeList = ", ".join(removeCC) 
         if removeCC:
-            self.appendSection(Email.EmailSection(
-                "Users removed from CC",
-                ", ".join(removeCC)
-            ))
+            removeSection = EmailSection("Users removed from CC list")
+            removeSection.content = "%s" % (removeList)
+            self.appendSection(removeSection)
 
         # now curUsers only contains the users that need not be modified
         # add all newUsers not in curUser to cc list
         addCC = newUsers.difference(curUsers)
+        addList = ", ".join(addCC)
         if addCC:
-            self.appendSection(Email.EmailSection(
-                "Users added to CC", ", ".join(addCC)
-            ))
-
+            addSection = EmailSection("Users added to CC list")
+            addSection.content = "%s" % (addList) 
+            self.appendSection(addSection)
 
     def addAssigneeSection(self, cur, new):
         assigneeSection = EmailSection("Assignee Change")

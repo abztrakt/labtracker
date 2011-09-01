@@ -7,11 +7,12 @@ import sys
 import os
 from optparse import OptionParser
 
-DEBUG = False 
+DEBUG = False
+NO_SSL = False # This should really only be set to True for testing.
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "web5.eplt.washington.edu"
+    LABTRACKER_URL = "walnut.eplt.washington.edu:8000"
     import httplib
     httplib.HTTPConnection.debuglevel = 1
 ACTIONS = ('login','logout','ping')
@@ -44,7 +45,13 @@ def get_mac():
             if line.lower().find('ether') > -1:
                 mac = line.split()[1]
             	break
-        return mac 
+        return mac
+    elif sys.platform == 'linux2':
+        for line in os.popen("/sbin/ifconfig"):
+            if line.lower().find('hwaddr') > -1:
+                mac = line.split()[-1]
+                break
+        return mac
 
 def get_data(status): 
     # get user info from machine
@@ -55,8 +62,11 @@ def get_data(status):
 def _track(url, action, mac, data=None):
     """Lower level track function, useful for testing"""
     try:
-	import urllib2
-        req = urllib2.Request(url="https://%s/tracker/%s/%s/" % (url, action, mac),
+    	import urllib2
+        secure = ''
+        if not NO_SSL:
+            secure = 's'
+        req = urllib2.Request(url="http%s://%s/tracker/%s/%s/" % (secure, url, action, mac),
                                 data=get_data(action)) 
         urllib2.urlopen(req)
     except ImportError:

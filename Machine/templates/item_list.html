@@ -1,0 +1,17 @@
+{% extends "base_full.html" %}
+{% block pageCSS %}@import url("{{ MEDIA_URL }}css/Machine/detailed.css");
+{% endblock %}
+{% block pageHead %}{% endblock %}
+
+{% block heading %}Machine :: List{% endblock %}
+{% block content %}
+
+<div id="machine-list" class="infodiv">
+<ul>
+{% for i in object_list %}
+<li>{{ i.name }}</li>
+{% endfor %}
+</ul>
+</div>
+
+{% endblock %}

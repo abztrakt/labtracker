@@ -20,7 +20,7 @@
       backgroundColor: "#3060B0"
     },
     containerItem: {      // IE 7 doesn't support "data:image/gif;base64" urls
-      backgroundImage:    "url(/static/img/jquery.n-contextmenu.arrow.gif)",
+      backgroundImage:    "url(images/jquery.n-contextmenu.arrow.gif)",
       backgroundPosition: "95%",
       backgroundRepeat:   "no-repeat"
     },

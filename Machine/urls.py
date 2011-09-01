@@ -5,6 +5,7 @@ import Machine.models as models
 
 urlpatterns = patterns('',
     #url(r'^issue/create/$', 'Machine.views.issueCreate'),
+    url(r'^list/(?P<location_id>\w+)/$', 'Machine.views.list_by_location'),
 )
 
 urlpatterns += patterns('django.views.generic.list_detail',
@@ -12,5 +13,9 @@ urlpatterns += patterns('django.views.generic.list_detail',
         {   'queryset': models.Item.objects.all(), 
             'template_name': 'item_detailed.html' }, 
         name="Machine-detail"),
+    url(r'^list/$', 'object_list', 
+        {   'queryset': models.Item.objects.all(),
+            'template_name': 'item_list.html' }, 
+        name="Machine-list"),
 )
 

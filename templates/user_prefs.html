@@ -34,7 +34,7 @@ Please enter your new e-mail address.</p>
 <br />
 <br />
 
-<form method="POST" action="./">
+<form method="POST" action="./">{% csrf_token %}
 		<div class="error">{{ emailForm.email.errors }}</div>
 		<p><div class="formwidth">{{ emailForm.email.label }}:</div> {{ emailForm.email }}
 </div>

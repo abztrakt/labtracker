@@ -112,7 +112,7 @@ def show(request, view_name):
         return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
-
+    staff = request.user.is_staff
     map = getMapInfo(view_name)
 
     if not map:
@@ -123,26 +123,54 @@ def show(request, view_name):
    
     for item in view.getMappedItems():
         states = [a for (a,) in item.machine.item.status.values_list('name')]
-        if 'Inuse' in states:
+        broken = None
+        verified = None
+        list_pos = None
+        if staff:
+            if item.machine.item.verified:
+                verified = 'verified' 
+            if 'Broken' in states and ('Usable' in states):
+                broken = 'broken'
+            elif not 'Broken' in states:
+                broken = 'not_broken'
+            if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
+                list_pos = item.xpos + 35
+            else:
+                list_pos = item.xpos + 20
+        if not 'Usable' in states:
             status = 'unusable'
+        elif 'Inuse' in states:
+            status = 'occupied'
         elif 'Usable' in states:
             status = 'usable'
-        else:
-            status = 'unusable'
-
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
                 'orientation': item.orientation,
                 'ypos': item.ypos,
                 'xpos': item.xpos,
-                'status':status, 
+                'status':status,
+                'broken':broken,
+                'verified': verified,
+                'vypos': item.ypos+2,
+                'vxpos': item.xpos+2,
+                'name': item.machine.item.name,
+                'wall_port': item.machine.item.wall_port,
+                'mac1': item.machine.item.mac1,
+                'mac2': item.machine.item.mac2,
+                'ip': item.machine.item.ip,
+                'uw_tag': item.machine.item.uw_tag,
+                'type': item.machine.item.type.name,
+                'manu_tag': item.machine.item.manu_tag,
+                'list_pos': list_pos,
             }
         map_items.append(item_dict)
 
     groups = view.groups.all()
 
     args = {
+        'show':     True,
+        'staff':    staff,
         'view':     view,
         'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
@@ -155,7 +183,6 @@ def show(request, view_name):
                 },
             'debug' :   lset.DEBUG,
             }
-
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))
 

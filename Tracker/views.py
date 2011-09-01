@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 import LabtrackerCore.models as c_models
 import Machine.models as m_models
@@ -87,6 +88,7 @@ def updateMachine(request, name):
 
     return HttpResponseServerError()
 
+@csrf_exempt #There is no possible way a client machine could get a valid csrf_token
 def track(request, action, macs):
 
     # must be https

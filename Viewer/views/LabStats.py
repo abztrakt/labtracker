@@ -36,19 +36,13 @@ def allStatsFile(request):
     response = None
     message = None
 
-    GET_begin_date = request.GET.get('time_start_0','') 
-    GET_begin_time = request.GET.get('time_start_1','')
-    GET_begin = GET_begin_date + ' ' + GET_begin_time
-
-    GET_end_date = request.GET.get('time_end_0','')
-    GET_end_time = request.GET.get('time_end_1','')
-    GET_end = GET_end_date + ' ' + GET_end_time
-
-    if not GET_begin == ' ' and not GET_end == ' ':
+    if request.GET.has_key('time_start') and request.GET.has_key('time_end'):
         form = FileTimeForm(request.GET)
         if form.is_valid():
-            end = form.cleaned_data['time_end']
-            begin = form.cleaned_data['time_start'];
+            end = request.GET['time_end']
+            end_date, end_time = end.split()
+            begin = request.GET['time_start']
+            begin_date, begin_time = begin.split()
      
            
             history = m_models.History.objects.values_list('user','login_time','session_time','machine').filter(login_time__gte=begin).exclude(login_time__gte=end)
@@ -62,7 +56,7 @@ def allStatsFile(request):
         else:
             stats = []
             response = HttpResponse(mimetype='text/csv')
-            response['Content-Disposition'] = 'attachment; filename=LabStat'+GET_begin_date + '__'+GET_end_date+' .csv'
+            response['Content-Disposition'] = "attachment; filename=LabStats_%s_to_%s.csv" % (begin_date, end_date)
             writer = csv.writer(response)
 
             for entry in m_location:
@@ -149,7 +143,7 @@ def allStats(request):
             'form': form,
             'location_stats': stats,
             'message': message,
-	    'begin': begin,
+            'begin': begin,
             'end':end,
         }
 

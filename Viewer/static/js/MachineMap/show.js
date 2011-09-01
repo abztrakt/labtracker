@@ -1,5 +1,5 @@
 var initialized = false;    // is page ready?
-
+var zHelper= 0;
 var timer = null;       // This is the interval timer
 var last_call = Date.now()/1000;
 var view = null;       //the map name
@@ -23,12 +23,47 @@ var options = {
  */
 function init(opts) {
     $.extend(options, opts);
-
+    hideLists();
+    $('.outerItem').bind('click', showInfo);
+    $('.close').bind('click', close);
+    zDex = 101+zHelper;
+    $('.list').draggable({start: drag });
     initialized = true;
     view = options.view;
     timer = setInterval(updateMachines, options.timer);
 }
 
+function close(event) {
+    var id = event.currentTarget.parentNode.id;
+    var list_id = '#'+id;
+    $(list_id)[0].style.display = 'none';
+}
+
+function drag(event, ui) {
+    ui.helper[0].style.zIndex= 101+zHelper;
+    zHelper +=2;
+}
+function hideLists() {
+    lists = $('.list');
+    for( var i = 0; i< lists.length;i++) {
+        lists[i].style.display = 'none';
+    }
+}
+
+function showInfo(event) {
+    var children=$(event.currentTarget).children();
+    var id = children[0].getAttribute('value');
+    var list_id='#list_'+id;
+    var listItems = $('.list');
+    style = $(list_id)[0].style.display;
+    if (style == 'none') {
+        $(list_id)[0].style.display = '';
+        $(list_id)[0].style.zIndex = 100+zHelper;
+        zHelper++;
+    } else {
+        $(list_id)[0].style.display = 'none'; 
+    }
+}
 /**
  * updateMachines
  *

@@ -4,6 +4,7 @@ from django.core import mail
 #from django.core import validators
 from django.conf import settings
 from django.template.loader import render_to_string
+import HTMLParser
 
 try:
     from django.core.validators import email_re
@@ -98,33 +99,33 @@ class Email(object):
         """
         Add a 'to' address
         """
-        if not isValidEmail(to):
-            raise ValidationError("Invalid Email")
-
-        self.cc.add(to)
+        if isValidEmail(to):
+            self.cc.add(to)
 
     def addBCC(self, to):
         """
         Add a 'to' address
         """
-        if not isValidEmail(to):
-            raise ValidationError("Invalid Email")
-        self.bcc.add(to)
+        if isValidEmail(to):
+            self.bcc.add(to)
 
     def addTo(self, to):
         """
         Add a 'to' address
         """
-        if not isValidEmail(to):
-            raise ValidationError("Invalid Email")
-
-        self.to.add(to)
+        if isValidEmail(to):
+            self.to.add(to)
 
     def getEmail(self, auth_user=None, auth_password=None):
+        
         #message = "\n\n".join([section.__str__() for section in self.sections])
         header_message = ""
         message = header_message + render_to_string('email/email_message.txt', {"all_sections": self.sections })
-
+        
+        #Unescape HTML entities
+        parser = HTMLParser.HTMLParser()
+        message = parser.unescape(message)
+        
         to = self.to.union(self.cc)
 
         connection = mail.SMTPConnection(username=auth_user, password=auth_password,
@@ -138,6 +139,8 @@ class Email(object):
         Send the email
         """
         email = self.getEmail()
+        if email.to == '':
+            return email.send(fail_silently=True)
         return email.send()
 
 """

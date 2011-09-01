@@ -6,18 +6,23 @@ from IssueTracker import changedIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
+# Not using these strings, currently setting the fields to empty strings. Might change in future.
 DEFAULT_DESCRIPTION = """Description of Problem:
 
 What was the expected behavior/output? What did you observe?
 
-What are the steps to reproduce the problem (if reproducible)?
+"""
+
+DEFAULT_STEPS = """What are the steps to reproduce the problem (if reproducible)?
  1. 
  2.
  3.
-
-Have you attempted to fix the problem? How?
-
 """
+
+DEFAULT_ATTEMPTS = """
+Have you attempted to fix the problem? How?
+"""
+
 
 class CreateIssueForm(ModelForm):
     """
@@ -36,18 +41,35 @@ class CreateIssueForm(ModelForm):
 
     description = forms.CharField(
             widget = forms.Textarea,
-            initial = DEFAULT_DESCRIPTION
+            initial = ""
+        )
+
+    steps = forms.CharField(
+            widget = forms.Textarea,
+            initial = "",
+            required = False
+        )
+
+    attempts = forms.CharField(
+            widget = forms.Textarea,
+            initial = "",
+            required = False
+        )
+
+    other_tickets = forms.IntegerField(
+            widget = forms.TextInput,
+            initial = "",
+            required = False,
         )
 
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
-
         return inst
 
     class Meta:
         model = im.Issue
-        fields = ('it','group','item','cc','problem_type','title','description',
-                'reporter')
+        fields = ('it','group','item','assignee','cc','problem_type','title','description',
+                'reporter','steps','attempts','other_tickets')
 
 class UpdateIssueForm(ModelForm):
     """
@@ -66,7 +88,6 @@ class UpdateIssueForm(ModelForm):
         all_keys = set(cleaned_data.keys())
 
         # get keys that not given, delete them from cleaned_data
-        #import pdb; pdb.set_trace()
         for key in all_keys.difference(given_keys):
             del cleaned_data[key]
         return cleaned_data

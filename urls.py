@@ -11,9 +11,12 @@ urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': '%s/static/' % (settings.APP_DIR), 'show_indexes': True}),
 
-    #(r'^admin/(.*)', default_admin.root),
-    (r'^admin/(.*)', admin.site.root),
+    # Uncomment the admin/doc line below to enable admin documentation:
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
+    
     # Auth related items
     url(r'^login/$', 'django.contrib.auth.views.login', 
         {'template_name': 'login.html'}, name='login'),

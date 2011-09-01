@@ -2,6 +2,14 @@ $(document).ready(function() {
 	$("a.dropCC").bind("click", dropCC); 
 	$("#ccForm").bind("submit", addCC); 
 	$("#addCC").bind("click", addCC); 
+    var list_cc = new Array();
+    var cc_nodes = $('#id_cc').children();
+    for (var i = 0; i <cc_nodes.length;i++) {
+        list_cc.push(cc_nodes[i].innerHTML);
+    }
+    $('#addCC_user').autocomplete({
+        source: list_cc
+    });
 
 	$("#id_problem_type").asmSelect({
 		'removeLabel': 'X',
@@ -10,13 +18,19 @@ $(document).ready(function() {
 	});
 });
 
+function addUserToCCList(id, username) {
+	var btn = $(rmCCLink(id, username)).bind("click", dropCC);
+	var li = $("<li></li>").append(btn).append(" ").append("<span>" + 
+			username + "</span>");
+	$("ul#cc_list").append(li);
+}
+
 
 /**
  * Takes an event, stops the default action, and then drops the given cc user from the
  * list, and then removes that from the list
  *
  * @param event	 The event that triggered dropCC
- */
 function dropCC(event) {
 	event.preventDefault();
 	item = event.target;
@@ -42,6 +56,61 @@ function dropCC(event) {
 			}
 	});
 }
+*/
+/**
+ * Takes an event, stops the default action, and then drops the given cc user from the
+ * list, and then unselects from the cc box
+ *
+ * @param event	 The event that triggered dropCC
+ */
+function dropCC(event) {
+	event.preventDefault();
+	var item = event.target;
+
+	var user_id = item.id.match(/^cc_(\d+)$/)[1];
+
+	// remove from the list
+	$(item).parent().remove();
+
+	// remove from the select
+	$('#id_cc').children('option[value='+user_id+']').removeAttr('selected');
+}
+
+
+function addCC(event) {
+	event.preventDefault();
+	var btn = event.target;
+
+	var input = $("input#addCC_user")
+	var user = input[0].value;
+	var js_block = $(btn).parent().parent();
+
+	// make sure this user is not bogus
+	var errorl = js_block.children('.errorlist')[0];
+	var cclist = js_block.children('#cc_list');
+
+	// before doing ajax, check to see if user is already in the list
+	findRes = cclist.children().children('span:contains("'+user+'")');
+
+	if (findRes.length > 0) {
+		return false;
+	}
+
+	// check to see if user exists in the select 
+	var option = $('#id_cc').children('option:contains("'+user+'")');
+
+	if (option.length == 1) {
+		var id = option.attr('value');
+		addUserToCCList(id, user);
+		input[0].value = "";
+
+		// Select the user in the cc list
+		$('#id_cc').children('option[value='+id+']').attr('selected','selected');
+	} else {
+		errorl.addErr("Could not add user to CC list, does user exist?");
+	}
+}
+
 
 /**
  * Takes an event, stops default action. Request sent to create a new CC 
@@ -49,7 +118,6 @@ function dropCC(event) {
  * appends some errors to local errorl.
  *
  * @param event	 The event that triggered addCC
- */
 function addCC(event) {
 	event.preventDefault();
 	btn = event.target;
@@ -88,7 +156,7 @@ function addCC(event) {
 			}
 	});
 }
-
+*/
 // TODO updateHistory, only retrieve stuff we don't have
 function updateHistory(last) {
 }

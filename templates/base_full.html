@@ -8,31 +8,28 @@
     </title>
     <style type="text/css">
 		@import url('{{MEDIA_URL}}css/global.css');
-        @import url('{{MEDIA_URL}}css/jquery/droppy.css');
+        @import url('{{MEDIA_URL}}css/droppy.css');
         @import url('{{MEDIA_URL}}css/dropdown.css');
-		{% block mainCSS %}
+		@import url('{{MEDIA_URL}}css/smoothness/jquery-ui-1.8.15.custom.css');
+        {% block mainCSS %}
 		@import url("{{MEDIA_URL}}css/main.css");
-	
-
-		{% block pageCSS %}
+	    {% block pageCSS %}
 		{% endblock %}
 		{% endblock %}
-		
     </style>
-    
+
    		<!--[if IE]>
 		<style type="text/css">
         @import url("{{MEDIA_URL}}css/ie_main.css");
 		</style>
         <![endif]-->
-            
-    
+                
 	<script type="text/javascript">
 		var media_url = "{{ MEDIA_URL }}";
 	</script>
-	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-ui-1.8.15.custom.min.js"></script>
     <script type="text/javascript" src="{{MEDIA_URL}}js/global.js"></script>
-
 	{% block mainJS %}
 
    <script type="text/javascript" src="{{MEDIA_URL}}js/base.js"></script>
@@ -83,11 +80,13 @@
 	</div>
 	<div id="footer">
 		{% block footer %}{% endblock %}
+        <!--
 		<ul class="struct inline">
 			<li>
 				<a href="http://trac.eplt.washington.edu/labtracker/newticket">Report A Bug</a>
 			</li>
 		</ul>
+        -->
 	</div>
 {% endblock %}
 </div></body>

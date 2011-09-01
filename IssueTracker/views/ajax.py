@@ -50,7 +50,7 @@ def getItems(request):
     group_ids = data.getlist('group_id')
 
     items = {}
-    contacts = set()
+    contacts = {}
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
@@ -64,13 +64,13 @@ def getItems(request):
         for group in groups:
             items.update(utils.createItemDict(group.items.all()))
             cons = group.group.primaryContact()
-            contacts = contacts.union(set([c.user.username for c in cons]))
-
+            for c in cons:
+                contacts[c.user_id] = c.user.username
     # get the items in the group
     type = data.get("type", "json")
 
     dict = {
-        "contacts": [c for c in contacts],
+        "contacts": [(c, contacts[c]) for c in contacts],
         "items": [(i, items[i]['name']) for i in items]
     }
 
