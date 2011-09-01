@@ -103,5 +103,77 @@
       "email": "", 
       "date_joined": "2009-01-13 13:43:48"
     }
+  },
+  {
+    "pk": 7, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "ericwu", 
+      "first_name": "Eric", 
+      "last_name": "Wu", 
+      "is_active": false, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2009-01-13 13:45:04", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$66cc4$bfd77ee95be055bdd4305f352c57814afb9243e5", 
+      "email": "", 
+      "date_joined": "2009-01-13 13:43:48"
+    }
+  },
+  {
+    "pk": 8, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "tsutsumi", 
+      "first_name": "Yusuke", 
+      "last_name": "Tsutsumi", 
+      "is_active": false, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2009-01-13 13:45:04", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$66cc4$bfd77ee95be055bdd4305f352c57814afb9243e5", 
+      "email": "", 
+      "date_joined": "2009-01-13 13:43:48"
+    }
+  },
+  {
+    "pk": 9, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "pikt", 
+      "first_name": "Kitty", 
+      "last_name": "Tang", 
+      "is_active": false, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2009-01-13 13:45:04", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$66cc4$bfd77ee95be055bdd4305f352c57814afb9243e5", 
+      "email": "", 
+      "date_joined": "2009-01-13 13:43:48"
+    }
+  },
+  {
+    "pk": 10, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "pmichaud", 
+      "first_name": "Patrick", 
+      "last_name": "Michaud", 
+      "is_active": false, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2009-01-13 13:45:04", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$66cc4$bfd77ee95be055bdd4305f352c57814afb9243e5", 
+      "email": "", 
+      "date_joined": "2009-01-13 13:43:48"
+    }
   }
 ]
