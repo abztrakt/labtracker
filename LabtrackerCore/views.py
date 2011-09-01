@@ -50,9 +50,9 @@ def dashboard(request):
         # Initiate a list of all locations and their stats.
         all_locations = {}
         for location in Location.objects.all():
-            all_locations[location.name] = {'Total': 0, 'Broken':0,'Usable':0,'Unusable':0}
+            all_locations[location.name] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0}
 
-        all_locations['OVERALL'] = {'Total': 0, 'Broken':0,'Usable':0,'Unusable':0}
+        all_locations['OVERALL'] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0}
 
         # Loop through the machines and tally up their statuses. 
         for machine in all_machines:
@@ -67,7 +67,10 @@ def dashboard(request):
                     #Machine is BROKEN, add to the broken value.
                     all_locations[location]['Broken'] += 1
                     all_locations['OVERALL']['Broken'] += 1
-
+                if status[0] == 1:
+                    #Machine is INUSE, add to the inuse value.
+                    all_locations[location]['inUse'] += 1
+                    all_locations['OVERALL']['inUse'] += 1
 
             all_locations[location]['Total'] += 1
             all_locations['OVERALL']['Total'] += 1
@@ -83,13 +86,14 @@ def dashboard(request):
         empty_locations = []
         for location in all_locations:
             try:
-                all_locations[location]['PercTotal'] = "%.0f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total'])
+                all_locations[location]['LabLoad'] = "%.0f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable'])
+                all_locations[location]['PercUsable'] = "%.0f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total'])
                 all_locations[location]['PercBroken'] = "%.0f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total'])
                 all_locations[location]['PercUnusable'] = "%.0f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total'])
 
                 #Keep track of css colors for each location threshold. (i.e. green = 95% in one area, etc..)
                 try:
-                    if all_locations[location]['PercTotal'] >= Location.objects.get(name=location).usable_threshold:
+                    if all_locations[location]['PercUsable'] >= Location.objects.get(name=location).usable_threshold:
                         all_locations[location]['ok'] = True
                     else:
                         all_locations[location]['ok'] = False

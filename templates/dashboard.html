@@ -20,6 +20,7 @@ Welcome back, {{user.username}}!
     <thead>
         <tr>
             <th>Location</th>
+            <th>Lab Load (In Use/Usable)</th>
             <th>% Usuable (Usuable/Total)</th>
             <th>% With issues (Broken,Usuable/Total)</th>
             <th>% Unusable (Broken, Not-usable/ Total)</th>
@@ -29,15 +30,17 @@ Welcome back, {{user.username}}!
     {% for location in all_locations.items %}
         <tr class="{% if location.1.ok %}ok{% else %}problem{%endif%}">
             <td>{{ location.0 }}</td>
-            <td>{{ location.1.PercTotal}}%     ({{ location.1.Usable }} / {{ location.1.Total }})</td>
-            <td>{{ location.1.PercBroken}}%   ({{ location.1.Broken }} / {{ location.1.Total }})</td>
+            <td>{{ location.1.LabLoad}}%  ({{ location.1.inUse }} / {{ location.1.Usable }})</td>
+            <td>{{ location.1.PercUsable}}%  ({{ location.1.Usable }} / {{ location.1.Total }})</td>
+            <td>{{ location.1.PercBroken}}%  ({{ location.1.Broken }} / {{ location.1.Total }})</td>
             <td>{{ location.1.PercUnusable}}%  ({{ location.1.Unusable }} / {{ location.1.Total }})</td>
         </tr>
     {% endfor %}
         <tr>
             <td><b>OVERALL</b></td>
-            <td>{{ overall.PercTotal}}%     ({{ overall.Usable }} / {{ overall.Total }})</td>
-            <td>{{ overall.PercBroken}}%   ({{ overall.Broken }} / {{ overall.Total }})</td>
+            <td>{{ overall.LabLoad}}%  ({{ overall.inUse }} / {{ overall.Usable }})</td>
+            <td>{{ overall.PercUsable}}%  ({{ overall.Usable }} / {{ overall.Total }})</td>
+            <td>{{ overall.PercBroken}}%  ({{ overall.Broken }} / {{ overall.Total }})</td>
             <td>{{ overall.PercUnusable}}%  ({{ overall.Unusable }} / {{ overall.Total }})</td>
         </tr>
     </tbody>
