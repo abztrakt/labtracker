@@ -23,9 +23,7 @@ LABTRACKER_URL = 'walnut.eplt.washington.edu:8000'
 inuse = Status.objects.get(name='Inuse')
 
 def sim_login_or_logout(item):
-    try:
-        item.status.get(name='Broken')
-    except:
+    if item.status.get(name='Usable'):
         try:
             item.status.get(name='Inuse')
             item.status.remove(inuse)
