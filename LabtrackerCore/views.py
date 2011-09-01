@@ -58,19 +58,21 @@ def dashboard(request):
         for machine in all_machines:
             location = machine.location.name
             statues = machine.status.values_list()
+            unresolved = machine.unresolved_issues()
             usable = False 
             for status in statues:
                 if status[0] == 3:
                     #Machine is USABLE, add to usable value.
                     usable = True
-                if status[0] == 2:
-                    #Machine is BROKEN, add to the broken value.
-                    all_locations[location]['Broken'] += 1
-                    all_locations['OVERALL']['Broken'] += 1
                 if status[0] == 1:
                     #Machine is INUSE, add to the inuse value.
                     all_locations[location]['inUse'] += 1
                     all_locations['OVERALL']['inUse'] += 1
+
+            #Machine is BROKEN, add to the broken value.
+            if unresolved.count() != 0:
+                all_locations[location]['Broken'] += 1
+                all_locations['OVERALL']['Broken'] += 1
 
             all_locations[location]['Total'] += 1
             all_locations['OVERALL']['Total'] += 1
