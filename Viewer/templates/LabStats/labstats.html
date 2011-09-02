@@ -66,6 +66,8 @@ $(function() {
 {% endif %}
 {% if location_stats %}
 <h3>Statistics for Custom Time Interval from {{begin}} to {{end}}</h3>
+<p>When viewing stats, all numbers are calcualted within the threshold. Numbers in parentheses are calculations done with all data. (Inside and outside the threshold)</p>
+<h3>Set threshold: {{threshold}} hours. {% if threshold = 12.0 %}(default){% endif %}</h3>
 <table class="stats_table">
     <tr>
         <th>Location</th>

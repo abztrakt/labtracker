@@ -144,6 +144,11 @@ def allStats(request):
     if not stats:
         args['location_stats'] = None
 
+    if not threshold:
+        args['threshold'] = 12.0
+    else:
+        args['threshold'] = threshold
+        
     return render_to_response('LabStats/labstats.html', args, context_instance=RequestContext(request))
 
 def showCache(request, begin=None, end=None):
