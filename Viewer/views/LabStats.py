@@ -144,6 +144,11 @@ def allStats(request):
     if not stats:
         args['location_stats'] = None
 
+    if not threshold:
+        args['threshold'] = 12.0
+    else:
+        args['threshold'] = threshold
+        
     return render_to_response('LabStats/labstats.html', args, context_instance=RequestContext(request))
 
 def showCache(request, begin=None, end=None):
@@ -155,25 +160,22 @@ def showCache(request, begin=None, end=None):
 
         args = utils.generatePageList(request, entries, 1)
         args['tags'] = v_models.Tags.objects.all()
-        
-        entry_duplicates = {}
+
+        # Remove any duplicates from the statscache 
+        uniques = []
+        times = []
         args['objects'] = list(args['objects'])
 
         for entry in args['objects']:
-            time = entry.time_start.__str__()
-            if time in entry_duplicates:
-                entry_duplicates[time] = entry_duplicates[time] + 1
-            else:
-                entry_duplicates[time] = 1
+            start_time = entry.time_start.__str__()
+            end_time = entry.time_end.__str__()
 
-        for entry in args['objects']:
-            time = entry.time_start.__str__()
-            if entry_duplicates[time] > 1:
-                entry_duplicates[time] = entry_duplicates[time] - 1
-                args['objects'].remove(entry)
+            if [start_time, end_time] not in times:
+                times.append([start_time,end_time])
+                uniques.append(entry)        
 
+        args['objects'] = uniques
         return render_to_response('LabStats/cache_list.html', args, context_instance=RequestContext(request))
-    
     else:
         entry = v_models.StatsCache.objects.filter(time_start=begin, time_end=end)
         for data in entry:
