@@ -49,5 +49,13 @@ class StatsCache(models.Model):
     description = models.CharField(max_length=255, verbose_name='Description of Cached Interval', null=True)
     tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval', null=True)
 
+    #Keep track of threshold restrictions on data and data that has been caculated beyond the threshold
+    threshold = models.FloatField(verbose_name='Threshold for calculations',null=True,blank=True)
+    machines_reporting = models.IntegerField(verbose_name='Total Items reporting',null=True,blank=True) 
+    all_max_time = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Maximum Seat Time outside of threshold',null=True,blank=True)
+    all_mean_time = models.FloatField(verbose_name='Average Seat Time outside of threshold',null=True,blank=True)
+    all_total_time = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='Total Seat Time outside of threshold', null=True,blank=True)
+    all_stdev_time = models.FloatField(verbose_name='Standard Deviation outside of threshold',null=True,blank=True)
+
     class Meta:
         app_label = "Viewer"

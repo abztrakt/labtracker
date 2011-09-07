@@ -47,7 +47,7 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
             login_stats = stats.filter(machine__in=items)
             all_session_stats = stats.filter(machine__in=items, session_time__isnull=False)
             threshold_session_stats = all_session_stats.exclude(session_time__gt=str(threshold))
-
+            
             if all_session_stats:
                 # People have logged out of machines, calculate various session times
                 total_data = all_session_stats.aggregate(min_time=Min('session_time'),all_max_time=Max('session_time'),all_avg_time=Avg('session_time'),all_total_time=Count('session_time'))
@@ -113,6 +113,12 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
                 # Append the last bits of information to the stats
                 data['location'] = location
                 data['total_machines'] = machines_in_location
+
+                machines_reporting = []
+                for session in login_stats:
+                    if session.machine not in machines_reporting:
+                        machines_reporting.append(session.machine)
+                data['machines_reporting'] = len(machines_reporting)
                 statistics.append(data)
 
     return statistics
@@ -144,7 +150,7 @@ def cacheStats(begin=None, end=None, tags=None, description=None,threshold=None)
         return "There is no data to save in this interval!"
     # Make a row for each location, for each time interval
     for location in stats:
-        interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
+        interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'], threshold=threshold,machines_reporting=location['machines_reporting'],all_max_time=location['all_max_time'],all_mean_time=location['all_avg_time'],all_total_time=location['all_total_time'],all_stdev_time=location['all_stdev_time'])
         interval.save()
 
     return "Your entry has been successfully saved."

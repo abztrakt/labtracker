@@ -72,7 +72,8 @@ $(function() {
     <tr>
         <th>Location</th>
         <th>Logins</th>
-        <th>Machines</th>
+        <th>Machines Reporting</th>
+        <th>Total Machines</th>
         <th>Logins per Machine</th>
         <th>Distinct Logins</th>
         <th>Distinct per Machine</th>
@@ -84,6 +85,7 @@ $(function() {
     <tr>
         <td>{{ data.location }}</td>
         <td>{{ data.total_logins }}</td>
+        <td>{{ data.machines_reporting }}</td>
         <td>{{ data.total_machines }}</td>
         <td>{{ data.logins_per_machine }}</td>
         <td>{{ data.distinct_logins }}</td>
