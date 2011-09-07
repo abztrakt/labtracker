@@ -100,10 +100,17 @@ def dashboard(request):
                 prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
             except Exception, e:
                 pass
-
+        
+        # Removes the row of overall stats from the saved locations and saves it
         overall = all_locations.pop('OVERALL')
 
-        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations, 'overall': overall,},
+        # Forms a list of the location dictionaries.
+        all_locations_sorted = []
+        for location in all_locations:
+            all_locations[location]['Location'] = location.encode('utf-8')
+            all_locations_sorted.append(all_locations[location])
+
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations_sorted, 'overall': overall,},
                 context_instance=RequestContext(request))
     
     else:

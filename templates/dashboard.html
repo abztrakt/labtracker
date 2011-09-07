@@ -26,12 +26,12 @@ Welcome back, {{user.username}}!
         </tr>
     </thead>
     <tbody>
-    {% for location in all_locations.items %}
-        <tr class="{% if location.1.PercTotal < 95 %}problem{% else %}ok{%endif%}">
-            <td>{{ location.0 }}</td>
-            <td>{{ location.1.PercTotal}}%     ({{ location.1.Usable }} / {{ location.1.Total }})</td>
-            <td>{{ location.1.PercBroken}}%   ({{ location.1.Broken }} / {{ location.1.Total }})</td>
-            <td>{{ location.1.PercUnusable}}%  ({{ location.1.Unusable }} / {{ location.1.Total }})</td>
+    {% for location in all_locations|dictsort:"Location"  %}
+        <tr class="{% if location.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+            <td>{{ location.Location }}</td>
+            <td>{{ location.PercTotal }}%     ({{ location.Usable }} / {{ location.Total }})</td>
+            <td>{{ location.PercBroken }}%   ({{ location.Broken }} / {{ location.Total }})</td>
+            <td>{{ location.PercUnusable }}%  ({{ location.Unusable }} / {{ location.Total }})</td>
         </tr>
     {% endfor %}
         <tr class="{% if overall.PercTotal < 95 %}problem{% else %}ok{%endif%}">
