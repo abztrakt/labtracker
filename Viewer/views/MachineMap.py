@@ -66,7 +66,7 @@ def show(request, view_name):
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
                 if 'Inuse' in states:
-                    data['state'] = 'unusable'
+                    data['state'] = 'occupied'
                 elif 'Usable' in states:
                     data['state']= 'usable'
                 else:
@@ -175,7 +175,7 @@ def show(request, view_name):
         'view':     view,
         'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
-        'status':   ['usable','unusable'],
+        'status':   ['usable','unusable','occupied'],
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
                 "name":     view_name,
