@@ -50,7 +50,7 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
 
             if all_session_stats:
                 # People have logged out of machines, calculate various session times
-                total_data = all_session_stats.aggregate(all_max_time=Max('session_time'),all_avg_time=Avg('session_time'),all_total_time=Count('session_time'))
+                total_data = all_session_stats.aggregate(min_time=Min('session_time'),all_max_time=Max('session_time'),all_avg_time=Avg('session_time'),all_total_time=Count('session_time'))
                 threshold_data = threshold_session_stats.aggregate(max_time=Max('session_time'),avg_time=Avg('session_time'),total_time=Count('session_time'))
 
                 # Combine data in threshold and all data (which includes large session times)
@@ -81,6 +81,17 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
                     all_stdev = sqrt(all_total/ len(all_session_stats))
                     data['stdev_time'] = "%.2f" % stdev
                     data['all_stdev_time'] = "%.2f" % all_stdev
+            else:
+                data['min_time'] = "0"
+                data['all_max_time'] = "0"
+                data['all_avg_time'] = "0"
+                data['all_total_time'] = "0"
+                data['max_time'] = "0"
+                data['total_time'] = "0"
+                data['avg_time'] = "0"
+                data['all_avg_time'] = "0"
+                data['stdev_time'] = "0"
+                data['all_stdev_time'] = "0"
 
             if login_stats:
                 # People have logged into the machines
@@ -131,7 +142,6 @@ def cacheStats(begin=None, end=None, tags=None, description=None,threshold=None)
         stats = getStats(data,threshold=threshold)
     else:
         return "There is no data to save in this interval!"
-
     # Make a row for each location, for each time interval
     for location in stats:
         interval = vm.StatsCache(location=location['location'], time_start=begin, time_end=end, mean_time=location['avg_time'], min_time=location['min_time'], max_time=location['max_time'], stdev_time=location['stdev_time'], total_time=location['total_time'], total_items=location['total_machines'], total_logins=location['total_logins'], total_distinct=location['distinct_logins'])
