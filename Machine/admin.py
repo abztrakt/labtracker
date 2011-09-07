@@ -28,7 +28,7 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'wall_port']
     list_filter = ['type','location__name','date_added','verified',]
     actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment', 
-        'change_purchase_date']
+        'change_dates']
 
     class ModifyCommentForm(forms.Form):
         """ The form used by append_to_comment and change_comment admin actions.
@@ -37,9 +37,12 @@ class ItemAdmin(admin.ModelAdmin):
         comment_submission = forms.CharField(widget=forms.Textarea, required=False)
 
     class ModifyDateForm(forms.Form):
-        """ The form used by the change_purchase_date admin action.
+        """ The form used by the change_dates admin action.
         """
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        set_purchase_date = forms.BooleanField(required=False)
+        set_warranty_date = forms.BooleanField(required=False)
+        set_stf_date = forms.BooleanField(required=False)
         date_submission = forms.DateField(widget=admin.widgets.AdminDateWidget())
 
     def append_to_comment(self, request, queryset):
@@ -106,10 +109,17 @@ class ItemAdmin(admin.ModelAdmin):
         return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action},
             context_instance=RequestContext(request, {'title': 'Modify Comment',}))
 
-    def change_purchase_date(self, request, queryset):
+    def change_dates(self, request, queryset):
         if 'set' in request.POST:
             form = self.ModifyDateForm(request.POST)
             if form.is_valid():
+                types = []
+                if form.cleaned_data['set_purchase_date'] == True:
+                    types.append('purchase_date')
+                if form.cleaned_data['set_warranty_date'] == True:
+                    types.append('warranty_date')
+                if form.cleaned_data['set_stf_date'] == True:
+                    types.append('stf_date')
                 date_change = form.cleaned_data['date_submission']
             else:
                 for key in form.errors.keys():
@@ -118,14 +128,15 @@ class ItemAdmin(admin.ModelAdmin):
 
             items_updated = 0
             for i in queryset:
-                i.purchase_date = date_change
+                for type in types:
+                    setattr(i, type, date_change)
                 i.save()
                 items_updated += 1
 
             if items_updated == 1:
-                message_bit = "purchase date for 1 item."
+                message_bit = "date for 1 item."
             else:
-                message_bit = "purchase dates for %s items." % items_updated
+                message_bit = "dates for %s items." % items_updated
             self.message_user(request, "Changed %s" % message_bit)
 
             return HttpResponseRedirect(request.get_full_path())
@@ -134,7 +145,7 @@ class ItemAdmin(admin.ModelAdmin):
             # Set up a blank form BUT with the fact that it's an admin action prepopulated in a hidden field.
             form = self.ModifyDateForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        selected_action = 'change_purchase_date'
+        selected_action = 'change_dates'
         return render_to_response('admin/mod_date.html', {'mod_date_form': form,
             'selected_action': selected_action},
             context_instance=RequestContext(request, {'title': 'Modify Date',}))
