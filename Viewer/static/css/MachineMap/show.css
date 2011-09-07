@@ -53,36 +53,48 @@ div.list .close {
     font-size: 24pt;
     width: 100%;
     position: absolute;
-    top: 476px;
-    left: 410px;
+}
+#availableExample {
+    position: absolute;
+    top: 10px
+}
+#occupiedExample {
+    position: absolute;
+    top:64px
 }
 #brokenExample{
     position: absolute;
-    top: 10px;
+    top: 118px;
 }
-#brokenExplanation, #verifiedExplanation, #unusableExplanation{
+#occupiedExplanation, #availableExplanation, #brokenExplanation, #verifiedExplanation, #unusableExplanation{
     position: absolute;
     left: 45px;
 }
+#occupiedExplanation {
+    top:54px;
+}
+#brokenExplanation {
+    top:108px
+}
 #verifiedExample{
     position:absolute;
-    top: 64px;
+    top: 172px;
 }
 #verifiedPic{
     position: absolute;
-    top: 66px;
+    top: 174px;
     z-index: 100;
     left: 2px;
 }
 
 #verifiedExplanation{
-    top: 54px;
+    top: 162px;
 }
 
 #unusableExample{
-    top: 118px;
+    top: 226px;
 }
 
 #unusableExplanation{
-    top: 108px;
+    top: 216px;
 #wrapper { padding-left: 15px; }
