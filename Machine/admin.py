@@ -76,6 +76,7 @@ class ItemAdmin(admin.ModelAdmin):
         selected_action = 'append_to_comment'
         return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action}, 
             context_instance=RequestContext(request, {'title': 'Append to Comment',}))
+    append_to_comment.short_description = "Append a comment to selected items"
 
     def change_comment(self, request, queryset):
         if 'submit' in request.POST:
@@ -108,6 +109,7 @@ class ItemAdmin(admin.ModelAdmin):
         selected_action = 'change_comment'
         return render_to_response('admin/mod_comment.html', {'mod_comment_form': form, 'selected_action': selected_action},
             context_instance=RequestContext(request, {'title': 'Modify Comment',}))
+    change_comment.short_description = "Set a comment on selected items"
 
     def change_dates(self, request, queryset):
         if 'set' in request.POST:
@@ -149,6 +151,7 @@ class ItemAdmin(admin.ModelAdmin):
         return render_to_response('admin/mod_date.html', {'mod_date_form': form,
             'selected_action': selected_action},
             context_instance=RequestContext(request, {'title': 'Modify Date',}))
+    change_dates.short_description = "Set dates for selected items"
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)
