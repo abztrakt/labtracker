@@ -26,3 +26,6 @@ div#map div.item {
     z-index: 1;
 }
 
+h2 {
+    padding-left: 15px;
+}

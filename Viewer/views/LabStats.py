@@ -52,7 +52,7 @@ def allStatsFile(request):
             m_location = m_models.Location.objects.values_list('ml_id','name').all()
  
         if history == None:
-            message =  "There is not data can be generated in this interval!"
+            message =  "There is no data that can be generated in this interval!"
         else:
             stats = []
             response = HttpResponse(mimetype='text/csv')
@@ -73,9 +73,6 @@ def allStatsFile(request):
             for each in stats:
                 writer.writerow([each[0],each[1],each[2],each[3],each[4],each[5],each[6]]) 
             return response
-       
-    
-
 
     args = {
         'form': form,
@@ -83,24 +80,20 @@ def allStatsFile(request):
         'message': message,
     }
 
-
     return render_to_response('LabStats/statsfile.html', args, context_instance=RequestContext(request))
-
-
-
-
 
 def allStats(request):
     """
     Get a summary of lab statistics within time frame.
     Default is current week.
     """
-    stats = m_models.History.objects.all()
+    stats = []
     data = request.REQUEST.copy()
     begin = None
     end = None
     form = TimeForm()
     message = None
+    threshold = None
 
     # Find a way to cache statistics using the same form submission
     if request.method == 'POST':
@@ -109,27 +102,28 @@ def allStats(request):
             end = form.cleaned_data['time_end']
             begin = form.cleaned_data['time_start']
             cache = form.cleaned_data['cache_interval']
-
+            threshold = float(form.cleaned_data['max_threshold'])
             if cache:
-                message = cacheStats(begin, end)
+                message = cacheStats(begin, end,threshold=threshold)
 
     if not begin:
+        #Create a begining date to grab the history data.
         today = datetime.date.today().weekday()
         begin = datetime.date.today()
         timestamp = time.mktime(begin.timetuple())
         if today != 6: # Today is not Sunday, otherwise display today's stats
             timestamp = timestamp - (1 + today) * 24 * 60 * 60
             begin = datetime.datetime.fromtimestamp(timestamp)
-        
-    elif end:
-        stats = stats.exclude(login_time__gte=end)
-
-    stats = stats.filter(login_time__gte=begin)
+    if end:
+        # End date was given, grab data between the 'begin' and 'end' range
+        stats = m_models.History.objects.filter(login_time__gte=begin).exclude(login_time__gte=end)
+    else:
+        # End date was NOT given, grab all login history from the given beginning date. 
+        stats = m_models.History.objects.filter(login_time__gte=begin)
 
     if stats:
-        stats = getStats(stats)
-    else:
-        stats = []
+        # History existed between the date range, calculate stats
+        stats = getStats(stats,threshold=threshold)
 
     if not end:
        end = datetime.date.today()

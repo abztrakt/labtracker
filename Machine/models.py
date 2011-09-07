@@ -57,6 +57,7 @@ class Location(models.Model):
     floor = models.SmallIntegerField(null=True)
     room = models.CharField(max_length=30, null=True)
     comment = models.CharField(max_length=600)
+    usable_threshold = models.IntegerField(default=95)
 
     def __unicode__(self):
         return self.name

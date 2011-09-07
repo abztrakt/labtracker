@@ -20,6 +20,7 @@ Welcome back, {{user.username}}!
     <thead>
         <tr>
             <th>Location</th>
+            <th>Lab Load (In Use/Usable)</th>
             <th>% Usuable (Usuable/Total)</th>
             <th>% With issues (Broken,Usuable/Total)</th>
             <th>% Unusable (Broken, Not-usable/ Total)</th>
@@ -29,15 +30,17 @@ Welcome back, {{user.username}}!
     {% for location in all_locations|dictsort:"Location"  %}
         <tr class="{% if location.PercTotal < 95 %}problem{% else %}ok{%endif%}">
             <td>{{ location.Location }}</td>
+            <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
             <td>{{ location.PercTotal }}%     ({{ location.Usable }} / {{ location.Total }})</td>
             <td>{{ location.PercBroken }}%   ({{ location.Broken }} / {{ location.Total }})</td>
             <td>{{ location.PercUnusable }}%  ({{ location.Unusable }} / {{ location.Total }})</td>
         </tr>
     {% endfor %}
-        <tr class="{% if overall.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr>
             <td><b>OVERALL</b></td>
-            <td>{{ overall.PercTotal}}%     ({{ overall.Usable }} / {{ overall.Total }})</td>
-            <td>{{ overall.PercBroken}}%   ({{ overall.Broken }} / {{ overall.Total }})</td>
+            <td>{{ overall.LabLoad}}%  ({{ overall.inUse }} / {{ overall.Usable }})</td>
+            <td>{{ overall.PercUsable}}%  ({{ overall.Usable }} / {{ overall.Total }})</td>
+            <td>{{ overall.PercBroken}}%  ({{ overall.Broken }} / {{ overall.Total }})</td>
             <td>{{ overall.PercUnusable}}%  ({{ overall.Unusable }} / {{ overall.Total }})</td>
         </tr>
     </tbody>
@@ -45,7 +48,7 @@ Welcome back, {{user.username}}!
 {% endif %}
 
 {% if problems %}
-<h2>Your most recently assigned issues</h2>
+<h2>Your most recently assigned issues:</h2>
 <table>
     <tr>
         <th>ID</th>
@@ -59,7 +62,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
@@ -83,7 +86,7 @@ Welcome back, {{user.username}}!
     <tr>
         <td>{{ report.issue_id }}</td>
         <td><a href="issue/{{ report.issue_id }}">{{report.title}}</a></td>
-        <td>{{ report.it}}</td>
+        <td><a href="{{report.item.item.get_absolute_url}}">{{report.item}}</a></td>
         <td>{{ report.group }}</td>
         <td>{{ report.post_time|date }} at {{ report.post_time|time }}</td>
         <td>{{ report.last_modified|date }} at {{ report.last_modified|time }}</td>
@@ -95,7 +98,7 @@ Welcome back, {{user.username}}!
 
 
 {% if prev_logins %}
-<h2>Your most recent login times</h2>
+<h2>Your most recent login times:</h2>
 <table>
     <tr>
         <th>Machine</th>
@@ -104,7 +107,7 @@ Welcome back, {{user.username}}!
 {% for login in prev_logins %}
     <tr>
         <td>{{ login.machine }}</td>
-        <td>{{ login.login_time|time }}</td>
+        <td>{{ login.login_time|date }} at {{ login.login_time|time }}</td>
         <td>{% if login.session_time %} {{ login.session_time }} minutes {% else %} Currently logged in.{% endif %}</td>
     </tr>
 {% endfor %}

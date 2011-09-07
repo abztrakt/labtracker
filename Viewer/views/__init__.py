@@ -37,7 +37,8 @@ def dumpMachines(request, group = None):
 
     return render_to_response('Viewer/dump_machines.html', args)
 
-@permission_required('Viewer.can_view', login_url="/login/")
+#TODO: Create permissions on each viewtype and only let show them on the link list if user has that permission.
+#@permission_required('Viewer.can_view', login_url="/login/")
 def index(request):
     """
     Grab all available views and list them out

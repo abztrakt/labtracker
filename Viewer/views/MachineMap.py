@@ -66,7 +66,7 @@ def show(request, view_name):
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
                 if 'Inuse' in states:
-                    data['state'] = 'unusable'
+                    data['state'] = 'occupied'
                 elif 'Usable' in states:
                     data['state']= 'usable'
                 else:
@@ -123,15 +123,16 @@ def show(request, view_name):
    
     for item in view.getMappedItems():
         states = [a for (a,) in item.machine.item.status.values_list('name')]
+        unresolved = item.machine.item.unresolved_issues()
         broken = None
         verified = None
         list_pos = None
         if staff:
             if item.machine.item.verified:
                 verified = 'verified' 
-            if 'Broken' in states and ('Usable' in states):
+            if unresolved.count() != 0:
                 broken = 'broken'
-            elif not 'Broken' in states:
+            else:
                 broken = 'not_broken'
             if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
                 list_pos = item.xpos + 35
@@ -174,7 +175,7 @@ def show(request, view_name):
         'view':     view,
         'mapped':   map_items,
         'sizes':    v_models.MachineMap_Size.objects.all(),
-        'status':   ['usable','unusable'],
+        'status':   ['usable','unusable','occupied'],
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
         'map': {
                 "name":     view_name,

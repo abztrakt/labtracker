@@ -89,6 +89,10 @@ span.date {
 	font-weight: normal; 
 }
 
+table td {
+    padding: 0 5px;
+}
+
 table.plain {
     border-collapse: collapse;
     border-spacing: 0;
