@@ -50,7 +50,6 @@ def show(request, view_name):
             data = {}
             machine_info = False
             mapped_info = False
-            import pdb; pdb.set_trace() 
             if last:
                 if item.date_added > last:
                     # gotta get it all
