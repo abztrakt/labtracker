@@ -20,7 +20,7 @@
         {% if item.verified %} <div class='check' style="top: {{item.vypos}}px; left: {{item.vxpos}}px;" ><img src='/static/img/Viewer/check.png'/></div>{% endif %} 
         </div>
         {% endfor %}
-        
+{% if staff %}        
         {% for item in mapped %}
             <div id="list_{{ item.machine.name }}" value='{{item.machine.name}}'class= 'list' style="top: {{item.ypos}}px; left: {{item.list_pos}}px; position: absolute;">
                 <li><a href='/machine/detailed/{{item.machine.pk}}'>{{ item.name }}</a></li>
@@ -34,3 +34,4 @@
                 <img class='close' src='/static/img/Viewer/modmap/x.gif'/>
             </div>
         {% endfor %}
+{% endif %}

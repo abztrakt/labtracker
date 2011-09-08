@@ -136,10 +136,10 @@ def show(request, view_name):
                 broken = 'broken'
             else:
                 broken = 'not_broken'
-            if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
-                list_pos = item.xpos + 35
+            if item.orientation == 'H':
+                list_pos = item.xpos + item.size.height + 10
             else:
-                list_pos = item.xpos + 20
+                list_pos = item.xpos + item.size.width+ 10
         if not 'Usable' in states:
             status = 'unusable'
         elif 'Inuse' in states:
