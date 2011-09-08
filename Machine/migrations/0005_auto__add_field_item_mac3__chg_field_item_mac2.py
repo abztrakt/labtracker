@@ -9,13 +9,19 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'Item.mac3'
-        db.add_column('Machine_item', 'mac3', self.gf('django.db.models.fields.CharField')(max_length=17, null=True, blank=True), keep_default=False)
+        db.add_column('Machine_item', 'mac3', self.gf('django.db.models.fields.CharField')(default='', max_length=17, blank=True), keep_default=False)
+
+        # Changing field 'Item.mac2'
+        db.alter_column('Machine_item', 'mac2', self.gf('django.db.models.fields.CharField')(default='', max_length=17))
 
 
     def backwards(self, orm):
         
         # Deleting field 'Item.mac3'
         db.delete_column('Machine_item', 'mac3')
+
+        # Changing field 'Item.mac2'
+        db.alter_column('Machine_item', 'mac2', self.gf('django.db.models.fields.CharField')(max_length=17, null=True))
 
 
     models = {
@@ -77,8 +83,8 @@ class Migration(SchemaMigration):
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['Machine.Location']"}),
             'mac1': ('django.db.models.fields.CharField', [], {'max_length': '17'}),
-            'mac2': ('django.db.models.fields.CharField', [], {'max_length': '17', 'null': 'True', 'blank': 'True'}),
-            'mac3': ('django.db.models.fields.CharField', [], {'max_length': '17', 'null': 'True', 'blank': 'True'}),
+            'mac2': ('django.db.models.fields.CharField', [], {'max_length': '17', 'blank': 'True'}),
+            'mac3': ('django.db.models.fields.CharField', [], {'max_length': '17', 'blank': 'True'}),
             'manu_tag': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'purchase_date': ('django.db.models.fields.DateField', [], {'null': 'True'}),
             'status': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'machine_status'", 'symmetrical': 'False', 'to': "orm['Machine.Status']"}),
