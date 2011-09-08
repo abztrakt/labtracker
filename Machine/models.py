@@ -76,7 +76,9 @@ class Item(coreModels.Item):
     ip = models.IPAddressField(verbose_name="IP Address")
     mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
     mac2 = models.CharField(max_length=17, 
-            verbose_name='Additional MAC Address', blank=True, null=True)
+            verbose_name='Additional MAC Address', blank=True)
+    mac3 = models.CharField(max_length=17, 
+            verbose_name='Additional MAC Address', blank=True)
     wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
