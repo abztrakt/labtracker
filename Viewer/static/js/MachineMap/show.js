@@ -131,6 +131,15 @@ function newMachine(id, data) {
 
 function applyToMachine(item, data) {
     var modified = false;
+    var has_broken = item.hasClass('broken');
+    var broken = data.broken;
+    if (broken != has_broken) {
+        if (has_broken) {
+            item.removeClass('broken');
+        }else {
+            item.addClass('broken');
+        }
+    }
     if (data.x) {
         var xpos = parseInt(data.x) + 'px';
         

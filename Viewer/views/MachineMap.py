@@ -50,7 +50,7 @@ def show(request, view_name):
             data = {}
             machine_info = False
             mapped_info = False
-
+            import pdb; pdb.set_trace() 
             if last:
                 if item.date_added > last:
                     # gotta get it all
@@ -81,6 +81,10 @@ def show(request, view_name):
 
             if data:
                 data['name'] = item.machine.name,
+                broken = False
+                if not item.machine.unresolved_issues:
+                    broken=True
+                data['broken'] = broken
                 ret_data[item.machine.pk] = data
 
         
@@ -91,7 +95,6 @@ def show(request, view_name):
         A request is being made on data
         """
         data = request.GET.copy()
-
         ret = {}
         last = data.get('last', None)
         if last:
