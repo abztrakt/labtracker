@@ -12,6 +12,8 @@ app_name = __name__.split('.')[-3]
 
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
+    key_xpos = models.IntegerField()
+    key_ypos = models.IntegerField()
     #groups = models.ManyToManyField(m_models.Group, related_name="view_machinemap_groups")
     
     def save(self):
