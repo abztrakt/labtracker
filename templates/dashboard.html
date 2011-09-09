@@ -28,10 +28,10 @@ Welcome back, {{user.username}}!
     </thead>
     <tbody>
     {% for location in all_locations|dictsort:"Location"  %}
-        <tr class="{% if location.PercTotal < 95 %}problem{% else %}ok{%endif%}">
+        <tr class="{% if location.PercUsable < 95 %}problem{% else %}ok{%endif%}">
             <td>{{ location.Location }}</td>
             <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
-            <td>{{ location.PercTotal }}%     ({{ location.Usable }} / {{ location.Total }})</td>
+            <td>{{ location.PercUsable }}%     ({{ location.Usable }} / {{ location.Total }})</td>
             <td>{{ location.PercBroken }}%   ({{ location.Broken }} / {{ location.Total }})</td>
             <td>{{ location.PercUnusable }}%  ({{ location.Unusable }} / {{ location.Total }})</td>
         </tr>

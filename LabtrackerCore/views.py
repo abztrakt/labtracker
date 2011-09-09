@@ -103,11 +103,14 @@ def dashboard(request):
                     pass
 
             except ZeroDivisionError:
-                empty_locations.append(location)
-
+                if all_locations[location]['Usable'] == 0:
+                    all_locations[location]['LabLoad'] = 0.0
+                    if all_locations[location]['Total'] == 0:
+                        empty_locations.append(location)
+        
         for location in empty_locations:
             del all_locations[location]
-
+        
         prev_logins = None
         if request.user.is_staff:
             userhash = md5(request.user.username)
