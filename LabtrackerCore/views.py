@@ -87,8 +87,12 @@ def dashboard(request):
         # Calculate the percentages at each location (including OVERALL) and then drop any that have a 0 Total
         empty_locations = []
         for location in all_locations:
-            try:
+            try: 
                 all_locations[location]['LabLoad'] = float("%.02f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable']))
+            except ZeroDivisionError:
+                all_locations[location]['LabLoad'] = 0.0
+            
+            try:
                 all_locations[location]['PercUsable'] = float("%.02f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total']))
                 all_locations[location]['PercBroken'] = float("%.02f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total']))
                 all_locations[location]['PercUnusable'] = float("%.02f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total']))
@@ -104,10 +108,10 @@ def dashboard(request):
 
             except ZeroDivisionError:
                 empty_locations.append(location)
-
+        
         for location in empty_locations:
             del all_locations[location]
-
+        
         prev_logins = None
         if request.user.is_staff:
             userhash = md5(request.user.username)
@@ -116,10 +120,17 @@ def dashboard(request):
                 prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
             except Exception, e:
                 pass
-
+        
+        # Removes the row of overall stats from the saved locations and saves it
         overall = all_locations.pop('OVERALL')
 
-        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations, 'overall': overall,},
+        # Forms a list of the location dictionaries.
+        all_locations_sorted = []
+        for location in all_locations:
+            all_locations[location]['Location'] = location.encode('utf-8')
+            all_locations_sorted.append(all_locations[location])
+
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations_sorted, 'overall': overall,},
                 context_instance=RequestContext(request))
     
     else:
