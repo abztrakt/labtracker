@@ -87,8 +87,12 @@ def dashboard(request):
         # Calculate the percentages at each location (including OVERALL) and then drop any that have a 0 Total
         empty_locations = []
         for location in all_locations:
-            try:
+            try: 
                 all_locations[location]['LabLoad'] = float("%.02f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable']))
+            except ZeroDivisionError:
+                all_locations[location]['LabLoad'] = 0.0
+            
+            try:
                 all_locations[location]['PercUsable'] = float("%.02f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total']))
                 all_locations[location]['PercBroken'] = float("%.02f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total']))
                 all_locations[location]['PercUnusable'] = float("%.02f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total']))
@@ -103,10 +107,7 @@ def dashboard(request):
                     pass
 
             except ZeroDivisionError:
-                if all_locations[location]['Usable'] == 0:
-                    all_locations[location]['LabLoad'] = 0.0
-                    if all_locations[location]['Total'] == 0:
-                        empty_locations.append(location)
+                empty_locations.append(location)
         
         for location in empty_locations:
             del all_locations[location]
