@@ -66,11 +66,14 @@ $(function() {
 {% endif %}
 {% if location_stats %}
 <h3>Statistics for Custom Time Interval from {{begin}} to {{end}}</h3>
+<p>When viewing stats, all numbers are calcualted within the threshold. Numbers in parentheses are calculations done with all data. (Inside and outside the threshold)</p>
+<h3>Set threshold: {{threshold}} hours. {% if threshold = 12.0 %}(default){% endif %}</h3>
 <table class="stats_table">
     <tr>
         <th>Location</th>
         <th>Logins</th>
-        <th>Machines</th>
+        <th>Machines Reporting</th>
+        <th>Total Machines</th>
         <th>Logins per Machine</th>
         <th>Distinct Logins</th>
         <th>Distinct per Machine</th>
@@ -82,6 +85,7 @@ $(function() {
     <tr>
         <td>{{ data.location }}</td>
         <td>{{ data.total_logins }}</td>
+        <td>{{ data.machines_reporting }}</td>
         <td>{{ data.total_machines }}</td>
         <td>{{ data.logins_per_machine }}</td>
         <td>{{ data.distinct_logins }}</td>
