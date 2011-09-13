@@ -77,7 +77,7 @@ class Location(models.Model):
     ml_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60, unique=True)
     building = models.CharField(max_length=60, null=True)
-    floor = models.SmallIntegerField(null=True)
+    floor = models.SmallIntegerField(null=True, blank=True)
     room = models.CharField(max_length=30, null=True)
     comment = models.CharField(max_length=600)
     usable_threshold = models.IntegerField(default=95)
@@ -109,8 +109,8 @@ class Item(coreModels.Item):
     uw_tag = models.CharField(max_length=200, verbose_name="UW tag", 
             blank=True, null=True)
 
-    purchase_date = models.DateField(null=True)
-    warranty_date = models.DateField(null=True)
+    purchase_date = models.DateField(null=True, blank=True)
+    warranty_date = models.DateField(null=True, blank=True)
     stf_date = models.DateField(null=True, blank=True, 
             verbose_name='Student Tech Fee Contract Expiration')
 
@@ -176,7 +176,7 @@ class Group(coreModels.Group):
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
     machine = models.ForeignKey(Item)
-    ms = models.ManyToManyField(Status, null=True)
+    ms = models.ManyToManyField(Status, null=True, blank=True)
     user = models.ForeignKey(coreModels.LabUser)
     session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     login_time = models.DateTimeField(auto_now_add=True)
