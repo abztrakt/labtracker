@@ -1,5 +1,8 @@
+import re
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 import LabtrackerCore.utils as utils
@@ -7,6 +10,26 @@ import LabtrackerCore.models as coreModels
 
 from datetime import date
 
+
+class MacField(models.Field):
+    
+    description = "A field for mac addresses"
+    default_error_messages = { 
+        'invalid': (u'Enter a valid MAC address.'),
+    }   
+
+    def __init__(self, *args, **kwargs):
+        self.max_length = 17
+        kwargs['help_text'] = 'Please use the following format: 00:AA:1B:00:00:00.'
+        super(MacField, self).__init__(*args, **kwargs)
+    
+    def db_type(self, connection):
+        return 'char(17)'
+
+    def validate(self, value, model_instance):
+        if re.search('^([0-9a-fA-F]{2}([:]?|$)){6}$', value) == None:
+            raise ValidationError('Enter a valid MAC address.')
+   
 class Status(models.Model):
     """
     Status of the machine
@@ -71,14 +94,12 @@ class Item(coreModels.Item):
     type = models.ForeignKey(Type, verbose_name='Machine Type')
     verified = models.BooleanField()
     status = models.ManyToManyField(Status, related_name="machine_status")
-
+    
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
-    mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
-    mac2 = models.CharField(max_length=17, 
-            verbose_name='Additional MAC Address', blank=True)
-    mac3 = models.CharField(max_length=17, 
-            verbose_name='Additional MAC Address', blank=True)
+    mac1 = MacField(verbose_name='MAC Address') 
+    mac2 = MacField(verbose_name='Additional MAC Address', blank=True)
+    mac3 = MacField(verbose_name='Additional MAC Address', blank=True)
     wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
