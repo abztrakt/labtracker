@@ -42,7 +42,7 @@ def show(request, view_name):
         PRE: Takes a datetime object and will gets machines added after that date
         POST: Returns machine information in JSON format
         """
-        items = view.getMappedItems().exclude(machine__item__last_modified__lte=last)
+        items = view.getMappedItems().exclude(last_modified__lte=last, machine__item__last_modified__lte=last)
         ret_data = {}
 
         for item in items:
