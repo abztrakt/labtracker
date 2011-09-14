@@ -93,6 +93,10 @@ table td {
     padding: 0 5px;
 }
 
+table#stats td {
+    padding: 0.6em 0.8em 0.6em 0.8em;
+}
+
 table.plain {
     border-collapse: collapse;
     border-spacing: 0;

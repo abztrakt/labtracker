@@ -50,9 +50,9 @@ def dashboard(request):
         # Initiate a list of all locations and their stats.
         all_locations = {}
         for location in Location.objects.all():
-            all_locations[location.name] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0}
+            all_locations[location.name] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0, 'MagicNum':0}
 
-        all_locations['OVERALL'] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0}
+        all_locations['OVERALL'] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0, 'MagicNum':0}
 
         # Loop through the machines and tally up their statuses. 
         for machine in all_machines:
@@ -96,6 +96,19 @@ def dashboard(request):
                 all_locations[location]['PercUsable'] = float("%.02f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total']))
                 all_locations[location]['PercBroken'] = float("%.02f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total']))
                 all_locations[location]['PercUnusable'] = float("%.02f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total']))
+                
+                #Keeps track of the " magic number" (number of machines needed to be fixed/broken in order to go below/above threshold).
+                if location != 'OVERALL':
+                    tempUsable = all_locations[location]['PercUsable']
+                    if all_locations[location]['PercUsable'] >= Location.objects.get(name=location).usable_threshold:
+                        while (tempUsable >= Location.objects.get(name=location).usable_threshold):
+                            all_locations[location]['MagicNum'] += 1
+                            tempUsable = float("%.02f" % (100.0 * ((all_locations[location]['Usable'])-(all_locations[location]['MagicNum']))/all_locations[location]['Total']))
+                    else:
+                        while (tempUsable < Location.objects.get(name=location).usable_threshold):
+                            all_locations['OVERALL']['MagicNum'] += 1
+                            all_locations[location]['MagicNum'] += 1
+                            tempUsable = float("%.02f" % (100.0 * ((all_locations[location]['Usable'])+(all_locations[location]['MagicNum']))/all_locations[location]['Total']))
 
                 #Keep track of css colors for each location threshold. (i.e. green = 95% in one area, etc..)
                 try:
