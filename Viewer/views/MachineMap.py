@@ -42,15 +42,13 @@ def show(request, view_name):
         PRE: Takes a datetime object and will gets machines added after that date
         POST: Returns machine information in JSON format
         """
-        items = view.getMappedItems().exclude(last_modified__lte=last,machine__item__last_modified__lte=last)
-        
+        items = view.getMappedItems().exclude(last_modified__lte=last, machine__item__last_modified__lte=last)
         ret_data = {}
 
         for item in items:
             data = {}
             machine_info = False
             mapped_info = False
-
             if last:
                 if item.date_added > last:
                     # gotta get it all
@@ -81,6 +79,10 @@ def show(request, view_name):
 
             if data:
                 data['name'] = item.machine.name,
+                broken = False
+                if not item.machine.unresolved_issues:
+                    broken=True
+                data['broken'] = broken
                 ret_data[item.machine.pk] = data
 
         
@@ -91,7 +93,6 @@ def show(request, view_name):
         A request is being made on data
         """
         data = request.GET.copy()
-
         ret = {}
         last = data.get('last', None)
         if last:
@@ -134,10 +135,10 @@ def show(request, view_name):
                 broken = 'broken'
             else:
                 broken = 'not_broken'
-            if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
-                list_pos = item.xpos + 35
+            if item.orientation == 'H':
+                list_pos = item.xpos + item.size.height + 10
             else:
-                list_pos = item.xpos + 20
+                list_pos = item.xpos + item.size.width+ 10
         if not 'Usable' in states:
             status = 'unusable'
         elif 'Inuse' in states:
@@ -153,8 +154,6 @@ def show(request, view_name):
                 'status':status,
                 'broken':broken,
                 'verified': verified,
-                'vypos': item.ypos+2,
-                'vxpos': item.xpos+2,
                 'name': item.machine.item.name,
                 'wall_port': item.machine.item.wall_port,
                 'mac1': item.machine.item.mac1,
