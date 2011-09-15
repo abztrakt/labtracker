@@ -80,7 +80,7 @@ def show(request, view_name):
             if data:
                 data['name'] = item.machine.name,
                 broken = False
-                if not item.machine.unresolved_issues:
+                if item.machine.unresolved_issues():
                     broken=True
                 data['broken'] = broken
                 ret_data[item.machine.pk] = data

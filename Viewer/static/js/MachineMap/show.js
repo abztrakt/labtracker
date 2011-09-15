@@ -6,7 +6,7 @@ var view = null;       //the map name
 
 var options = {
     'view': view,          //the view name
-    'timer':    5000,   // duration between updates
+    'timer':    30000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
     'sizes': [],
     'orientations': ['H', 'V'],
@@ -131,13 +131,13 @@ function newMachine(id, data) {
 
 function applyToMachine(item, data) {
     var modified = false;
-    var has_broken = item.hasClass('broken');
+    var has_broken = item.parent().hasClass('broken');
     var broken = data.broken;
     if (broken != has_broken) {
         if (has_broken) {
-            item.removeClass('broken');
+            item.parent().removeClass('broken');
         }else {
-            item.addClass('broken');
+            item.parent().addClass('broken');
         }
     }
     if (data.x) {
