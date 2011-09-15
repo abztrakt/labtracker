@@ -10,7 +10,9 @@ import LabtrackerCore.models as coreModels
 
 from datetime import date
 
+from south.modelsinspector import add_introspection_rules
 
+add_introspection_rules([], ["Machine.models.MacField"])
 class MacField(models.Field):
     
     description = "A field for mac addresses"
@@ -93,6 +95,7 @@ class Item(coreModels.Item):
             editable=False)
     type = models.ForeignKey(Type, verbose_name='Machine Type')
     verified = models.BooleanField()
+    unusable = models.BooleanField()
     status = models.ManyToManyField(Status, related_name="machine_status")
     
     location = models.ForeignKey(Location, verbose_name='Location')
