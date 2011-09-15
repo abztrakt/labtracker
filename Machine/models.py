@@ -11,7 +11,7 @@ import LabtrackerCore.models as coreModels
 from datetime import date
 
 
-class MacField(models.Field):
+class MacField(models.CharField):
     
     description = "A field for mac addresses"
     default_error_messages = { 
@@ -19,7 +19,7 @@ class MacField(models.Field):
     }   
 
     def __init__(self, *args, **kwargs):
-        self.max_length = 17
+        kwargs['max_length'] = 17
         kwargs['help_text'] = 'Please use the following format: 00:AA:1B:00:00:00.'
         super(MacField, self).__init__(*args, **kwargs)
     
