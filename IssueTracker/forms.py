@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms, dispatch
 from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
-from IssueTracker import changedIssueSignal
+from IssueTracker import changedIssueSignal, newIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
@@ -64,6 +64,7 @@ class CreateIssueForm(ModelForm):
 
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
+        newIssueSignal.send(sender=inst, instance=inst, created =True, data=self.data)
         return inst
 
     class Meta:
