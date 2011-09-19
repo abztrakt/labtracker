@@ -38,7 +38,10 @@ class CreateIssueForm(ModelForm):
             queryset=im.ProblemType.objects.all().order_by('name'),
             help_text="Select one or more problems"
         )
-
+    group = forms.ModelChoiceField(
+            queryset = im.Group.objects.all(),
+            required = False
+        )
     description = forms.CharField(
             widget = forms.Textarea,
             initial = ""
