@@ -13,6 +13,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 
 from IssueTracker.models import *
 from IssueTracker.issue import IssueUpdater
+from Machine.models import *
 import LabtrackerCore.models as cModels
 from IssueTracker.forms import *
 import IssueTracker.utils as utils
@@ -120,6 +121,10 @@ def createIssue(request):
         data['reporter'] = str(request.user.id)
 
         form = CreateIssueForm(data)
+        item = Item.objects.all()[int(data.get('item')) - 1]
+        if data.get('unusable') == 'on':
+            item.unusable = True
+            item.save()
         if form.is_valid():
             inv_t = form.cleaned_data['it']
 
