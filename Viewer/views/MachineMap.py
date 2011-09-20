@@ -80,8 +80,12 @@ def show(request, view_name):
             if data:
                 data['name'] = item.machine.name,
                 broken = False
+                verified = False
                 if item.machine.unresolved_issues():
                     broken=True
+                if item.machine.item.verified:
+                    verified=True
+                data['verified'] = verified
                 data['broken'] = broken
                 ret_data[item.machine.pk] = data
 

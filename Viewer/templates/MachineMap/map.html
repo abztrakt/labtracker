@@ -16,8 +16,8 @@
 {% endif %}
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('{{ map_url }}');">
-        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {{item.size.name}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }}"></div>
-        {% if item.verified %} <div class='check' style="top: 2px; left: 2px;" ><img src='/static/img/Viewer/check.png'/></div>{% endif %} 
+        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {% if item.verified %} verified {% endif %} {{item.size.name}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }}"></div>
+        {% if item.verified %} <div id='v_{{item.machine.name}}' class='check' style="top: 2px; left: 2px;" ><img src='/static/img/Viewer/check.png'/></div>{% endif %} 
         </div>
         {% endfor %}
 {% if staff %}        
