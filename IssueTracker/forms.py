@@ -62,13 +62,14 @@ class CreateIssueForm(ModelForm):
             required = False,
         )
 
+    unusable = forms.BooleanField()
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
         return inst
 
     class Meta:
         model = im.Issue
-        fields = ('it','group','item','assignee','cc','problem_type','title','description',
+        fields = ('it','group','item','assignee','cc','unusable','problem_type','title','description',
                 'reporter','steps','attempts','other_tickets')
 
 class UpdateIssueForm(ModelForm):

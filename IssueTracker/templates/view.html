@@ -63,6 +63,20 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					<ul class="struct inlineblock">
+						<li>
+							<h6 class="label-title">Usable or not:</h6>
+							<div class="labeled">
+                                {% if issue.item.item.unusable %}
+                                    Unusable
+                                {% else %}
+                                    Usable
+                                {% endif %}
+                            </div>
+                        </li>
+					</ul>
+				</li>
 			</ul>
 
 			<br class="clear" />

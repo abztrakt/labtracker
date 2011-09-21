@@ -63,9 +63,10 @@ def show(request, view_name):
 
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
+                unusable = item.machine.item.unusable
                 if 'Inuse' in states:
                     data['state'] = 'occupied'
-                elif 'Usable' in states:
+                elif not unusable:
                     data['state']= 'usable'
                 else:
                     data['state'] = 'unusable'

@@ -59,11 +59,8 @@ def dashboard(request):
             location = machine.location.name
             statues = machine.status.values_list()
             unresolved = machine.unresolved_issues()
-            usable = False 
+            unusable = machine.unusable
             for status in statues:
-                if status[0] == 3:
-                    #Machine is USABLE, add to usable value.
-                    usable = True
                 if status[0] == 1:
                     #Machine is INUSE, add to the inuse value.
                     all_locations[location]['inUse'] += 1
@@ -77,9 +74,11 @@ def dashboard(request):
             all_locations[location]['Total'] += 1
             all_locations['OVERALL']['Total'] += 1
 
-            if usable:
+            #Machine is USABLE, add to usable value.
+            if not unusable:
                 all_locations[location]['Usable'] += 1
                 all_locations['OVERALL']['Usable'] += 1
+            #Machine is UNUSABLE, add to unusable value.
             else:
                 all_locations[location]['Unusable'] += 1
                 all_locations['OVERALL']['Unusable'] += 1

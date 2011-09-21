@@ -38,14 +38,10 @@ def allBroken(request, page=1):
     for issue in args['issues']:
         iss_id = issue.item.item_id
         machine = mac.Item.objects.get(item_id=iss_id)
-        usable = False
-        try:
-            machine.status.get(name='Usable') 
-            usable = True
-        except:
-            pass
-        if not usable:
+
+        if machine.unusable:
             issues_list['Issues on Unusable Machines'].append(issue)
+
     args['object_list'] = issues_list.items() 
     args['no_results'] = args['page'].object_list.count() < 1
     return render_to_response("grouped_issue_list.html", args,
