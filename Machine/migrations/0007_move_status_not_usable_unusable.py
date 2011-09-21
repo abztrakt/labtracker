@@ -25,8 +25,7 @@ class Migration(DataMigration):
             usable = orm.Status(name='Usable', description='This machine is usable.')
             usable.save()
 
-        usable = orm.Status.obejcts.get(name='Usable')
-        for i in orm.item.obejcts.all():
+        for i in orm.item.objects.all():
             if not i.unusable:
                 i.status.add(usable)
                 i.save()

@@ -8,34 +8,36 @@ from django.core.exceptions import ObjectDoesNotExist
 class Migration(DataMigration):
 
     def forwards(self, orm):
+        """Loop through all items and delete the Usable status
+           At the end remove 'Usable' status from Status
+        """
         for i in orm.Item.objects.all():
             try:
-                i.status.get(name='Verified')
-                i.verified = True
+                i.status.remove(orm.Status.objects.get(name='Usable'))
                 i.save()
             except ObjectDoesNotExist:
                 pass
-
+        
         try:
-            verif = orm.Status.objects.get(name='Verified')
-            verif.delete()
-        except:
+            orm.Status.delete(orm.Status.objects.get(name='Usable'))
+        except ObjectDoesNotExist:
             pass
 
 
     def backwards(self, orm):
+        """Add 'Usable' status to Status.
+        Loop through all items and add the Usable status if not exist
+        """
         try:
-            verif = orm.Status.objects.get(name='Verified')
+            usable = orm.Status.objects.get(name='Usable')
         except ObjectDoesNotExist:
-            verif = orm.Status(name='Verified', description='This machine has been double-checked for all pertinent information.')
-            verif.save()
+            usable = orm.Status(name='Usable', description='This machine is still usable')
+            usable.save()
 
         for i in orm.Item.objects.all():
-            if i.verified:
-                i.status.add(verif)
-                i.verified = False
+            if not i.unusable:
+                i.status.add(usable)
                 i.save()
-
 
 
     models = {
@@ -84,7 +86,7 @@ class Migration(DataMigration):
             'login_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'machine': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['Machine.Item']"}),
             'mh_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'ms': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['Machine.Status']", 'null': 'True', 'symmetrical': 'False'}),
+            'ms': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['Machine.Status']", 'null': 'True', 'blank': 'True'}),
             'session_time': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '16', 'decimal_places': '2', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['LabtrackerCore.LabUser']"})
         },
@@ -96,26 +98,29 @@ class Migration(DataMigration):
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['Machine.Location']"}),
-            'mac1': ('django.db.models.fields.CharField', [], {'max_length': '17'}),
-            'mac2': ('django.db.models.fields.CharField', [], {'max_length': '17', 'null': 'True', 'blank': 'True'}),
+            'mac1': ('Machine.models.MacField', [], {}),
+            'mac2': ('Machine.models.MacField', [], {'blank': 'True'}),
+            'mac3': ('Machine.models.MacField', [], {'blank': 'True'}),
             'manu_tag': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'purchase_date': ('django.db.models.fields.DateField', [], {'null': 'True'}),
+            'purchase_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'status': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'machine_status'", 'symmetrical': 'False', 'to': "orm['Machine.Status']"}),
             'stf_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['Machine.Type']"}),
+            'unusable': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'uw_tag': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'verified': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'wall_port': ('django.db.models.fields.CharField', [], {'max_length': '25'}),
-            'warranty_date': ('django.db.models.fields.DateField', [], {'null': 'True'})
+            'warranty_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'})
         },
         'Machine.location': {
             'Meta': {'object_name': 'Location'},
             'building': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True'}),
             'comment': ('django.db.models.fields.CharField', [], {'max_length': '600'}),
-            'floor': ('django.db.models.fields.SmallIntegerField', [], {'null': 'True'}),
+            'floor': ('django.db.models.fields.SmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'ml_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '60'}),
-            'room': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True'})
+            'room': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True'}),
+            'usable_threshold': ('django.db.models.fields.IntegerField', [], {'default': '95'})
         },
         'Machine.platform': {
             'Meta': {'object_name': 'Platform'},
