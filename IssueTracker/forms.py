@@ -62,7 +62,8 @@ class CreateIssueForm(ModelForm):
             required = False,
         )
 
-    unusable = forms.BooleanField()
+    unusable = forms.BooleanField(required = False)
+    
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
         return inst
