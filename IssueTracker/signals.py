@@ -3,7 +3,7 @@ from django.db.models.signals import pre_save, post_save
 from django.conf import settings
 
 from IssueTracker import utils
-from IssueTracker import changedIssueSignal, forms, Email
+from IssueTracker import newIssueSignal, changedIssueSignal, forms, Email
 from IssueTracker.models import Issue, IssueComment, ResolveState, ProblemType
 
 def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
@@ -13,19 +13,20 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     # retrieve the group from Instance
     if instance.group == None and instance.item == None or not created:
         return
-
     contacts = [c.email for c in utils.getIssueContacts(instance)]
 
     # send an email to this contact
     em = Email.NewIssueEmail(instance, instance.title)
     
-    # if (instance.assignee is None)
-            
+    # if (instance.assignee is None)        
     try:
         em.addTo(instance.reporter.email)
     except:
         pass
-    em.addProblemTypeSection("", instance.problem_type.all())
+    p_types = []
+    for p_type in instance.problem_type.all():
+        p_types.append(p_type.pk)
+    em.addProblemTypeSection("", p_types) 
     if (instance.assignee is None):
         em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
         + "Group/Location: " + instance.group.name + ".\n"     
@@ -49,7 +50,7 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
             pass
     em.send()
 
-post_save.connect(sendCreateIssueEmail, sender=Issue)
+newIssueSignal.connect(sendCreateIssueEmail)
 
 def stateChangeNotifications(sender, data=None, **kwargs):
     """
