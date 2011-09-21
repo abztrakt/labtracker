@@ -95,11 +95,24 @@ function updateMachines() {
             'success': function (json, txt) {
                 last_call = json.time;
                 applyMachineUpdates(json.machines);
+                removeMachines(json.deletemachines);
             }
         });
     }
 }
 
+function removeMachines(machines) {
+    for(var i in machines) {
+        var machine_name = machines[i].name;
+        var machine = $('#outer_'+machine_name);
+    
+        if (machine) {
+            var list = $('#list_'+machine_name);
+            machine.remove()
+            list.remove()
+        }
+    }
+}
 /**
  * applyMachineUpdates
  *

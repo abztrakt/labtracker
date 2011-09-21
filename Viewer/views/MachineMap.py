@@ -37,6 +37,15 @@ def show(request, view_name):
     """
     view = get_object_or_404(v_models.MachineMap, shortname=view_name)
 
+    def getUnmappedData():
+        items = view.getUnmappedItems()
+        ret_data ={}
+        for item in items:
+            data = {}
+            data['name'] = item.name
+            ret_data[item.pk] = data
+        return ret_data
+
     def getJSONData(last=None):
         """
         PRE: Takes a datetime object and will gets machines added after that date
@@ -44,7 +53,6 @@ def show(request, view_name):
         """
         items = view.getMappedItems().exclude(last_modified__lte=last, machine__item__last_modified__lte=last)
         ret_data = {}
-
         for item in items:
             data = {}
             machine_info = False
@@ -108,6 +116,7 @@ def show(request, view_name):
 
         try:
             ret['machines'] = getJSONData(last)
+            ret['deletemachines'] = getUnmappedData()
         except Exception, e:
             ret['error'] = "No understandable request made."
             return HttpResponseServerError(simplejson.dumps(ret))
