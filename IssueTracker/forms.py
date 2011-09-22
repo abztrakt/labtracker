@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms, dispatch
 from django.forms import ModelForm
 from django.forms.forms import BaseForm      #, SortedDictFromList
-from IssueTracker import changedIssueSignal
+from IssueTracker import changedIssueSignal, newIssueSignal
 import IssueTracker.models as im
 import LabtrackerCore.models as lm
 
@@ -38,7 +38,10 @@ class CreateIssueForm(ModelForm):
             queryset=im.ProblemType.objects.all().order_by('name'),
             help_text="Select one or more problems"
         )
-
+    group = forms.ModelChoiceField(
+            queryset = im.Group.objects.all(),
+            required = False
+        )
     description = forms.CharField(
             widget = forms.Textarea,
             initial = ""
@@ -66,6 +69,7 @@ class CreateIssueForm(ModelForm):
     
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
+        newIssueSignal.send(sender=inst, instance=inst, created =True, data=self.data)
         return inst
 
     class Meta:

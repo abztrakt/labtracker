@@ -394,6 +394,7 @@ function MapEditor (orientation, size, sizes) {
                     if(item.hasClass('unmapped')){  
                         item.removeClass('unmapped');
 					    item.addClass('mapped');
+                        item.css({'position': 'absolute'});
                                            }
 					item.appendTo('div#map').
 						data('mapped.modmap', true).
