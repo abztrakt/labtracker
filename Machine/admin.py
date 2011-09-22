@@ -24,11 +24,14 @@ class StatusAdmin(admin.ModelAdmin):
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'type','location','ip','mac1','mac2', 'mac3', 
-            'date_added','uw_tag', 'verified',)
+            'date_added','uw_tag', 'verified', 'usable',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
-    list_filter = ['type','location__name','date_added','verified',]
-    actions = ['set_to_unverified', 'set_to_verified', 'append_to_comment', 'change_comment', 
-        'change_dates']
+    list_filter = ['type','location__name','date_added','verified','unusable',]
+    actions = ['set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
+        'append_to_comment', 'change_comment', 'change_dates']
+    
+
+
 
     class ModifyCommentForm(forms.Form):
         """ The form used by append_to_comment and change_comment admin actions.
@@ -171,6 +174,23 @@ class ItemAdmin(admin.ModelAdmin):
         self.message_user(request, "%s successfully marked as verified." % message_bit)
     set_to_verified.short_description = "Mark selected as verified"
 
+    def set_to_unusable(self, request, queryset):
+        items_updated = queryset.update(unusable=True)
+        if items_updated == 1:
+            message_bit = "1 item was"
+        else:
+            message_bit = "%s items were" % items_updated
+        self.message_user(request, "%s successfully marked as unusable." % message_bit)
+    set_to_unusable.short_description = "Mark selected as unusable"
+
+    def set_to_usable(self, request, queryset):
+        items_updated = queryset.update(unusable=False)
+        if items_updated == 1:
+            message_bit = "1 item was"
+        else:
+            message_bit = "%s items were" % items_updated
+        self.message_user(request, "%s successfully marked as usable." % message_bit)
+    set_to_usable.short_description = "Mark selected as usable"
 
 class GroupAdmin(admin.ModelAdmin):
     fieldsets = (

@@ -119,6 +119,10 @@ class Item(coreModels.Item):
 
     comment = models.TextField(blank=True, null=True)
 
+    def usable(self):
+        return (not self.unusable)
+    usable.boolean = True
+
     @models.permalink
     def get_absolute_url(self):
         return ('Machine-detail', [str(self.pk),])
