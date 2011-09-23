@@ -12,4 +12,3 @@ class TimeForm(forms.Form):
 class FileTimeForm(forms.Form):
     time_start = forms.DateTimeField()
     time_end = forms.DateTimeField()
-    max_threshold = forms.FloatField(required=False,initial=12.0, label='Max threshold for data (in hours, optional)') 

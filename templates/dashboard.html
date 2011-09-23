@@ -14,38 +14,32 @@ Welcome back, {{user.username}}!
 
 {% block content %}
 
-{% if all_locations%}
+{% if stats%}
 <h2>Statistics of each location:</h2>
 <table id="stats">
     <thead>
         <tr>
             <th>Location</th>
-            <th>Lab Load (In Use/Usable)</th>
-            <th>Magic Number </th>
-            <th>% Usable (Usable/Total)</th>
-            <th>% With issues (Broken,Usable/Total)</th>
-            <th>% Unusable (Broken, Not-usable/ Total)</th>
+            <th>Lab Load <br>(In Use/Usable)</th>
+            <th>Threshold <br> (% - #Comps req.)</th>
+            <th>Magic Number</th>
+            <th>% Usable <br>(Usable/Total)</th>
+            <th>% With issues <br>(With issues/Total)</th>
+            <th>% Unusable <br>(Not-usable/ Total)</th>
         </tr>
     </thead>
     <tbody>
-    {% for location in all_locations|dictsort:"Location"  %}
-        <tr class="{% if location.PercUsable < 95 %}problem{% else %}ok{%endif%}">
+    {% for location in stats %}
+        <tr class="{{location.Status}}">
             <td>{{ location.Location }}</td>
             <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
-            <td>{{ location.MagicNum }} {% if location.PercUsable < 95 %} below threshold {% else %}  above threshold {% endif %} </td>
+            <td>{{ location.Threshold}}% - {{ location.ThresholdComps }}</td>
+            <td>{{location.ThresholdMessage}}</td>
             <td>{{ location.PercUsable }}%     ({{ location.Usable }} / {{ location.Total }})</td>
             <td>{{ location.PercBroken }}%   ({{ location.Broken }} / {{ location.Total }})</td>
             <td>{{ location.PercUnusable }}%  ({{ location.Unusable }} / {{ location.Total }})</td>
         </tr>
     {% endfor %}
-        <tr>
-            <td><b>OVERALL</b></td>
-            <td>{{ overall.LabLoad}}%  ({{ overall.inUse }} / {{ overall.Usable }})</td>
-            <td>{{ overall.MagicNum }} below threshold </td>
-            <td>{{ overall.PercUsable}}%  ({{ overall.Usable }} / {{ overall.Total }})</td>
-            <td>{{ overall.PercBroken}}%  ({{ overall.Broken }} / {{ overall.Total }})</td>
-            <td>{{ overall.PercUnusable}}%  ({{ overall.Unusable }} / {{ overall.Total }})</td>
-        </tr>
     </tbody>
 </table>
 {% endif %}

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
-
+from django.db.models import Avg, Min, Max, Count
 from LabtrackerCore.forms import EmailForm
 
 from LabtrackerCore.models import LabUser
@@ -44,86 +44,130 @@ def dashboard(request):
         assigned = Issue.objects.filter(assignee=request.user.id).order_by('-post_time')[:5]
         # The 5 most recently created issues.
         recent_issues = Issue.objects.all().order_by('-post_time')[:5]
-        # All machines in the system.
-        all_machines = Item.objects.all()
 
-        # Initiate a list of all locations and their stats.
-        all_locations = {}
-        for location in Location.objects.all():
-            all_locations[location.name] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0, 'MagicNum':0}
+        #Calculate stats for each area. 
+        locations = Location.objects.all().order_by('name')
+        stats = []
+        overall = {    
+                'Location': 'OVERALL',
+                'Status': '',
+                'Total': 0,
+                'inUse': 0,
+                'Broken': 0,
+                'Usable': 0,
+                'Unusable': 0,
+                'MagicNum': 0,
+                'Threshold': 'N/A',
+                'ThresholdComps': 0,
+                'ThresholdMessage': '',
+                'LabLoad' : 0.0,
+                'PerUsable': 0.0,
+                'PercBroken': 0.0,
+                'PercUnusable': 0.0
+            }
+        for location in locations:
+            #Grab only machines in the location.
+            machines = Item.objects.filter(location=location)    
+            if machines:
+                #We have machines in the location, calculate data and place defaults into a dictionary. Separate out calculated data and static data. Add/remove stats for any future dashboard calcs.
+                data = {    
+                    'Location': location,
+                    'Status': 'ok',
+                    'Total': machines.count(),
+                    'inUse': 0,
+                    'Broken': 0,
+                    'Usable': 0,
+                    'Unusable': 0,
+                    'MagicNum': 0,
+                    'Threshold': location.usable_threshold,
+                    'ThresholdComps': 0,
+                    'ThresholdMessage': '',
+                    'LabLoad' : 0.0,
+                    'PerUsable': 0.0,
+                    'PercBroken': 0.0,
+                    'PercUnusable': 0.0
+                }
 
-        all_locations['OVERALL'] = {'Total': 0, 'inUse':0, 'Broken':0,'Usable':0,'Unusable':0, 'MagicNum':0}
+                overall['Total'] += data['Total']
 
-        # Loop through the machines and tally up their statuses. 
-        for machine in all_machines:
-            location = machine.location.name
-            statues = machine.status.values_list()
-            unresolved = machine.unresolved_issues()
-            unusable = machine.unusable
-            for status in statues:
-                if status[0] == 1:
-                    #Machine is INUSE, add to the inuse value.
-                    all_locations[location]['inUse'] += 1
-                    all_locations['OVERALL']['inUse'] += 1
+                # Loop trough the machines and tally up their statuses.
+                for machine in machines:
+                    statuses = machine.status.values_list()
+                    unresolved = machine.unresolved_issues()
 
-            #Machine is BROKEN, add to the broken value.
-            if unresolved.count() != 0:
-                all_locations[location]['Broken'] += 1
-                all_locations['OVERALL']['Broken'] += 1
+                    #Calculate statuses
+                    for status in statuses:
+                        if status[0] == 1:
+                            #Machine is INUSE, add to the inuse value.
+                            data['inUse'] += 1
+                            overall['inUse'] += 1
+                    
+                    #Check to see if machine is BROKEN (has issues), if so, add to the broken value
+                    if unresolved.count() != 0:
+                        data['Broken'] += 1
+                        overall['Broken'] += 1
+                    
+                    #Check if machine is USABLE, or not.
+                    if machine.unusable:
+                        data['Unusable'] += 1
+                        overall['Unusable'] += 1
+                    else:
+                        data['Usable'] += 1
+                        overall['Usable'] += 1
 
-            all_locations[location]['Total'] += 1
-            all_locations['OVERALL']['Total'] += 1
+                #Calculate percentages after the tallying.
+                if data['Usable'] != 0:
+                    data['LabLoad'] = round((100.0 * data['inUse']/data['Usable']), 2)
+                data['PercUsable'] = round((100.0 * data['Usable']/data['Total']), 2)
+                data['PercBroken'] = round((100.0 * data['Broken']/data['Total']), 2)
+                data['PercUnusable'] = round((100.0 * data['Unusable']/data['Total']), 2)
 
-            #Machine is USABLE, add to usable value.
-            if not unusable:
-                all_locations[location]['Usable'] += 1
-                all_locations['OVERALL']['Usable'] += 1
-            #Machine is UNUSABLE, add to unusable value.
-            else:
-                all_locations[location]['Unusable'] += 1
-                all_locations['OVERALL']['Unusable'] += 1
-
-        # Calculate the percentages at each location (including OVERALL) and then drop any that have a 0 Total
-        empty_locations = []
-        for location in all_locations:
-            try: 
-                all_locations[location]['LabLoad'] = float("%.02f" % (100.0 * (all_locations[location]['inUse'])/all_locations[location]['Usable']))
-            except ZeroDivisionError:
-                all_locations[location]['LabLoad'] = 0.0
-            
-            try:
-                all_locations[location]['PercUsable'] = float("%.02f" % (100.0 * (all_locations[location]['Usable'])/all_locations[location]['Total']))
-                all_locations[location]['PercBroken'] = float("%.02f" % (100.0 * (all_locations[location]['Broken'])/all_locations[location]['Total']))
-                all_locations[location]['PercUnusable'] = float("%.02f" % (100.0 * (all_locations[location]['Unusable'])/all_locations[location]['Total']))
+                #Calculate the "magic number" for the location, and the number of comps needed to be in threshold.
+                data['ThresholdComps'] = int(round((data['Threshold']/ 100.0) * data['Total'], 0))
+                overall['ThresholdComps'] += data['ThresholdComps']
+                data['MagicNum'] = int(data['Usable'] - data['ThresholdComps'])
                 
-                #Keeps track of the " magic number" (number of machines needed to be fixed/broken in order to go below/above threshold).
-                if location != 'OVERALL':
-                    tempUsable = all_locations[location]['PercUsable']
-                    if all_locations[location]['PercUsable'] >= Location.objects.get(name=location).usable_threshold:
-                        while (tempUsable >= Location.objects.get(name=location).usable_threshold):
-                            all_locations[location]['MagicNum'] += 1
-                            tempUsable = float("%.02f" % (100.0 * ((all_locations[location]['Usable'])-(all_locations[location]['MagicNum']))/all_locations[location]['Total']))
-                    else:
-                        while (tempUsable < Location.objects.get(name=location).usable_threshold):
-                            all_locations['OVERALL']['MagicNum'] += 1
-                            all_locations[location]['MagicNum'] += 1
-                            tempUsable = float("%.02f" % (100.0 * ((all_locations[location]['Usable'])+(all_locations[location]['MagicNum']))/all_locations[location]['Total']))
+                if data['MagicNum'] < 0:
+                    #We are under threshold, leave a fix message
+                    data['ThresholdMessage'] = 'Fix %i' % (data['MagicNum']*-1)
+                    data['MagicNum'] *= -1
+                elif data['MagicNum'] == 0:
+                    #We are AT threshold
+                    data['ThresholdMessage'] = 'At threshold'
+                else:
+                    #We are above the threshold
+                    data['ThresholdMessage'] = '+%i above threshold' % (data['MagicNum'])
+                
+                #Keep track of css colors for each location threshold. (i.e. ok = above or at threshold in one aera, etc...)
+                if data['PercUsable'] <= data['Threshold']:
+                    #We are BELOW threshold, color this red
+                    data['Status'] = 'problem'
+                    overall['MagicNum'] += data['MagicNum']
+                
+                #Finally, append all data to the stats
+                stats.append(data)
 
-                #Keep track of css colors for each location threshold. (i.e. green = 95% in one area, etc..)
-                try:
-                    if all_locations[location]['PercUsable'] >= Location.objects.get(name=location).usable_threshold:
-                        all_locations[location]['ok'] = True
-                    else:
-                        all_locations[location]['ok'] = False
-                except Location.DoesNotExist:
-                    pass
+        #After calculating numerical stats, tally up an OVERALL stat and add to the stats.
+        # Calculate percentages. In the case that some of the division is by 0, ignore it and leave at the default.
+        try:
+            try:
+                overall['LabLoad'] = round(100.0 * overall['inUse'] / overall['Usable'], 2)
+            except:
+                overall['LabLoad'] = 0.0
+            overall['PercUsable'] = round(100.0 * overall['Usable'] / overall['Total'], 2)
+            overall['PercBroken'] = round(100.0 * overall['Broken'] / overall['Total'], 2)
+            overall['PercUnusable'] = round( 100.0 * overall['Unusable'] / overall['Total'], 2)
+        except:
+            overall['PercUsable'] = 0.0 
+            overall['PercBroken'] = 0.0
+            overall['PercUnusable'] = 0.0
+        if overall['MagicNum'] > 0:
+            overall['ThresholdMessage'] = 'Fix %i' % (overall['MagicNum'])
+        else:
+            overall['ThresholdMessage'] = 'At or above threshold'
+        stats.append(overall)
 
-            except ZeroDivisionError:
-                empty_locations.append(location)
-        
-        for location in empty_locations:
-            del all_locations[location]
-        
+        #Login 
         prev_logins = None
         if request.user.is_staff:
             userhash = md5(request.user.username)
@@ -132,17 +176,8 @@ def dashboard(request):
                 prev_logins = History.objects.filter(user=user).order_by('-login_time')[:10]
             except Exception, e:
                 pass
-        
-        # Removes the row of overall stats from the saved locations and saves it
-        overall = all_locations.pop('OVERALL')
 
-        # Forms a list of the location dictionaries.
-        all_locations_sorted = []
-        for location in all_locations:
-            all_locations[location]['Location'] = location.encode('utf-8')
-            all_locations_sorted.append(all_locations[location])
-
-        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'all_locations': all_locations_sorted, 'overall': overall,},
+        return render_to_response('dashboard.html', {'problems': assigned, 'prev_logins': prev_logins,'recent_issues': recent_issues,'stats': stats},
                 context_instance=RequestContext(request))
     
     else:

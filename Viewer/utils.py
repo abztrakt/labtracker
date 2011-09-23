@@ -38,14 +38,13 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
             items = machines.filter(location=location)
 
         machines_in_location = items.count()
-
         if machines_in_location:
             # We have machines in the location, calculate stats
             data = {}
 
             #Seperate out the login times and the session times (because a person can be logged in and not logged out during the time period)
             login_stats = stats.filter(machine__in=items)
-            all_session_stats = stats.filter(machine__in=items, session_time__isnull=False)
+            all_session_stats = login_stats.filter(session_time__isnull=False)
             threshold_session_stats = all_session_stats.exclude(session_time__gt=str(threshold))
             
             if all_session_stats:
@@ -100,7 +99,6 @@ def getStats(stats=None, machines=None, locations=None, threshold=None):
                 # Number of distinct clients
                 clients_location = Set()
                 distinct_clients = [clients_location.add(stat.user) for stat in login_stats]
-
                 distinct_per_machine = 1.0 * len(clients_location) / machines_in_location
                 logins_per_machine = 1.0 * login_count / machines_in_location
 
