@@ -94,8 +94,20 @@ def show(request, view_name):
                     broken=True
                 if item.machine.item.verified:
                     verified=True
+                if item.orientation == 'H':
+                    width = 10+item.size.height
+                else:
+                    width = 10 + item.size.width
                 data['verified'] = verified
                 data['broken'] = broken
+                # .type is a python thing data['type'] = item.machine.item.type 
+                data['mac1'] = item.machine.item.mac1
+                data['mac2'] = item.machine.item.mac2
+                data['ip'] = item.machine.item.ip
+                data['wall_port'] = item.machine.item.wall_port
+                data['uw_tag'] = item.machine.item.uw_tag
+                data['manu'] = item.machine.item.manu_tag
+                data['width'] = width 
                 ret_data[item.machine.pk] = data
 
         
@@ -153,11 +165,11 @@ def show(request, view_name):
                 list_pos = item.xpos + item.size.height + 10
             else:
                 list_pos = item.xpos + item.size.width+ 10
-        if not 'Usable' in states:
+        if item.machine.item.unusable:
             status = 'unusable'
         elif 'Inuse' in states:
             status = 'occupied'
-        elif 'Usable' in states:
+        else:
             status = 'usable'
         item_dict = {
                 'machine': item.machine,
@@ -269,7 +281,6 @@ def modify(request, view_name):
         # Figure out what items haven't been mapped before
         new_ids = set(map).difference(
                 set([item.machine.pk for item in map_items]))
-
         # create new entries for each of these items
         for item_id in new_ids:
             # first fetch the base_item
@@ -282,7 +293,6 @@ def modify(request, view_name):
 
             # with the base_item, construct new mapped_item entry
             iteminfo = getItemInfo(item_id)
-
             if None in (iteminfo['x'], iteminfo['y']):
                 resp['error'] += "Both x and y needed: %s\n" % (item.pk)
                 return HttpResponseServerError(simplejson.dumps(resp))

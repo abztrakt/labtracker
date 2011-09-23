@@ -103,14 +103,12 @@ class MachineMap_Item(models.Model):
             default='H')
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-
     def __unicode__(self):
         return "%s -- %s (%d, %d)" % \
             (self.view, self.machine, self.xpos, self.ypos)
 
     class Meta:
         app_label = "Viewer"
-
         unique_together = (
             ('machine', 'view')
         )
