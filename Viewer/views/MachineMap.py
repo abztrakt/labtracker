@@ -226,6 +226,7 @@ def modify(request, view_name):
 
     if (data.get('save', False)):
         # need to save the computers
+        resp = { 'status': 0, 'error': "" }
         unmap = data.getlist('unmap[]')
         map = data.getlist('map[]')
 
@@ -248,7 +249,7 @@ def modify(request, view_name):
         map_items = v_models.MachineMap_Item.objects.filter(view = view, 
                 machine__pk__in = map)
 
-        resp = { 'status': 0, 'error': "" }
+        
 
         def getItemInfo(id):
             return {

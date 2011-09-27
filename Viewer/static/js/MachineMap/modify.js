@@ -228,9 +228,10 @@ function MapEditor (orientation, size, sizes) {
 
 		item.removeClass(this.getItemSize(item));
 		item.addClass(size);
-
-		item.data('dirty.modmap', true);
-		item.data('size.modmap', size);
+        if (item.hasClass('mapped')) {
+		    item.data('dirty.modmap', true);
+		}
+        item.data('size.modmap', size);
 	};
 
 	/**
