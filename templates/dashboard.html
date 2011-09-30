@@ -31,7 +31,7 @@ Welcome back, {{user.username}}!
     <tbody>
     {% for location in stats %}
         <tr class="{{location.Status}}">
-            <td>{{ location.Location }}</td>
+            <td><a href= {{SITE_ADDR}}/issue/report/group/location#{{ location.Location }}>{{ location.Location }}</a></td>
             <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
             <td>{{ location.Threshold}}% - {{ location.ThresholdComps }}</td>
             <td>{{location.ThresholdMessage}}</td>
