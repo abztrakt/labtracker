@@ -47,7 +47,7 @@ class StatsCache(models.Model):
     total_distinct = models.IntegerField(verbose_name='Total Distinct Logins in Location')
 
     description = models.CharField(max_length=255, verbose_name='Description of Cached Interval', null=True)
-    tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval', null=True)
+    tags = models.ManyToManyField(Tags, verbose_name='Tags attached to Cached Interval', null=True, blank=True)
 
     #Keep track of threshold restrictions on data and data that has been caculated beyond the threshold
     threshold = models.FloatField(verbose_name='Threshold for calculations',null=True,blank=True)

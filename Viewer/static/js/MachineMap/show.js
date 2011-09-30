@@ -6,7 +6,7 @@ var view = null;       //the map name
 
 var options = {
     'view': view,          //the view name
-    'timer':    5000,   // duration between updates
+    'timer':    30000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
     'sizes': [],
     'orientations': ['H', 'V'],
@@ -95,11 +95,24 @@ function updateMachines() {
             'success': function (json, txt) {
                 last_call = json.time;
                 applyMachineUpdates(json.machines);
+                removeMachines(json.deletemachines);
             }
         });
     }
 }
 
+function removeMachines(machines) {
+    for(var i in machines) {
+        var machine_name = machines[i].name;
+        var machine = $('#outer_'+machine_name);
+    
+        if (machine) {
+            var list = $('#list_'+machine_name);
+            machine.remove()
+            list.remove()
+        }
+    }
+}
 /**
  * applyMachineUpdates
  *
@@ -109,56 +122,89 @@ function applyMachineUpdates(data) {
     for (var ii in data) {
         var item_id = ii + "_" + data[ii].name;
         var item = $('#' + item_id);
-
+        var outer_id = "outer_" + data[ii].name;
+        var outer_item= $('#' + outer_id);
         if (item.size() == 0) {
             // have to create the item
-            item = newMachine(item_id, data[ii]);
-
+            outer_item = newMachine(item_id, outer_id, data[ii]);
+            item = outer_item.children()
             // status will be wrong... mark as unusable?
-            $('#map').append(item);
-            data[ii].state = "unusable";
+            $('#map').append(outer_item);
         }
 
-        applyToMachine(item, data[ii]);
+        applyToMachine(item, outer_item, data[ii]);
     }
 }
 
-function newMachine(id, data) {
-    var mc = $('<div id="' + id + '" class="item mapped"></div>');
+function newMachine(id, outer_id, data) {
+    var mc = $('<div id="'+outer_id+'" class ="outerItem mapped"></div>');
+    var inner_mc = $('<div id="' + id + '" class="item mapped"></div>');
+    mc.append(inner_mc);
     return mc;
 }
 
 
-function applyToMachine(item, data) {
+function applyToMachine(item, outer_item, data) {
     var modified = false;
+    var has_broken = outer_item.hasClass('broken');
+    var broken = data.broken;
+    var has_verified = outer_item.hasClass('verified');
+    var verified = data.verified;
+    if (broken != has_broken) {
+        if (has_broken) {
+            outer_item.removeClass('broken');
+        }else {
+            outer_item.addClass('broken');
+        }
+    }
+    if (verified != has_verified) {
+        if (has_verified) {
+            outer_item.removeClass('verified');
+            id = "#v_"+data.name;
+            $(id).remove()
+        }else {
+            outer_item.addClass('verified');
+            id ="v_" + data.name;
+            var check = $('<div id="'+ id +'" class="check" style="top: 2px; left: 2px;" ></div>');
+            var img = $("<img src='/static/img/Viewer/check.png'/>");
+            check.append(img);
+            outer_item.append(check)
+        }
+
+    }
     if (data.x) {
         var xpos = parseInt(data.x) + 'px';
         
-        if (item.css('left') != xpos) {
-            item.css('left', xpos);
-            item.data('modified', true);
+        if (outer_item.css('left') != xpos) {
+            outer_item.css('left', xpos);
+            outer_item.data('modified', true);
         }
     }
 
     if (data.y) {
         var ypos = parseInt(data.y) + 'px';
 
-        if (item.css('top') != ypos) {
-            item.css('top', ypos);
-            item.data('modified', true);
+        if (outer_item.css('top') != ypos) {
+            outer_item.css('top', ypos);
+            outer_item.data('modified', true);
         }
     }
     
     if (data.orient && switchClass(item, data.orient, options.orientations)) {
         item.data('modified', true);
     }
-
+    if (data.orient && switchClass(outer_item, data.orient, options.orientations)) {
+        outer_item.data('modified', true);
+    }
     if (data.state && switchState(item, data.state)) {
         item.data('modified', true);
     }
 
     if (data.size && switchClass(item, data.size, options.sizes)) {
         item.data('modified', true);
+    }
+    if (data.size && switchClass(outer_item, data.size, options.sizes)) {
+        outer_item.data('modified', true);
     }
 }
 

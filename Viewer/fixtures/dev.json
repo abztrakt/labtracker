@@ -56,18 +56,23 @@
     "pk": 2,
     "model": "Viewer.machinemap",
     "fields": {
+      "key_ypos": 20,
       "groups": [
+        3,
         5
-      ]
+      ],
+      "key_xpos": 1300
     }
   },
   {
     "pk": 4,
     "model": "Viewer.machinemap",
     "fields": {
+      "key_ypos": 0,
       "groups": [
         6
-      ]
+      ],
+      "key_xpos": 1400
     }
   },
   {

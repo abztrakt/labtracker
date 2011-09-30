@@ -1,5 +1,8 @@
+import re
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 import LabtrackerCore.utils as utils
@@ -7,6 +10,28 @@ import LabtrackerCore.models as coreModels
 
 from datetime import date
 
+from south.modelsinspector import add_introspection_rules
+
+add_introspection_rules([], ["Machine.models.MacField"])
+class MacField(models.CharField):
+    
+    description = "A field for mac addresses"
+    default_error_messages = { 
+        'invalid': (u'Enter a valid MAC address.'),
+    }   
+
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 17
+        kwargs['help_text'] = 'Please use the following format: 00:AA:1B:00:00:00.'
+        super(MacField, self).__init__(*args, **kwargs)
+    
+    def db_type(self, connection):
+        return 'char(17)'
+
+    def validate(self, value, model_instance):
+        if re.search('^([0-9a-fA-F]{2}([:]?|$)){6}$', value) == None:
+            raise ValidationError('Enter a valid MAC address.')
+   
 class Status(models.Model):
     """
     Status of the machine
@@ -54,7 +79,7 @@ class Location(models.Model):
     ml_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60, unique=True)
     building = models.CharField(max_length=60, null=True)
-    floor = models.SmallIntegerField(null=True)
+    floor = models.SmallIntegerField(null=True, blank=True)
     room = models.CharField(max_length=30, null=True)
     comment = models.CharField(max_length=600)
     usable_threshold = models.IntegerField(default=95)
@@ -70,15 +95,14 @@ class Item(coreModels.Item):
             editable=False)
     type = models.ForeignKey(Type, verbose_name='Machine Type')
     verified = models.BooleanField()
+    unusable = models.BooleanField()
     status = models.ManyToManyField(Status, related_name="machine_status")
-
+    
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
-    mac1 = models.CharField(max_length=17, verbose_name='MAC Address')
-    mac2 = models.CharField(max_length=17, 
-            verbose_name='Additional MAC Address', blank=True)
-    mac3 = models.CharField(max_length=17, 
-            verbose_name='Additional MAC Address', blank=True)
+    mac1 = MacField(verbose_name='MAC Address') 
+    mac2 = MacField(verbose_name='Additional MAC Address', blank=True)
+    mac3 = MacField(verbose_name='Additional MAC Address', blank=True)
     wall_port = models.CharField(max_length=25)
     date_added = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
@@ -88,8 +112,8 @@ class Item(coreModels.Item):
     uw_tag = models.CharField(max_length=200, verbose_name="UW tag", 
             blank=True, null=True)
 
-    purchase_date = models.DateField(null=True)
-    warranty_date = models.DateField(null=True)
+    purchase_date = models.DateField(null=True, blank=True)
+    warranty_date = models.DateField(null=True, blank=True)
     stf_date = models.DateField(null=True, blank=True, 
             verbose_name='Student Tech Fee Contract Expiration')
 
@@ -155,7 +179,7 @@ class Group(coreModels.Group):
 class History(models.Model):
     mh_id = models.AutoField(primary_key=True)
     machine = models.ForeignKey(Item)
-    ms = models.ManyToManyField(Status, null=True)
+    ms = models.ManyToManyField(Status, null=True, blank=True)
     user = models.ForeignKey(coreModels.LabUser)
     session_time = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True)
     login_time = models.DateTimeField(auto_now_add=True)

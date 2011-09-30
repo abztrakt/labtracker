@@ -37,20 +37,26 @@ def show(request, view_name):
     """
     view = get_object_or_404(v_models.MachineMap, shortname=view_name)
 
+    def getUnmappedData():
+        items = view.getUnmappedItems()
+        ret_data ={}
+        for item in items:
+            data = {}
+            data['name'] = item.name
+            ret_data[item.pk] = data
+        return ret_data
+
     def getJSONData(last=None):
         """
         PRE: Takes a datetime object and will gets machines added after that date
         POST: Returns machine information in JSON format
         """
-        items = view.getMappedItems().exclude(last_modified__lte=last,machine__item__last_modified__lte=last)
-        
+        items = view.getMappedItems().exclude(last_modified__lte=last, machine__item__last_modified__lte=last)
         ret_data = {}
-
         for item in items:
             data = {}
             machine_info = False
             mapped_info = False
-
             if last:
                 if item.date_added > last:
                     # gotta get it all
@@ -65,9 +71,10 @@ def show(request, view_name):
 
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
+                unusable = item.machine.item.unusable
                 if 'Inuse' in states:
                     data['state'] = 'occupied'
-                elif 'Usable' in states:
+                elif not unusable:
                     data['state']= 'usable'
                 else:
                     data['state'] = 'unusable'
@@ -81,6 +88,14 @@ def show(request, view_name):
 
             if data:
                 data['name'] = item.machine.name,
+                broken = False
+                verified = False
+                if item.machine.unresolved_issues():
+                    broken=True
+                if item.machine.item.verified:
+                    verified=True
+                data['verified'] = verified
+                data['broken'] = broken
                 ret_data[item.machine.pk] = data
 
         
@@ -91,7 +106,6 @@ def show(request, view_name):
         A request is being made on data
         """
         data = request.GET.copy()
-
         ret = {}
         last = data.get('last', None)
         if last:
@@ -103,6 +117,7 @@ def show(request, view_name):
 
         try:
             ret['machines'] = getJSONData(last)
+            ret['deletemachines'] = getUnmappedData()
         except Exception, e:
             ret['error'] = "No understandable request made."
             return HttpResponseServerError(simplejson.dumps(ret))
@@ -134,10 +149,10 @@ def show(request, view_name):
                 broken = 'broken'
             else:
                 broken = 'not_broken'
-            if str(item.orientation) == 'H' and (str(item.size == 'Rectangle')):
-                list_pos = item.xpos + 35
+            if item.orientation == 'H':
+                list_pos = item.xpos + item.size.height + 10
             else:
-                list_pos = item.xpos + 20
+                list_pos = item.xpos + item.size.width+ 10
         if not 'Usable' in states:
             status = 'unusable'
         elif 'Inuse' in states:
@@ -153,8 +168,6 @@ def show(request, view_name):
                 'status':status,
                 'broken':broken,
                 'verified': verified,
-                'vypos': item.ypos+2,
-                'vxpos': item.xpos+2,
                 'name': item.machine.item.name,
                 'wall_port': item.machine.item.wall_port,
                 'mac1': item.machine.item.mac1,
@@ -187,7 +200,7 @@ def show(request, view_name):
     return render_to_response('Viewer/MachineMap/show.html', args,
             context_instance=RequestContext(request))
 
-@permission_required('Viewer.change_view_core', login_url="/login/")
+@permission_required('Viewer.change_viewcore', login_url="/login/")
 def modify(request, view_name):
     """
     Spits out map, with the machines placed on it in appropriate places

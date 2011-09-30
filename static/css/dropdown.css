@@ -4,22 +4,27 @@
 
 
 /*level two*/
-#nav ul   {font-family:verdana;
-           font-size:11px;
-           width:150px;
-           visibility:hidden;
-           position:absolute;
-           top:100%;
-           left:0;
-           z-index:1;}
+#nav ul {
+    font-family: Verdana;
+    font-size: 11px;
+    width: 150px;
+    padding-left: 10px;
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+}
 
-#nav ul li a {padding: 2px;
-              border-color:#DDDDDD;
-              border-style:none solid solid;
-              border-width:0 1px 1px;
-              width: 100%;
-              display: inline-block;
-              background-color: white;}
+#nav ul li a {
+    padding: 2px;
+    border-color: #DDDDDD;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    width: 100%;
+    display: inline-block;
+    background-color: white;
+}
 
 
 

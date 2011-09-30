@@ -37,12 +37,13 @@
 							<h6 class="label-title">Name:</h6>
 							<div class="labeled">
 								{% if issue.item %}
-									<a href="{{ issue.item.item.get_absolute_url }}">
+									<a href="{{ issue.item.item.get_absolute_url }}" >
 										{{ issue.item }}
 									</a>
 								{% else %}
 									{{ issue.item }}
 								{% endif %}
+                            <span id='machineLink' style="display: none;">{{issue.item.pk}}</span>
 							</div>
 						</li>
 					</ul>
@@ -61,6 +62,20 @@
 							<h6 class="label-title">Contacts:</h6>
 							<div class="labeled">{% contact issue %}</div>
 						</li>
+					</ul>
+				</li>
+				<li>
+					<ul class="struct inlineblock">
+						<li>
+							<h6 class="label-title">Usable or not:</h6>
+							<div class="labeled">
+                                {% if issue.item.item.unusable %}
+                                    Unusable
+                                {% else %}
+                                    Usable
+                                {% endif %}
+                            </div>
+                        </li>
 					</ul>
 				</li>
 			</ul>

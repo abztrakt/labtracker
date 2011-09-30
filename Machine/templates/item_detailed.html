@@ -78,14 +78,20 @@
     </ul>
 
 </div>
+
+<div class='infodiv'>
+    {% if object.unusable %}
+    <h3>Machine is Unusable</h3>
+    {% else %}
+    <h3>Machine is Usable</h3>
+    {% endif %}
+</div>
+
 <div id='machine-statuses' class='infodiv'>
     <h3>Machine Statuses</h4>
     <dt>Statuses: </dt>
             {% for status in object.status.values%}
                 {% if status.name == 'Inuse' %}
-                    <dd>{{ status.name }}</dd>
-                {% endif %}
-                {%if status.name == 'Usable' %}
                     <dd>{{ status.name }}</dd>
                 {% endif %}
             {% endfor %}

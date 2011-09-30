@@ -12,15 +12,21 @@ div#infoPane {
 
 /* map items */
 
-div.item {
+div.item{
     width: 15px;
     height: 15px;
     background-color: #DDDDDD;
     padding: 0px;
+}
+
+div.outerItem{
+    width: 15px;
+    height: 15px;
+    padding: 0px;
     border: 1px solid #555555;
 }
 
-div#map div.item {
+div#map div.item, div#map div.outerItem {
     margin: 0px;
     position: absolute;
     z-index: 1;
