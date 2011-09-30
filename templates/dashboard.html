@@ -29,7 +29,7 @@ Welcome back, {{user.username}}!
     <tbody>
     {% for location in all_locations|dictsort:"Location"  %}
         <tr class="{% if location.PercUsable < 95 %}problem{% else %}ok{%endif%}">
-            <td>{{ location.Location }}</td>
+            <td><a href= {{SITE_ADDR}}/issue/report/group/location#{{ location.Location }}>{{ location.Location }}</a></td>
             <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
             <td>{{ location.PercUsable }}%     ({{ location.Usable }} / {{ location.Total }})</td>
             <td>{{ location.PercBroken }}%   ({{ location.Broken }} / {{ location.Total }})</td>
