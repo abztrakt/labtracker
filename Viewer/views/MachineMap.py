@@ -100,7 +100,9 @@ def show(request, view_name):
                     width = 10 + item.size.width
                 data['verified'] = verified
                 data['broken'] = broken
-                # .type is a python thing data['type'] = item.machine.item.type 
+                # .type is a python thing 
+                #import pdb; pdb.set_trace()
+                data['type'] = item.machine.item.type.name 
                 data['mac1'] = item.machine.item.mac1
                 data['mac2'] = item.machine.item.mac2
                 data['ip'] = item.machine.item.ip
