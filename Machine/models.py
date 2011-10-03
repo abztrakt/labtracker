@@ -96,6 +96,7 @@ class Item(coreModels.Item):
     type = models.ForeignKey(Type, verbose_name='Machine Type')
     verified = models.BooleanField()
     unusable = models.BooleanField()
+    retired = models.BooleanField()
     status = models.ManyToManyField(Status, related_name="machine_status")
     
     location = models.ForeignKey(Location, verbose_name='Location')
