@@ -15,7 +15,7 @@ class Migration(DataMigration):
         try: 
             for i in orm.Group.objects.get(name='Retired').items.values():
                 try:
-                    item = Item.objects.get(name=i['name'])
+                    item = orm.Item.objects.get(name=i['name'])
                     item.retired = True
                     item.save()
                 except ObjectDoesNotExist:
@@ -43,9 +43,15 @@ class Migration(DataMigration):
                 iType = orm['LabTrackerCore.InventoryType'].objects.get(name='Machine')
             except ObjectDoesNotExist:
                 iType = orm['LabtrackerCore.InventoryType'].objects.create(name='Machine', namespace='', description='This machine is not longer in use.')
-                retired = orm.Group(it=obj,name='Retired',description='This machine is not longer in use.')
-                retired.save()
+            retired = orm.Group(it=iType,name='Retired', casting_server="0.0.0.0", gateway="0.0.0.0", description='This machine is not longer in use.')
+            retired.save()
                 
+        try:
+            for i in orm.Item.objects.all():
+                if i.retired:
+                    retired.items.add(i)
+        except ObjectDoesNotExist:
+            pass
 
 
     models = {
