@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from IssueTracker.models import *
+from Machine.models import Item as mItem
 import LabtrackerCore.models
 import LabtrackerCore.utils
 class IssueHooks(object):
@@ -104,12 +105,13 @@ def createItemDict(items, field='Item'):
     list = {}
 
     for item in items:
-        data = forms.models.model_to_dict(item.item)
-        data['name'] = item.name
-        for key in data.keys():
-            if type(data[key]) not in (int, float, unicode, str):
-                data.__delitem__(key)
-        list[item.item.item_id] = data
+        if not mItem.objects.get(name=item.name).retired:
+            data = forms.models.model_to_dict(item.item)
+            data['name'] = item.name
+            for key in data.keys():
+                if type(data[key]) not in (int, float, unicode, str):
+                    data.__delitem__(key)
+            list[item.item.item_id] = data
 
     return list
 
