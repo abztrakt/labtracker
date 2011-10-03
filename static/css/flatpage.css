@@ -35,6 +35,13 @@ table#stats td{
     font-weight: bold;
 }
 
+.problem a {
+    color: yellow;
+}
+
 .ok{
     background-color: #00CD00;
+}
+.ok a {
+    color: #25279f;
 }
