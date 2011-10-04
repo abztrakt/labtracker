@@ -56,32 +56,33 @@ def dashboard(request):
 
         # Loop through the machines and tally up their statuses. 
         for machine in all_machines:
-            location = machine.location.name
-            statues = machine.status.values_list()
-            unresolved = machine.unresolved_issues()
-            unusable = machine.unusable
-            for status in statues:
-                if status[0] == 1:
-                    #Machine is INUSE, add to the inuse value.
-                    all_locations[location]['inUse'] += 1
-                    all_locations['OVERALL']['inUse'] += 1
+            if not machine.retired:
+                location = machine.location.name
+                statues = machine.status.values_list()
+                unresolved = machine.unresolved_issues()
+                unusable = machine.unusable
+                for status in statues:
+                    if status[0] == 1:
+                        #Machine is INUSE, add to the inuse value.
+                        all_locations[location]['inUse'] += 1
+                        all_locations['OVERALL']['inUse'] += 1
 
-            #Machine is BROKEN, add to the broken value.
-            if unresolved.count() != 0:
-                all_locations[location]['Broken'] += 1
-                all_locations['OVERALL']['Broken'] += 1
+                #Machine is BROKEN, add to the broken value.
+                if unresolved.count() != 0:
+                    all_locations[location]['Broken'] += 1
+                    all_locations['OVERALL']['Broken'] += 1
 
-            all_locations[location]['Total'] += 1
-            all_locations['OVERALL']['Total'] += 1
+                all_locations[location]['Total'] += 1
+                all_locations['OVERALL']['Total'] += 1
 
-            #Machine is USABLE, add to usable value.
-            if not unusable:
-                all_locations[location]['Usable'] += 1
-                all_locations['OVERALL']['Usable'] += 1
-            #Machine is UNUSABLE, add to unusable value.
-            else:
-                all_locations[location]['Unusable'] += 1
-                all_locations['OVERALL']['Unusable'] += 1
+                #Machine is USABLE, add to usable value.
+                if not unusable:
+                    all_locations[location]['Usable'] += 1
+                    all_locations['OVERALL']['Usable'] += 1
+                #Machine is UNUSABLE, add to unusable value.
+                else:
+                    all_locations[location]['Unusable'] += 1
+                    all_locations['OVERALL']['Unusable'] += 1
 
         # Calculate the percentages at each location (including OVERALL) and then drop any that have a 0 Total
         empty_locations = []
