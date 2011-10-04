@@ -25,7 +25,7 @@ function init(opts) {
     $.extend(options, opts);
     hideLists();
     $('.outerItem').bind('click', showInfo);
-    $('.close').bind('click', close);
+    $('.close').bind('click', closeList);
     zDex = 101+zHelper;
     $('.list').draggable({start: drag });
     initialized = true;
@@ -33,7 +33,7 @@ function init(opts) {
     timer = setInterval(updateMachines, options.timer);
 }
 
-function close(event) {
+function closeList(event) {
     var id = event.currentTarget.parentNode.id;
     var list_id = '#'+id;
     $(list_id)[0].style.display = 'none';
@@ -124,9 +124,10 @@ function applyMachineUpdates(data) {
         var item = $('#' + item_id);
         var outer_id = "outer_" + data[ii].name;
         var outer_item= $('#' + outer_id);
+        var list_id = "list_" + data[ii].name;
         if (item.size() == 0) {
             // have to create the item
-            outer_item = newMachine(item_id, outer_id, data[ii]);
+            outer_item = newMachine(item_id, ii, outer_id, list_id, data[ii]);
             item = outer_item.children()
             // status will be wrong... mark as unusable?
             $('#map').append(outer_item);
@@ -136,10 +137,25 @@ function applyMachineUpdates(data) {
     }
 }
 
-function newMachine(id, outer_id, data) {
+function newMachine(id, pk, outer_id, list_id, data) {
     var mc = $('<div id="'+outer_id+'" class ="outerItem mapped"></div>');
-    var inner_mc = $('<div id="' + id + '" class="item mapped"></div>');
+    var inner_mc = $('<div id="' + id + '" class="item mapped" value="'+data.name+'"></div>');
     mc.append(inner_mc);
+    var width = parseInt(data.x)+parseInt(data.width);
+    var list = $('<div id="'+list_id+'" class="list" style="left: '+width+'px; top: '+parseInt(data.y)+'px; display: none; position: absolute;" value="'+data.name+'"></div>');
+    var name= $('<li><a href="/machine/detailed/'+pk+'">'+data.name+'</a></li>');
+    var mac1 = $('<li>MAC Address 1: "'+data.mac1+'"</li>');
+    var mac2 = $('<li>MAC Address 2: "'+data.mac2+'"</li>');
+    var ip = $('<li>IP Address: "'+data.ip+'"</li>');
+    var wall_port = $('<li>Wall Port: "'+data.wall_port+'"</li>');
+    var uw_tag = $('<li>UW Tag: "'+data.uw_tag+'"</li>');
+    var man_u = $('<li>Manufacture Tag: "'+data.manu+'"</li>');
+    var close_it= $('<img class="close" src="/static/img/Viewer/modmap/x.gif"/>');
+    list.append(name).append(mac1).append(mac2).append(ip).append(wall_port).append(uw_tag).append(man_u).append(close_it);
+    list.draggable({start: drag });
+    mc.bind('click', showInfo);
+    close_it.bind('click', closeList);
+    $('#map').append(list);
     return mc;
 }
 
