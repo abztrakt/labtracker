@@ -26,9 +26,8 @@ $(document).ready(function() {
         loadExtra(this.value); 
         updateGroupList(this.value, cb); }
     );
-	groups.change(function (e, cb) { updateItemList(this.value, cb); } );
+	groups.change(function (e, cb) { updateItemAssigneeList(this.value, cb); } );
     items.change(itemChange);
-	groups.change(function (e, cb) { updateAssigneeList(this.value, cb); } );
 	assignees.change(assigneeChange);
     $('#reset').click(function () { reset(); } );
     $('#create_issue').submit(submitIssue);
@@ -42,14 +41,10 @@ $(document).ready(function() {
 	$('#id_it').trigger('change', function () {
 		if (values.group !== null) {
 			groups.children("option[value="+values.group+"]").attr('selected', 'selected');
-			updateItemList(groups[0].value, function () {
+			updateItemAssigneeList(groups[0].value, function () {
 				items.children("option[value="+values.item+"]").attr('selected', 'selected');
                 items.change();
 			});
-            updateAssigneeList(groups[0].value, function () {
-                assignees.children("option[value="+values.assignee+"]").attr('selected', 'selected');
-                assignees.change();
-            });
 		}
 	});
 
@@ -71,7 +66,7 @@ $(document).ready(function() {
             $('#macText')[0].innerHTML= 'You have selected the Machine: '+ option[0].innerHTML;
             $("#relatedList").load("/issue/partial/" + option[0].value + "/");
         } else {
-            errorl.addErr("Could not select the chosen Machine, does it exist?");
+            $('#macText')[0].innerHTML = "Could not select the chosen Machine";
         }
         
     });
@@ -165,7 +160,7 @@ function loadExtra(it_id) {
  * @param group_id	  The id of the group to fetch items for, if null then show all
  *
  */
-function updateItemList(group_id, cb) {
+function updateItemAssigneeList(group_id, cb) {
     var id_item = $('#id_item')[0];
 	id_item.selectedIndex = 0;
 	id_item.options.length = 1;
@@ -179,7 +174,8 @@ function updateItemList(group_id, cb) {
 			},
 		"success"	: function (data) {
 				// for each of the items, append to the list
-				var id_item = $('#id_item');
+				//update group list
+                var id_item = $('#id_item');
 				id_item[0].options.length = 1;
 				data.items = data.items.sort( function (a, b) {
                         return (a[1] > b[1]) ? 1 : -1;
@@ -200,25 +196,8 @@ function updateItemList(group_id, cb) {
                     machineAutoComplete();
                 }
                 $('#macText')[0].innerHTML= 'You have no Machine selected';
-            }
-	});
-}
-
-function updateAssigneeList(group_id, cb) {
-    var id_assignee = $('#id_assignee')[0];
-    id_assignee.selectedIndex = 0;
-    id_assignee.options.legnth = 1;
-
-	$.ajax({
-		"url"		: URL_BASE + "items/",
-		"data"		: { "type": "json", "group_id" : group_id },
-		"error"		: function (xhr, text, err) {
-				appendError($('#assignee_block .errorlist'), 
-					"Error occurred while retrieving assignees: " + text);
-			},
-		"success"	: function (data) {
-				// for each of the assignees, append to the list
-				var id_assignee = $('#id_assignee');
+               //update Assignee list 
+                var id_assignee = $('#id_assignee');
 				id_assignee[0].options.length = 1;
                 data.contacts = data.contacts.sort( function (a, b) {
                         return (a[1] > b[1]) ? 1 : -1;
@@ -234,11 +213,8 @@ function updateAssigneeList(group_id, cb) {
                 else
                     id_assignee[0].selectedIndex = 0;
 				$('#id_assignee').change();
-                
-				if (cb) { cb(); }
-                
             }
-    });
+	});
 }
 
 /**
