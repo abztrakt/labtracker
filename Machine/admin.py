@@ -218,6 +218,7 @@ class GroupAdmin(admin.ModelAdmin):
     inlines = [
         ContactInLine,
     ]
+    filter_horizontal = ('items',)
 
 
 admin.site.register(mmod.Item, ItemAdmin)
