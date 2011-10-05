@@ -63,7 +63,7 @@ def getItems(request):
         # we will also return the primary contact for the group
         for group in groups:
             items.update(utils.createItemDict(group.items.all()))
-            cons = group.group.primaryContact()
+            cons = group.group.contacts()
             for c in cons:
                 contacts[c.user_id] = c.user.username
     # get the items in the group
