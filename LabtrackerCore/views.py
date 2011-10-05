@@ -67,7 +67,7 @@ def dashboard(request):
             }
         for location in locations:
             #Grab only machines in the location.
-            machines = Item.objects.filter(location=location)    
+            machines = Item.objects.filter(location=location).exclude(retired=True)    
             if machines:
                 #We have machines in the location, calculate data and place defaults into a dictionary. Separate out calculated data and static data. Add/remove stats for any future dashboard calcs.
                 data = {    
@@ -92,28 +92,29 @@ def dashboard(request):
 
                 # Loop trough the machines and tally up their statuses.
                 for machine in machines:
-                    statuses = machine.status.values_list()
-                    unresolved = machine.unresolved_issues()
+                    if not machine.retired:
+                        statuses = machine.status.values_list()
+                        unresolved = machine.unresolved_issues()
 
-                    #Calculate statuses
-                    for status in statuses:
-                        if status[0] == 1:
-                            #Machine is INUSE, add to the inuse value.
-                            data['inUse'] += 1
-                            overall['inUse'] += 1
-                    
-                    #Check to see if machine is BROKEN (has issues), if so, add to the broken value
-                    if unresolved.count() != 0:
-                        data['Broken'] += 1
-                        overall['Broken'] += 1
-                    
-                    #Check if machine is USABLE, or not.
-                    if machine.unusable:
-                        data['Unusable'] += 1
-                        overall['Unusable'] += 1
-                    else:
-                        data['Usable'] += 1
-                        overall['Usable'] += 1
+                        #Calculate statuses
+                        for status in statuses:
+                            if status[0] == 1:
+                                #Machine is INUSE, add to the inuse value.
+                                data['inUse'] += 1
+                                overall['inUse'] += 1
+                        
+                        #Check to see if machine is BROKEN (has issues), if so, add to the broken value
+                        if unresolved.count() != 0:
+                            data['Broken'] += 1
+                            overall['Broken'] += 1
+                        
+                        #Check if machine is USABLE, or not.
+                        if machine.unusable:
+                            data['Unusable'] += 1
+                            overall['Unusable'] += 1
+                        else:
+                            data['Usable'] += 1
+                            overall['Usable'] += 1
 
                 #Calculate percentages after the tallying.
                 if data['Usable'] != 0:

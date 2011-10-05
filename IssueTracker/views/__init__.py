@@ -121,7 +121,9 @@ def createIssue(request):
         data['reporter'] = str(request.user.id)
 
         form = CreateIssueForm(data)
-        item = Item.objects.all()[int(data.get('item')) - 1]
+        #import pdb; pdb.set_trace()
+        #item = Item.objects.all()[int(data.get('item')) - 1]
+        item = Item.objects.get(item_id=form.data['item'])
         if data.get('unusable') == 'on':
             item.unusable = True
             item.save()

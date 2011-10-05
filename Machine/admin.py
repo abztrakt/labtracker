@@ -27,9 +27,8 @@ class ItemAdmin(admin.ModelAdmin):
             'date_added','uw_tag', 'verified', 'usable',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
     list_filter = ['type','location__name','date_added','verified','unusable',]
-    actions = ['set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
+    actions = ['set_to_not_retired', 'set_to_retired', 'set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
         'append_to_comment', 'change_comment', 'change_dates']
-    
 
 
 
@@ -155,6 +154,24 @@ class ItemAdmin(admin.ModelAdmin):
             'selected_action': selected_action},
             context_instance=RequestContext(request, {'title': 'Modify Date',}))
     change_dates.short_description = "Set dates for selected items"
+
+    def set_to_not_retired(self, request, queryset):
+        items_updated = queryset.update(retired=False)
+        if items_updated == 1:
+            message_bit = "1 item was"
+        else:
+            message_bit = "%s items were" % items_updated
+        self.message_user(request, "%s successfully marked as not retired." % message_bit)
+    set_to_not_retired.short_description = "Mark selected as not retired"
+
+    def set_to_retired(self, request, queryset):
+        items_updated = queryset.update(retired=True)
+        if items_updated == 1:
+            message_bit = "1 item was"
+        else:
+            message_bit = "%s items were" % items_updated
+        self.message_user(request, "%s successfully marked as retired." % message_bit)
+    set_to_retired.short_description = "Mark selected as retired"
 
     def set_to_unverified(self, request, queryset):
         items_updated = queryset.update(verified=False)

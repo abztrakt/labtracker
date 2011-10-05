@@ -23,7 +23,7 @@ LABTRACKER_URL = 'walnut.eplt.washington.edu:8000'
 inuse = Status.objects.get(name='Inuse')
 
 def sim_login_or_logout(item):
-    if item.status.get(name='Usable'):
+    if not item.unusable:
         try:
             item.status.get(name='Inuse')
             item.status.remove(inuse)
@@ -33,6 +33,8 @@ def sim_login_or_logout(item):
             item.status.add(inuse)
             print "Logging in %s" % item
             tracker._track(LABTRACKER_URL, 'login', item.mac1)
+    else:
+        print "%s is unusable" % item
 
 def main():
     items = Item.objects.all()
