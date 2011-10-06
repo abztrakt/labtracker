@@ -28,8 +28,7 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
     list_filter = ['type','location__name','date_added','verified','unusable',]
     actions = ['set_to_not_retired', 'set_to_retired', 'set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
-        'append_to_comment', 'change_comment', 'change_dates']
-
+        'append_to_comment', 'change_comment', 'change_dates', 'change_location']
 
 
     class ModifyCommentForm(forms.Form):
@@ -46,6 +45,46 @@ class ItemAdmin(admin.ModelAdmin):
         set_warranty_date = forms.BooleanField(required=False)
         set_stf_date = forms.BooleanField(required=False)
         date_submission = forms.DateField(widget=admin.widgets.AdminDateWidget())
+
+    class ModifyLocationForm(forms.Form):
+        """ The form used by the change_location admin action.
+        """
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        location = forms.ModelChoiceField(mmod.Location.objects)
+
+
+    def change_location(self, request, queryset):
+        if 'submit' in request.POST:
+            form = self.ModifyLocationForm(request.POST)
+            if form.is_valid():
+                location = form.cleaned_data['location']
+            else:
+                for key in form.errors.keys():
+                    self.message_user(request, "%s: %s" % (key, form.errors[key].as_text()))
+                return HttpResponseRedirect(request.get_full_path())
+
+            items_updated = 0
+            for i in queryset:
+                i.location = location
+                i.save()
+                items_updated += 1
+
+            if items_updated == 1:
+                message_bit = "location for 1 item."
+            else:
+                message_bit = "location for %s items." % items_updated
+            self.message_user(request, "Changed %s" % message_bit)
+
+            return HttpResponseRedirect(request.get_full_path())
+
+        else:
+            # Set up a blank form BUT with the fact that it's an admin action prepopulated in a hidden field.
+            form = self.ModifyLocationForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        selected_action = 'change_location'
+        return render_to_response('admin/mod_location.html', {'mod_location_form': form, 'selected_action': selected_action}, 
+            context_instance=RequestContext(request, {'title': 'Change Location',}))
+    change_location.short_description = "Change location for selected items"
 
     def append_to_comment(self, request, queryset):
         if 'submit' in request.POST:
