@@ -3,10 +3,10 @@ var zHelper= 0;
 var timer = null;       // This is the interval timer
 var last_call = Date.now()/1000;
 var view = null;       //the map name
-
+var timer1 =null
 var options = {
     'view': view,          //the view name
-    'timer':    30000,   // duration between updates
+    'timer':    5000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
     'sizes': [],
     'orientations': ['H', 'V'],
@@ -31,6 +31,31 @@ function init(opts) {
     initialized = true;
     view = options.view;
     timer = setInterval(updateMachines, options.timer);
+    getAvailableInfo();
+    timer1 = setInterval(getAvailableInfo, options.timer);
+}
+
+function getAvailableInfo() {
+   $.ajax({
+            'url':          '/views/MachineMap/' + view + '/availability',
+            'type':         'GET',
+            //'ifModified':   true,
+            'dataType':     'json',
+            'error': function (xhr, txt, err) {
+                // handle the error
+                debugLog('error');
+            },
+            'success': function (json, txt) {
+                var spans = $('.available')
+                for(var i=0; i<spans.length; i++) {
+                    spans[i].innerHTML = json.available_machines;
+                }
+                $('#total')[0].innerHTML = json.total_machines;
+                $('#win7')[0].innerHTML = json.available_win7;
+                $('#winxp')[0].innerHTML =json.available_winxp;
+                $('#osx')[0].innerHTML = json.available_mac;
+            }
+        });
 }
 
 function closeList(event) {

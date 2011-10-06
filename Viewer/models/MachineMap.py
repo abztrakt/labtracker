@@ -17,6 +17,8 @@ class MachineMap(base.ViewCore):
     html_ypos = models.IntegerField()
     key_xpos = models.IntegerField()
     key_ypos = models.IntegerField()
+    stats_xpos = models.IntegerField()
+    stats_ypos = models.IntegerField()
     #groups = models.ManyToManyField(m_models.Group, related_name="view_machinemap_groups")
     
     def save(self):

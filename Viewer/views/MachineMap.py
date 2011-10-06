@@ -17,6 +17,33 @@ import Viewer
 from Viewer import models as v_models
 #from Viewer.models import MachineMap
 import Machine
+from django.db.models import Q
+
+def info(request, view_name):
+    
+    available_items = None
+    ret_data = {}
+    if request.method == 'GET':
+        view = get_object_or_404(v_models.MachineMap, shortname=view_name)
+         
+        available_items = view.getMappedItems().exclude(machine__item__status__name__contains='Inuse').exclude(machine__item__unusable=True)
+        available_count = available_items.count()
+        windows7_count = available_items.filter(machine__item__type__platform__name='Windows 7').count()
+        winxp_count = available_items.filter(machine__item__type__platform__name='Windows XP').count()
+        osX_count = available_items.filter(
+            Q(machine__item__type__platform__name='Mac OS X') | Q(machine__item__type__platform__name='MAC OSX')
+        ).count()
+        total_count = view.getMappedItems().count()
+        ret_data['available_machines'] =available_count
+        ret_data['total_machines'] = total_count
+        ret_data['available_win7'] = windows7_count
+        ret_data['available_winxp'] = winxp_count
+        ret_data['available_mac'] = osX_count
+        return HttpResponse(simplejson.dumps(ret_data))
+    else:
+        ret_data['error']= "No understandable request made." 
+        return HttpResponseServerError(simplejson.dumps(ret_data))
+
 
 def getMapInfo(view_name):
     map = None
@@ -114,7 +141,6 @@ def show(request, view_name):
 
         
         return ret_data
-        
     if request.is_ajax():
         """
         A request is being made on data

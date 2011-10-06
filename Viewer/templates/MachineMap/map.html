@@ -1,19 +1,25 @@
 {% if staff %}
             <div id='staffInfo' style='position: absolute; left: {{view.key_xpos}}px; top: {{view.key_ypos}}px; z-index: 100;'>
-                <div id='availableExample' class="item mapped Rectangle H status_usable"></div>
-                <div id='availableExplanation'>Available Machine</div>
-                <div id='occupiedExample' class="item mapped Rectangle H status_occupied"></div>
-                <div id='occupiedExplanation'>Occupied Machine</div>
-                <div id='brokenExample' class="item mapped Rectangle H broken"></div> 
-                <div id='brokenExplanation'>Broken Machine</div>
-                <div id='verifiedExample' class="item mapped Rectangle H"></div>
-                <img id='verifiedPic' src='/static/img/Viewer/check.png'/>
-                <div id='verifiedExplanation'>Verified Machine</div>
-                <div id='unusableExample' class="item mapped Rectangle H status_unusable"></div>
-                <div id='unusableExplanation'>Unusable Machine</div>
-
+                    <div id='availableExample' class="item mapped Rectangle H status_usable"></div>
+                    <div id='availableExplanation'>Available Machine</div>
+                    <div id='occupiedExample' class="item mapped Rectangle H status_occupied"></div>
+                    <div id='occupiedExplanation'>Occupied Machine</div>
+                    <div id='brokenExample' class="item mapped Rectangle H broken"></div> 
+                    <div id='brokenExplanation'>Broken Machine</div>
+                    <div id='verifiedExample' class="item mapped Rectangle H"></div>
+                    <img id='verifiedPic' src='/static/img/Viewer/check.png'/>
+                    <div id='verifiedExplanation'>Verified Machine</div>
+                    <div id='unusableExample' class="item mapped Rectangle H status_unusable"></div>
+                    <div id='unusableExplanation'>Unusable Machine</div>
             </div>
 {% endif %}
+    <div id="stats" style ='position: absolute; left: {{view.stats_xpos}}px; top: {{view.stats_ypos}}px; z-index: 100'>
+        <h3>Machine Statistics: </h3>
+        <li><span id='avail' class='available'></span>/<span id='total'></span> machines are available</li>
+        <li><span id='win7'></span>/<span class='available'></span> available machines are running Windows 7 </li>
+        <li><span id='winxp'></span>/<span class='available'></span> available machines are running Windows XP </li>
+        <li><span id='osx'></span>/<span class='available'></span> available machines are running Mac OS X </li>
+    </div>
     <div id="html_comment" style ='position: absolute; left: {{view.html_xpos}}px; top: {{view.html_ypos}}px; z-index:100'>
         {{view.html_comment|safe}}
     </div>
