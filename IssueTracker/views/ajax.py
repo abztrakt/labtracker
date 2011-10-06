@@ -49,20 +49,25 @@ def getItems(request):
     data = request.REQUEST.copy()
     group_ids = data.getlist('group_id')
 
-    items = {}
+    items = []
     contacts = {}
     # fetch the groups
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
-        items = utils.createItemDict(
-            cm.Item.objects.order_by('it'))
+        #items = utils.createItemDict(cm.Item.objects.order_by('it'))
+        items = utils.createItemListSimple(cm.Item.objects.filter(it__name='Machine'))
     else:
         groups = cm.Group.objects.in_bulk(group_ids).values()
 
         # for each group, get all the items
         # we will also return the primary contact for the group
         for group in groups:
-            items.update(utils.createItemDict(group.items.all()))
+            #items.update(utils.createItemDict(group.items.all()))
+            if not items:
+                items = utils.createItemListSimple(group.items.all())
+            else:
+                for item in utils.createItemListSimple(group.items.all()):
+                    items.append(item)
             cons = group.group.contacts()
             for c in cons:
                 contacts[c.user_id] = c.user.username
@@ -71,7 +76,8 @@ def getItems(request):
 
     dict = {
         "contacts": [(c, contacts[c]) for c in contacts],
-        "items": [(i, items[i]['name']) for i in items]
+        #"items": [(i, items[i]['name']) for i in items]
+        "items": items
     }
 
     if type == "xml":

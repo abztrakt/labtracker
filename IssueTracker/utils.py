@@ -105,7 +105,8 @@ def createItemDict(items, field='Item'):
     list = {}
 
     for item in items:
-        if not mItem.objects.get(name=item.name).retired:
+        #if not mItem.objects.get(name=item.name).retired:
+        if not item.item.retired:
             data = forms.models.model_to_dict(item.item)
             data['name'] = item.name
             for key in data.keys():
@@ -114,6 +115,18 @@ def createItemDict(items, field='Item'):
             list[item.item.item_id] = data
 
     return list
+
+def createItemListSimple(items):
+    """
+    Takes a set of items and creates a list which only gives back the id and name of item.
+    """
+
+    result = []
+    for item in items:
+        if not item.item.retired:
+            data = forms.models.model_to_dict(item.item,fields=('item_id','name'))
+            result.append([data['item_id'],data['name']])
+    return result
 
 def generateIssueArgs(request, qdict):
     return LabtrackerCore.utils.generateOrderingArgs(request, qdict)
