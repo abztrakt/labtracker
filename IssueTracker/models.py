@@ -38,8 +38,8 @@ class Issue(models.Model):
 
     it = models.ForeignKey(InventoryType, verbose_name="Inventory Type", blank=True,
             null=True)
-    group = models.ForeignKey(Group)#, null=True, blank=True)
     item = models.ForeignKey(Item, verbose_name="Item Name")#, null=True, blank=True, verbose_name="Item Name")
+    group = models.ForeignKey(Group,null=True, blank=True)
     reporter = models.ForeignKey(User, related_name='reporter')
 
     assignee = models.ForeignKey(User, related_name='assignee', null=True, 

@@ -28,8 +28,13 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
         p_types.append(p_type.pk)
     em.addProblemTypeSection("", p_types) 
     if (instance.assignee is None):
+        if instance.group:
+            group_name = group.name
+        else:
+            group_name = 'None'
+
         em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-        + "Group/Location: " + instance.group.name + ".\n"     
+        + "Group/Location: " + group_name + ".\n"     
 	    + "Machine Name: " + instance.item.name + ".\n"
 	    + "Description: " + "\n" + instance.description + "\n\n"
         + "Steps: " + "\n" + instance.steps + "\n\n"
@@ -37,7 +42,7 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     else:
         em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
         + "Assigned to: " + instance.assignee.username + ".\n" 
-        + "Group/Location: " + instance.group.name + ".\n"     
+        + "Group/Location: " + group_name + ".\n"     
 	    + "Machine Name: " + instance.item.name + ".\n"
 	    + "Description: " + "\n" + instance.description + "\n\n"
         + "Steps: " + "\n" + instance.steps + "\n\n"
