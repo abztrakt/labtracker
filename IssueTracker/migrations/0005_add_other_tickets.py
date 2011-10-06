@@ -13,9 +13,9 @@ class Migration(DataMigration):
     def backwards(self, orm):
         #"Write your backwards methods here."
         for i in orm.Issue.objects.all():
-            if issue.other_tickets:
-                issue.description = issue.description + "\n\n Related RT: " + issue.other_tickets
-                issue.save()
+            if i.other_tickets:
+                i.description = i.description + "\n\n Related RT: " + i.other_tickets
+                i.save()
 
 
     models = {
