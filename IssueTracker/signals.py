@@ -27,12 +27,12 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     for p_type in instance.problem_type.all():
         p_types.append(p_type.pk)
     em.addProblemTypeSection("", p_types) 
-    if (instance.assignee is None):
-        if instance.group:
-            group_name = group.name
-        else:
-            group_name = 'None'
+    if instance.group:
+        group_name = instance.group.name
+    else:
+        group_name = 'None'
 
+    if (instance.assignee is None):
         em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
         + "Group/Location: " + group_name + ".\n"     
 	    + "Machine Name: " + instance.item.name + ".\n"
