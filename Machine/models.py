@@ -8,7 +8,7 @@ from django.test import TestCase
 import LabtrackerCore.utils as utils
 import LabtrackerCore.models as coreModels
 
-from datetime import date
+from datetime import date, datetime
 
 from south.modelsinspector import add_introspection_rules
 

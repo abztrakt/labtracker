@@ -51,9 +51,9 @@ function getAvailableInfo() {
                     spans[i].innerHTML = json.available_machines;
                 }
                 $('#total')[0].innerHTML = json.total_machines;
-                $('#win7')[0].innerHTML = json.available_win7;
-                $('#winxp')[0].innerHTML =json.available_winxp;
-                $('#osx')[0].innerHTML = json.available_mac;
+                $('#win7')[0].innerHTML = json.Windows_7;
+                $('#winxp')[0].innerHTML =json.Windows_XP;
+                $('#osx')[0].innerHTML = json.MAC_OSX+ json.Mac_OS_X;
             }
         });
 }
