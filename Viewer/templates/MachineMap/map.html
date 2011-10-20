@@ -16,9 +16,9 @@
     <div id="stats" style ='position: absolute; left: {{view.stats_xpos}}px; top: {{view.stats_ypos}}px; z-index: 100'>
         <h3>Machine Statistics: </h3>
         <li><span id='avail' class='available'></span>/<span id='total'></span> machines are available</li>
-        <li><span id='win7'></span>/<span class='available'></span> available machines are running Windows 7 </li>
-        <li><span id='winxp'></span>/<span class='available'></span> available machines are running Windows XP </li>
-        <li><span id='osx'></span>/<span class='available'></span> available machines are running Mac OS X </li>
+        {% for platform in platforms %}
+            <li><span id='{{ platform }}'></span>/<span class='available'></span> available machines are running {{ platform }}</li>
+        {% endfor %}
     </div>
     <div id="html_comment" style ='position: absolute; left: {{view.html_xpos}}px; top: {{view.html_ypos}}px; z-index:100'>
         {{view.html_comment|safe}}

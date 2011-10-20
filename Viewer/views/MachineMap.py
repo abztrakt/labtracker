@@ -95,15 +95,12 @@ def show(request, view_name):
 
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
-                unusable = item.machine.item.unusable
-                if 'Inuse' in states:
-                    data['state'] = 'occupied'
-                elif not unusable:
-                    data['state']= 'usable'
+                if item.machine.item.unusable:
+                    data['state']= 'unusable'
+                elif 'Inuse' in states:
+                    data['state']= 'occupied'
                 else:
-                    data['state'] = 'unusable'
-
-
+                    data['state']= 'usable'
             if mapped_info:
                 data['x'] = item.xpos
                 data['y'] = item.ypos
@@ -216,9 +213,12 @@ def show(request, view_name):
                 'list_pos': list_pos,
             }
         map_items.append(item_dict)
-
     groups = view.groups.all()
-
+    platforms = Machine.models.Platform.objects.all()
+    platform_names = []
+    for platform in platforms:
+        safe_name = platform.name.format().replace(' ', '_')
+        platform_names.append(safe_name)
     args = {
         'show':     True,
         'staff':    staff,
@@ -227,6 +227,7 @@ def show(request, view_name):
         'sizes':    v_models.MachineMap_Size.objects.all(),
         'status':   ['usable','unusable','occupied'],
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
+        'platforms': platform_names, 
         'map': {
                 "name":     view_name,
                 "width":    map.size[0],

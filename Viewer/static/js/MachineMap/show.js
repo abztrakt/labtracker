@@ -47,13 +47,15 @@ function getAvailableInfo() {
             },
             'success': function (json, txt) {
                 var spans = $('.available')
-                for(var i=0; i<spans.length; i++) {
-                    spans[i].innerHTML = json.available_machines;
+                for(var j=0; j<spans.length; j++) {
+                    spans[j].innerHTML = json.available_machines;
                 }
                 $('#total')[0].innerHTML = json.total_machines;
-                $('#win7')[0].innerHTML = json.Windows_7;
-                $('#winxp')[0].innerHTML =json.Windows_XP;
-                $('#osx')[0].innerHTML = json.MAC_OSX+ json.Mac_OS_X;
+                for (var i in json){
+                    if(i !='available_machines' && i != 'total_machines') {
+                        $('#'+i)[0].innerHTML = json[i];
+                    }
+                }
             }
         });
 }
