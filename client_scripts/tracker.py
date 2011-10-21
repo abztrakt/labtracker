@@ -36,10 +36,10 @@ def get_mac():
         for line in os.popen("ipconfig /all"):
             if line.lstrip().startswith('Physical Address'):
                 mac = line.split(':')[1].strip().replace('-',':')
-            if mac_addresses=='':
-                mac_addresses=mac
-            else:
-                mac_addresses=mac_addresses+','+mac
+                if mac_addresses=='':
+                    mac_addresses=mac
+                else:
+                    mac_addresses=mac_addresses+','+mac
         return mac_addresses
     # os x 
     elif sys.platform == 'darwin':
