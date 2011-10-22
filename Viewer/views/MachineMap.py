@@ -60,7 +60,7 @@ def show(request, view_name):
     Spits out a lab map
     """
     view = get_object_or_404(v_models.MachineMap, shortname=view_name)
-
+    staff = request.user.is_staff
     def getUnmappedData():
         items = view.getUnmappedItems()
         ret_data ={}
@@ -95,12 +95,18 @@ def show(request, view_name):
 
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
-                if item.machine.item.unusable:
-                    data['state']= 'unusable'
-                elif 'Inuse' in states:
-                    data['state']= 'occupied'
+                if staff:
+                    if item.machine.item.unusable:
+                        data['state']= 'unusable'
+                    elif 'Inuse' in states:
+                        data['state']= 'occupied'
+                    else:
+                        data['state']= 'usable'
                 else:
-                    data['state']= 'usable'
+                    if item.machine.item.unusable or 'Inuse' in states:
+                        data['state']='occupied'
+                    else:
+                        data['state']='usable'
             if mapped_info:
                 data['x'] = item.xpos
                 data['y'] = item.ypos
@@ -111,10 +117,11 @@ def show(request, view_name):
                 data['name'] = item.machine.name,
                 broken = False
                 verified = False
-                if item.machine.unresolved_issues():
-                    broken=True
-                if item.machine.item.verified:
-                    verified=True
+                if staff:
+                    if item.machine.unresolved_issues():
+                        broken=True
+                    if item.machine.item.verified:
+                        verified=True
                 if item.orientation == 'H':
                     width = 10+item.size.height
                 else:
@@ -123,13 +130,14 @@ def show(request, view_name):
                 data['broken'] = broken
                 # .type is a python thing 
                 #import pdb; pdb.set_trace()
-                data['type'] = item.machine.item.type.name 
-                data['mac1'] = item.machine.item.mac1
-                data['mac2'] = item.machine.item.mac2
-                data['ip'] = item.machine.item.ip
-                data['wall_port'] = item.machine.item.wall_port
-                data['uw_tag'] = item.machine.item.uw_tag
-                data['manu'] = item.machine.item.manu_tag
+                if staff:
+                    data['type'] = item.machine.item.type.name 
+                    data['mac1'] = item.machine.item.mac1
+                    data['mac2'] = item.machine.item.mac2
+                    data['ip'] = item.machine.item.ip
+                    data['wall_port'] = item.machine.item.wall_port
+                    data['uw_tag'] = item.machine.item.uw_tag
+                    data['manu'] = item.machine.item.manu_tag
                 data['width'] = width 
                 ret_data[item.machine.pk] = data
 
@@ -161,7 +169,7 @@ def show(request, view_name):
         return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
-    staff = request.user.is_staff
+    
     map = getMapInfo(view_name)
 
     if not map:
@@ -187,12 +195,17 @@ def show(request, view_name):
                 list_pos = item.xpos + item.size.height + 10
             else:
                 list_pos = item.xpos + item.size.width+ 10
-        if item.machine.item.unusable:
-            status = 'unusable'
-        elif 'Inuse' in states:
-            status = 'occupied'
+            if item.machine.item.unusable:
+                status = 'unusable'
+            elif 'Inuse' in states:
+                status = 'occupied'
+            else:
+                status = 'usable'
         else:
-            status = 'usable'
+            if item.machine.item.unusable or 'Inuse' in states:
+                status= 'occupied'
+            else:
+                status='usable'
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
