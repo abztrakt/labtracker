@@ -100,7 +100,6 @@ def track(request, action, macs):
     data = request.REQUEST.copy() 
 
     macs_list = macs.split(',')
-
     for mac in macs_list:
 	mac = mac.replace('-',':')
 	mac_temp = mac.replace(':','-')

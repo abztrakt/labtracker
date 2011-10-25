@@ -15,9 +15,10 @@ class MachineMap_ItemAdmin(admin.ModelAdmin):
         (None, {'fields': ('machine', 'view', 'size', 'xpos',
             'ypos', 'orientation')}),
     )
-
+class MachineMap_SizeAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
 
 admin.site.register(vmod.MachineMap)
-admin.site.register(vmod.MachineMap_Size)
+admin.site.register(vmod.MachineMap_Size, MachineMap_SizeAdmin)
 admin.site.register(vmod.MachineMap_Item, MachineMap_ItemAdmin)
 
