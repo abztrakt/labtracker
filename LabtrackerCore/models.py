@@ -3,8 +3,7 @@ These are the Core models for Labtracker
 
 """
 import unittest
-import md5
-
+from hashlib import md5
 from django.db import models,connection
 #from django.core.exceptions import ImproperlyConfigured
 #import django.core.management as dman
@@ -87,7 +86,7 @@ Tests begin here. For the core items, there isn't much to test though
 
 class LabUserTest(unittest.TestCase):
     def setUp(self):
-        self.bob_md5 = md5.md5('bob').hexdigest()
+        self.bob_md5 = md5('bob').hexdigest()
         self.bob = LabUser.objects.create(user_id=self.bob_md5)
 
     def testBasic(self):
