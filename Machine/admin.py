@@ -28,7 +28,7 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
     list_filter = ['type','location__name','date_added','verified','unusable',]
     actions = ['set_to_not_retired', 'set_to_retired', 'set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
-        'append_to_comment', 'change_comment', 'change_dates', 'change_location']
+        'append_to_comment', 'change_comment', 'change_dates', 'change_location', 'add_to_group']
 
 
     class ModifyCommentForm(forms.Form):
@@ -52,7 +52,52 @@ class ItemAdmin(admin.ModelAdmin):
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
         location = forms.ModelChoiceField(mmod.Location.objects)
 
+    class ModifyGroupForm(forms.Form):
+        """ The form used by add_group admin action.
+        """
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        group = forms.ModelMultipleChoiceField(mmod.Group.objects)
 
+
+    def add_to_group(self, request, queryset):
+        if 'submit' in request.POST:
+            form = self.ModifyGroupForm(request.POST)
+            if form.is_valid():
+                #TODO: is this group a real group obj, or just a name?
+                groups = form.cleaned_data['group']
+            else:
+                for key in form.errors.keys():
+                    self.message_user(request, "%s: %s" % (key, form.errors[key].as_text()))
+                return HttpResponseRedirect(request.get_full_path())
+
+            groups_updated = 0
+            items_updated = 0
+            # looping through the list, even though there's only one now, because I suspect we'll want to select multiple in the near futute.
+            for group in groups:
+                # TODO: find a better way to handle this than resetting the counter every time
+                items_updated = 0
+                # TODO: look for a better way to add all the items, like update()?
+                for item in queryset:
+                    group.items.add(item)
+                    items_updated += 1
+                groups_updated += 1
+
+            if items_updated == 1:
+                message_bit = "group for 1 item."
+            else:
+                message_bit = "group for %s items." % items_updated
+            self.message_user(request, "Changed %s" % message_bit)
+
+            return HttpResponseRedirect(request.get_full_path())
+
+        else:
+            form = self.ModifyGroupForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        selected_action = 'add_to_group'
+        return render_to_response('admin/mod_group.html', {'mod_group_form': form, 'selected_action': selected_action}, 
+            context_instance=RequestContext(request, {'title': 'Add Group',}))
+    add_to_group.short_description = "Add group for selected items"
+    
     def change_location(self, request, queryset):
         if 'submit' in request.POST:
             form = self.ModifyLocationForm(request.POST)
