@@ -28,7 +28,7 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
     list_filter = ['type','location__name','date_added','verified','unusable',]
     actions = ['set_to_not_retired', 'set_to_retired', 'set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
-        'append_to_comment', 'change_comment', 'change_dates', 'change_location', 'add_to_groups']
+        'append_to_comment', 'change_comment', 'change_dates', 'change_location', 'add_to_groups', 'remove_from_groups']
 
 
     class ModifyCommentForm(forms.Form):
@@ -53,7 +53,7 @@ class ItemAdmin(admin.ModelAdmin):
         location = forms.ModelChoiceField(mmod.Location.objects)
 
     class ModifyGroupForm(forms.Form):
-        """ The form used by add_group admin action.
+        """ The form used by add_to_groups and remove_from_groups admin actions.
         """
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
         group = forms.ModelMultipleChoiceField(mmod.Group.objects)
@@ -99,8 +99,52 @@ class ItemAdmin(admin.ModelAdmin):
 
         selected_action = 'add_to_groups'
         return render_to_response('admin/mod_group.html', {'mod_group_form': form, 'selected_action': selected_action}, 
-            context_instance=RequestContext(request, {'title': 'Add Group',}))
+            context_instance=RequestContext(request, {'title': 'Modify Group Membership',}))
     add_to_groups.short_description = "Add selected items to groups"
+
+    #TODO OMG, do I really have to duplicate this just to change adds to removes? Kill the redundancy!
+    def remove_from_groups(self, request, queryset):
+        if 'submit' in request.POST:
+            form = self.ModifyGroupForm(request.POST)
+            if form.is_valid():
+                #TODO: is this group a real group obj, or just a name?
+                groups = form.cleaned_data['group']
+            else:
+                for key in form.errors.keys():
+                    self.message_user(request, "%s: %s" % (key, form.errors[key].as_text()))
+                return HttpResponseRedirect(request.get_full_path())
+
+            groups_updated = 0
+            items_updated = 0
+            for group in groups:
+                # TODO: find a better way to handle this than resetting the counter every time
+                items_updated = 0
+                # TODO: look for a better way to add all the items, like update()?
+                for item in queryset:
+                    group.items.remove(item)
+                    items_updated += 1
+                groups_updated += 1
+
+            if groups_updated == 1:
+                message_bit = "1 group"
+            else:
+                message_bit = "%s groups" % groups_updated
+
+            if items_updated == 1:
+                message_bit = "1 item from %s." % message_bit
+            else:
+                message_bit = "%s items from %s." % (items_updated, message_bit)
+            self.message_user(request, "Removed %s" % message_bit)
+
+            return HttpResponseRedirect(request.get_full_path())
+
+        else:
+            form = self.ModifyGroupForm(initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        selected_action = 'remove_from_groups'
+        return render_to_response('admin/mod_group.html', {'mod_group_form': form, 'selected_action': selected_action}, 
+            context_instance=RequestContext(request, {'title': 'Modify Group Membership',}))
+    remove_from_groups.short_description = "Remove selected items from groups"
     
     def change_location(self, request, queryset):
         if 'submit' in request.POST:
