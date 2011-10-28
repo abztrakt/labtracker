@@ -52,9 +52,17 @@ function getAvailableInfo() {
                 }
                 $('#total')[0].innerHTML = json.total_machines;
                 for (var i in json){
-                    if(i !='available_machines' && i != 'total_machines') {
-                        $('#'+i)[0].innerHTML = json[i];
+                    
+                    if(i !="available_machines" && i != "total_machines") {
+                        
+                        if (json[i].total_count != 0) {
+                            $('#'+json[i].safe_name)[0].innerHTML = json[i].count+'/';
+                            $('#'+json[i].safe_name+'_total')[0].innerHTML = json[i].total_count;
+                        }else {
+                            $('#'+json[i].safe_name+'_info')[0].style.display = 'none';
+                        }
                     }
+
                 }
             }
         });

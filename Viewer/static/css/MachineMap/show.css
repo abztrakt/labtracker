@@ -103,15 +103,13 @@ div.list .close {
 #unusableExplanation{
     top: 216px;
 }
-#stats { 
-    font-size: 16pt;
-}
 #html_comment {
     font-size: 16pt;
 }
 #stats {
+    font-size: 16pt;
     border: 1px solid black;
-    width: 560px;
+    width: 415px;
 }
 #stats h3{
     margin-left: 5px;

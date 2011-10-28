@@ -28,14 +28,20 @@ def info(request, view_name):
         available_items = view.getMappedItems().exclude(machine__item__status__name__contains='Inuse').exclude(machine__item__unusable=True)
         available_count = available_items.count()
         platforms =Machine.models.Platform.objects.all()
-        total_count = view.getMappedItems().count()
+        total_items=view.getMappedItems()
+        total_count = total_items.count()
         ret_data['available_machines'] =available_count
         ret_data['total_machines'] = total_count
+        
         for platform in platforms:
+            data={}
             name = platform.name
             safe_name = name.format().replace(' ', '_')
-            ret_data[safe_name] = available_items.filter(machine__item__type__platform__name=name).count()
-        
+             
+            data["safe_name"]=safe_name
+            data["count"]=available_items.filter(machine__item__type__platform__name=name).count()
+            data['total_count']=total_items.filter(machine__item__type__platform__name=name).count()
+            ret_data[name] =data
         return HttpResponse(simplejson.dumps(ret_data))
     else:
         ret_data['error']= "No understandable request made." 
@@ -228,10 +234,14 @@ def show(request, view_name):
         map_items.append(item_dict)
     groups = view.groups.all()
     platforms = Machine.models.Platform.objects.all()
-    platform_names = []
+    safe_platform_names = []
+    platform_names=[]
     for platform in platforms:
-        safe_name = platform.name.format().replace(' ', '_')
-        platform_names.append(safe_name)
+        data={}
+        data["safe_name"] = platform.name.format().replace(' ', '_')
+        data["name"]=platform.name
+        platform_names.append(data)
+
     args = {
         'show':     True,
         'staff':    staff,
