@@ -1,25 +1,32 @@
 {% if staff %}
             <div id='staffInfo' style='position: absolute; left: {{view.key_xpos}}px; top: {{view.key_ypos}}px; z-index: 100;'>
-                <div id='availableExample' class="item mapped Rectangle H status_usable"></div>
-                <div id='availableExplanation'>Available Machine</div>
-                <div id='occupiedExample' class="item mapped Rectangle H status_occupied"></div>
-                <div id='occupiedExplanation'>Occupied Machine</div>
-                <div id='brokenExample' class="item mapped Rectangle H broken"></div> 
-                <div id='brokenExplanation'>Broken Machine</div>
-                <div id='verifiedExample' class="item mapped Rectangle H"></div>
-                <img id='verifiedPic' src='/static/img/Viewer/check.png'/>
-                <div id='verifiedExplanation'>Verified Machine</div>
-                <div id='unusableExample' class="item mapped Rectangle H status_unusable"></div>
-                <div id='unusableExplanation'>Unusable Machine</div>
-
+                    <div id='availableExample' class="item mapped rectangle H status_usable"></div>
+                    <div id='availableExplanation'>Available Machine</div>
+                    <div id='occupiedExample' class="item mapped rectangle H status_occupied"></div>
+                    <div id='occupiedExplanation'>Occupied Machine</div>
+                    <div id='brokenExample' class="item mapped rectangle H broken"></div> 
+                    <div id='brokenExplanation'>Broken Machine</div>
+                    <div id='verifiedExample' class="item mapped rectangle H"></div>
+                    <img id='verifiedPic' src='/static/img/Viewer/check.png'/>
+                    <div id='verifiedExplanation'>Verified Machine</div>
+                    <div id='unusableExample' class="item mapped rectangle H status_unusable"></div>
+                    <div id='unusableExplanation'>Unusable Machine</div>
             </div>
 {% endif %}
+    <div id="stats" style ='position: absolute; left: {{view.stats_xpos}}px; top: {{view.stats_ypos}}px; z-index: 100'>
+        <h3>Machine Statistics: </h3>
+        <li><span id='avail' class='available'></span>/<span id='total'></span> overall machines are available</li>
+
+        {% for platform in platforms %}
+            <li id='{{ platform.safe_name }}_info'><span id='{{ platform.safe_name }}'></span><span id='{{ platform.safe_name }}_total'></span> {{ platform.name }}</li>
+        {% endfor %}
+    </div>
     <div id="html_comment" style ='position: absolute; left: {{view.html_xpos}}px; top: {{view.html_ypos}}px; z-index:100'>
         {{view.html_comment|safe}}
     </div>
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('{{ map_url }}');">
-        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {% if item.verified %} verified {% endif %} {{item.size.name}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.name}} {{item.orientation}} status_{{item.status|lower }}"></div>
+        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {% if item.verified %} verified {% endif %} {{item.size.slug}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.slug}} {{item.orientation}} status_{{item.status|lower }}"></div>
         {% if item.verified %} <div id='v_{{item.machine.name}}' class='check' style="top: 2px; left: 2px;" ><img src='/static/img/Viewer/check.png'/></div>{% endif %} 
         </div>
         {% endfor %}
