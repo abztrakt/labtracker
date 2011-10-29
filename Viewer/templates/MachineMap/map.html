@@ -14,8 +14,8 @@
             </div>
 {% endif %}
     <div id="stats" style ='position: absolute; left: {{view.stats_xpos}}px; top: {{view.stats_ypos}}px; z-index: 100'>
-        <h3>Machine Statistics: </h3>
-        <li><span id='avail' class='available'></span>/<span id='total'></span> overall machines are available</li>
+        <h3>Machine Availability: </h3>
+        <li><span id='avail' class='available'></span>/<span id='total'></span> available overall</li>
 
         {% for platform in platforms %}
             <li id='{{ platform.safe_name }}_info'><span id='{{ platform.safe_name }}'></span><span id='{{ platform.safe_name }}_total'></span> {{ platform.name }}</li>
