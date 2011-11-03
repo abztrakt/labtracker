@@ -97,7 +97,7 @@ class Item(coreModels.Item):
     verified = models.BooleanField()
     unusable = models.BooleanField()
     retired = models.BooleanField()
-    status = models.ManyToManyField(Status, related_name="machine_status")
+    status = models.ManyToManyField(Status, related_name="machine_status", blank=True)
     
     location = models.ForeignKey(Location, verbose_name='Location')
     ip = models.IPAddressField(verbose_name="IP Address")
