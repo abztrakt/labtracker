@@ -28,20 +28,59 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
         p_types.append(p_type.pk)
     em.addProblemTypeSection("", p_types) 
     if (instance.assignee is None):
-        em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-        + "Group/Location: " + instance.group.name + ".\n"     
-	    + "Machine Name: " + instance.item.name + ".\n"
-	    + "Description: " + "\n" + instance.description + "\n\n"
-        + "Steps: " + "\n" + instance.steps + "\n\n"
-        + "Attempts: " + "\n" + instance.attempts + "\n\n")
+        if (instance.steps == '' and instance.attempts ==''):
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n")
+        elif instance.steps == '':
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Attempts: " + "\n" + instance.attempts + "\n\n")
+        elif instance.attempts == '':
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Steps: " + "\n" + instance.steps + "\n\n")
+        else:
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Steps: " + "\n" + instance.steps + "\n\n"
+            + "Attempts: " + "\n" + instance.attempts + "\n\n")
     else:
-        em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
-        + "Assigned to: " + instance.assignee.username + ".\n" 
-        + "Group/Location: " + instance.group.name + ".\n"     
-	    + "Machine Name: " + instance.item.name + ".\n"
-	    + "Description: " + "\n" + instance.description + "\n\n"
-        + "Steps: " + "\n" + instance.steps + "\n\n"
-        + "Attempts: " + "\n" + instance.attempts + "\n\n")
+        if (instance.steps == '' and instance.attempts ==''):
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Assigned to: " + instance.assignee.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n")
+        elif (instance.steps == ''):
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Assigned to: " + instance.assignee.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Attempts: " + "\n" + instance.attempts + "\n\n")
+        elif (instance.attempts == ''):
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Assigned to: " + instance.assignee.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Steps: " + "\n" + instance.steps + "\n\n")
+        else:
+            em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
+            + "Assigned to: " + instance.assignee.username + ".\n"
+            + "Group/Location: " + instance.group.name + ".\n"     
+            + "Machine Name: " + instance.item.name + ".\n"
+            + "Description: " + "\n" + instance.description + "\n\n"
+            + "Steps: " + "\n" + instance.steps + "\n\n"
+            + "Attempts: " + "\n" + instance.attempts + "\n\n")
 
     for email in contacts:
         try:
