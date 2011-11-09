@@ -34,7 +34,6 @@ def allBroken(request, page=1):
     args = utils.generatePageList(request, objects, page)
     args['issues'] = args['objects']
     issues_list = {'Issues on Unusable Machines':[]}
-    
     for issue in args['issues']:
         iss_id = issue.item.item_id
         machine = mac.Item.objects.get(item_id=iss_id)
