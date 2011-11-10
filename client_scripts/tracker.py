@@ -7,12 +7,12 @@ import sys
 import os
 from optparse import OptionParser
 
-DEBUG = True 
+DEBUG = False
 NO_SSL = True# This should really only be set to True for testing.
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "web2.eplt.washington.edu:8000"
+    LABTRACKER_URL = "localhost:8000"
     import httplib
     httplib.HTTPConnection.debuglevel = 1
 ACTIONS = ('login','logout','ping')
