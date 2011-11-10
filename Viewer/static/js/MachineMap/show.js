@@ -1,7 +1,7 @@
 var initialized = false;    // is page ready?
 var zHelper= 0;
 var timer = null;       // This is the interval timer
-var last_call = Date.now()/1000;
+var last_call = (new Date()).getTime()/1000;
 var view = null;       //the map name
 
 var options = {
@@ -29,8 +29,8 @@ function init(opts) {
     zDex = 101+zHelper;
     $('.list').draggable({start: drag });
     initialized = true;
-    view = options.view;
-    timer = setInterval(updateMachines, options.timer);
+    view = opts.view;
+    timer = setInterval(updateMachines, opts.timer);
 }
 
 function closeList(event) {
