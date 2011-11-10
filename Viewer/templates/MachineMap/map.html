@@ -7,8 +7,8 @@
                     <div id='brokenExample' class="item mapped rectangle H broken"></div> 
                     <div id='brokenExplanation'>Broken Machine</div>
                     <div id='verifiedExample' class="item mapped rectangle H"></div>
-                    <img id='verifiedPic' src='/static/img/Viewer/check.png'/>
-                    <div id='verifiedExplanation'>Verified Machine</div>
+                    <div id='verifiedPic' class='check' style="font-size: 8pt;"><strong>?</strong></div>
+                    <div id='verifiedExplanation'>Unverified Machine</div>
                     <div id='unusableExample' class="item mapped rectangle H status_unusable"></div>
                     <div id='unusableExplanation'>Unusable Machine</div>
             </div>
@@ -26,8 +26,8 @@
     </div>
     <div id="map" style="height: {{ map.height }}px; width: {{ map.width }}px;
         background-image: url('{{ map_url }}');">
-        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {% if item.verified %} verified {% endif %} {{item.size.slug}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.slug}} {{item.orientation}} status_{{item.status|lower }}"></div>
-        {% if item.verified %} <div id='v_{{item.machine.name}}' class='check' style="top: 2px; left: 2px;" ><img src='/static/img/Viewer/check.png'/></div>{% endif %} 
+        {% for item in mapped %}<div id='outer_{{item.machine.name}}' class="outerItem mapped {% if not item.verified %} unverified {% endif %} {{item.size.slug}} {{item.orientation}} {% if item.broken and item.status != 'unusable' %} {{item.broken|lower }} {% endif %}" style="top: {{item.ypos}}px; left: {{item.xpos}}px;"><div id="{{ item.machine.pk }}_{{ item.machine.name }}" value="{{ item.machine.name }}" class="item mapped {{item.size.slug}} {{item.orientation}} status_{{item.status|lower }}"></div>
+        {% if not item.verified %} <div id='v_{{item.machine.name}}' class='check' style="top: 2px; left: 2px; font-size: 8pt;" ><strong>?</strong></div>{% endif %} 
         </div>
         {% endfor %}
 
