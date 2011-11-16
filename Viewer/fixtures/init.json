@@ -24,6 +24,12 @@
     "pk": 2, 
     "model": "Viewer.machinemap", 
     "fields": {
+      "html_xpos": 0,
+      "html_ypos": 0,
+      "key_xpos": 0,
+      "key_ypos": 0,
+      "stats_xpos": 0,
+      "stats_ypos": 0,
       "groups": [
         5
       ]
@@ -36,6 +42,7 @@
       "width": 13, 
       "height": 28, 
       "name": "Rectangle", 
+      "slug": "rectangle",
       "description": ""
     }
   }, 

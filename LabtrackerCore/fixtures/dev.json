@@ -13,7 +13,8 @@
     "model": "LabtrackerCore.item", 
     "fields": {
       "it": 1, 
-      "name": "Machine1"
+      "name": "Machine1",
+      "slug": "machine1"
     }
   }, 
   {
@@ -21,7 +22,8 @@
     "model": "LabtrackerCore.item", 
     "fields": {
       "it": 1, 
-      "name": "Machine2"
+      "name": "Machine2",
+      "slug": "machine2"
     }
   }, 
   {
@@ -29,7 +31,8 @@
     "model": "LabtrackerCore.item", 
     "fields": {
       "it": 1, 
-      "name": "Machine3"
+      "name": "Machine3",
+      "slug": "machine3"
     }
   }, 
   {
@@ -37,7 +40,8 @@
     "model": "LabtrackerCore.item", 
     "fields": {
       "it": 1, 
-      "name": "Machine4"
+      "name": "Machine4",
+      "slug": "machine4"
     }
   }, 
   {
