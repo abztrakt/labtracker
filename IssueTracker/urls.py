@@ -9,6 +9,8 @@ urlpatterns = patterns('IssueTracker.views',
      url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', 
          name='IssueTracker-modIssue'),
 
+     url(r'^(?P<issue_id>\d+)/partial/(?P<item_id>\d+)/$', 'relatedIssue', name="relatedIssue"), 
+
      url(r'^history/(?P<item_id>\d+)/$', 'history', name="IssueTracker-history"),
      url(r'^history/(?P<item_id>\d+)/(?P<page>\d+)/$', 'history', 
          name="IssueTracker-history-page"),

@@ -17,7 +17,7 @@
 
        <div id="issue">
 		<div id="title" class="greybox">
-			<span class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
+			<span id="issueNumber" class="number_color">{{ issue.pk }}</span> <span class="main_title">{{ issue.title|escape }}</span> <span class="reporter">{{ issue.reporter }}</span> <span class="time">{{ issue.post_time|date }} {{ issue.post_time|time }}</span>
 		</div>
 			
 		<div class="whitebox">
