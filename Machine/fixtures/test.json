@@ -3,33 +3,24 @@
     "pk": 1, 
     "model": "Machine.status", 
     "fields": {
-      "broken": false, 
-      "usable": true, 
       "description": "", 
-      "name": "Usable", 
-      "inuse": false
+      "name": "Usable" 
     }
   }, 
   {
     "pk": 2, 
     "model": "Machine.status", 
     "fields": {
-      "broken": false, 
-      "usable": true, 
       "description": "", 
-      "name": "Inuse", 
-      "inuse": true
+      "name": "Inuse" 
     }
   }, 
   {
     "pk": 3, 
     "model": "Machine.status", 
     "fields": {
-      "broken": true, 
-      "usable": false, 
       "description": "", 
-      "name": "Broken", 
-      "inuse": false
+      "name": "Broken" 
     }
   }, 
   {
@@ -91,11 +82,15 @@
       "type": 1, 
       "mac1": "00:03:24:3A:12:3E", 
       "mac2": "00:03:24:3A:12:3E", 
-      "status": 1, 
+      "status": [
+        1
+      ],
       "location": 1, 
       "date_added": "2008-05-05 16:16:26",
 	  "wall_port": "234dfda",
-	  "uw_tag": "23l4nd923423"
+	  "uw_tag": "23l4nd923423",
+      "verified": "True",
+      "unusable": "False"
     }
   }, 
   {
@@ -110,11 +105,15 @@
       "type": 1, 
       "mac1": "00:03:24:3A:12:4E", 
       "mac2": "00:03:24:3A:12:4E", 
-      "status": 2, 
+      "status": [ 
+        2 
+      ],
       "location": 1, 
       "date_added": "2008-05-05 16:17:15",
 	  "wall_port": "234dfda",
-	  "uw_tag": "23l4nd923423"
+	  "uw_tag": "23l4nd923423",
+      "verified": "False",
+      "unusable": "False"
     }
   }, 
   {
@@ -129,11 +128,15 @@
       "type": 1, 
       "mac1": "00:03:24:3A:12:4B", 
       "mac2": "00:03:24:3A:12:4B", 
-      "status": 1, 
+      "status": [
+        1
+      ],
       "location": 1, 
       "date_added": "2008-05-05 16:17:51",
 	  "wall_port": "234dfda",
-	  "uw_tag": "23l4nd923423"
+	  "uw_tag": "23l4nd923423",
+      "verified": "True",
+      "unusable": "True"
     }
   }, 
   {
@@ -148,11 +151,15 @@
       "type": 2, 
       "mac1": "00:03:12:23:34:2F", 
       "mac2": "00:03:12:23:34:2F", 
-      "status": 2, 
+      "status": [
+        2
+      ],
       "location": 1, 
       "date_added": "2008-05-06 14:47:45",
 	  "wall_port": "234dfda",
-	  "uw_tag": "23l4nd923423"
+	  "uw_tag": "23l4nd923423",
+      "verified": "False",
+      "unusable": "False"
     }
   }, 
   {
