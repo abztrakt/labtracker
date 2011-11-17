@@ -49,7 +49,7 @@ class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
     it = models.ForeignKey(InventoryType, editable=False)
     name = models.CharField(max_length=60, unique=True)
-
+    slug = models.SlugField(max_length=60, unique=True)
     def unresolved_issues(self):
         """
         return all unresolved issues for an item

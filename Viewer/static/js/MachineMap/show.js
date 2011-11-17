@@ -199,7 +199,7 @@ function applyToMachine(item, outer_item, data) {
     var modified = false;
     var has_broken = outer_item.hasClass('broken');
     var broken = data.broken;
-    var has_verified = outer_item.hasClass('verified');
+    var has_unverified = outer_item.hasClass('unverified');
     var verified = data.verified;
     if (broken != has_broken) {
         if (has_broken) {
@@ -208,17 +208,15 @@ function applyToMachine(item, outer_item, data) {
             outer_item.addClass('broken');
         }
     }
-    if (verified != has_verified) {
-        if (has_verified) {
-            outer_item.removeClass('verified');
+    if (verified == has_unverified) {
+        if (has_unverified) {
+            outer_item.removeClass('unverified');
             id = "#v_"+data.name;
             $(id).remove()
         }else {
-            outer_item.addClass('verified');
+            outer_item.addClass('unverified');
             id ="v_" + data.name;
-            var check = $('<div id="'+ id +'" class="check" style="top: 2px; left: 2px;" ></div>');
-            var img = $("<img src='/static/img/Viewer/check.png'/>");
-            check.append(img);
+            var check = $('<div id="'+ id +'" class="check" style="top: 2px; left: 2px;" ><strong>?</strong></div>');
             outer_item.append(check)
         }
 
