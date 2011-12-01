@@ -85,7 +85,10 @@ def dashboard(request):
                     'LabLoad' : 0.0,
                     'PerUsable': 0.0,
                     'PercBroken': 0.0,
-                    'PercUnusable': 0.0
+                    'PercUnusable': 0.0,
+                    'warning_threshold':0.0,
+                    'red': 255,
+                    'green': 0
                 }
 
                 overall['Total'] += data['Total']
@@ -127,7 +130,8 @@ def dashboard(request):
                 data['ThresholdComps'] = int(round((data['Threshold']/ 100.0) * data['Total'], 0))
                 overall['ThresholdComps'] += data['ThresholdComps']
                 data['MagicNum'] = int(data['Usable'] - data['ThresholdComps'])
-                
+                data['warning_threshold']=round((100.0-data['Threshold'])/2, 2)
+                puot= round(data['PercUsable']-data['Threshold'], 2)
                 if data['MagicNum'] < 0:
                     #We are under threshold, leave a fix message
                     data['ThresholdMessage'] = 'Fix %i' % (data['MagicNum']*-1)
@@ -138,7 +142,12 @@ def dashboard(request):
                 else:
                     #We are above the threshold
                     data['ThresholdMessage'] = '+%i above threshold' % (data['MagicNum'])
-                
+                if (data['PercUsable']> data['Threshold']):
+                    if (data['warning_threshold'] > puot):
+                        data['green']=int(255*round(puot/(data['warning_threshold']), 2))
+                    elif (data['warning_threshold'] <=  puot):
+                        data['red']=int(255.0 -255*round((puot-data['warning_threshold'])/(100-data['Threshold']-data['warning_threshold']), 2))
+                        data['green']=255 
                 #Keep track of css colors for each location threshold. (i.e. ok = above or at threshold in one aera, etc...)
                 if data['PercUsable'] <= data['Threshold']:
                     #We are BELOW threshold, color this red

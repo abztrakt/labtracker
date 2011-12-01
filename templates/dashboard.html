@@ -27,7 +27,7 @@ Welcome back, {{user.username}}!
     </thead>
     <tbody>
     {% for location in stats %}
-        <tr class="{{location.Status}}">
+        <tr style='background-color: rgb({{ location.red }}, {{location.green}}, 0);' class="{{location.Status}}">
             <td><a href= {{SITE_ADDR}}/issue/report/group/location#{{ location.Location|slugify }}>{{ location.Location }}</a></td>
             <td>{{ location.LabLoad}}%  ({{ location.inUse }} / {{ location.Usable }})</td>
             <td>{{ location.Threshold}}% - {{ location.ThresholdComps }}</td>
