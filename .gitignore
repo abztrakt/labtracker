@@ -1,7 +1,7 @@
-settings.py
 tags
 *.sqlite
 *.pyc
 labtracker.db
 labtracker.wsgi
+local_settings.py
 *.swp
