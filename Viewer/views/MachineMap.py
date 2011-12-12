@@ -17,6 +17,36 @@ import Viewer
 from Viewer import models as v_models
 #from Viewer.models import MachineMap
 import Machine
+from django.db.models import Q
+
+def info(request, view_name):
+    
+    available_items = None
+    ret_data = {}
+    if request.method == 'GET':
+        view = get_object_or_404(v_models.MachineMap, shortname=view_name)
+        available_items = view.getMappedItems().exclude(machine__item__status__name__contains='Inuse').exclude(machine__item__unusable=True)
+        available_count = available_items.count()
+        platforms =Machine.models.Platform.objects.all()
+        total_items=view.getMappedItems()
+        total_count = total_items.count()
+        ret_data['available_machines'] =available_count
+        ret_data['total_machines'] = total_count
+        
+        for platform in platforms:
+            data={}
+            name = platform.name
+            safe_name = name.format().replace(' ', '_')
+             
+            data["safe_name"]=safe_name
+            data["count"]=available_items.filter(machine__item__type__platform__name=name).count()
+            data['total_count']=total_items.filter(machine__item__type__platform__name=name).count()
+            ret_data[name] =data
+        return HttpResponse(simplejson.dumps(ret_data))
+    else:
+        ret_data['error']= "No understandable request made." 
+        return HttpResponseServerError(simplejson.dumps(ret_data))
+
 
 def getMapInfo(view_name):
     map = None
@@ -36,7 +66,7 @@ def show(request, view_name):
     Spits out a lab map
     """
     view = get_object_or_404(v_models.MachineMap, shortname=view_name)
-
+    staff = request.user.is_staff
     def getUnmappedData():
         items = view.getUnmappedItems()
         ret_data ={}
@@ -71,15 +101,18 @@ def show(request, view_name):
 
             if machine_info:
                 states = [a for (a,) in item.machine.item.status.values_list('name')]
-                unusable = item.machine.item.unusable
-                if 'Inuse' in states:
-                    data['state'] = 'occupied'
-                elif not unusable:
-                    data['state']= 'usable'
+                if staff:
+                    if item.machine.item.unusable:
+                        data['state']= 'unusable'
+                    elif 'Inuse' in states:
+                        data['state']= 'occupied'
+                    else:
+                        data['state']= 'usable'
                 else:
-                    data['state'] = 'unusable'
-
-
+                    if item.machine.item.unusable or 'Inuse' in states:
+                        data['state']='occupied'
+                    else:
+                        data['state']='usable'
             if mapped_info:
                 data['x'] = item.xpos
                 data['y'] = item.ypos
@@ -90,10 +123,11 @@ def show(request, view_name):
                 data['name'] = item.machine.name,
                 broken = False
                 verified = False
-                if item.machine.unresolved_issues():
-                    broken=True
-                if item.machine.item.verified:
-                    verified=True
+                if staff:
+                    if item.machine.unresolved_issues():
+                        broken=True
+                    if item.machine.item.verified:
+                        verified=True
                 if item.orientation == 'H':
                     width = 10+item.size.height
                 else:
@@ -102,19 +136,19 @@ def show(request, view_name):
                 data['broken'] = broken
                 # .type is a python thing 
                 #import pdb; pdb.set_trace()
-                data['type'] = item.machine.item.type.name 
-                data['mac1'] = item.machine.item.mac1
-                data['mac2'] = item.machine.item.mac2
-                data['ip'] = item.machine.item.ip
-                data['wall_port'] = item.machine.item.wall_port
-                data['uw_tag'] = item.machine.item.uw_tag
-                data['manu'] = item.machine.item.manu_tag
+                if staff:
+                    data['type'] = item.machine.item.type.name 
+                    data['mac1'] = item.machine.item.mac1
+                    data['mac2'] = item.machine.item.mac2
+                    data['ip'] = item.machine.item.ip
+                    data['wall_port'] = item.machine.item.wall_port
+                    data['uw_tag'] = item.machine.item.uw_tag
+                    data['manu'] = item.machine.item.manu_tag
                 data['width'] = width 
                 ret_data[item.machine.pk] = data
 
         
         return ret_data
-        
     if request.is_ajax():
         """
         A request is being made on data
@@ -141,7 +175,7 @@ def show(request, view_name):
         return HttpResponse(simplejson.dumps(ret))
 
     # if we are down here, we are just rendering the map
-    staff = request.user.is_staff
+    
     map = getMapInfo(view_name)
 
     if not map:
@@ -167,12 +201,17 @@ def show(request, view_name):
                 list_pos = item.xpos + item.size.height + 10
             else:
                 list_pos = item.xpos + item.size.width+ 10
-        if item.machine.item.unusable:
-            status = 'unusable'
-        elif 'Inuse' in states:
-            status = 'occupied'
+            if item.machine.item.unusable:
+                status = 'unusable'
+            elif 'Inuse' in states:
+                status = 'occupied'
+            else:
+                status = 'usable'
         else:
-            status = 'usable'
+            if item.machine.item.unusable or 'Inuse' in states:
+                status= 'occupied'
+            else:
+                status='usable'
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
@@ -193,8 +232,15 @@ def show(request, view_name):
                 'list_pos': list_pos,
             }
         map_items.append(item_dict)
-
     groups = view.groups.all()
+    platforms = Machine.models.Platform.objects.all()
+    safe_platform_names = []
+    platform_names=[]
+    for platform in platforms:
+        data={}
+        data["safe_name"] = platform.name.format().replace(' ', '_')
+        data["name"]=platform.name
+        platform_names.append(data)
 
     args = {
         'show':     True,
@@ -204,6 +250,7 @@ def show(request, view_name):
         'sizes':    v_models.MachineMap_Size.objects.all(),
         'status':   ['usable','unusable','occupied'],
         'map_url':  map.filename.replace(settings.APP_DIR, ""),
+        'platforms': platform_names, 
         'map': {
                 "name":     view_name,
                 "width":    map.size[0],

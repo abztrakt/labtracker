@@ -10,8 +10,9 @@ $(document).ready(function() {
     $('#addCC_user').autocomplete({
         source: list_cc
     });
-    option =$('#machineLink') 
-    $("#relatedList").load("/issue/partial/" + option[0].innerHTML+ "/");
+    option =$('#machineLink');
+    issueNum = $('#issueNumber');
+    $("#relatedList").load("/issue/" + issueNum[0].innerHTML + "/partial/" + option[0].innerHTML+ "/");
 	$("#id_problem_type").asmSelect({
 		'removeLabel': 'X',
 		'listClass': 'asmList prob-types',

@@ -69,6 +69,7 @@ class CreateIssueForm(ModelForm):
     
     def save(self, *args, **kwargs):
         inst = ModelForm.save(self, *args, **kwargs)
+        inst.item.item.save()
         newIssueSignal.send(sender=inst, instance=inst, created =True, data=self.data)
         return inst
 

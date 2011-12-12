@@ -1,12 +1,12 @@
 var initialized = false;    // is page ready?
 var zHelper= 0;
 var timer = null;       // This is the interval timer
-var last_call = Date.now()/1000;
+var last_call = (new Date()).getTime()/1000;
 var view = null;       //the map name
-
+var timer1 =null
 var options = {
     'view': view,          //the view name
-    'timer':    30000,   // duration between updates
+    'timer':    5000,   // duration between updates
     'refresh':  0,      // should we just refresh the page instead of ajax?
     'sizes': [],
     'orientations': ['H', 'V'],
@@ -31,6 +31,41 @@ function init(opts) {
     initialized = true;
     view = options.view;
     timer = setInterval(updateMachines, options.timer);
+    getAvailableInfo();
+    timer1 = setInterval(getAvailableInfo, options.timer);
+}
+
+function getAvailableInfo() {
+   $.ajax({
+            'url':          '/views/MachineMap/' + view + '/availability',
+            'type':         'GET',
+            //'ifModified':   true,
+            'dataType':     'json',
+            'error': function (xhr, txt, err) {
+                // handle the error
+                debugLog('error');
+            },
+            'success': function (json, txt) {
+                var spans = $('.available')
+                for(var j=0; j<spans.length; j++) {
+                    spans[j].innerHTML = json.available_machines;
+                }
+                $('#total')[0].innerHTML = json.total_machines;
+                for (var i in json){
+                    
+                    if(i !="available_machines" && i != "total_machines") {
+                        
+                        if (json[i].total_count != 0) {
+                            $('#'+json[i].safe_name)[0].innerHTML = json[i].count+'/';
+                            $('#'+json[i].safe_name+'_total')[0].innerHTML = json[i].total_count;
+                        }else {
+                            $('#'+json[i].safe_name+'_info')[0].style.display = 'none';
+                        }
+                    }
+
+                }
+            }
+        });
 }
 
 function closeList(event) {
@@ -164,7 +199,7 @@ function applyToMachine(item, outer_item, data) {
     var modified = false;
     var has_broken = outer_item.hasClass('broken');
     var broken = data.broken;
-    var has_verified = outer_item.hasClass('verified');
+    var has_unverified = outer_item.hasClass('unverified');
     var verified = data.verified;
     if (broken != has_broken) {
         if (has_broken) {
@@ -173,17 +208,15 @@ function applyToMachine(item, outer_item, data) {
             outer_item.addClass('broken');
         }
     }
-    if (verified != has_verified) {
-        if (has_verified) {
-            outer_item.removeClass('verified');
+    if (verified == has_unverified) {
+        if (has_unverified) {
+            outer_item.removeClass('unverified');
             id = "#v_"+data.name;
             $(id).remove()
         }else {
-            outer_item.addClass('verified');
+            outer_item.addClass('unverified');
             id ="v_" + data.name;
-            var check = $('<div id="'+ id +'" class="check" style="top: 2px; left: 2px;" ></div>');
-            var img = $("<img src='/static/img/Viewer/check.png'/>");
-            check.append(img);
+            var check = $('<div id="'+ id +'" class="check" style="top: 2px; left: 2px;" ><strong>?</strong></div>');
             outer_item.append(check)
         }
 

@@ -1,0 +1,7 @@
+<ul>
+    {% for i in item.unresolved_issues %}
+        {% if issue != i%}
+        <li><a href="{{ i.get_absolute_url }}">{{ i.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>

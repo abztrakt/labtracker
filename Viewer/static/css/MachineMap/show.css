@@ -52,8 +52,14 @@ div.list .close {
 }
 #staffInfo {
     font-size: 24pt;
-    width: 100%;
+    width: 370px;
+    height: 250px;
     position: absolute;
+    border: 1px solid black;
+    padding: 15px 0px 10px 0px;
+}
+#staffInfo div, #staffInfo img {
+    margin-left: 15px;
 }
 #availableExample {
     position: absolute;
@@ -87,7 +93,6 @@ div.list .close {
     z-index: 100;
     left: 2px;
 }
-
 #verifiedExplanation{
     top: 162px;
 }
@@ -98,4 +103,26 @@ div.list .close {
 
 #unusableExplanation{
     top: 216px;
+}
+#html_comment {
+    font-size: 16pt;
+}
+#stats {
+    font-size: 16pt;
+    border: 1px solid black;
+    /* Is there any reason not to do width auto?
+    width: 415px;
+    */
+    padding: 15px;
+}
+#stats h3{
+    margin-left: 5px;
+    font-size: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+#stats li{
+    margin-left: 25px;
+    list-style-type: none;
+}
 #wrapper { padding-left: 15px; }

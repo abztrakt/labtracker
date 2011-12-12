@@ -8,11 +8,11 @@ import os
 from optparse import OptionParser
 
 DEBUG = False
-NO_SSL = False # This should really only be set to True for testing.
+NO_SSL = True# This should really only be set to True for testing.
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "walnut.eplt.washington.edu:8000"
+    LABTRACKER_URL = "localhost:8000"
     import httplib
     httplib.HTTPConnection.debuglevel = 1
 ACTIONS = ('login','logout','ping')
@@ -31,27 +31,35 @@ parser.add_option("-a", "--action", dest="action",
 
 def get_mac():
     # windows 
+    mac_addresses = ''
     if sys.platform == 'win32':
         for line in os.popen("ipconfig /all"):
             if line.lstrip().startswith('Physical Address'):
-                possible_mac = line.split(':')[1].strip().replace('-',':')
-            # On machines with multiple active interfaces, we want to send the MAC associated with the IPv4 Address
-            elif line.lstrip().startswith('IPv4 Address'):
-                mac = possible_mac
-        return mac
+                mac = line.split(':')[1].strip().replace('-',':')
+                if mac_addresses=='':
+                    mac_addresses=mac
+                else:
+                    mac_addresses=mac_addresses+','+mac
+        return mac_addresses
     # os x 
     elif sys.platform == 'darwin':
         for line in os.popen("/sbin/ifconfig"):
             if line.lower().find('ether') > -1:
                 mac = line.split()[1]
-            	break
-        return mac
+                if mac_addresses=='':
+                    mac_addresses=mac
+                else:
+                    mac_addresses=mac_addresses+','+mac
+        return mac_addresses
     elif sys.platform == 'linux2':
         for line in os.popen("/sbin/ifconfig"):
             if line.lower().find('hwaddr') > -1:
                 mac = line.split()[-1]
-                break
-        return mac
+                if mac_addresses=='':
+                    mac_addresses=mac
+                else:
+                    mac_addresses=mac_addresses+','+mac
+        return mac_addresses
 
 def get_data(status): 
     # get user info from machine

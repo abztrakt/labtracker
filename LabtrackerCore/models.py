@@ -3,8 +3,7 @@ These are the Core models for Labtracker
 
 """
 import unittest
-import md5
-
+from hashlib import md5
 from django.db import models,connection
 #from django.core.exceptions import ImproperlyConfigured
 #import django.core.management as dman
@@ -50,7 +49,7 @@ class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
     it = models.ForeignKey(InventoryType, editable=False)
     name = models.CharField(max_length=60, unique=True)
-
+    slug = models.SlugField(max_length=60, unique=True)
     def unresolved_issues(self):
         """
         return all unresolved issues for an item
@@ -87,7 +86,7 @@ Tests begin here. For the core items, there isn't much to test though
 
 class LabUserTest(unittest.TestCase):
     def setUp(self):
-        self.bob_md5 = md5.md5('bob').hexdigest()
+        self.bob_md5 = md5('bob').hexdigest()
         self.bob = LabUser.objects.create(user_id=self.bob_md5)
 
     def testBasic(self):
