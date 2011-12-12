@@ -42,10 +42,10 @@ def info(request, view_name):
             data["count"]=available_items.filter(machine__item__type__platform__name=name).count()
             data['total_count']=total_items.filter(machine__item__type__platform__name=name).count()
             ret_data[name] =data
-        return HttpResponse(simplejson.dumps(ret_data))
+        return HttpResponse(simplejson.dumps(ret_data, separators=(',', ':')))
     else:
         ret_data['error']= "No understandable request made." 
-        return HttpResponseServerError(simplejson.dumps(ret_data))
+        return HttpResponseServerError(simplejson.dumps(ret_data, separators=(',', ':')))
 
 
 def getMapInfo(view_name):
@@ -168,11 +168,11 @@ def show(request, view_name):
             ret['deletemachines'] = getUnmappedData()
         except Exception, e:
             ret['error'] = "No understandable request made."
-            return HttpResponseServerError(simplejson.dumps(ret))
+            return HttpResponseServerError(simplejson.dumps(ret, separators=(',', ':')))
 
         ret['time'] = time.mktime(time.localtime())
 
-        return HttpResponse(simplejson.dumps(ret))
+        return HttpResponse(simplejson.dumps(ret, separators=(',', ':')))
 
     # if we are down here, we are just rendering the map
     
