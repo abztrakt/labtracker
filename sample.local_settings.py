@@ -1,5 +1,6 @@
 # Local settings for labtracker project.
 # Copy this file to 'local_settings.py' and customize for your instance.
+# If you wish to override anything else that is in the settings.py, just add it here!
 
 DEBUG = True
 
