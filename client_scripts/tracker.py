@@ -1,32 +1,30 @@
 #!/usr/bin/env python
 
-import urllib
+# These values shouldn't be changed here, but you can override them by putting them in a config.py in the same directory.
+DEBUG = False
+NO_SSL = False # This should really only be set to True for testing.
+LABTRACKER_URL = "labtracker.eplt.washington.edu"
+
 try:
     import urllib2
 except ImportError:
-    pass
+    import urllib
 import getpass
 import sys
 import os
 from optparse import OptionParser
 try:
     import config
+    if config.DEBUG:
+        DEBUG = config.DEBUG
+        import httplib
+        httplib.HTTPConnection.debuglevel = 1
+    if config.NO_SSL:
+        NO_SSL = config.NO_SSL
+    if config.LABTRACKER_URL:
+        LABTRACKER_URL = config.LABTRACKER_URL
 except:
     pass
-
-DEBUG = False
-if config.DEBUG:
-    DEBUG = config.DEBUG
-    import httplib
-    httplib.HTTPConnection.debuglevel = 1
-
-NO_SSL = False # This should really only be set to True for testing.
-if config.NO_SSL:
-    NO_SSL = config.NO_SSL
-
-LABTRACKER_URL = "labtracker.eplt.washington.edu"
-if config.LABTRACKER_URL:
-    LABTRACKER_URL = config.LABTRACKER_URL
 
 ACTIONS = ('login','logout','ping')
 
