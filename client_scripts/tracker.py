@@ -4,27 +4,57 @@
 DEBUG = False
 NO_SSL = False # This should really only be set to True for testing.
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
+OLD_LABTRACKER_URL = "labgeeks.eplt.washington.edu"
+LAB = None
 
+import urllib
 try:
     import urllib2
 except ImportError:
-    import urllib
+    pass
 import getpass
 import sys
 import os
 from optparse import OptionParser
 try:
     import config
+except:
+    pass
+try:
     if config.DEBUG:
         DEBUG = config.DEBUG
         import httplib
         httplib.HTTPConnection.debuglevel = 1
+except:
+    pass
+try:
     if config.NO_SSL:
         NO_SSL = config.NO_SSL
+except:
+    pass
+try:
     if config.LABTRACKER_URL:
         LABTRACKER_URL = config.LABTRACKER_URL
 except:
     pass
+try:
+    if config.OLD_LABTRACKER_URL:
+        OLD_LABTRACKER_URL = config.OLD_LABTRACKER_URL
+except:
+    pass
+try:
+    if config.LAB:
+        LAB = config.LAB
+except:
+    pass
+
+if DEBUG:
+    print """
+    NO_SSL: %s
+    LABTRACKER_URL: %s
+    OLD_LABTRACKER_URL: %s
+    LAB: %s
+    """ % (NO_SSL, LABTRACKER_URL, OLD_LABTRACKER_URL, LAB)
 
 ACTIONS = ('login','logout','ping')
 
@@ -93,6 +123,9 @@ def _track(url, action, mac, data=None):
             secure = 's'
         urllib.urlopen("http%s://%s/tracker/%s/%s/" % (secure,url,action,mac),get_data(action))
 
+def _track_old():
+    pass
+
 def track():
     global ACTIONS, options
     if hasattr(options, "action"):
@@ -107,6 +140,9 @@ def track():
                     options.action,
                     get_mac(), 
                     options.action)
+
+            if LAB:
+                _track_old()
         else:
             print 'Action attribute not valid. Actions are %s.' % get_actions_list()
     else:
