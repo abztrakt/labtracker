@@ -67,6 +67,8 @@ def get_actions_list():
 parser = OptionParser()
 parser.add_option("-a", "--action", dest="action", 
                 help="Action of script: %s" % get_actions_list()) 
+parser.add_option("-u", "--user", dest="a_user",
+                help="Login as user")
 
 (options, args) = parser.parse_args()
 
@@ -104,7 +106,10 @@ def get_mac():
 
 def get_data(status): 
     # get user info from machine
-    user = getpass.getuser()
+    if options.a_user:
+        user = options.a_user
+    else:
+        user = getpass.getuser()
     data = urllib.urlencode({'user': user, 'status': status})
     return data
 
@@ -123,11 +128,14 @@ def _track(url, action, mac, data=None):
             secure = 's'
         urllib.urlopen("http%s://%s/tracker/%s/%s/" % (secure,url,action,mac),get_data(action))
 
-def _track_old(old_url, lab, action):
+def _track_old(old_url, lab, action, a_user=None):
     # Get the hostname and split it on ., then only take the first part in case it returns a fqdn
     import socket
     compname = socket.gethostname().split('.')[0]
-    compuser = getpass.getuser()
+    if a_user:
+        compuser = a_user
+    else:
+        compuser = getpass.getuser()
 
     # Translate actions for new labtracker into states for old labtracker
     state = None
@@ -161,7 +169,8 @@ def track():
             if LAB:
                 _track_old(OLD_LABTRACKER_URL,
                     LAB,
-                    options.action)
+                    options.action,
+                    options.a_user)
         else:
             print 'Action attribute not valid. Actions are %s.' % get_actions_list()
     else:
