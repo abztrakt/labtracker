@@ -123,8 +123,25 @@ def _track(url, action, mac, data=None):
             secure = 's'
         urllib.urlopen("http%s://%s/tracker/%s/%s/" % (secure,url,action,mac),get_data(action))
 
-def _track_old():
-    pass
+def _track_old(old_url, lab, action):
+    # Get the hostname and split it on ., then only take the first part in case it returns a fqdn
+    import socket
+    compname = socket.gethostname().split('.')[0]
+    compuser = getpass.getuser()
+
+    # Translate actions for new labtracker into states for old labtracker
+    state = None
+    if action == 'login':
+        state = 'closed'
+    elif action == 'logout':
+        state = 'login'
+    else:
+        pass
+
+    # Only send data if there's a meaningful state ('ping' doesn't translate to old LT)
+    if state:
+        #print "https://%s/LabTracker/?op=register&lab=%s&cname=%s&state=%s&user=%s" % (old_url, lab, compname, state, compuser)
+        urllib.urlopen( "https://%s/LabTracker/?op=register&lab=%s&cname=%s&state=%s&user=%s" % (old_url, lab, compname, state, compuser))
 
 def track():
     global ACTIONS, options
@@ -142,7 +159,9 @@ def track():
                     options.action)
 
             if LAB:
-                _track_old()
+                _track_old(OLD_LABTRACKER_URL,
+                    LAB,
+                    options.action)
         else:
             print 'Action attribute not valid. Actions are %s.' % get_actions_list()
     else:
