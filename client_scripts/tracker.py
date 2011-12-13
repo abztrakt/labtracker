@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 
 import urllib
-#import urllib2
+try:
+    import urllib2
+except ImportError:
+    pass
 import getpass
 import sys
 import os
 from optparse import OptionParser
 
 DEBUG = False
-NO_SSL = True# This should really only be set to True for testing.
+NO_SSL = False # This should really only be set to True for testing.
 
 LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
@@ -78,7 +81,9 @@ def _track(url, action, mac, data=None):
                                 data=get_data(action)) 
         urllib2.urlopen(req)
     except ImportError:
-        urllib.urlopen("http://%s/tracker/%s/%s/" % (url,action,mac),get_data(action))
+        if not NO_SSL:
+            secure = 's'
+        urllib.urlopen("http%s://%s/tracker/%s/%s/" % (secure,url,action,mac),get_data(action))
 
 def track():
     global ACTIONS, options
