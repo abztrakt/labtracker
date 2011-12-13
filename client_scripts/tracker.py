@@ -6,15 +6,25 @@ import getpass
 import sys
 import os
 from optparse import OptionParser
+try:
+    import config
+except:
+    pass
 
 DEBUG = False
-NO_SSL = True# This should really only be set to True for testing.
-
-LABTRACKER_URL = "labtracker.eplt.washington.edu"
-if DEBUG:
-    LABTRACKER_URL = "localhost:8000"
+if config.DEBUG:
+    DEBUG = config.DEBUG
     import httplib
     httplib.HTTPConnection.debuglevel = 1
+
+NO_SSL = False # This should really only be set to True for testing.
+if config.NO_SSL:
+    NO_SSL = config.NO_SSL
+
+LABTRACKER_URL = "labtracker.eplt.washington.edu"
+if config.LABTRACKER_URL:
+    LABTRACKER_URL = config.LABTRACKER_URL
+
 ACTIONS = ('login','logout','ping')
 
 # functions at the module level must be defined
