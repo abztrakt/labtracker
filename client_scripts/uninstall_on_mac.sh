@@ -19,6 +19,10 @@ fi
 
 script_file="tracker.py"
 script_loc="${dir}/${script_file}"
+s_config_file="sample.config.py"
+s_config_loc="${dir}/${s_config_file}"
+config_file="config.py"
+config_loc="${dir}/${config_file}"
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -29,6 +33,16 @@ fi
 # remove tracker.py 
 if [ -f "$script_loc" ]; then
     rm "$script_loc"
+fi
+
+# remove sample_config.py 
+if [ -f "$s_config_loc" ]; then
+    rm "$s_config_loc"
+fi
+
+# remove config.py 
+if [ -f "$config_loc" ]; then
+    rm "$config_loc"
 fi
 
 # remove login hook 
