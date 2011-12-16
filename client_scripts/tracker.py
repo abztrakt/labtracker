@@ -1,20 +1,61 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+
+# These values shouldn't be changed here, but you can override them by putting them in a config.py in the same directory.
+DEBUG = False
+NO_SSL = False # This should really only be set to True for testing.
+LABTRACKER_URL = "labtracker.eplt.washington.edu"
+OLD_LABTRACKER_URL = "labgeeks.eplt.washington.edu"
+LAB = None
 
 import urllib
-#import urllib2
+try:
+    import urllib2
+except ImportError:
+    pass
 import getpass
 import sys
 import os
 from optparse import OptionParser
+try:
+    import config
+except:
+    pass
+try:
+    if config.DEBUG:
+        DEBUG = config.DEBUG
+        import httplib
+        httplib.HTTPConnection.debuglevel = 1
+except:
+    pass
+try:
+    if config.NO_SSL:
+        NO_SSL = config.NO_SSL
+except:
+    pass
+try:
+    if config.LABTRACKER_URL:
+        LABTRACKER_URL = config.LABTRACKER_URL
+except:
+    pass
+try:
+    if config.OLD_LABTRACKER_URL:
+        OLD_LABTRACKER_URL = config.OLD_LABTRACKER_URL
+except:
+    pass
+try:
+    if config.LAB:
+        LAB = config.LAB
+except:
+    pass
 
-DEBUG = True 
-NO_SSL = True# This should really only be set to True for testing.
-
-LABTRACKER_URL = "labtracker.eplt.washington.edu"
 if DEBUG:
-    LABTRACKER_URL = "web2.eplt.washington.edu:8000"
-    import httplib
-    httplib.HTTPConnection.debuglevel = 1
+    print """
+    NO_SSL: %s
+    LABTRACKER_URL: %s
+    OLD_LABTRACKER_URL: %s
+    LAB: %s
+    """ % (NO_SSL, LABTRACKER_URL, OLD_LABTRACKER_URL, LAB)
+
 ACTIONS = ('login','logout','ping')
 
 # functions at the module level must be defined
@@ -26,6 +67,8 @@ def get_actions_list():
 parser = OptionParser()
 parser.add_option("-a", "--action", dest="action", 
                 help="Action of script: %s" % get_actions_list()) 
+parser.add_option("-u", "--user", dest="a_user",
+                help="Login as user")
 
 (options, args) = parser.parse_args()
 
@@ -63,7 +106,10 @@ def get_mac():
 
 def get_data(status): 
     # get user info from machine
-    user = getpass.getuser()
+    if options.a_user:
+        user = options.a_user
+    else:
+        user = getpass.getuser()
     data = urllib.urlencode({'user': user, 'status': status})
     return data
 
@@ -78,7 +124,32 @@ def _track(url, action, mac, data=None):
                                 data=get_data(action)) 
         urllib2.urlopen(req)
     except ImportError:
-        urllib.urlopen("http://%s/tracker/%s/%s/" % (url,action,mac),get_data(action))
+        if not NO_SSL:
+            secure = 's'
+        urllib.urlopen("http%s://%s/tracker/%s/%s/" % (secure,url,action,mac),get_data(action))
+
+def _track_old(old_url, lab, action, a_user=None):
+    # Get the hostname and split it on ., then only take the first part in case it returns a fqdn
+    import socket
+    compname = socket.gethostname().split('.')[0]
+    if a_user:
+        compuser = a_user
+    else:
+        compuser = getpass.getuser()
+
+    # Translate actions for new labtracker into states for old labtracker
+    state = None
+    if action == 'login':
+        state = 'closed'
+    elif action == 'logout':
+        state = 'login'
+    else:
+        pass
+
+    # Only send data if there's a meaningful state ('ping' doesn't translate to old LT)
+    if state:
+        #print "https://%s/LabTracker/?op=register&lab=%s&cname=%s&state=%s&user=%s" % (old_url, lab, compname, state, compuser)
+        urllib.urlopen( "https://%s/LabTracker/?op=register&lab=%s&cname=%s&state=%s&user=%s" % (old_url, lab, compname, state, compuser))
 
 def track():
     global ACTIONS, options
@@ -94,6 +165,12 @@ def track():
                     options.action,
                     get_mac(), 
                     options.action)
+
+            if LAB:
+                _track_old(OLD_LABTRACKER_URL,
+                    LAB,
+                    options.action,
+                    options.a_user)
         else:
             print 'Action attribute not valid. Actions are %s.' % get_actions_list()
     else:

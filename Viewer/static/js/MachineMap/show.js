@@ -1,7 +1,7 @@
 var initialized = false;    // is page ready?
 var zHelper= 0;
 var timer = null;       // This is the interval timer
-var last_call = Date.now()/1000;
+var last_call = (new Date()).getTime()/1000;
 var view = null;       //the map name
 var timer1 =null
 var options = {

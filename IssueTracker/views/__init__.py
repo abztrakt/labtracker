@@ -163,6 +163,18 @@ def createIssue(request):
     return render_to_response('create.html', args,
             context_instance=RequestContext(request))
 
+def relatedIssue(request, issue_id, item_id):
+    """
+    Get all the related issue regarding to this issue
+    except itself
+    """
+    issue = get_object_or_404(Issue, pk=issue_id)
+    item = get_object_or_404(Item, pk=item_id)
+    args = { 'issue': issue, 'item': item}
+
+    return render_to_response('partial/related_issue_list.html', args,
+            context_instance=RequestContext(request))
+
 @permission_required('IssueTracker.can_view', login_url="/login/")
 def history(request, item_id, page=1):
     """

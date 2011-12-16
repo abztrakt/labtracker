@@ -27,6 +27,7 @@ class ItemAdmin(admin.ModelAdmin):
             'date_added','uw_tag', 'verified', 'usable',)
     search_fields = ['name','ip','location__name','mac1', 'mac2', 'mac3', 'wall_port']
     list_filter = ['type','location__name','date_added','verified','unusable',]
+    prepopulated_fields = {"slug": ("name",)}
     actions = ['set_to_not_retired', 'set_to_retired', 'set_to_unverified', 'set_to_verified', 'set_to_unusable', 'set_to_usable', 
         'append_to_comment', 'change_comment', 'change_dates', 'change_location', 'add_to_groups', 'remove_from_groups']
 

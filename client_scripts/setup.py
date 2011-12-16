@@ -1,4 +1,7 @@
-from distutils.core import setup
-import py2exe
+from cx_Freeze import setup, Executable
 
-setup(console=['tracker.py'])
+setup(
+	name = "tracker",
+	version = "0.8",
+	description = "Lab usage statistics gatherer",
+	executables = [Executable("tracker.py")])

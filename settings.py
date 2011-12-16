@@ -1,11 +1,11 @@
 # Django settings for labtracker project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-APP_DIR = "/var/www/django_apps/labtracker"
-SITE_ADDR = "http://example.com"
-SECURE_ADDR = "https://example.com"
+APP_DIR = "/var/django/labtracker"
+SITE_ADDR = "http://labtracker.eplt.washington.edu"
+SECURE_ADDR = "https://labtracker.eplt.washington.edu"
 
 LOGIN_URL="/issue/login/"
 LOGIN_REDIRECT_URL="/"
@@ -19,21 +19,24 @@ EMAIL_TEST_RECIPIENT="test@localhost"
 EMAIL_SUBJECT_PREFIX="LabTracker"
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Craig M. Stimmel', 'cstimmel@uw.edu'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'labtracker',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+try:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'labtracker',                      # Or path to database file if using sqlite3.
+            'USER': 'labtracker',                      # Not used with sqlite3.
+            'PASSWORD': 'MYSECRETPASSWORD',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        }
     }
-}
+except ImproperlyConfigured:
+    pass
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -52,7 +55,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
@@ -99,7 +102,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'e)_-c_)2kts$t2b^%vc7l35&b7l#z0l5e)pkznt%oabi-_k6y6'
+SECRET_KEY = 'e)_-c_)2kts$t2b5%vc7lt5&b7ltz0l5e)pkznt%oabi-_k6y6'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -196,3 +199,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
