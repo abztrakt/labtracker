@@ -19,6 +19,8 @@ fi
 
 script_file="tracker.py"
 script_loc="${dir}/${script_file}"
+config_file="sample.config.py"
+config_loc="${dir}/${config_file}"
 
 # make sure user is root
 if [[ $EUID -ne 0 ]]; then
@@ -35,6 +37,7 @@ fi
 # copy over tracker.py and hooks if directory exists
 if [ -e "$dir" ]; then
     cp "./$script_file" "$script_loc"
+    cp "./$config_file" "$config_loc"
     cp "./$login_hook_file" "$login_hook_loc" 
     cp "./$logout_hook_file" "$logout_hook_loc" 
 else # check that directory got created

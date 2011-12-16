@@ -4,3 +4,5 @@
 DEBUG = True
 NO_SSL = True
 LABTRACKER_URL = "localhost:8000"
+# LAB is required to check in with old labtracker!
+LAB = "Commons"
