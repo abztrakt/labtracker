@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 # These values shouldn't be changed here, but you can override them by putting them in a config.py in the same directory.
 DEBUG = False
