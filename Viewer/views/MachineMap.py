@@ -272,7 +272,6 @@ def modify(request, view_name):
     view = v_models.MachineMap.objects.get(shortname=view_name)
 
     data = request.REQUEST.copy()
-
     if (data.get('save', False)):
         # need to save the computers
         resp = { 'status': 0, 'error': "" }

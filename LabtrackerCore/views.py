@@ -144,7 +144,7 @@ def dashboard(request):
                     data['ThresholdMessage'] = '+%i above threshold' % (data['MagicNum'])
                 if (data['PercUsable']>= data['Threshold']):
                     if (data['warning_threshold'] > puot):
-                        data['green']=int(240*round(puot/(data['warning_threshold']), 2)+15)
+                        data['green']=int(230*round(puot/(data['warning_threshold']), 2)+25)
                     elif (data['warning_threshold'] <=  puot):
                         data['red']=int(255.0 -255*round((puot-data['warning_threshold'])/(100-data['Threshold']-data['warning_threshold']), 2))
                         data['green']=255 

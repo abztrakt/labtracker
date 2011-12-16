@@ -18,14 +18,16 @@ class IssueUpdater(object):
         self.valid = True 
 
         self.data = request.POST.copy()
-
         self.issue = issue
 
         self.updateForm = forms.UpdateIssueForm(self.data, instance=issue)
-        if self.issue.assignee:
-            assigner = self.issue.assignee
-        else:
-            assigner = None 
+        try:
+            if self.issue.assignee:
+                assigner = self.issue.assignee
+            else:
+                assigner = None
+        except:
+            assigner = None
         if self.issue.resolved_state:
             resolver= self.issue.resolved_state
         else:
@@ -58,14 +60,14 @@ class IssueUpdater(object):
 
         # deal with hooks
         self.extraForm = None
-
         if issue.it:
             hook = utils.issueHooks.getHook("updateForm", issue.it.name)
+            #hook is valid for testChangeAssignee, empty for devsite
             if hook:
                 self.extraForm = hook(issue, request)
-                
                 if self.extraForm:
                     if not self.extraForm.is_valid():
+                        #when called by test change Assignee, fails
                         self.valid = False 
 
     def getEmail(self):
@@ -110,7 +112,6 @@ class IssueUpdater(object):
         if self.data.has_key('cc'):
             for user in update_data['cc']: 
                 issue_email.addCC(user.email)
-
         return issue_email
 
     def getUpdateActionString(self):

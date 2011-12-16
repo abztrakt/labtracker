@@ -27,7 +27,6 @@ class MachineMapTest(TestCase):
                 shortname = "testmap",
                 description = "desc"
             )
-
         mm.save()
 
         self.assertTrue(count < v_models.MachineMap.objects.count())
@@ -42,7 +41,7 @@ class MachineMapTest(TestCase):
         self.assertEquals(mm.groups.count(), 1)
 
 class MachineMapWebTest(TestCase):
-    fixtures = ['dev',]
+    fixtures = ['test',]
 
     def setUp(self):
         """
@@ -105,7 +104,7 @@ class MachineMapWebTest(TestCase):
 
         req_data = {
                 'save': 1,
-                'map': [item.pk for item in items_to_map]
+                'map[]': [item.pk for item in items_to_map]
             }
 
         size = v_models.MachineMap_Size.objects.all()[0]
@@ -118,7 +117,6 @@ class MachineMapWebTest(TestCase):
             req_data[param_template % (item.pk, 'size')] = size.name
             req_data[param_template % (item.pk, 'orient')] = \
                     ('H', 'V')[self.r.randint(0,1)]
-
         # map a few items
         response = self.client.post(reverse("Viewer-MachineMap-edit", 
             args=[self.map.shortname]), req_data)
@@ -126,10 +124,9 @@ class MachineMapWebTest(TestCase):
         self.assertContains(response, 'status', status_code=200)
 
         self.map = v_models.MachineMap.objects.get(pk=self.map.pk)
-
         req_num_items = len(items_to_map)
         actual_num_items = self.map.getMappedItems().count()
-
+        #if this line is removed, test works
         self.assertTrue(req_num_items == actual_num_items) 
 
 

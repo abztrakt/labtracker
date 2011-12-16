@@ -13,12 +13,12 @@ app_name = __name__.split('.')[-3]
 class MachineMap(base.ViewCore):
     view = models.OneToOneField(base.ViewCore, parent_link=True, editable=False)
     html_comment = models.TextField(blank=True)
-    html_xpos = models.IntegerField()
-    html_ypos = models.IntegerField()
-    key_xpos = models.IntegerField()
-    key_ypos = models.IntegerField()
-    stats_xpos = models.IntegerField()
-    stats_ypos = models.IntegerField()
+    html_xpos = models.IntegerField(default=0)
+    html_ypos = models.IntegerField(default=0)
+    key_xpos = models.IntegerField(default=0)
+    key_ypos = models.IntegerField(default=0)
+    stats_xpos = models.IntegerField(default=0)
+    stats_ypos = models.IntegerField(default=0)
     #groups = models.ManyToManyField(m_models.Group, related_name="view_machinemap_groups")
     
     def save(self):
