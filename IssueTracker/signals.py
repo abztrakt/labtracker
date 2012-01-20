@@ -105,7 +105,6 @@ def stateChangeNotifications(sender, data=None, **kwargs):
         return
     #print data
     sender = Issue.objects.get(pk=sender.pk)
-    import pdb; pdb.set_trace()
     try:
         sender.assignee
     except:
@@ -117,7 +116,7 @@ def stateChangeNotifications(sender, data=None, **kwargs):
     except:
         pass
     contacts = [c.email for c in utils.getIssueContacts(sender)]
-    if data['assignee'] != '' and new_assignee.email not in contacts:
+    if new_assignee != None and new_assignee.email not in contacts:
         contacts.append(new_assignee.email)
     
     # send an email to this contact
