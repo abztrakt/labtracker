@@ -72,7 +72,6 @@ def viewIssue(request, issue_id):
             'comments': IssueComment.objects.filter(issue=issue).order_by('time')
         }
     extraForm = None
-
     if request.method == 'POST':
         issueProcessor = IssueUpdater(request, issue)
         #CHANGE 
@@ -80,9 +79,7 @@ def viewIssue(request, issue_id):
         if issueProcessor.is_valid():
             for action in issueProcessor.getUpdateActionString():
                 utils.updateHistory(request.user, issue, action)
-            email = issueProcessor.getEmail()
             issueProcessor.save() 
-            email.send()
             if not request.POST.get('cc', None):
                 issue.cc.clear()
 
@@ -119,7 +116,6 @@ def createIssue(request):
     if request.method == 'POST':
         data = request.POST.copy()          # need to do this to set some defaults
         data['reporter'] = str(request.user.id)
-
         form = CreateIssueForm(data)
         #import pdb; pdb.set_trace()
         #item = Item.objects.all()[int(data.get('item')) - 1]

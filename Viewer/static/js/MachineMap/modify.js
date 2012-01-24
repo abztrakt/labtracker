@@ -256,7 +256,7 @@ function MapEditor (orientation, size, sizes) {
 		// mark it early
 		item.data('tools.modmap', true);
 		item.addClass('selected');
-
+        
 		var pos = item.position();
 		var padding = 20;
 
@@ -265,10 +265,17 @@ function MapEditor (orientation, size, sizes) {
 		var tools = $("<div class='tools'></div>");
 		
 		// the actual ul of tools
-		var tool_list = $("<ul class='struct'></ul>");
-
-		// The rotation button
-		var rotate = $("<img class='op rotatebtn'" + 
+		//var tool_list = $("<div class='struct'></div>");
+        var right= $("<img id='right' src='/static/img/Viewer/modmap/right.png' />");
+		var up= $("<img id='up' src='/static/img/Viewer/modmap/up.png' />");
+        var left= $("<img id='left' src='/static/img/Viewer/modmap/left.png' />");
+        var down= $("<img id='down' src='/static/img/Viewer/modmap/down.png' />");
+        // The rotation button
+		right[0].style.position = 'absolute';
+        up[0].style.position = 'absolute';
+        down[0].style.position = 'absolute';
+        left[0].style.position = 'absolute';
+        var rotate = $("<img class='op rotatebtn'" + 
 				"src='/static/img/Viewer/modmap/rotate.gif' />")
 			.bind('click.modmap', function (e) {
 				e.preventDefault();
@@ -291,22 +298,43 @@ function MapEditor (orientation, size, sizes) {
 				self.drawToolDiv(item);
 			}
 		);
-		tool_list.append(rotate);
-
-		tools.data('removeable.modmap', true);
-
-		// the unmap button
-		var unmap = $("<img class='op unmap' " +
-				"src='/static/img/Viewer/modmap/x.gif' />")
+		
+        tools.append(right).append(left).append(up).append(down);
+		tools.append(rotate);
+        tools.data('removeable.modmap', true);
+		left[0].style.top= (padding*2+item.outerHeight())/2-8+'px';
+        left[0].style.right=padding+item.outerWidth()+padding-16+'px';
+        right[0].style.top=(padding*2+item.outerHeight())/2-8+'px';
+        right[0].style.left=padding+item.outerWidth()+padding-16+'px';
+        up[0].style.left=(padding*2+item.outerWidth())/2-8+'px';
+        down[0].style.left=(padding*2+item.outerWidth())/2-8+'px';
+        down[0].style.top=padding*2+item.outerHeight()-16+'px';
+        
+        up.bind('click', function(e) {
+            var top=item.position().top;
+            item[0].style.top=top-1+'px';
+        });
+        down.bind('click', function(e) {
+            var top=item.position().top;
+            item[0].style.top=top+1+'px';
+        });
+        right.bind('click', function(e) {
+            var left=item.position().left;
+            item[0].style.left=left+1+'px';
+        });
+        left.bind('click', function(e) {
+            var left=item.position().left;
+            item[0].style.left=left-1+'px';
+        });
+        // the unmap button
+		var unmap = $("<img class='op unmap' "  +
+				"src='/static/img/Viewer/modmap/x.gif' style='float: right' />")
 			 .bind('click.modmap', function (e) {
 				 e.preventDefault();
 				 self.unmapItem(item);
 			 });
-		tool_list.append(unmap);
-
-		tool_list.children().wrap("<li></li>").end().appendTo(tools);
-
-
+		tools.append(unmap);
+		//tool_list.children().wrap("<li></li>").end().appendTo(tools);
 		// tell the tool div what item it is modifying
 		tools.data('item.modmap', item)
 
@@ -492,9 +520,8 @@ function MapEditor (orientation, size, sizes) {
 }
 
 var modMap;
-
 $(document).ready(function () {
-	$('a#save').bind('click', function (ev) {
+    $('a#save').bind('click', function (ev) {
 			ev.preventDefault();
 
 			// prevent all dragging until after we are done here

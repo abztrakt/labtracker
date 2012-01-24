@@ -52,6 +52,7 @@ def getItems(request):
     items = []
     contacts = {}
     # fetch the groups
+    
     if len(group_ids) == 0 or "" in group_ids:
         # fetch all groups
         #items = utils.createItemDict(cm.Item.objects.order_by('it'))
@@ -68,9 +69,12 @@ def getItems(request):
             else:
                 for item in utils.createItemListSimple(group.items.all()):
                     items.append(item)
-            cons = group.group.contacts()
-            for c in cons:
-                contacts[c.user_id] = c.user.username
+            try:
+                cons = group.group.contacts()
+                for c in cons:
+                    contacts[c.user_id] = c.user.username
+            except:
+                pass
     # get the items in the group
     type = data.get("type", "json")
 

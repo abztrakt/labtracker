@@ -14,7 +14,7 @@
 				'states': { {% for st in status %}
 					'{{st|lower}}': 'status_{{st|lower}}'{% if not forloop.last %},{% endif %}{% endfor %}
 				},
-				'sizes': [{% for size in sizes %}'{{ size.name }}'{% if not forloop.last %}, {%endif%}{%endfor%}]
+				'sizes': [{% for size in sizes %}'{{ size.slug }}'{% if not forloop.last %}, {%endif%}{%endfor%}]
 			});
 		});
 	</script>

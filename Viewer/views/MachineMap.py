@@ -212,6 +212,7 @@ def show(request, view_name):
                 status= 'occupied'
             else:
                 status='usable'
+            verified='OnlyStaff'
         item_dict = {
                 'machine': item.machine,
                 'size': item.size,
@@ -272,7 +273,6 @@ def modify(request, view_name):
     view = v_models.MachineMap.objects.get(shortname=view_name)
 
     data = request.REQUEST.copy()
-
     if (data.get('save', False)):
         # need to save the computers
         resp = { 'status': 0, 'error': "" }
@@ -319,7 +319,7 @@ def modify(request, view_name):
             param_size = iteminfo['size']
             if (param_size):
                 item.size = \
-                    v_models.MachineMap_Size.objects.get(name=param_size)
+                    v_models.MachineMap_Size.objects.get(slug=param_size)
 
             orientation = iteminfo['orient']
             if (orientation):
@@ -373,7 +373,6 @@ def modify(request, view_name):
     
     groups = view.groups.all()
     map_items = view.getMappedItems()
-
 
 
     args = {

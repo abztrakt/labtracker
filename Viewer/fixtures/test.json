@@ -9,7 +9,13 @@
       "groups": [
         5
       ], 
-      "description": "CRC Maps of Machines"
+      "description": "CRC Maps of Machines",
+      "html_xpos": 0,
+      "html_ypos": 0,
+      "stats_xpos": 0,
+      "stats_ypos": 0,
+      "key_xpos": 0,
+      "key_ypos": 0 
     }
   }, 
   {
@@ -27,6 +33,7 @@
       "width": 13, 
       "height": 28, 
       "name": "Rectangle", 
+      "slug": "rectangle",
       "description": ""
     }
   }, 
@@ -37,6 +44,7 @@
       "width": 13, 
       "height": 13, 
       "name": "Square", 
+      "slug": "square",
       "description": ""
     }
   }, 

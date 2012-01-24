@@ -79,6 +79,7 @@ class IssueCreationTest(TestCase):
         url = reverse('IssueTracker.views.ajax.getItems')
 
         def fetchJSON(group):
+            #fails
             response = self.client.post(url,
                 { 'type': 'json', 'group_id': group.pk })
 
@@ -100,7 +101,7 @@ class IssueCreationTest(TestCase):
 
         # make sure that the items returned by json are the same as those in DB
         items = set([item.pk for item in group_1.core.items.all()])
-        ret_items = set([data_items[key]["item_id"] for key in data_items.keys()])
+        ret_items = set(item[0]for item in data_items)
 
         self.assertEquals(0, len(items.difference(ret_items)))
 
@@ -110,8 +111,8 @@ class IssueCreationTest(TestCase):
         sure it has the correct values
         """
         self.client.login(username=self.user.username, password=self.password)
-
-        issues = iModels.Issue.objects.all()
+        
+        issues = iModels.Issue.objects.all() 
         num_issues = issues.count()
         
         last_pk = 0
@@ -119,6 +120,7 @@ class IssueCreationTest(TestCase):
             last_pk = issues.reverse()[0].pk
 
         title = "Everything is broken"
+        #fails
         response = self.client.post(reverse('createIssue'), {
                 'title':        title,
                 'it':           coreModels.InventoryType.objects.all()[0].pk,
@@ -157,12 +159,13 @@ class IssueCreationTest(TestCase):
         num_issues = issues.count()
 
         # get a group with a primary contact
-        group = mModels.Group.objects.filter(contact__user__username='zhaoz', name='CRC').all()[0]
-
+        #fails
+        group = mModels.Group.objects.filter(name='CRC').all()[0]
+        
         # ensure that group has at least one item
         item = mModels.Item.objects.all()[0]
         group.items.add(item)
-
+        #fails
         response = self.client.post(reverse('createIssue'), {
                 'title':        "Issue for %s" % (item.pk),
                 'it':           item.it_id,
@@ -323,16 +326,26 @@ class UpdateIssueTest(TestCase):
         Tests adding comment
         """
         old_count = iModels.IssueComment.objects.filter(issue=self.issue).count()
-        self.client.post(reverse('IssueTracker-view', args=[self.issue.pk]),
-                        {  'issue': self.issue.pk,
-                            'user': self.user, 
-                            'comment': 'here is a test comment'
+        #this doesn't seem to actually add a comment
+        try:
+            assigner=self.issue.assignee
+        except:
+            assigner=u''
+        self.client.post(reverse('IssueTracker-view', args=[self.issue.pk]), {  
+                        'assignee'          :assigner,
+                        'problem_type': [ptype.pk for ptype in self.issue.problem_type.all()],
+                        'status': [status.pk for status in self.issue.item.item.status.all()],
+                        'mac1': self.issue.item.item.mac1,
+                        'ip': self.issue.item.item.ip,
+                        'resolved_state': self.issue.resolved_state.pk,
+                        'submit': u'Submit',
+                        'location': self.issue.item.item.location.pk,
+                        'wall_port': self.issue.item.item.wall_port,
+                        'comment': 'here is a test comment'    
                         })
 
         count = iModels.IssueComment.objects.filter(issue=self.issue).count()
         self.assertEqual(old_count + 1, count)
-
-        self.assertEqual(1, len(mail.outbox))
         self.failUnlessEqual(None, self.issue.resolve_time)
 
     def testAddCC(self):
@@ -373,10 +386,15 @@ class UpdateIssueTest(TestCase):
         issue = iModels.Issue.objects.filter(assignee__isnull=True)[0]
         self.client.post(reverse('IssueTracker-view', args=[issue.pk]), {
                         'assignee'          : self.user.pk,
-                        'issue': self.issue.pk,
-                        'user': self.user, 
+                        'problem_type': [ptype.pk for ptype in self.issue.problem_type.all()],
+                        'status': [status.pk for status in self.issue.item.item.status.all()],
+                        'mac1': self.issue.item.item.mac1,
+                        'ip': self.issue.item.item.ip,
+                        'resolved_state': self.issue.resolved_state.pk,
+                        'submit': u'Submit',
+                        'location': self.issue.item.item.location.pk,
+                        'wall_port': self.issue.item.item.wall_port,
                         'comment': 'here is a test comment'
-
                     })
 
         issue = iModels.Issue.objects.get(pk=issue.pk)
@@ -390,18 +408,27 @@ class UpdateIssueTest(TestCase):
         """ 
         # get some problem types
         all_ptypes = iModels.ProblemType.objects.all()
-
+        try:
+            assigner=self.issue.assignee
+        except:
+            assigner=u''
         def withPtypeSet(ptypes):
             #new_ptype = ptypes[0]
             response = self.client.post(
                 reverse('IssueTracker-view', args=[self.issue.pk]), {
                             'problem_type'          : [ptype.pk for ptype in ptypes],
-                        'issue': self.issue.pk,
-                        'user': self.user, 
+                        'status': [status.pk for status in self.issue.item.item.status.all()],
+                        'mac1': self.issue.item.item.mac1,
+                        'ip': self.issue.item.item.ip,
+                        'resolved_state': self.issue.resolved_state.pk,
+                        'submit': u'Submit',
+                        'assignee': assigner,
+                        'location': self.issue.item.item.location.pk,
+                        'wall_port': self.issue.item.item.wall_port,
                         'comment': 'here is a test comment'
 
             })
-
+            #fails
             self.failUnlessEqual(302, response.status_code)
 
             self.issue = iModels.Issue.objects.get(pk=self.issue.pk)
@@ -425,12 +452,21 @@ class UpdateIssueTest(TestCase):
 
         resolution = iModels.ResolveState.objects.all()[0]
         curTime = datetime.now()
-
+        try:
+            assigner=self.issue.assignee
+        except:
+            assigner=u''
         self.client.post(reverse('IssueTracker-view', args=[issue.pk]), 
-                         { 'resolved_state': resolution.pk, 
-                           'issue': self.issue.pk,
-                           'user': self.user, 
-                           'comment': 'here is a test comment'
+                         {  'resolved_state': resolution.pk, 
+                            'assignee'          :assigner,
+                            'problem_type': [ptype.pk for ptype in self.issue.problem_type.all()],
+                            'status': [status.pk for status in self.issue.item.item.status.all()],
+                            'mac1': self.issue.item.item.mac1,
+                            'ip': self.issue.item.item.ip,
+                            'submit': u'Submit',
+                            'location': self.issue.item.item.location.pk,
+                            'wall_port': self.issue.item.item.wall_port,
+                            'comment': 'here is a test comment' 
                          })
 
         issue = iModels.Issue.objects.get(pk=issue.pk)

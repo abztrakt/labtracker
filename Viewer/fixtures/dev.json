@@ -61,7 +61,11 @@
         3,
         5
       ],
-      "key_xpos": 1300
+      "key_xpos": 1300,
+      "stats_xpos": 0,
+      "stats_ypos": 0,
+      "html_ypos": 0,
+      "html_xpos": 0
     }
   },
   {
@@ -72,7 +76,11 @@
       "groups": [
         6
       ],
-      "key_xpos": 1400
+      "key_xpos": 1400,
+      "stats_xpos": 0,
+      "stats_ypos": 0,
+      "html_ypos": 0,
+      "html_xpos": 0
     }
   },
   {
@@ -82,6 +90,7 @@
       "width": 13,
       "height": 28,
       "name": "Rectangle",
+      "slug": "rectangle",
       "description": ""
     }
   },
@@ -92,6 +101,7 @@
       "width": 13,
       "height": 13,
       "name": "Square",
+      "slug": "square",
       "description": ""
     }
   },

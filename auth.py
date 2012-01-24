@@ -89,4 +89,5 @@ class UWRemoteUserBackend(RemoteUserBackend):
         """
         everyone = Group.objects.get_or_create('Everyone')
         user.groups.add(everyone)
+        user.set_unusable_password()
         return user

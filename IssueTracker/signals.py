@@ -13,8 +13,10 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
     # retrieve the group from Instance
     if instance.group == None and instance.item == None or not created:
         return
-    contacts = [c.email for c in utils.getIssueContacts(instance)]
-
+    try:
+        contacts = [c.email for c in utils.getIssueContacts(instance)]
+    except:
+        contacts =[]
     # send an email to this contact
     em = Email.NewIssueEmail(instance, instance.title)
     
@@ -31,7 +33,6 @@ def sendCreateIssueEmail(sender, instance=None, created=False, **kwargs):
         group_name = instance.group.name
     else:
         group_name = 'None'
-
     if (instance.assignee is None):
         if (instance.steps == '' and instance.attempts ==''):
             em.addCommentSection(None, "Submitted by " + instance.reporter.username + ".\n"
@@ -104,11 +105,18 @@ def stateChangeNotifications(sender, data=None, **kwargs):
         return
     #print data
     sender = Issue.objects.get(pk=sender.pk)
+    try:
+        sender.assignee
+    except:
+        sender.assignee = None
     new_assignee = None
-    if data['assignee'] != '':
-        new_assignee = User.objects.get(pk=data['assignee'])
+    try:
+        if data['assignee'] != '':
+            new_assignee = User.objects.get(pk=data['assignee'])
+    except:
+        pass
     contacts = [c.email for c in utils.getIssueContacts(sender)]
-    if data['assignee'] != '' and new_assignee.email not in contacts:
+    if new_assignee != None and new_assignee.email not in contacts:
         contacts.append(new_assignee.email)
     
     # send an email to this contact

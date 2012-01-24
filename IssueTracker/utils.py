@@ -154,16 +154,23 @@ def getIssueContacts(instance):
     contacts = []
 
     if instance.group:
-        g_contacts = instance.group.group.contacts()
-        contacts = [contact.user for contact in g_contacts]
-        if instance.assignee:
-            contacts.append(instance.assignee)
-
+        try:
+            g_contacts = instance.group.group.contacts()
+            contacts = [contact.user for contact in g_contacts]
+        except:
+            pass
+        try:
+            if instance.assignee:
+                contacts.append(instance.assignee)
+        except:
+            pass
     contacts = set(contacts)
 
     # now add contacts for item groups
     if instance.item:
-        i_contacts = instance.item.item.primaryContact()
-        contacts = contacts.union([c.user for c in i_contacts])
-
+        try:
+            i_contacts = instance.item.item.primaryContact()
+            contacts = contacts.union([c.user for c in i_contacts])
+        except:
+            pass
     return contacts

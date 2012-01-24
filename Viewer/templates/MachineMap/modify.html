@@ -13,7 +13,7 @@
         <script type="text/javascript">
             // Register the types
 			modMap = new MapEditor('H', 'Rectangle', { {% for size in sizes %}
-                    '{{ size.name }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
+                    '{{ size.slug }}': { 'width': {{size.width}}, 'height': {{size.height}} } {% if not forloop.last %}, {%endif%}{%endfor%} 
                 });
         </script>
     {% endblock %}
@@ -39,7 +39,7 @@
 			<li>
 				<select id="default-shape">
 				{% for size in sizes %}
-					<option value="{{size.name}}">{{size.name}}</option>
+					<option value="{{size.slug}}">{{size.slug}}</option>
 				{% endfor %}
 				</select>
 				<a href="#" id="set-shape">Set Shape</a>
@@ -80,7 +80,7 @@
 
 <ul id="itemcontextmenu" class="menu" style="display: none">
 	{% for size in sizes %}
-	<li><span class='sizename'>{{ size.name }}</span></li>{% endfor %}
+	<li><span class='sizename'>{{ size.slug }}</span></li>{% endfor %}
 </ul>
 
 {% endblock %}
