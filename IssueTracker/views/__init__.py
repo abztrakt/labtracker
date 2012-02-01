@@ -103,7 +103,69 @@ def viewIssue(request, issue_id):
     args['valid_form']= commentForm.is_valid()
     return render_to_response('view.html', args,
             context_instance=RequestContext(request))
+@permission_required('IssueTracker.add_issue', login_url="/login/")
+def createSimpleIssue(request, name=None):
+    """
+    This is the view called when the user is creating a new issue, not for 
+    posting comments.
+    Currently takes a request, and sets the reporter to whoever is logged in and
+    then saves it.
+    """
+     
+    if request.method == 'POST':
+        data = request.POST.copy()          # need to do this to set some defaults
+        data['reporter'] = str(request.user.id)
+        form = CreateSimpleIssueForm(data)
+        #import pdb; pdb.set_trace()
+        #item = Item.objects.all()[int(data.get('item')) - 1]
+        item = Item.objects.get(item_id=form.data['item'])
+        if form.is_valid():
+            inv_t = form.cleaned_data['it']
 
+        ### Deprecated for allowing new issue to be created without status selected
+            # need to call hook now and see if it is good
+        #    hook = utils.issueHooks.getCreateSubmitHook(inv_t.name)
+        #    if hook:
+        #        # need to get the item or group here
+        #        group = form.cleaned_data['group']
+
+        #        item = None
+        #        if form.cleaned_data['item']:
+        #            item = form.cleaned_data['item'].item
+
+        #        valid = hook(request, item=item, group=group)
+        #    else:
+        #        valid = True
+
+        #    if valid:
+            issue = form.save()
+            return HttpResponseRedirect(reverse('IssueTracker-view', \
+                    args=[issue.issue_id]))
+            
+        else:
+            # form was not valid, errors should be on form though, so nothing
+            # needs to be done
+            pass
+    else:
+        form = CreateSimpleIssueForm()
+    query=True;
+    if not name:
+        ip=request.META['REMOTE_ADDR']
+        try:
+            name=Item.objects.get(ip=ip).name
+            query=False;
+        except:
+            pass
+    form.fields['item'].queryset = form.fields['item'].queryset.order_by('it', 'name')
+    args = {
+        'form': form,
+        'problem_types': form.fields['problem_type'].queryset,
+        'item': name,
+        'query': query
+    }
+
+    return render_to_response('createSimple.html', args,
+            context_instance=RequestContext(request))
 @permission_required('IssueTracker.add_issue', login_url="/login/")
 def createIssue(request):
     """

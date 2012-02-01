@@ -4,7 +4,9 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('IssueTracker.views',
      (r'^(?P<issue_id>\d+)/fetch/$', 'fetch'),
      url(r'^new/$', 'createIssue', name='createIssue'),
-
+     
+     url(r'^simple/(?P<name>\w+)/$', 'createSimpleIssue', name='createSimpleAutoIssue'),
+     url(r'^simple/$', 'createSimpleIssue', name='createSimpleIssue'),
      url(r'^(?P<issue_id>\d+)/$', 'viewIssue', name="IssueTracker-view"),
      url(r'^(?P<issue_id>\d+)/modIssue/', 'modIssue', 
          name='IssueTracker-modIssue'),
