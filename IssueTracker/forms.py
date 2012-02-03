@@ -22,6 +22,39 @@ DEFAULT_STEPS = """What are the steps to reproduce the problem (if reproducible)
 DEFAULT_ATTEMPTS = """
 Have you attempted to fix the problem? How?
 """
+class CreateSimpleIssueForm(ModelForm):
+    """
+    This form is used for creating issues
+    """
+    it = forms.ModelChoiceField(
+            queryset = lm.InventoryType.objects.all(),
+            initial = lm.InventoryType.objects.all()[0],
+            label = "Type"
+        )
+
+    problem_type = forms.ModelMultipleChoiceField(
+            queryset=im.ProblemType.objects.all().order_by('name'),
+            help_text="Select one or more problems"
+        )
+    group = forms.ModelChoiceField(
+            queryset = im.Group.objects.all(),
+            required = False
+        )
+    description = forms.CharField(
+            widget = forms.Textarea,
+            initial = ""
+        )
+
+    def save(self, *args, **kwargs):
+        inst = ModelForm.save(self, *args, **kwargs)
+        inst.item.item.save()
+        newIssueSignal.send(sender=inst, instance=inst, created =True, data=self.data)
+        return inst
+
+    class Meta:
+        model = im.Issue
+        fields = ('it','group','item','problem_type','title','reporter','description')
+
 
 
 class CreateIssueForm(ModelForm):
