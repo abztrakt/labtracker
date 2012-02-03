@@ -84,9 +84,9 @@ function auto() {
             var warning = $("<img id='warning' style='float: left;' src='/static/img/icons/warning.png' />");
             $('#macText').append(warning);
             if ($('#query')[0].innerHTML=='True') {
-                $('#macText')[0].innerHTML+= 'This has been autocompleted from the browser query.';
+                $('#macText')[0].innerHTML+= 'We guessed this based on your URL,<br />if we were wrong please correct us!';
             } else {
-                $('#macText')[0].innerHTML+= 'This has been autocompleted from the ip address of your computer.';
+                $('#macText')[0].innerHTML+= 'We guessed this based on your IP Address,<br />if we were wrong please correct us!';
             }
             $('#machineTxt')[0].value= items.children()[i].innerHTML;
         }

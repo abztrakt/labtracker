@@ -41,6 +41,11 @@ form#create_issue {
 	border: 1px solid #cacaca;
 }
 
+#macText {
+    font-size: .9em;
+    color: #444;
+}
+
 #desc {
 	margin-bottom: 0px;
 	margin-top: 1em;
