@@ -26,7 +26,7 @@ DATABASES = {
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'e)_-c_)2kts$t2b5gvc7l55&b7ltf0l5e)pkzet%oabi-_k6y6'
 
-### Things below this line need to be in the local_settings, but you shouldn't have to change them.
+### Things below this line need to be in the local_settings if you've set APP_DIR, SITE_ADDR, or SECURE_ADDR above, but you shouldn't have to change them.
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
