@@ -193,5 +193,23 @@
       "email": "", 
       "date_joined": "2011-06-29 13:43:48"
     }
+  },
+  {
+    "pk": 12, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "mnnguyen", 
+      "first_name": "Michael", 
+      "last_name": "Nguyen", 
+      "is_active": false, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2012-04-27 13:45:04", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$66cc4$bfd77ee95be055bdd4305f352c57814afb9243e5", 
+      "email": "", 
+      "date_joined": "2011-06-20 13:43:48"
+    }
   }
 ]
