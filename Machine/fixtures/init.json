@@ -8,22 +8,6 @@
     }
   }, 
   {
-    "pk": 2, 
-    "model": "Machine.status", 
-    "fields": {
-      "name": "Broken", 
-      "description": "Machine has a problem"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "Machine.status", 
-    "fields": {
-      "name": "Usable", 
-      "description": "Machine is usable"
-    }
-  }, 
-  {
     "pk": 1, 
     "model": "Machine.contact", 
     "fields": {
