@@ -153,7 +153,7 @@ def stateChangeNotifications(sender, data=None, **kwargs):
         title = title.replace('@', '[at]')
     except:
         pass    
-    em.subject = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + ' Change to Issue: %s' % (title) 
+    em.subject = "%s: %s, #%d [" % (sender.item, title, sender.pk) + settings.EMAIL_SUBJECT_PREFIX + "] Updated"
     for email in contacts:
         try:
             em.addTo(email)

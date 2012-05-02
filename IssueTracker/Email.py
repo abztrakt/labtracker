@@ -11,7 +11,7 @@ class NewIssueEmail(Email):
         except:
             pass
 
-        kwargs['subject'] = "[" + settings.EMAIL_SUBJECT_PREFIX + "]" + " #%d: %s " % (issue.pk, title)
+        kwargs['subject'] = "%s: %s, #%d " % (issue.item.name, title, issue.pk) + "[" + settings.EMAIL_SUBJECT_PREFIX + "]"
 
         super(NewIssueEmail, self).__init__(sections=[], *args, **kwargs)
 
