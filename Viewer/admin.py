@@ -11,6 +11,8 @@ class MachineMapAdmin(admin.ModelAdmin):
 class MachineMap_ItemAdmin(admin.ModelAdmin):
     list_display = ('machine', 'view','size','xpos','ypos','orientation', 
             'date_added', 'last_modified')
+    search_fields = ['machine__name', 'view__name', 'size__name', 'orientation', 'ypos', 'xpos',]
+    list_filter = ['view', 'size', 'orientation', 'date_added',]
     fieldsets = (
         (None, {'fields': ('machine', 'view', 'size', 'xpos',
             'ypos', 'orientation')}),
